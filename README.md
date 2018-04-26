@@ -61,15 +61,15 @@ As the code matures, we aim to move it upstream to the corresponding
 You can find example models in
 [tensorflow/swift-models](https://github.com/tensorflow/swift-models).
 
-## Bugs
-
-Please stay tuned on how to file bugs and feature requests.
-
 ## Community
 
 Discussion about Swift for TensorFlow happens on the
 [swift@tensorflow.org](https://groups.google.com/a/tensorflow.org/d/forum/swift)
 mailing list.
+
+## Bugs Reports and Feature Requests
+
+Please stay tuned on how to file bugs and feature requests.  For now, please send comments to the mailing list.
 
 ## Contributing
 
@@ -90,3 +90,4 @@ race, religion, or sexual identity and orientation.
 The Swift for TensorFlow community is guided by our [Code of
 Conduct](CODE_OF_CONDUCT.md), which we encourage everybody to read before
 participating.
+

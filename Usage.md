@@ -75,7 +75,7 @@ $ swift -O inference.swift
 [[0.680704]]
 ```
 
-**Note:** the `-O` flag enables Swift to run with optimizations. This is currently required for some programs that use the `TensorFlow` module to run properly.
+**Note:** the `-O` flag enables Swift to run with optimizations. This is currently required for some programs that use the `TensorFlow` module to run properly.  This will become unnecessary when the compiler implementation is completed.
 
 The Swift interpreter ran your program and printed the classifier's prediction, as expected.
 
@@ -98,7 +98,7 @@ If you get an error from running `./inference.swift` directly but not from `swif
 ## Compiler
 
 With the Swift compiler, you can compile Swift programs into executable binaries. To try it, run the following:
-* Mac: `swiftc -O -sdk `xcrun --show-sdk-path` inference.swift`
+* Mac: `swiftc -O -sdk \`xcrun --show-sdk-path\` inference.swift`
 * Ubuntu: `swiftc inference.swift`
 
 `swiftc` should produce an executable in the current directory called `inference`. Run it to see the same result:
