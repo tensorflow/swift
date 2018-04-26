@@ -28,8 +28,8 @@ A final pertinent aspect of the design of Swift is that much of the Swift langua
 There is a lot more that is cool about Swift and a ton of content available online.  If you are interested in learning more about general Swift programming concepts, here are a few links to get started:
 
  - [A Swift Tour](https://developer.apple.com/library/content/documentation/Swift/Conceptual/Swift_Programming_Language/GuidedTour.html) is a skimmable tour of the high level syntax and feel of Swift, and is part of the larger "The Swift Programming Language" book.
- - Value semantics are powerful and play an important role in Swift code, as explained in "[Building Better Apps with Value Types in Swift](https://developer.apple.com/videos/play/wwdc2015/414/)" [[youtube](https://www.youtube.com/watch?v=av4i3x-aZbM)].
- - Swift supports classic OOP, but has adapted ideas from the Haskell type system.  This is explained in "[Protocol-Oriented Programming in Swift](https://developer.apple.com/videos/play/wwdc2015/408/)" [[youtube](https://www.youtube.com/watch?v=g2LwFZatfTI)].
+ - Value semantics are powerful and play an important role in Swift code, as explained in "[Building Better Apps with Value Types in Swift](https://developer.apple.com/videos/play/wwdc2015/414/)" [[YouTube](https://www.youtube.com/watch?v=av4i3x-aZbM)].
+ - Swift supports classic OOP, but has adapted ideas from the Haskell type system.  This is explained in "[Protocol-Oriented Programming in Swift](https://developer.apple.com/videos/play/wwdc2015/408/)" [[YouTube](https://www.youtube.com/watch?v=g2LwFZatfTI)].
 
 One warning: Swift evolved rapidly in its early years, so you should be careful with anything before Swift 3 (released in 2016).
 
