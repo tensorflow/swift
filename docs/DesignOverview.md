@@ -8,13 +8,13 @@ This document provides a high level view of these subcomponents and describe how
 
 We go describe these pieces of the project:
 
-[Swift](#swift)
-[TensorFlow](#tensorflow)  
-[Graph Program Extraction](#graph-program-extraction)
-[The TensorFlow module](#the-tensorflow-module)
-[Automatic Differentiation](#automatic-differentiation)
-[Python Interoperability](#python-interoperability)
-[Future Directions](#future-directions)
+ - [Swift](#swift)
+ - [TensorFlow](#tensorflow)  
+ - [Graph Program Extraction](#graph-program-extraction)
+ - [The TensorFlow module](#the-tensorflow-module)
+ - [Automatic Differentiation](#automatic-differentiation)
+ - [Python Interoperability](#python-interoperability)
+ - [Future Directions](#future-directions)
 
 ## Swift
 Swift is an [open source](https://swift.org/) general-purpose programming language, which has a large and growing user base.  We chose Swift because it has an [open language design process](https://github.com/apple/swift-evolution) and for specific technical reasons detailed in the “[Why *Swift* for TensorFlow](WhySwiftForTensorFlow.md)” document.  We assume that most readers are unfamiliar with it, so we’ll briefly touch on some additional important things about it here.
