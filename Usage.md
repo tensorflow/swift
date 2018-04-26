@@ -119,9 +119,9 @@ To use Swift for TensorFlow with Xcode, you must have installed a toolchain from
 
 1. Open Xcode’s `Preferences`, navigate to `Components > Toolchains`, and select the installed Swift for TensorFlow toolchain. The name of the toolchain should start with "Swift for TensorFlow Development Snapshot".
 
-<span align="center">
+<p align="center">
   <img src="docs/images/Installation-XcodePreferences.png?raw=true" alt="Select toolchain in Xcode preferences."/>
-</span>
+</p>
 
 2. In the menu bar, select `File > New > Playground...`.
 
@@ -140,8 +140,8 @@ print(x)
 
 6. After a moment, the Playground should finish running and print the result in the display at the bottom.
 
-<span align="center">
+<p align="center">
   <img src="docs/images/Usage-Playground.png?raw=true" alt="Playground running Swift for TensorFlow."/>
-</span>
+</p>
 
 **Note:** Xcode Playgrounds are a great interactive environment for prototyping code, but they often hang or crash. If that happens, try restarting Xcode. There are some documented bugs regarding Swift for TensorFlow and Playgrounds. If you discover a new bug, please file an issue.

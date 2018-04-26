@@ -117,9 +117,9 @@ Because we added so many constraints on what we accept, it is trivial to transfo
 
 This gives us a result like this:
 
-<span align="center">
+<p align="center">
   <img src="images/GraphProgramExtraction-Graph.png?raw=true" alt="Graph diagram"/>
-</span>
+</p>
 
 In addition to the translation process, it is important to notice that we have a well-defined language subset that is easy to explain to users (though, it is also not very useful yet!).  The compiler is able to reinforce the limitations of our model through compiler errors, for example if the user attempted to store a `TensorHandle` in a variable, pass a `TensorHandle` to a non-graph operation like `print`, or use control flow.  Because the analysis is built into the compiler, the compiler errors can point directly to the line of code that causes a problem, which is great for usability: the user knows exactly what they did wrong, and what they have to fix in order to get the code to compile.
 

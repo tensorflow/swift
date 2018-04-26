@@ -71,9 +71,9 @@ While the `+` example is very simple, the convolution example shows another impo
 
 The Graph Program Extraction transformation is the key technique that allows TensorFlow integration to work in a seamless way.  This acts like an additional stage in the compiler, which uses static analysis to find tensor operations and split them out to a TensorFlow graph.  At a high level, the enhanced Swift compiler looks like this:
 
-<span align="center">
+<p align="center">
   <img src="images/DesignOverview-Pipeline.png?raw=true" alt="Compiler Pipeline"/>
-</span>
+</p>
 
 First, the compiler finds the tensor operations in the code (which is trivial
 due to the low-level `#tfop` syntax described above).  Next, it desugars
@@ -181,9 +181,9 @@ The most significant unimplemented piece of our compiler and runtime model is su
 
 The way this works is by having Swift AD support arbitrary user-defined types.  Swift for TensorFlow builds on this by making its Tensor types conform to the AD system, allowing them to participate as you’d expect.  A nice thing about this is that Swift programmers interested in non-Tensor numerical analysis can use AD for any other types that are important for their work.
 
-<span align="center">
+<p align="center">
   <img src="images/DesignOverview-AD.png?raw=true" alt="AutoDiff flow"/>
-</span>
+</p>
 
 Automatic differentiation in Swift is a compiler IR transformation implemented with static analysis. When differentiating a function in reverse mode, the compiler produces a separate functions that contain the corresponding "primal code" and "adjoint code", which in turn compute the partial derivatives of the model output with respect to the input parameters. Since we want AD in Swift to be completely general across all use cases and allow custom data structures and arbitrary functions, the compiler makes no assumption about individual math operations.  Instead, the developer specifies the adjoint code to use for a function, and how two back-propagated adjoint values should combine - all in pure Swift code. The compiler will then differentiate and chain any uses of these functions.
 
