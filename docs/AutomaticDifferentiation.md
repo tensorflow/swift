@@ -42,7 +42,7 @@ adjoint `f_adj`. `f_prim` computes the original result, while storing primal
 intermediate values for `f_adj` to reuse. `f_adj` computes the partial
 derivatives of `f` with respect to the parameters.
 
-![drawing](https://docs.google.com/a/google.com/drawings/d/12345/export/png)
+![drawing](images/AutomaticDifferentiation-ReverseAD.png)
 
 The data structure used to store these values is called tape, also known as
 _[Wengert list](https://dl.acm.org/citation.cfm?doid=355586.364791)_. It is a
