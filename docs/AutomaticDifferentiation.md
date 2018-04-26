@@ -261,7 +261,7 @@ the vector-Jacobian products.
   was the differential operator).
   
 More than one function exists to wrap the canonical gradient function
-`f_can_grad`, because we'll support a vareity of AD configurations, e.g.
+`f_can_grad`, because we'll support a variety of AD configurations, e.g.
 `#gradient(of:)` and `#valueAndGradient(of:)`. We expect the finalized gradient
 function `∇f` to be inlined and have other normal optimization passes applied,
 to expose primal-adjoint data flow and eliminate dead code.
