@@ -248,7 +248,8 @@ And of course, this integrates with all the normal mechanics provided by Swift e
 
 ## Current Implementation and Status
 
-As mentioned above, our current implementation of the Python interoperability library is available on GitHub in the [Python.swift](TODO: github link) file.  In practice we have found that it works really nicely for a lot of use cases.  However, there are a few things that are missing that we need to continue developing and figure out:
+As mentioned above, our current implementation of the Python interoperability library is available on GitHub in the [Python.swift](https://github.com/google/swift/blob/tensorflow/stdlib/public/Python/Python.swift) file.
+In practice, we have found that it works nicely for many use cases. However, a few things that are missing that we need to continue developing and figure out:
 
 We need to implement support for the [@dynamicCallable feature](https://gist.github.com/lattner/a6257f425f55fe39fd6ac7a2354d693d), improving the call-side syntax, just like we improved member lookup.
 Python slicing is more general than Swift’s slicing syntax.  Right now you can get full access to it through the `Python.slice(a, b, c)` function.  However, we should wire in the  normal `a...b` range syntax from Swift, and it might be interesting to consider implementing striding operators as an extension to that basic range syntax.
