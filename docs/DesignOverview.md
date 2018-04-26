@@ -102,9 +102,16 @@ As we described in the [section about Swift](#swift), a lot of the Swift experie
 
 Our most significant design constraint is that we don’t want users of Swift for TensorFlow to write code that accidentally causes unnecessary copies back and forth between the host and the accelerator.  Because of this, we chose to implement a user model that provides two primary concepts: "arrays" and "tensors".  Both of these represent n-dimensional tensors of values, but the "arrays" in our system should be thought of as data in the host program, whereas "tensors" are values that are primarily managed by TensorFlow.  Among other things, this means that "arrays" conform to [MutableCollection](https://developer.apple.com/documentation/swift/mutablecollection) and [RangeReplaceableCollection](https://developer.apple.com/documentation/swift/rangereplaceablecollection) and thus have normal collection APIs, but `Tensor` has methods and operators that correspond to TensorFlow ops.
 
-Both "arrays" and "tensors" have dynamically ranked n-dimensional versions, named `ShapedArray` and `Tensor` respectively.
-We are also experimenting with statically ranked versions (`Array2D`, `Array3D`, etc which compose on top of `Swift.Array`) and
-(`Tensor1D`, `Tensor2D`, `Tensor3D`, etc).  [[TODO: a bunch of links to our API docs]].
+Both "arrays" and "tensors" have dynamically ranked n-dimensional versions, named
+[`ShapedArray`](https://www.tensorflow.org/api_docs/swift/Structs/ShapedArray) and
+[`Tensor`](https://www.tensorflow.org/api_docs/swift/Structs/Tensor) respectively.
+We are also experimenting with statically ranked versions
+([`Array2D`](https://www.tensorflow.org/api_docs/swift/Structs/Array2D),
+[`Array3D`](https://www.tensorflow.org/api_docs/swift/Structs/Array3D), etc. which compose on top of
+[`Swift.Array`](https://developer.apple.com/documentation/swift/array)) and
+([`Tensor1D`](https://www.tensorflow.org/api_docs/swift/Structs/Tensor1D),
+[`Tensor2D`](https://www.tensorflow.org/api_docs/swift/Structs/Tensor2D),
+[`Tensor3D`](https://www.tensorflow.org/api_docs/swift/Structs/Tensor3D), etc).
 Here are a couple of simple examples showing `Tensor` and `ShapedArray`:
 
 ```swift
@@ -232,7 +239,7 @@ let (images, labels) = pickle.load(file).tuple2
 print(images.shape) // (50000, 784)            print(images.shape)
 ```
 
-As you can see, the syntax here is very close: the major differences are that Swift requires values to be declared before use, and that we decided to put [Python builtins functions](https://docs.python.org/3/library/functions.html) like `import`, `type`, `slice`, etc under a `Python.` namespace (to avoid cluttering the global scope).  This doesn’t require SWIG or any other wrappers, so it is super easy to use.
+As you can see, the syntax here is very close: the major differences are that Swift requires values to be declared before use, and that we decided to put [Python builtin functions](https://docs.python.org/3/library/functions.html) like `import`, `type`, `slice`, etc under a `Python.` namespace (to avoid cluttering the global scope).  This doesn’t require SWIG or any other wrappers, so it is super easy to use.
 
 This feature is accomplished without making Python specific changes to the compiler or language - it is completely implemented in the [Python.swift file](https://github.com/google/swift/blob/tensorflow/stdlib/public/Python/Python.swift).  This means that we can use the same techniques to directly integrate with other dynamic language runtimes (e.g. Javascript, Ruby, etc) if it becomes important in the future.  Python support is also completely independent of the other TensorFlow and automatic differentiation logic we’re building in the rest of the project.  It is a generally useful extension to the Swift ecosystem that can stand alone, useful for server side development or anything else that wants to interoperate with existing Python APIs.
 
