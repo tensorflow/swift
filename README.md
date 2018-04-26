@@ -35,16 +35,20 @@ For instructions on building from source, visit
 
 Below are some documents explaining the Swift for TensorFlow project.
 
-Conceptual:
+Conceptual overview:
 
 - [Swift for TensorFlow Design Overview](docs/DesignOverview.md)
 - [Why *Swift* for TensorFlow?](docs/WhySwiftForTensorFlow.md)
 
-Deeper dives:
+Technical deeper dives:
 
 - [Graph Program Extraction](docs/GraphProgramExtraction.md)
 - [Automatic Differentiation](docs/AutomaticDifferentiation.md)
 - [Python Interoperability](docs/PythonInteroperability.md)
+
+Swift API reference:
+
+- [TensorFlow](https://www.tensorflow.org/api_docs/swift/Structs/Tensor)
 
 ## Source code
 
