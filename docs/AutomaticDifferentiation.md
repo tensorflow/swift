@@ -1,7 +1,7 @@
 # Automatic Differentiation in Swift
 
 
-# Introduction
+## Introduction
 
 Automatic Differentiation (AD), also known as algorithmic differentiation, is a family of techniques used to obtain the derivative of a function. Functions can be represented as a composition of elementary operators whose derivatives are well-known.  While partial derivatives can be computed through different techniques, the most common is a recursive application of the chain rule in the reverse direction, called reverse-mode AD.  Reverse-mode AD computes vector-Jacobian products, i.e. partial derivatives with respect to each input parameter, and it has become a prerequisite for implementing gradient-based learning methods.  AD has a rich background, here are some great introductions: [Introduction to Automatic Differentiation](https://alexey.radul.name/ideas/2013/introduction-to-automatic-differentiation/) and [Automatic Differentiation in Machine Learning: a Survey](https://arxiv.org/abs/1502.05767).
 
@@ -10,7 +10,7 @@ Most AD implementations work on a graph representation of a functional tensor pr
 The Swift for TensorFlow project aims to provide best-in-class support for AD - including the best optimizations, best error messages in failure cases, and the most flexibility and expressivity.  To achieve this, we built support for AD right into the Swift compiler.  Additionally, since AD is important to the broader scientific and numerical computing communities, we decided to build AD as a generic feature that is completely orthogonal to the TensorFlow support - the TensorFlow Swift library computes gradients using the AD features of the Swift language itself.
 
 
-# Related work
+## Related work
 
 Automatic differentiation has been a research topic in scientific computing and HPC for nearly half a century. Traditional tools such as [OpenAD](http://www.mcs.anl.gov/OpenAD/), [TAPENADE](http://tapenade.inria.fr:8080/tapenade/index.jsp) and [ADIFOR](http://www.mcs.anl.gov/research/projects/adifor/) are tools that transform existing source code. There are many advanced techniques that improved the performance of derivatives written in FORTRAN, but these tools have not gained wide adoption in the machine learning community. More recent AD systems like [Stalin∇](https://github.com/Functional-AutoDiff/STALINGRAD) (pronounced Stalingrad, available in Scheme), [DiffSharp](http://diffsharp.github.io/DiffSharp/) (available in F#), and [ad](https://hackage.haskell.org/package/ad) (available in Haskell) achieved good usability by integrating the differential operator into the language, and are equipped with a complete set of AD features (such as forward/reverse, nested AD, Hessians, Jacobians, directional derivatives and checkpointing). They combine AD closely with functional programming languages.
 
@@ -23,7 +23,7 @@ Two recent projects ([Tangent](https://github.com/google/tangent) and [Myia](htt
 This diagram may remind people of the trade-offs between eager execution and graph building. The [Graph Program Extraction](https://github.com/tensorflow/swift/blob/master/docs/GraphProgramExtraction.md) technique combines the best of both worlds by reducing graphs to an implementation detail managed by the compiler. Automatic Differentiation in Swift achieves exactly the same by making AD a core feature of the language and compiler.
 
 
-# How reverse-mode AD works
+## How reverse-mode AD works
 
 There are two main approaches to automatic differentiation: recording program
 execution at runtime and static analysis over the program ahead of time - the
