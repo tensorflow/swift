@@ -97,7 +97,7 @@ Our most significant design constraint is that we don’t want users of Swift fo
 
 Both “arrays” and “tensors” have dynamically ranked n-dimensional versions, named `ShapedArray` and `Tensor` respectively.  We are also experimenting with statically ranked versions (`Array2D`, `Array3D`, etc which compose on top of `Swift.Array`) and (`Tensor1D`, `Tensor2D`, `Tensor3D`, etc).  [[TODO: a bunch of links to our API docs]].  Here are a couple of simple examples showing `Tensor` and `ShapedArray`:
 
-```
+```swift
 // `Tensor` examples.
 var matrix = Tensor<Float>(shape: [2, 2], scalars: [1, 2, 3, 4])
 var matrix: Tensor<Float> = [[1, 2], [3, 4]]
@@ -116,7 +116,7 @@ let array2D = ShapedArray(matrix)
 // `array2D` is stored on the host.
 ```
 
-```
+```swift
 // `ShapedArray` examples.
 var matrix = ShapedArray(shape: [3, 2], scalars: [1, 2, 0, 0, 5, 6])
 // `matrix` represents [[1, 2], [0, 0], [5, 6]].
