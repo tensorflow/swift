@@ -130,7 +130,7 @@ Now that Swift can represent and operate on Python values, it becomes important 
 For example, if you know you need a Swift integer or you’d like to convert a Swift integer to Python, you can use:
 
 ```swift
-let pyInt = PyValue(someSwiftInteger)  // Always succeeds.
+let pyInt = PyValue(someSwiftInteger)     // Always succeeds.
 if let swiftInt = Int(somePythonValue) {  // Succeeds if the Python value is convertible to Int.
   print(swiftInt)
 }
@@ -193,7 +193,7 @@ a.x = a.x + 1
 ```
 … and the natural `a.x += 1` syntax works just like we expect.  This shows the huge benefit of being able to evolve the full stack of a language, its libraries, and applications together in order to achieve a goal.
 ### Dynamically callable types
-In addition to member lookup, we have a similar challenge when it comes to calling values.  Dynamic languages often have the notion of [“callable” values](https://en.wikipedia.org/wiki/Callable_object), which can take an arbitrary signature, but Swift 4.1 has no support for such a thing.  For example, as of Swift 4.1, our interoperability library is able to work with Python APIs through an interface like this:
+In addition to member lookup, we have a similar challenge when it comes to calling values.  Dynamic languages often have the notion of ["callable" values](https://en.wikipedia.org/wiki/Callable_object), which can take an arbitrary signature, but Swift 4.1 has no support for such a thing.  For example, as of Swift 4.1, our interoperability library is able to work with Python APIs through an interface like this:
 
 ```swift
 // Python: a = np.arange(15).reshape(3, 5)
@@ -231,7 +231,7 @@ This is an inherent gap between the two languages, and we don’t want to paper 
   // blob = file.read()
   let blob = file.read()
 
-  // Open a file, a thrown “file not found” exception is turned into a Swift error.
+  // Open a file, a thrown "file not found" exception is turned into a Swift error.
   do {
     let file = try Python.open.throwing("foo.txt")
     let blob = file.read()
