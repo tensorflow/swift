@@ -1,4 +1,7 @@
-![](images/logo.png)
+<p align="center">
+  <img src="images/logo.png">
+</p>
+
 # Swift for TensorFlow
 
 Welcome to the Swift for TensorFlow development community!
