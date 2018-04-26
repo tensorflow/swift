@@ -1,6 +1,6 @@
 # Why *Swift* for TensorFlow?
 
-The core [graph program extraction algorithm](GraphProgramExtraction.md), [automatic differentiation](AutomaticDifferentiation.md), and [Python language interoperability](PythonIntegration.md) features of Swift for TensorFlow can be implemented for other programming languages, and we are occasionally asked why we didn’t use some other one for this project.
+The core [graph program extraction algorithm](GraphProgramExtraction.md), [automatic differentiation](AutomaticDifferentiation.md), and [Python language interoperability](PythonInteroperability.md) features of Swift for TensorFlow can be implemented for other programming languages, and we are occasionally asked why we didn’t use some other one for this project.
 
 The engineers on the project were previously familiar with Swift (and several other languages), but the choice was guided by the goals of our project, which imposed specific technical requirements (explained below).  This choice was also discussed extensively, debated with coworkers and other interested engineers, and we concluded that Swift was the best direction.  In this document we're sharing our deliberation process with the community to help explain our decisions.
 
@@ -215,7 +215,7 @@ It might be interesting to see how we evaluated Swift against the point-by-point
 
 **Memory safety:** Swift aims to be as “safe by default” language, both in terms of memory safety but also helping to catch logic bugs early.  It also provides explicit “unsafe” APIs to interact with C code and for direct hardware access.
 
-**Python APIs:** When we started the project, the answer was “no”, which is why we prioritized building a new approach for [expressive Swift/Python interoperability](PythonIntegration.md).  The answer is now “yes”.
+**Python APIs:** When we started the project, the answer was “no”, which is why we prioritized building a new approach for [expressive Swift/Python interoperability](PythonInteroperability.md).  The answer is now “yes”.
 
 ### Swift compared to Python’s challenges
 

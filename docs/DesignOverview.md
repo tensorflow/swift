@@ -45,7 +45,7 @@ Swift for TensorFlow has a low-level syntax that gives you direct access to any 
 
 ```swift
 struct Tensor<Scalar> {
- ...
+  ...
   // Implement the infix `+` operator on Tensor in terms of the TensorFlow `Add` op, 
   // which takes two input tensors and returns one result.
   static func +(lhs: Tensor, rhs: Tensor) -> Tensor {
@@ -218,7 +218,7 @@ As you can see, the syntax here is very close: the major differences are that Sw
 
 This feature is accomplished without making Python specific changes to the compiler or language - it is completely implemented in the [Python.swift file](TODO: link to Python.swift on GitHub).  This means that we can use the same techniques to directly integrate with other dynamic language runtimes (e.g. Javascript, Ruby, etc) if it becomes important in the future.  Python support is also completely independent of the other TensorFlow and automatic differentiation logic we’re building in the rest of the project.  It is a generally useful extension to the Swift ecosystem that can stand alone, useful for server side development or anything else that wants to interoperate with existing Python APIs.
 
-To find out more about how this works, please check out the [Python Interoperability Deep Dive](PythonIntegration.md), or browse the implementation in [Python.swift on GitHub](link to Python.swift on GitHub).
+To find out more about how this works, please check out the [Python Interoperability Deep Dive](PythonInteroperability.md), or browse the implementation in [Python.swift on GitHub](link to Python.swift on GitHub).
 
 ## Future Directions
 

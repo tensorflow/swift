@@ -11,9 +11,9 @@ traditionally were out of bounds for machine learning libraries. Our programming
 
 ## Installation and Usage
 
-You can download a pre-built package for Swift for TensorFlow [here](https://github.com/tensorflow/swift/blob/master/INSTALLATION.md). After installing Swift for TensorFlow, you can learn how to use the project [here](https://github.com/tensorflow/swift/blob/master/USAGE.md).
+You can download a pre-built package for Swift for TensorFlow [here](https://github.com/tensorflow/swift/blob/master/Installation.md). After installing Swift for TensorFlow, you can learn how to use the project [here](https://github.com/tensorflow/swift/blob/master/Usage.md).
 
-For instructions on building from source, visit the google/swift github repository [here](https://github.com/google/swift/blob/tensorflow/README.md).
+For instructions on building from source, visit [google/swift](https://github.com/google/swift/tree/tensorflow).
 
 ## Documentation
 
@@ -21,19 +21,19 @@ Below are some documents explaining the Swift for TensorFlow project.
 
 Conceptual:
 
-- [Swift for TensorFlow Design Overview](https://github.com/tensorflow/swift/blob/master/docs/Overview.md)
-- [Why *Swift* for TensorFlow?](https://github.com/tensorflow/swift/blob/master/docs/WhySwift.md)
+- [Swift for TensorFlow Design Overview](https://github.com/tensorflow/swift/blob/master/docs/DesignOverview.md)
+- [Why *Swift* for TensorFlow?](https://github.com/tensorflow/swift/blob/master/docs/WhySwiftForTensorFlow.md)
 
 Deeper dives:
 
 - [Graph Program Extraction](https://github.com/tensorflow/swift/blob/master/docs/GraphProgramExtraction.md)
 - [Automatic Differentiation](https://github.com/tensorflow/swift/blob/master/docs/AutomaticDifferentiation.md)
-- [Python Interoperability](https://github.com/tensorflow/swift/blob/master/docs/PythonIntegration.md)
+- [Python Interoperability](https://github.com/tensorflow/swift/blob/master/docs/PythonInteroperability.md)
 
 ## Source code
 
-Currently, the active development of Swift for TensorFlow will happen under
-[github.com/google/swift](https://github.com/google/swift).
+Currently, the active development of Swift for TensorFlow will happen under the "tensorflow" branch of
+[google/swift](https://github.com/google/swift/tree/tensorflow).
 
 These projects include:
 
