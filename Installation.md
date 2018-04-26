@@ -6,7 +6,9 @@ To install Swift for TensorFlow, download one of the packages below and follow t
 
 **Note:** Swift for TensorFlow is an early stage research project. It has been released to enable open source development and is not yet ready for general use by machine learning developers.
 
-## Nightly Packages
+## Pre-built Packages
+
+Packages will be released nightly after automated building is set up.
 
 | Download | Date |
 |---------------|--------|
