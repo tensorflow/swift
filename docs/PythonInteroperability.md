@@ -2,7 +2,7 @@
 
 As described in the [design overview document](DesignOverview.md), Python API interoperability is an important requirement for this project.  While Swift is designed to integrate with other programming languages (and their runtimes), the nature of dynamic languages does not require the deep integration needed to support static languages.  Python in particular is [designed to be embedded](https://docs.python.org/3/extending/index.html) into other applications and has a [simple C interface API](https://oleb.net/blog/2017/12/importing-c-library-into-swift/).  For the purposes of our work, we can provide a meta-embedding, which allows Swift programs to use Python APIs as though they are directly embedding Python itself.
 
-To accomplish this, the Swift script/program simply links the Python interpreter into its code.  Our goal changes from “how do we work with Python APIs” into a question of “how do we make Python APIs feel natural, accessible, and easy to reach for from Swift code?”  This isn’t a trivial problem - there are significant design differences between Swift and Python, including their approaches to error handling, the super-dynamic nature of Python, the differences in surface-level syntax between the two languages, and the desire to not “compromise” the things that Swift programmers have come to expect.  We also care about convenience and ergonomics and think it is unacceptable to require a wrapper generator like SWIG.
+To accomplish this, the Swift script/program simply links the Python interpreter into its code.  Our goal changes from "how do we work with Python APIs" into a question of "how do we make Python APIs feel natural, accessible, and easy to reach for from Swift code?"  This isn’t a trivial problem - there are significant design differences between Swift and Python, including their approaches to error handling, the super-dynamic nature of Python, the differences in surface-level syntax between the two languages, and the desire to not "compromise" the things that Swift programmers have come to expect.  We also care about convenience and ergonomics and think it is unacceptable to require a wrapper generator like SWIG.
 
 The TL;DR on this whitepaper is we feel good about this direction and think that there are interesting aspects of this work: it is great that we are able to achieve good Python interoperability with a library written in Swift by composing Python-independent language features.  This allows other communities to compose the same feature set to directly integrate with other dynamic languages which are important to other communities (e.g. Javascript, Ruby, etc).  It is also great that this work is independent of the automatic differentiation and [Graph Program Extraction](GraphProgramExtraction.md) features of Swift for TensorFlow.
 
@@ -42,11 +42,12 @@ As you can see, the syntax here is immediately understandable to a Python progra
 
 This line is established through a simple requirement: we should not depend on *any Python-specific compiler or language features* to achieve Python interop - it should be completely implemented as a Swift library.  After all, while Python is incredibly important to the machine learning community, there are other dynamic languages (Javascript, Ruby, etc) that have strong footholds in other domains, and we don’t want each of these domains to impose an endless complexity creep onto the Swift language.  
 
-You can see the current implementation of our bridging layer in [Python.swift on Github](TODO: github link).  This is pure Swift code that works with unmodified Swift 4.1.
+You can see the current implementation of our bridging layer in [Python.swift](https://github.com/google/swift/blob/tensorflow/stdlib/public/Python/Python.swift).  This is pure Swift code that works with unmodified Swift 4.1.
+
 ### Limitations of this approach
 Because we choose to embrace the dynamic nature of Python in Swift, we get both the pros and the cons that dynamic languages bring with them. Specifically, many Swift programmers have come to expect and depend on amazing code completion and appreciate the comfort of having the compiler catch typos and other trivial bugs for them at compile time.  In contrast, Python programmers do not have these affordances (instead, bugs are usually caught at runtime), and because we are embracing Python’s dynamic nature, Python APIs in Swift work the same way.
 
-After careful consideration with the Swift community, it became clear that this is a balance: how much of the philosophy and value system of the Swift can be projected onto the Python library ecosystem… without breaking those things that are true and beautiful about Python and its libraries?  In the end, we concluded that a Python-centric model is the best compromise: we should embrace the fact that Python is a dynamic language, that it will never and can never have perfect code completion and error detection at static compile time.
+After careful consideration with the Swift community, it became clear that this is a balance: how much of the philosophy and value system of the Swift can be projected onto the Python library ecosystem... without breaking those things that are true and beautiful about Python and its libraries?  In the end, we concluded that a Python-centric model is the best compromise: we should embrace the fact that Python is a dynamic language, that it will never and can never have perfect code completion and error detection at static compile time.
 
 It is important to observe that Python *does* have existing productivity tools that can find some bugs and provide nice tooling features like code completion.  These tools are generally based on unsound heuristics but are nonetheless extremely useful.  We would like for the heuristics used by these tools to be integrated into the Swift source tools and IDE ecosystem, but we need someone to step up to help build this out.  If you are interested, please [contact us](https://www.tensorflow.org/community/swift).
 
@@ -75,10 +76,12 @@ private final class PyReference {
   init(owned: UnsafeMutablePointer<PyObject>) {
     state = owned
   }
+
   init(borrowed: UnsafeMutablePointer<PyObject>) {
     state = borrowed
     Py_IncRef(state)
   }
+
   deinit {
     Py_DecRef(state)
   }
@@ -86,7 +89,7 @@ private final class PyReference {
 
 // This is the main type users work with.
 public struct PyValue {
-  /// This is a handle to a Python object the PyValue represents.
+  /// This is a handle to the Python object the PyValue represents.
   fileprivate var state: PyReference
   ...
 }
@@ -110,7 +113,7 @@ public static func += (lhs: inout PyValue, rhs: PyValue) {
 public static func -= (lhs: inout PyValue, rhs: PyValue) {
   lhs = lhs - rhs
 }
-… etc ...
+// etc...
 ```
 
 We also make `PyValue` conform to `Sequence` and other protocols, allowing code like this to work:
@@ -123,7 +126,7 @@ func printPythonCollection(_ collection: PyValue) {
 }
 ```
 
-Furthermore, because `PyValue` conforms to `MutableCollection`, you get full access to the [Swift APIs for collections](https://developer.apple.com/documentation/swift/mutablecollection), including things like map, filter, sort, etc.
+Furthermore, because `PyValue` conforms to `MutableCollection`, you get full access to the [Swift APIs for Collections](https://developer.apple.com/documentation/swift/mutablecollection), including functions like `map`, `filter`, `sort`, etc.
 ### Conversions to and from Swift values
 Now that Swift can represent and operate on Python values, it becomes important to be able to convert between Swift native types like `Int` and `Array<Float>` and the Python equivalents.  This is handled by the `PythonConvertible` protocol - to which the basic Swift types like `Int` conform to, and to the Swift collection types like `Array` and `Dictionary` conditionally conform to (when their elements conform).  This makes the conversions fit naturally into the Swift model.  
 
@@ -145,7 +148,7 @@ if let swiftIntArray = Array<Int>(somePythonValue) {
 }
 ```
 
-This fits exactly into the model that a Swift programmer would expect: failable conversions are projected into optional results (just like “string to int” conversions are), providing the safety and predictability that Swift programmers expect.
+This fits exactly into the model that a Swift programmer would expect: failable conversions are projected into optional results (just like "string to int" conversions are), providing the safety and predictability that Swift programmers expect.
 
 Finally, because you have access to the full power of Python, all the normal reflective capabilities are Python are directly available as well, including `Python.type`, `Python.id`, `Python.dir`, and the Python `inspect` module.
 
@@ -191,7 +194,7 @@ Which allows the above code to be simply expressed as:
 // Python: a.x = a.x + 1
 a.x = a.x + 1
 ```
-… and the natural `a.x += 1` syntax works just like we expect.  This shows the huge benefit of being able to evolve the full stack of a language, its libraries, and applications together in order to achieve a goal.
+... and the natural `a.x += 1` syntax works just like we expect.  This shows the huge benefit of being able to evolve the full stack of a language, its libraries, and applications together in order to achieve a goal.
 ### Dynamically callable types
 In addition to member lookup, we have a similar challenge when it comes to calling values.  Dynamic languages often have the notion of ["callable" values](https://en.wikipedia.org/wiki/Callable_object), which can take an arbitrary signature, but Swift 4.1 has no support for such a thing.  For example, as of Swift 4.1, our interoperability library is able to work with Python APIs through an interface like this:
 
@@ -218,7 +221,7 @@ let d = np.array([6, 7, 8], dtype: "i2")
 ```
 We think that this is pretty compelling, and does close the remaining expressivity and ergonomic gap that exists for these cases.  We believe that this feature will be a good solution for Ruby, Squeak, and other dynamic languages, as well as being a generally useful Swift language features that could be applicable to other Swift libraries.
 ### Exception handling vs error handling
-Python’s approach to exception handling is similar to C++ and many other languages, where any expression can throw an exception at any time, and callers can choose to handle them (or not) independently.  In contrast, Swift’s [error handling approach](https://github.com/apple/swift/blob/master/docs/ErrorHandling.rst) makes “throwability” an explicit part of a method’s API contract and [forces callers to handle (or at least acknowledge)](https://github.com/apple/swift/blob/master/docs/ErrorHandlingRationale.rst) that an error can be thrown.
+Python’s approach to exception handling is similar to C++ and many other languages, where any expression can throw an exception at any time, and callers can choose to handle them (or not) independently.  In contrast, Swift’s [error handling approach](https://github.com/apple/swift/blob/master/docs/ErrorHandling.rst) makes "throwability" an explicit part of a method’s API contract and [forces callers to handle (or at least acknowledge)](https://github.com/apple/swift/blob/master/docs/ErrorHandlingRationale.rst) that an error can be thrown.
 
 This is an inherent gap between the two languages, and we don’t want to paper over this difference with a language extension.  Our current solution to this builds on the observation that even though any function call *could* throw, most calls do not.  Furthermore, given that Swift makes error handling explicit in the language, it is reasonable for a Python-in-Swift programmer to also think about where they expect errors to be throwable and catchable.  We do this with an explicit `.throwing` projection on `PyValue`.  Here’s an example:
 
@@ -254,7 +257,7 @@ There is currently no way to make a struct like `PyValue` work with tuple patter
 
 ## Summary and Conclusion 
 
-We feel good about this direction and think that there are several interesting aspects of this work: it is great that there are no Python specific changes in the Swift compiler or language.  We are able to achieve good Python interoperability through a library written in Swift by composing Python-independent language features.  We believe that other communities will be able to compose the same feature set to directly integrate with the dynamic languages (and their runtimes) that are important to other communities (e.g. Javascript, Ruby, etc).
+We feel good about this direction and think that there are several interesting aspects of this work: it is great that there are no Python specific changes in the Swift compiler or language.  We are able to achieve good Python interoperability through a library written in Swift by composing Python-independent language features.  We believe that other communities will be able to compose the same feature set to directly integrate with the dynamic languages (and their runtimes) that are important to other communities (e.g. JavaScript, Ruby, etc).
 
 Another interesting aspect of this work is that Python support is completely independent of the other TensorFlow and automatic differentiation logic we’re building as part of Swift for TensorFlow.  This is a generally useful extension to the Swift ecosystem that can stand alone, useful for server side development or anything else that wants to interoperate with existing Python APIs.
 

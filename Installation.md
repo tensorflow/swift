@@ -38,9 +38,9 @@ To install Swift for TensorFlow, download one of the packages below and follow t
 
 5. Xcode uses the selected toolchain for building Swift code, debugging, and even code completion and syntax coloring. You’ll see a new toolchain indicator in Xcode’s toolbar when Xcode is using a Swift toolchain. Select the Xcode toolchain to go back to Xcode’s built-in tools.
 
-<p align="center">
-  <img src="docs/images/Installation-XcodePreferences.png?raw=true" alt="Xcode preferences"/>
-</p>
+<span align="center">
+  <img src="docs/images/Installation-XcodePreferences.png?raw=true" alt="Select toolchain in Xcode preferences."/>
+</span>
 
 6. Selecting a Swift toolchain affects the Xcode IDE only. To use the Swift toolchain with command-line tools, add the Swift toolchain to your path as follows:
 

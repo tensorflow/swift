@@ -114,17 +114,17 @@ This was a simple demonstration of Swift for TensorFlow. To see example models w
 
 To use Swift for TensorFlow with Xcode, you must have installed a toolchain from [this page](Installation.md). 
 
-1. Open Xcode’s `Preferences`, navigate to `Components > Toolchains`, and select the installed Swift for TensorFlow toolchain. The name of the toolchain should start with “Swift for TensorFlow Development Snapshot”.
+1. Open Xcode’s `Preferences`, navigate to `Components > Toolchains`, and select the installed Swift for TensorFlow toolchain. The name of the toolchain should start with "Swift for TensorFlow Development Snapshot".
 
 <span align="center">
-  <img src="docs/images/Installation-XcodePreferences.png?raw=true" alt="Xcode preferences"/>
+  <img src="docs/images/Installation-XcodePreferences.png?raw=true" alt="Select toolchain in Xcode preferences."/>
 </span>
 
 2. In the menu bar, select `File > New > Playground...`. 
 
 3. Then, select `macOS` and `Blank` and hit `Next`.
 
-4. Choose a location for the Playground file and hit `Create`. Xcode should display your new Playground!
+4. Choose a location for the Playground file and hit `Create`. Xcode should open your new Playground.
 
 5. In the Playground, let’s try importing TensorFlow! Paste the following code:
 
@@ -141,4 +141,4 @@ print(x)
   <img src="docs/images/Usage-Playground.png?raw=true" alt="Playground running Swift for TensorFlow."/>
 </span>
 
-Note: Xcode Playgrounds are a great interactive environment for prototyping code, but they often hang or crash. If that happens, try restarting Xcode. There are some documented bugs regarding Swift for TensorFlow and Playgrounds. If you discover a new bug, please create an issue.
+**Note:** Xcode Playgrounds are a great interactive environment for prototyping code, but they often hang or crash. If that happens, try restarting Xcode. There are some documented bugs regarding Swift for TensorFlow and Playgrounds. If you discover a new bug, please file an issue.
