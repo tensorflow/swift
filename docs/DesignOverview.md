@@ -9,7 +9,7 @@ This document provides a high level view of these subcomponents and describe how
 We go describe these pieces of the project:
 
  - [Swift](#swift)
- - [TensorFlow](#tensorflow)  
+ - [TensorFlow](#tensorflow)
  - [Graph Program Extraction](#graph-program-extraction)
  - [The TensorFlow module](#the-tensorflow-module)
  - [Automatic Differentiation](#automatic-differentiation)
@@ -35,7 +35,7 @@ One warning: Swift evolved rapidly in its early years, so you should be careful 
 
 ## TensorFlow
 
-[TensorFlow](https://tensorflow.org/) is a popular and widely-used machine learning framework.  TensorFlow provides a graph-based Python API where you explicitly build graph operations and then execute the graph one or more times with the session API.  In addition, TensorFlow added [eager execution](https://www.tensorflow.org/programmers_guide/eager) which lets you call operations one-by-one in a Pythonic mode, but without the benefits of graphs. 
+[TensorFlow](https://tensorflow.org/) is a popular and widely-used machine learning framework.  TensorFlow provides a graph-based Python API where you explicitly build graph operations and then execute the graph one or more times with the session API.  In addition, TensorFlow added [eager execution](https://www.tensorflow.org/programmers_guide/eager) which lets you call operations one-by-one in a Pythonic mode, but without the benefits of graphs.
 
 In that context, many users will initially think Swift for TensorFlow is just a straight language binding.  However, Swift for TensorFlow lets you write imperative eager execution-style code,  while Swift gives you the full performance of the explicit graph APIs.  The magic behind this is a [compiler transformation](#graph-program-extraction) that analyzes your code and automatically builds the TensorFlow graph and runtime calls for you.  The nice thing about this is that TensorFlow "just works", and you don’t have to think about graphs at all.
 
@@ -46,12 +46,12 @@ Swift for TensorFlow has a low-level syntax that gives you direct access to any 
 ```swift
 struct Tensor<Scalar> {
   ...
-  // Implement the infix `+` operator on Tensor in terms of the TensorFlow `Add` op, 
+  // Implement the infix `+` operator on Tensor in terms of the TensorFlow `Add` op,
   // which takes two input tensors and returns one result.
   static func +(lhs: Tensor, rhs: Tensor) -> Tensor {
     return #tfop("Add", lhs, rhs)
   }
-  // Another example that implements a method in terms of the TensorFlow `Conv2D` op, 
+  // Another example that implements a method in terms of the TensorFlow `Conv2D` op,
   // which takes two input tensors, as well as a `strides` and `padding` attribute.
   func convolved2D(withFilter filter: Tensor,
                    strides: (Int32, Int32, Int32, Int32),
@@ -75,7 +75,7 @@ The Graph Program Extraction transformation is the key technique that allows Ten
 
 First, the compiler finds the tensor operations in the code (which is trivial due to the low-level `#tfop` syntax described above).  Next, it desugars high-level abstractions (like structs, tuples, generics, functions, variables, etc) that connect tensor operations through a process called "deabstraction".  After deabstraction, the tensor operations are directly connected to each other through SSA dataflow edges and are embedded in a control flow graph represented in the [Swift Intermediate Language](https://github.com/apple/swift/blob/master/docs/SIL.rst) (SIL).  The code for this is primarily implemented in [TFDeabstraction.cpp](Link to Github).
 
-Once the tensor operations are desugared, a transformation we call "partitioning" extracts the graph operations from the program and builds a new SIL function to represent the tensor code.  In addition to removing the tensor operations from the host code, new calls are injected that call into [our new runtime library](#runtime-entry-points-for-extraction) to start up TensorFlow, rendezvous to collect any results, and send/receive values between the host and the tensor program as it runs.  The bulk of the Graph Program Extraction transformation itself lives in [TFPartition.cpp](TODO: LINK TO GITHUB).  
+Once the tensor operations are desugared, a transformation we call "partitioning" extracts the graph operations from the program and builds a new SIL function to represent the tensor code.  In addition to removing the tensor operations from the host code, new calls are injected that call into [our new runtime library](#runtime-entry-points-for-extraction) to start up TensorFlow, rendezvous to collect any results, and send/receive values between the host and the tensor program as it runs.  The bulk of the Graph Program Extraction transformation itself lives in [TFPartition.cpp](TODO: LINK TO GITHUB).
 
 Once the tensor function is formed, it has some transformations applied to it, and is eventually emitted to a TensorFlow graph using the code in [TFLowerGraph.cpp](TODO: LINK TO GITHUB). After the TensorFlow graph is formed, we serialize it to a protobuf and encode the bits directly into the executable, making it easy to load at program runtime.
 
@@ -150,7 +150,7 @@ The most significant unimplemented piece of our compiler and runtime model is su
 
 ## Automatic Differentiation
 
-[Automatic differentiation](https://en.wikipedia.org/wiki/Automatic_differentiation) (AD) is a powerful technique that all machine learning frameworks are expected to implement, because gradients are so important for this work (e.g. with [SGD](https://en.wikipedia.org/wiki/Stochastic_gradient_descent)).  TensorFlow implements automatic differentiation as a TensorFlow graph transformation, but we would like to deploy more powerful techniques to improve user experience in failure cases, enable differentiating custom data structures, recursion, and higher-order differentiation.  As such, we built a stand-alone AD feature for Swift: one that is completely independent of the standard TensorFlow implementation of AD, and also completely independent of TensorFlow support in Swift.  
+[Automatic differentiation](https://en.wikipedia.org/wiki/Automatic_differentiation) (AD) is a powerful technique that all machine learning frameworks are expected to implement, because gradients are so important for this work (e.g. with [SGD](https://en.wikipedia.org/wiki/Stochastic_gradient_descent)).  TensorFlow implements automatic differentiation as a TensorFlow graph transformation, but we would like to deploy more powerful techniques to improve user experience in failure cases, enable differentiating custom data structures, recursion, and higher-order differentiation.  As such, we built a stand-alone AD feature for Swift: one that is completely independent of the standard TensorFlow implementation of AD, and also completely independent of TensorFlow support in Swift.
 
 The way this works is by having Swift AD support arbitrary user-defined types.  Swift for TensorFlow builds on this by making its Tensor types conform to the AD system, allowing them to participate as you’d expect.  A nice thing about this is that Swift programmers interested in non-Tensor numerical analysis can use AD for any other types that are important for their work.
 
@@ -233,5 +233,3 @@ We’re focusing on finishing the basic Swift for TensorFlow model, gaining more
 **Differentiating Opaque Closures:** Statically differentiating a function requires the body of the function to be visible to the compiler. However, this limits the expressiveness of the differential operator, e.g. users can’t apply the gradient operator to a function argument that has a function type because the compiler can’t always see into the body of the original function. We will discuss the possibility to introduce a new function convention - when a differentiable function is passed around, a pointer to its primal and adjoint gets passed along. This enables the compiler to directly call the primal and the adjoint, without the need to see into the function declaration.  This is important for class and protocol methods.
 
 **Quantization Support:** We believe we can get a much better user experience for [fixed-point quanitization tools](https://www.tensorflow.org/performance/quantization) if we integrate them into the compiler, and this should help with integrating quanitization into the training process.
-
-

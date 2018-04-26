@@ -78,7 +78,7 @@ First, let’s start with the hopefully non-controversial strengths of Python wh
 
 **Python APIs:** TensorFlow users benefit from and rely on a huge collection of Python APIs outside the TensorFlow product, e.g. for visualization and data science stuff.  If we ignore this reality, adoption of our new system (no matter how great it is) will be very slow.
 
-### Python challenges 
+### Python challenges
 
 Python is great at the points above, but it has some challenges as well.  Here are some things that would make TensorFlow better if they were improved:
 
@@ -106,14 +106,14 @@ There are subtle, but critical aspects to making this work in a usable way, and 
 
 ```swift
 class Layer { ... }
-class Convolution2DLayer : Layer { ... } 
-class BatchNormalizationLayer : Layer { ... } 
+class Convolution2DLayer : Layer { ... }
+class BatchNormalizationLayer : Layer { ... }
 
 class ResNetBlock {
   // Layers this block is made out of.
   var conv1, batchNorm1, conv2, batchNorm2: Layer
 
-  init(inFilterCount: Int32, outFilterCount: Int32, 
+  init(inFilterCount: Int32, outFilterCount: Int32,
        strides: (Int32, Int32)) {
     conv1 = Convolution2DLayer(filterShape: [3, 3, inFilterCount, outFilterCount],
                                strides: (1, strides.0, strides.1, 1))
@@ -154,7 +154,7 @@ In addition to reliable static analysis, we benefit from a few other properties 
 Finally, there is the topic of static vs dynamic typing. Static typing offers a number of advantages particularly relevant for our use case.  Static types:
 
  - can catch bugs at compile time instead of runtime.  People get very frustrated when a silly type error brings down a long training run hours into it.
- - directly improve tooling experience like code completion/intellisense, jump to definition, etc. 
+ - directly improve tooling experience like code completion/intellisense, jump to definition, etc.
  - make it easy to know what operations are Tensor operations.
 
 On the other hand, statically typed languages can require a lot of ceremony and boilerplate, which is infuriating and directly harms productivity.  There are promising middle grounds though, such as languages that are statically typed but that use type inference to eliminate explicit typing in the common case.
@@ -203,7 +203,7 @@ It might be interesting to see how we evaluated Swift against the point-by-point
 
 **"Mainstream" Syntax:** Swift is designed to fit in with the "extended C family" of programming languages, and intentionally tries to feel "familiar".
 
-**Shallow learning curve:** A key design goal of Swift is to [progressively disclose complexity](https://en.wikipedia.org/wiki/Progressive_disclosure) in the language, which makes it an extremely teachable language.  This is one of the things that has enabled teaching Swift code to kids as their first programming language (targeting middle-school, 7th and 8th grade) in the [Swift Playgrounds iPad app](https://www.apple.com/swift/playgrounds/). 
+**Shallow learning curve:** A key design goal of Swift is to [progressively disclose complexity](https://en.wikipedia.org/wiki/Progressive_disclosure) in the language, which makes it an extremely teachable language.  This is one of the things that has enabled teaching Swift code to kids as their first programming language (targeting middle-school, 7th and 8th grade) in the [Swift Playgrounds iPad app](https://www.apple.com/swift/playgrounds/).
 
 **High productivity:** Swift aims to maximize clarity of code, and thus it fights to reduce boilerplate.  The top-end goal of Swift is to optimize the time it takes to write and maintain a working app, which includes debugging time and other things that go beyond just pounding out the code.
 
@@ -273,5 +273,3 @@ You can see how each of these things is used by the Swift for TensorFlow project
  - the culture of modularity and composability allows us to define much our "language" features (like the `Tensor` type) in the TensorFlow library, without having to make invasive changes to the language and compiler
 
 The implementation of the Swift for TensorFlow features and capabilities is still not done, but we feel good about how the project is going in practice.  That said, we’d really love to see the algorithms we are exploring get applied by other languages and communities!
-
-

@@ -1,6 +1,6 @@
 # Graph Program Extraction
 
-Swift for TensorFlow provides a define-by-run programming model while also providing the full benefit of graphs.  This is possible because of a core "graph program extraction" algorithm that we’ve built into the Swift compiler that takes imperative Swift code and automatically builds a graph as part of the normal compilation flow.  This document [frames and motivates the challenge](#motivation), explains [related work](#related-work), describes our [technique at a high level](#graph-program-extraction-a-new-define-by-run-approach) to contrast with prior work, explains an inductive mental model for [how our approach works](#building-a-programming-model), and explains the [resultant programming model](#explaining-the-swift-for-tensorflow-model-to-users) in user terms. 
+Swift for TensorFlow provides a define-by-run programming model while also providing the full benefit of graphs.  This is possible because of a core "graph program extraction" algorithm that we’ve built into the Swift compiler that takes imperative Swift code and automatically builds a graph as part of the normal compilation flow.  This document [frames and motivates the challenge](#motivation), explains [related work](#related-work), describes our [technique at a high level](#graph-program-extraction-a-new-define-by-run-approach) to contrast with prior work, explains an inductive mental model for [how our approach works](#building-a-programming-model), and explains the [resultant programming model](#explaining-the-swift-for-tensorflow-model-to-users) in user terms.
 
 It is helpful to have an idea of how the overall design of Swift for TensorFlow works, which you can get from the [Swift for TensorFlow design overview document](DesignOverview.md).
 
@@ -43,7 +43,7 @@ This approach has a lot of advantages, however there are also limitations of thi
  - The low performance of the Python interpreter can matter for some kinds of models - particularly ones that use fine grained operations.
  - The [GIL](https://en.wikipedia.org/wiki/Global_interpreter_lock) can force complicated workarounds (e.g. mixing in C++ code) for models that want to harness multicore CPUs as part of their work.
  - Even if we had an infinitely fast interpreter without a GIL, interpreters cannot "look ahead" beyond the current op.  This prevents discovering future work that is dependent on work that it is currently dispatching and waiting for.  This in turn prevents certain optimizations, like general op fusion, model parallelism, etc.
- 
+
 Finally, while [automatic differentiation](https://en.wikipedia.org/wiki/Automatic_differentiation) (AD) is not the focus of this whitepaper, define-by-run approaches prevent the use of "[Source Code Transformation](https://en.wikipedia.org/wiki/Automatic_differentiation#Source_code_transformation_(SCT))" techniques to AD.  The "[operator overloading](https://en.wikipedia.org/wiki/Automatic_differentiation#Operator_overloading_(OO))" approaches they use are effective, but lose the ability to translate control flow constructs in the host language to the computation graph, make it difficult to perform optimizations or provide good error messages when differentiation fails.
 
 ### Define-by-run approaches - Tracing JITs
@@ -54,7 +54,7 @@ Several active research projects are exploring the use of tracing JIT compilers 
  - Tracing JITs fully "unroll" computations, which can lead to very large traces.
  - Tracing JIT are unable to "look ahead" across data dependent branches, which can lead to short traces in certain types of models, and bubbles in the execution pipeline.
  - Tracing JITs allow dynamic models to intermix non-Tensor Python computation, but doing so reintroduces the performance problems of Python: values produced by such computation split traces, can introduce execution bubbles, and delay trace execution.
- 
+
 Overall, these approaches provide a hybrid model that provide much of the performance of graphs along with some of the usability of the interpreter-based define-by-run models, but include compromises along both axes.
 
 ### Lightweight Modular Staging (LMS)
@@ -82,7 +82,7 @@ There is a final point that is worth emphasis: while TensorFlow is the critical 
 
 ## Building a programming model
 
-Our goal is to provide a simple, predictable, and reliable programming model that is easy to intuitively understand, can be explained to a user in a few paragraphs, and which the compiler can reinforce with warnings and other diagnostics.  
+Our goal is to provide a simple, predictable, and reliable programming model that is easy to intuitively understand, can be explained to a user in a few paragraphs, and which the compiler can reinforce with warnings and other diagnostics.
 
 The most significant challenge is that the programming model must be amenable to reliable static analysis, but also allow the use of high-level user-defined abstractions like (layers and estimators).  Our approach can be implemented in a few languages that support reliable static analysis.  For a detailed discussion of the issues involved, please see our [Why *Swift* for TensorFlow?](WhySwiftForTensorFlow.md) document.
 
@@ -113,7 +113,7 @@ func multiplyAndAdd(x: TensorHandle, w: TensorHandle, b: TensorHandle) -> Tensor
 }
 ```
 
-Because we added so many constraints on what we accept, it is trivial to transform this into a graph through static analysis: we can do a top-down walk over the code.  Each function parameter is turned into an input to the graph.  Each operation is trivial to identify, and can be transformed 1-1 into graph nodes: given a top-down walk, inputs are already graph nodes, and the op name, inputs, and any attributes (which aren’t discussed here) are immediately available.  Because we have no control flow, there is exactly one return instruction, and it designates the result of the graph.  
+Because we added so many constraints on what we accept, it is trivial to transform this into a graph through static analysis: we can do a top-down walk over the code.  Each function parameter is turned into an input to the graph.  Each operation is trivial to identify, and can be transformed 1-1 into graph nodes: given a top-down walk, inputs are already graph nodes, and the op name, inputs, and any attributes (which aren’t discussed here) are immediately available.  Because we have no control flow, there is exactly one return instruction, and it designates the result of the graph.
 
 This gives us a result like this:
 
@@ -231,16 +231,16 @@ Before we explain our approach, we’ll introduce an (abstracted) example that u
 ```swift
 func hostAndGraphCommunication() -> TensorHandle {
   var values = #tfop("RandomInitOp")
-  for i in 0 ... 1000 { 
+  for i in 0 ... 1000 {
     let x = #tfop("SomeOp", values)
-      
+
     // This is not a tensor op, it has to run on the host CPU.
     // It might be dispatched to a cluster of worker machines.
     let result = atariGameSimulator(x)
-      
+
     let y = #tfop("AnotherOp", x)
     values = #tfop("MixOp", result, y)
-  } 
+  }
 
   return result
 }
@@ -248,7 +248,7 @@ func hostAndGraphCommunication() -> TensorHandle {
 
 In interpreter-based define-by-run systems, the host CPU is running the interpreter, and it dispatches every operation when it encounters them.  When it encounters the `atariGameSimulator` call (which isn’t a TensorFlow op), the interpreter just copies the data back from the accelerator to the host, makes the call, and copy the result back to the accelerator when it gets to the `MixOp` operation that uses it.
 
-Tracing JITs take this further by having the interpreter collect longer series of tensor operations - this "trace" of operations allows more optimization of the tensor code.  This example is too simple to really show the power of this, but even here a tracing JIT should be able to build a trace that includes both the `RandomInitOp` operation and the `SomeOp` operation on the first iteration, allowing inter-op fusion between them.  On the other hand, tracing JITs are forced to end a trace any time a data dependency is found: the call to `atariGameSimulator` needs the value of `x`, so the trace stops there.  
+Tracing JITs take this further by having the interpreter collect longer series of tensor operations - this "trace" of operations allows more optimization of the tensor code.  This example is too simple to really show the power of this, but even here a tracing JIT should be able to build a trace that includes both the `RandomInitOp` operation and the `SomeOp` operation on the first iteration, allowing inter-op fusion between them.  On the other hand, tracing JITs are forced to end a trace any time a data dependency is found: the call to `atariGameSimulator` needs the value of `x`, so the trace stops there.
 
 Because of the way these systems work, neither of them can discover that `AnotherOp` can be run on the accelerator in parallel with `atariGameSimulator` on the host.  Furthermore, because a tracing JIT splits the trace, data layout optimizations between `SomeOp` and `AnotherOp` are not generally possible: the two are in separate traces.
 
@@ -263,16 +263,16 @@ First we start by duplicating the function, and replace all host code with send 
 ```swift
 func hostAndGraphCommunication_ForGraph() -> TensorHandle {
   var values = #tfop("RandomInitOp")
-  for i in 0 ... 1000 { 
+  for i in 0 ... 1000 {
     let x = #tfop("SomeOp", values)
-      
+
     // REMOVED: let result = atariGameSimulator(x)
     #tfop("SendToHost", x)
     let result = #tfop("ReceiveFromHost")
-      
+
     let y = #tfop("AnotherOp", x)
     values = #tfop("MixOp", result, y)
-  } 
+  }
 
   return result
 }
@@ -289,18 +289,18 @@ func hostAndGraphCommunication() -> TensorHandle {
   let tensorProgram = startTensorFlowGraph("... proto buf for TensorFlow graph ... ")
 
   // REMOVED: var values = #tfop("RandomInitOp")
-  for i in 0 ... 1000 { 
+  for i in 0 ... 1000 {
     // REMOVED: let x = #tfop("SomeOp", values)
     let x = receiveFromTensorFlow(tensorProgram)
 
     // This is not a tensor op, it has to run on the host CPU.
     // It might be dispatched to a cluster of worker machines.
     let result = atariGameSimulator(x)
-    
+
     sendToTensorFlow(tensorProgram, result)
     // REMOVED: let y = #tfop("AnotherOp", x)
     // REMOVED: values = #tfop("MixOp", result, y)
-  } 
+  }
   let result = finishTensorFlowGraph(tensorProgram)
   return result
 }
@@ -324,9 +324,9 @@ func countUntilKeyPressed() -> TensorHandle {
   while true {
     let stop = keyPressed()
     if stop { break }
- 
+
     result = #tfop("HeavyDutyComputation", result)
-  } 
+  }
 
   return result
 }
@@ -341,9 +341,9 @@ func countUntilKeyPressed_ForGraph() -> TensorHandle {
     // REMOVED: let stop = keyPressed()
     let stop = #tfop("ReceiveFromHost")
     if stop { break }
- 
+
     result = #tfop("HeavyDutyComputation", result)
-  } 
+  }
 
   return result
 }
@@ -360,9 +360,9 @@ func countUntilKeyPressed() -> TensorHandle {
     sendToTensorFlow(tensorProgram, stop)
 
     if stop { break }
- 
+
     // REMOVED: result = #tfop("HeavyDutyComputation", result)
-  } 
+  }
 
   let result = finishTensorFlowGraph(tensorProgram)
   return result
@@ -379,7 +379,7 @@ On the other hand, this approach can be a performance concern when the latency b
 
 A final important topic is performance predictability.  We like that our define-by-run model allows the user to flexibly intermix host and tensor code, but this brings in a concern that this could lead to very difficult to understand pitfalls, where large tensor values are bouncing back and forth between devices excessively.
 
-The solution to this fits right into the standard compiler design: by default, Swift produces compiler warnings when an implicit copy is made (as in the examples above), which makes it immediately clear when a copy is being introduced.  
+The solution to this fits right into the standard compiler design: by default, Swift produces compiler warnings when an implicit copy is made (as in the examples above), which makes it immediately clear when a copy is being introduced.
 
 These warnings can be annoying when the copies are intentional, so the user can either disable the warning entirely (e.g. when doing research on small problem sizes where performance doesn’t matter at all) or the warnings can be disabled on a case-by-case basis by calling a method (currently named `x.toDevice()` and `x.toHost()`) to tell the compiler (and future maintainers of the code!) that the copy is intentional.
 
@@ -394,9 +394,9 @@ As we discussed before, we can add any abstractions to our model as long as we h
 This is great because it allows users to compose high level abstractions out of tensors and other values.  For example, the compiler scalarizes this code:
 
 ```swift
-struct S { 
+struct S {
   var a, b: TensorHandle
-  var c: String 
+  var c: String
 }
 
 let value = S(a: t1, b: t2, c: "Hello World")
@@ -429,10 +429,10 @@ The next big jump is to add function calls, which the compiler can provably elim
 Fortunately, Swift has a strong static side, and all top-level functions, methods on structs, and many other things (like computed properties on structs) are consistently direct calls.  This is a huge step forward in terms of our modeling power, because we can now build a reasonable user-facing set of Tensor APIs.  For example, something like this:
 
 ```swift
-struct Tensor { 
+struct Tensor {
   // TensorHandle is now an internal implementation detail, not user exposed!
   private var value: TensorHandle
-  
+
   func matmul(_ b: Tensor) -> Tensor {
     return Tensor(#tfop("MatMul", self.value, b.value))
   }
@@ -446,21 +446,21 @@ func calculate(a: Tensor, b: Tensor, c: Tensor) -> Tensor {
   let result = a.matmul(b) + c
   return result
 }
-``` 
+```
 
 Desugars the body of the `calculate` function with inlining into:
 
 ```swift
   let tmp = Tensor(#tfop("MatMul", a.value, b.value))
   let result = Tensor(#tfop("Add", tmp.value, c.value))
-``` 
+```
 
 ... and then scalarizes the `Tensor` structs to produce this:
- 
+
 ```swift
   let tmp_value = #tfop("MatMul", a_value, b_value)
   let result_value = #tfop("Add", tmp_value, c_value)
-``` 
+```
 ... which is trivially promotable to the graph.  It is very nice how these simple desugaring transformations compose cleanly, but this is only the case if they are guaranteed and can be tied to simple language constructs that the user can understand.
 
 We don’t have space to go into it here, but this inlining transformation also applies to higher-order functions like `map` and `filter` so long as their closure parameters are non-escaping (which is the default):  inlining a call to `map` eventually exposes a direct call to its closure.  Additionally, an important design point of Swift is that the non-aliasing property we depend on even extends to `inout` arguments and the `self` argument of `mutating` struct methods.  This allows the compiler to aggressively analyze and transform these values, and is a result of Swift’s [law of exclusivity](https://github.com/apple/swift-evolution/blob/master/proposals/0176-enforce-exclusive-access-to-memory.md) which grants Fortran style non-aliasing properties to these values.
@@ -472,9 +472,9 @@ It is also worth mentioning that TensorFlow graphs support function calls.  In t
 The Swift generics model can be provably desugared using generics specialization - and of course, this is also an important performance optimization for normal Swift code!  This is a huge expansion of the expressive capabilities of our system: it allows the rules around the `dtype` of Tensors to be captured and enforced directly by Swift.  For example, we can expand our example above to look like this:
 
 ```swift
-struct Tensor<Scalar : AccelerableByTensorFlow> { 
+struct Tensor<Scalar : AccelerableByTensorFlow> {
   private var value: TensorHandle
-  
+
   func matmul(b: Tensor) -> Tensor {
     return Tensor(#tfop("MatMul", self.value, b.value))
   }
@@ -483,7 +483,7 @@ struct Tensor<Scalar : AccelerableByTensorFlow> {
     return Tensor(#tfop("Add", lhs.value, rhs.value))
   }
 }
-``` 
+```
 
 The nice thing about this is that users of the Tensor API get `dtype` checking automatically: if you accidentally attempt to add a `Tensor<Float>` with a `Tensor<Float16>`, you’ll get a compile-time error, instead of a runtime error from TensorFlow.  This happens even though the underlying `TensorHandle` abstraction is untyped.
 
@@ -546,4 +546,3 @@ Our user model fits in a single paragraph: you write normal imperative Swift cod
 One of the beauties of this user model is that directly aligns with several of the defaults encouraged by the Swift language (e.g. closures default to non-escaping and the use of zero-cost abstractions to build high level APIs), and the core values of Swift API design (e.g. the pervasive use of value semantics strongly encourages the use of structs over classes).  We believe that this will make Swift for TensorFlow "feel nice in practice" because you don’t have to resort to anti-idiomatic design to get things to work.
 
 Our implementation work is still early, but we are shifting from an early research project into a public open source project now because we believe that the theory behind this approach has been proven out.  We are far enough along in the implementation to have a good understanding of the engineering concerns facing an actual implementation of these algorithms.
-

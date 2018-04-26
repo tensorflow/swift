@@ -23,13 +23,13 @@ let np = Python.import("numpy")
 let a = np.arange(15).reshape(3, 5)
 let b = np.array([6, 7, 8])
 
-// Python: 
+// Python:
 //    import gzip as gzip
 //    import pickle as pickle
 let gzip = Python.import("gzip")
 let pickle = Python.import("pickle")
 
-// Python: 
+// Python:
 //    file = gzip.open("mnist.pkl.gz", "rb")
 //    (images, labels) = pickle.load(file)
 //    print(images.shape) // (50000, 784)
@@ -40,7 +40,7 @@ print(images.shape) // (50000, 784)
 
 As you can see, the syntax here is immediately understandable to a Python programmer: the major differences are that Swift requires values to be declared before use (with `let` or `var`) and that we chose to put [Python builtin functions](https://docs.python.org/3/library/functions.html) like `import`, `type`, `slice` etc under a `Python.` namespace (simply to avoid cluttering the global scope).  This is a result of a conscious balance between trying to make Python feel natural and familiar, while not compromising the global design of the Swift language.
 
-This line is established through a simple requirement: we should not depend on *any Python-specific compiler or language features* to achieve Python interop - it should be completely implemented as a Swift library.  After all, while Python is incredibly important to the machine learning community, there are other dynamic languages (Javascript, Ruby, etc) that have strong footholds in other domains, and we don’t want each of these domains to impose an endless complexity creep onto the Swift language.  
+This line is established through a simple requirement: we should not depend on *any Python-specific compiler or language features* to achieve Python interop - it should be completely implemented as a Swift library.  After all, while Python is incredibly important to the machine learning community, there are other dynamic languages (Javascript, Ruby, etc) that have strong footholds in other domains, and we don’t want each of these domains to impose an endless complexity creep onto the Swift language.
 
 You can see the current implementation of our bridging layer in [Python.swift](https://github.com/google/swift/blob/tensorflow/stdlib/public/Python/Python.swift).  This is pure Swift code that works with unmodified Swift 4.1.
 
@@ -128,7 +128,7 @@ func printPythonCollection(_ collection: PyValue) {
 
 Furthermore, because `PyValue` conforms to `MutableCollection`, you get full access to the [Swift APIs for Collections](https://developer.apple.com/documentation/swift/mutablecollection), including functions like `map`, `filter`, `sort`, etc.
 ### Conversions to and from Swift values
-Now that Swift can represent and operate on Python values, it becomes important to be able to convert between Swift native types like `Int` and `Array<Float>` and the Python equivalents.  This is handled by the `PythonConvertible` protocol - to which the basic Swift types like `Int` conform to, and to the Swift collection types like `Array` and `Dictionary` conditionally conform to (when their elements conform).  This makes the conversions fit naturally into the Swift model.  
+Now that Swift can represent and operate on Python values, it becomes important to be able to convert between Swift native types like `Int` and `Array<Float>` and the Python equivalents.  This is handled by the `PythonConvertible` protocol - to which the basic Swift types like `Int` conform to, and to the Swift collection types like `Array` and `Dictionary` conditionally conform to (when their elements conform).  This makes the conversions fit naturally into the Swift model.
 
 For example, if you know you need a Swift integer or you’d like to convert a Swift integer to Python, you can use:
 
@@ -141,7 +141,7 @@ if let swiftInt = Int(somePythonValue) {  // Succeeds if the Python value is con
 
 Similarly, aggregate types like arrays work exactly the same way:
 
-```swift 
+```swift
 // This succeeds when somePythonValue is a collection of values that are convertible to Int.
 if let swiftIntArray = Array<Int>(somePythonValue) {
   print(swiftIntArray)
@@ -226,7 +226,7 @@ Python’s approach to exception handling is similar to C++ and many other langu
 This is an inherent gap between the two languages, and we don’t want to paper over this difference with a language extension.  Our current solution to this builds on the observation that even though any function call *could* throw, most calls do not.  Furthermore, given that Swift makes error handling explicit in the language, it is reasonable for a Python-in-Swift programmer to also think about where they expect errors to be throwable and catchable.  We do this with an explicit `.throwing` projection on `PyValue`.  Here’s an example:
 
 ```swift
-  // Open a file.  If this fails, the program is terminated, just like an 
+  // Open a file.  If this fails, the program is terminated, just like an
   // unhandled exception in Python.
 
   // file = open("foo.txt")
@@ -255,11 +255,10 @@ Python slicing is more general than Swift’s slicing syntax.  Right now you can
 We need to investigate and settle on the right model to use for subclassing of Python classes.
 There is currently no way to make a struct like `PyValue` work with tuple pattern matching, so we use projection properties like `.tuple2`.  If this becomes a problem in practice, we can investigate adding this to Swift, but we currently don’t think it will be enough of a problem to be worth solving in the near term.
 
-## Summary and Conclusion 
+## Summary and Conclusion
 
 We feel good about this direction and think that there are several interesting aspects of this work: it is great that there are no Python specific changes in the Swift compiler or language.  We are able to achieve good Python interoperability through a library written in Swift by composing Python-independent language features.  We believe that other communities will be able to compose the same feature set to directly integrate with the dynamic languages (and their runtimes) that are important to other communities (e.g. JavaScript, Ruby, etc).
 
 Another interesting aspect of this work is that Python support is completely independent of the other TensorFlow and automatic differentiation logic we’re building as part of Swift for TensorFlow.  This is a generally useful extension to the Swift ecosystem that can stand alone, useful for server side development or anything else that wants to interoperate with existing Python APIs.
 
 Finally, it is important to point out one major caveat in the context of Swift for TensorFlow: while you can directly call into an arbitrary Python API, the code partitioning analysis that automatically builds TensorFlow graphs for you cannot understand dynamic Python API calls.  While directly using APIs for TensorFlow (sessions, Keras, etc) through the Python interop layer is technically possible, it won't benefit from the compiler analyses and transformations we've built in Swift for TensorFlow.  Instead, we need to invent our own high-level APIs, and draw inspiration from Keras and other existing APIs.  Please see the [Graph Program Extraction](GraphProgramExtraction.md) document for more details about this.
-
