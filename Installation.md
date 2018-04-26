@@ -10,9 +10,9 @@ To install Swift for TensorFlow, download one of the packages below and follow t
 
 | Download | Date |
 |---------------|--------|
-| [Xcode](https://storage.googleapis.com/tensorflow/swift/mac/swift-tensorflow-DEVELOPMENT-2018-04-25-a-osx.pkg) | April 25, 2018  |
-| [Ubuntu 16.04](https://storage.googleapis.com/tensorflow/swift/ubuntu16.04/swift-tensorflow-DEVELOPMENT-2018-04-25-a-ubuntu16.04.tar.gz) | April 25, 2018  |
-| [Ubuntu 14.04](https://storage.googleapis.com/tensorflow/swift/ubuntu14.04/swift-tensorflow-DEVELOPMENT-2018-04-25-a-ubuntu14.04.tar.gz) | April 25, 2018 |
+| [Xcode](https://storage.googleapis.com/tensorflow/swift/mac/swift-tensorflow-DEVELOPMENT-2018-04-26-a-osx.pkg) | April 26, 2018  |
+| [Ubuntu 16.04](https://storage.googleapis.com/tensorflow/swift/ubuntu16.04/swift-tensorflow-DEVELOPMENT-2018-04-26-a-ubuntu16.04.tar.gz) | April 26, 2018  |
+| [Ubuntu 14.04](https://storage.googleapis.com/tensorflow/swift/ubuntu14.04/swift-tensorflow-DEVELOPMENT-2018-04-26-a-ubuntu14.04.tar.gz) | April 26, 2018 |
 
 **Note:** Currently, the Xcode toolchains above only support macOS development. iOS/tvOS/watchOS are not supported.
 
