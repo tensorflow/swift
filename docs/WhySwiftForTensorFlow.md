@@ -48,7 +48,7 @@ It is worth noting that as of our launch in April 2018, Swift for TensorFlow is 
 
 ## Properties of programming languages
 
-Programming languages are an aggregation of a bunch of largely orthogonal design decisions (and their consequences) manifested into a single inseparable artifact.  Each language offers different tradeoffs along each axis, so choosing one is akin to solving a highly multi-dimensional sparse optimization problem.  To increase the challenge, many programming languages can be enhanced, so we need to factor in the likelihood of some deficiency being overcomable by enhancements to the language and compiler (and the odds that the community would accept such a change).
+Programming languages are an aggregation of a bunch of largely orthogonal design decisions (and their consequences) manifested into a single inseparable artifact.  Each language offers different tradeoffs along each axis, so choosing one is akin to solving a highly multi-dimensional sparse optimization problem.  To increase the challenge, many programming languages can be enhanced, so we need to factor in the likelihood of some deficiency being overcomeable by enhancements to the language and compiler (and the odds that the community would accept such a change).
 
 This section discusses some of these axes, and relates them back to our list of project goals above.  Very few of these properties are "absolutely required", but a weakness in one of these areas can cause follow-on effects.  While we are deferring the specific language tradeoff discussion to the next section, we identify various classes of languages that are problematic for a given goal in some cases.
 

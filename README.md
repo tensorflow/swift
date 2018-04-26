@@ -1,3 +1,4 @@
+![](images/logo.png)
 # Swift for TensorFlow
 
 Welcome to the Swift for TensorFlow development community!
