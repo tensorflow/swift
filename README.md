@@ -18,23 +18,22 @@ with the full performance of TensorFlow Sessions on CPU, GPU and
 ```swift
 import TensorFlow
 
-var x = Tensor([[1, 2, 3]])
+var x = Tensor([[1, 2], [3, 4]])
 
-for i in 1...100 {
-  if x > 50 { break }
-  x += tanh(x)
+for i in 1...5 {
+  x += x ⊗ x
 }
 
 print(x)
 ```
 
 Swift combines the flexibility of 
-[Eager execution](https://www.tensorflow.org/programmers_guide/eager) with the 
-high performance of [Graphs](https://www.tensorflow.org/programmers_guide/graphs). 
+[Eager Execution](https://www.tensorflow.org/programmers_guide/eager) with the 
+high performance of [Graphs and Sessions](https://www.tensorflow.org/programmers_guide/graphs). 
 Behind the scenes, Swift analyzes your Tensor code and automatically builds 
-graphs for you. Swift also catches type errors and shape error before running your
-code. We believe that machine learning tools are so important that they deserve
-**a first-class language and a compiler**.
+graphs for you. Swift also catches type errors and shape mismatches before running 
+your code. We believe that machine learning tools are so important that they 
+deserve **a first-class language and a compiler**.
 
 **Note:** Swift for TensorFlow is an early stage research project. It has been
 released to enable open source development and is not yet ready for general use
@@ -42,9 +41,8 @@ by machine learning developers.
 
 ## Installation and Usage
 
-You can download a pre-built package for Swift for TensorFlow
-[here](Installation.md). After installing Swift for TensorFlow, you can learn
-how to use the project [here](Usage.md).
+You can [download a pre-built package](Installation.md) for Swift for TensorFlow. 
+After installation, you can follow the [instructions](Usage.md) to try it out.
 
 For instructions on building from source, visit
 [google/swift](https://github.com/google/swift/tree/tensorflow).
@@ -53,18 +51,18 @@ For instructions on building from source, visit
 
 Below are some documents explaining the Swift for TensorFlow project.
 
-Conceptual overview:
+### Conceptual overview
 
 - [Swift for TensorFlow Design Overview](docs/DesignOverview.md)
 - [Why *Swift* for TensorFlow?](docs/WhySwiftForTensorFlow.md)
 
-Technical deeper dives:
+### Technology deep dive
 
 - [Graph Program Extraction](docs/GraphProgramExtraction.md)
 - [Automatic Differentiation](docs/AutomaticDifferentiation.md)
 - [Python Interoperability](docs/PythonInteroperability.md)
 
-Swift API reference:
+### Swift API reference
 
 - [TensorFlow](https://www.tensorflow.org/api_docs/swift/Structs/Tensor)
 
