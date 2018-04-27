@@ -32,7 +32,8 @@ Swift combines the flexibility of
 high performance of [Graphs and Sessions](https://www.tensorflow.org/programmers_guide/graphs). 
 Behind the scenes, Swift analyzes your Tensor code and automatically builds 
 graphs for you. Swift also catches type errors and shape mismatches before running 
-your code. We believe that machine learning tools are so important that they 
+your code, and has [Automatic Differentiation](https://en.wikipedia.org/wiki/Automatic_differentiation)
+built right in. We believe that machine learning tools are so important that they
 deserve **a first-class language and a compiler**.
 
 **Note:** Swift for TensorFlow is an early stage research project. It has been
@@ -77,7 +78,8 @@ These projects include:
 - The compiler and standard libraries: [google/swift](http://github.com/google/swift/tree/tensorflow)
 - Debugger and REPL support: [google/swift-lldb](http://github.com/google/swift-lldb)
 
-As the code matures, we aim to move it upstream to the corresponding
+Swift for TensorFlow is **not** intended to remain a long-term fork of the official 
+Swift language. As the code matures, we aim to merge it upstream to the official
 [Swift.org](https://swift.org) repositories.
 
 ## Models
