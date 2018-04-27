@@ -11,7 +11,7 @@ gives you the full power of
 [TensorFlow](https://www.tensorflow.org/programmers_guide/eager) directly 
 integrated into the [Swift programming language](https://swift.org).
 With Swift, you can write the following imperative code the and Swift 
-automatically turns it into **a single TensorFlow graph** and runs it 
+automatically turns it into **a single TensorFlow Graph** and runs it 
 with the full performance of TensorFlow sessions.
 
 ```swift
@@ -27,12 +27,13 @@ for i in 1...100 {
 print(x)
 ```
 
-Swift combines the flexibility with 
-[Eager execution](https://www.tensorflow.org/programmers_guide/eager) the 
-performance of graphs. Behind the scenes, Swift analyzes your Tensor code 
-and automatically builds graphs for you. Swift also catches type errors and 
-shape error before running your code. We believe that machine learning 
-tools are so important that they deserve **a first-class language and a compiler**.
+Swift combines the flexibility of 
+[Eager execution](https://www.tensorflow.org/programmers_guide/eager) with the 
+high performance of [Graphs](https://www.tensorflow.org/programmers_guide/graphs). 
+Behind the scenes, Swift analyzes your Tensor code and automatically builds 
+graphs for you. Swift also catches type errors and shape error before running your
+code. We believe that machine learning tools are so important that they deserve
+**a first-class language and a compiler**.
 
 **Note:** Swift for TensorFlow is an early stage research project. It has been
 released to enable open source development and is not yet ready for general use
