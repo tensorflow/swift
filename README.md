@@ -7,12 +7,13 @@
 Welcome to the Swift for TensorFlow development community!
 
 Swift for TensorFlow is a new way to develop machine learning models. It
-gives you the full power of
+gives you the power of
 [TensorFlow](https://www.tensorflow.org/programmers_guide/eager) directly 
-integrated into the [Swift programming language](https://swift.org).
-With Swift, you can write the following imperative code and Swift 
+integrated into the [Swift programming language](https://swift.org/about).
+With Swift, you can write the following imperative code, and Swift 
 automatically turns it into **a single TensorFlow Graph** and runs it 
-with the full performance of TensorFlow sessions.
+with the full performance of TensorFlow Sessions on CPU, GPU and 
+[TPU](https://cloud.google.com/tpu/docs/tpus).
 
 ```swift
 import TensorFlow
