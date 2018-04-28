@@ -95,7 +95,11 @@ mailing list.
 
 ## Bugs Reports and Feature Requests
 
-Please stay tuned on how to file bugs and feature requests.  For now, please send comments to the mailing list.
+For questions about general use or feature requests, you can report them in this repo or send an email to the [mailing list](mailto:swift@tensorflow.org).
+
+For Swift compiler bugs, please report them to [google/swift](https://github.com/google/swift/issues).
+
+For bugs in the example models, please report them to [tensorflow/swift-models](https://github.com/tensorflow/swift-models/issues).
 
 ## Contributing
 
