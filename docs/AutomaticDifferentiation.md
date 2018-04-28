@@ -81,7 +81,7 @@ Language](https://github.com/apple/swift/blob/master/docs/SIL.rst) (SIL).
 
 ![alt_text](images/Automatic-Differentiation0.png "image_tooltip")
 
-This horizontal axis of this diagram may remind people of the trade-offs between
+The horizontal axis of this diagram may remind people of the trade-offs between
 eager execution and graph building: In eager execution, the model is a subset of
 user code. In graph mode, the model is a data structure representing some code
 in a mini-language. The [Graph Program
