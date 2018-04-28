@@ -35,9 +35,6 @@ print(x)
 x = x + 1
 ```
 
-For context, please read [graph program extraction algorithm](https://github.com/tensorflow/swift/blob/master/docs/GraphProgramExtraction.md), specifically
-[host-graph communication](https://github.com/tensorflow/swift/blob/master/docs/GraphProgramExtraction.md#adding-hostgraph-communication).
-
 In Swift for Tensorflow, a Swift program is executed between the "host" (Swift binary) and the "accelerator" (TensorFlow).
 During program compilation, the compiler finds all of the `Tensor`-related code, extracts it and builds a TensorFlow graph to be run on the accelerator. In this case, the `Tensor` code to-be-extracted are lines 2 and 4 (the calculations and assign/update to `x`).
 
@@ -59,6 +56,10 @@ print(x)
 ```
 
 The `Tensor` code is no longer "interrupted" by host code so there's no need for "send".
+
+For more context, please read [graph program extraction algorithm](https://github.com/tensorflow/swift/blob/master/docs/GraphProgramExtraction.md), specifically
+[host-graph communication](https://github.com/tensorflow/swift/blob/master/docs/GraphProgramExtraction.md#adding-hostgraph-communication).
+
 
 ## How can I use Python 3 with the `Python` module?
 
