@@ -447,9 +447,12 @@ incorporate these techniques directly into our model.
 [Perturbation confusion and sensitivity
 confusion](https://arxiv.org/abs/1211.4892) are two common bugs in nested uses
 of the differential operator using SCT techniques, and require user attention to
-correctly resolve. In order to support higher-order differentiation with sound
-semantics and predictable behavior in Swift, we need to teach the compiler to
-carefully emit diagnostics and reject non-well-formed cases.
+correctly resolve. The application of rank-2 polymorphism in the
+[ad](https://hackage.haskell.org/package/ad) package in Haskell defined away
+sensitivity confusion, but Swift’s type system does not support that today. In 
+order to support higher-order differentiation with sound semantics and predictable 
+behavior in Swift, we need to teach the compiler to carefully emit diagnostics and
+reject malformed cases.
 
 
 ### Differentiating opaque closures and dynamic method dispatch
