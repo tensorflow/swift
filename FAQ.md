@@ -57,8 +57,8 @@ print(x)
 
 The `Tensor` code is no longer "interrupted" by host code so there's no need for "send".
 
-For more context, please read [graph program extraction algorithm](https://github.com/tensorflow/swift/blob/master/docs/GraphProgramExtraction.md), specifically
-[host-graph communication](https://github.com/tensorflow/swift/blob/master/docs/GraphProgramExtraction.md#adding-hostgraph-communication).
+For more context, please read about the [graph program extraction algorithm](https://github.com/tensorflow/swift/blob/master/docs/GraphProgramExtraction.md),
+in particular about [host-graph communication](https://github.com/tensorflow/swift/blob/master/docs/GraphProgramExtraction.md#adding-hostgraph-communication).
 
 
 ## How can I use Python 3 with the `Python` module?
