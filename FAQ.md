@@ -26,45 +26,40 @@ Here's how to enable optimizations in different environments:
 
 ## Why do I get ["error: internal error generating TensorFlow graph: GraphGen cannot lower a 'send/receive' to the host yet"](https://github.com/tensorflow/swift/issues/8)?
 
-This error is related to the [graph program extraction algorithm](https://github.com/tensorflow/swift/blob/master/docs/GraphProgramExtraction.md), specifically
-[host-graph communication](https://github.com/tensorflow/swift/blob/master/docs/GraphProgramExtraction.md#adding-hostgraph-communication).
-
 If you ran into this error, you likely wrote some code using `Tensor`, like the following:
 
 ```swift
 import TensorFlow
-let x = Tensor([[1, 2], [3, 4]])
+var x = Tensor([[1, 2], [3, 4]])
 print(x)
-let y = x + 1
+x = x + 1
 ```
 
-Swift’s [graph program extraction algorithm](https://github.com/tensorflow/swift/blob/master/docs/GraphProgramExtraction.md)
-assumes there are two "devices" running a program: the host and the accelerator.
-When you run this program, the Swift compiler finds all of the `Tensor`-related code,
-then extracts it and builds a TensorFlow graph to be run on on the accelerator.
-In this case, the `Tensor` code to-be-extracted are lines 2 and 4 (the calculations of `x` and `y`).
+In Swift for Tensorflow, a Swift program is executed between the "host" (Swift binary) and the "accelerator" (TensorFlow).
+During program compilation, the compiler finds all of the `Tensor`-related code, extracts it and builds a TensorFlow graph to be run on the accelerator. In this case, the `Tensor` code to-be-extracted are lines 2 and 4 (the calculations and assign/update to `x`).
 
 However, notice line 3: it's a call to the `print` function (which must be run on the host),
 and it requires the value of `x` (which is computed on the accelerator).
-It's also not the last computation run in the graph (which is the calculation of `y`).
+It's also not the last computation run in the graph (which is line 4).
 
-Under these circumstances, the compiler adds a "send" node in the TensorFlow graph
-to send a copy of `x` to the host for printing.
+Under these circumstances, the compiler adds a "send" node in the TensorFlow graph to send a copy of the initial `x` to the host for printing.
 
-Send/receive aren't fully implemented, which explains why you got your error.
-The core team is working on it as a high-priority feature.
-Once send/receive are done, your error should go away!
+Send/receive aren't fully implemented, which explains why you got your error. The core team is working on it as a high-priority feature. Once send/receive are done, your error should go away!
 
 To work around the generated "send" for this particular example, you can reorder the code:
 
 ```swift
 import TensorFlow
-let x = Tensor([[1, 2], [3, 4]])
-let y = x + 1
+var x = Tensor([[1, 2], [3, 4]])
+x = x + 1
 print(x)
 ```
 
 The `Tensor` code is no longer "interrupted" by host code so there's no need for "send".
+
+For more context, please read [graph program extraction algorithm](https://github.com/tensorflow/swift/blob/master/docs/GraphProgramExtraction.md), specifically
+[host-graph communication](https://github.com/tensorflow/swift/blob/master/docs/GraphProgramExtraction.md#adding-hostgraph-communication).
+
 
 ## How can I use Python 3 with the `Python` module?
 
