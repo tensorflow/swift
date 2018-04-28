@@ -1,10 +1,22 @@
 # Frequently Asked Questions
 
-Please check here before posting a new issue.
+This is a list of questions we frequently get and problems that are often encountered. 
+Because this project is still in development, we have missing pieces that are commonly
+encountered and prefer not to get new issues filed in our bug tracker.
 
+* [Why Swift?](#why-swift)
 * [Why do I get "error: array input is not a constant array of tensors"?](#why-do-i-get-error-array-input-is-not-a-constant-array-of-tensors)
 * [Why do I get "error: internal error generating TensorFlow graph: GraphGen cannot lower a 'send/receive' to the host yet"](#why-do-i-get-error-internal-error-generating-tensorflow-graph-graphgen-cannot-lower-a-sendreceive-to-the-host-yet)
 * [How can I use Python 3 with the Python module?](#how-can-i-use-python-3-with-the-python-module)
+
+## Why Swift?
+
+The short answer is that our decision was driven by the needs of the core [Graph Program
+Extraction](docs/GraphProgramExtraction.md) compiler transformation that started the whole
+project.  We have a long document that explains all of this rationale in depth named "[Why 
+*Swift* for TensorFlow?](docs/WhySwiftForTensorFlow.md)".
+
+Separate from that, Swift really is a great fit for our purposes, and a very nice language.
 
 ## Why do I get ["error: array input is not a constant array of tensors"](https://github.com/tensorflow/swift/issues/10)?
 

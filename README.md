@@ -56,6 +56,7 @@ Below are some documents explaining the Swift for TensorFlow project.
 
 - [Swift for TensorFlow Design Overview](docs/DesignOverview.md)
 - [Why *Swift* for TensorFlow?](docs/WhySwiftForTensorFlow.md)
+- [Frequently Asked Questions](FAQ.md)
 
 ### Technology deep dive
 
