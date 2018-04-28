@@ -43,7 +43,7 @@ by machine learning developers.
 ## Installation and Usage
 
 You can [download a pre-built package](Installation.md) for Swift for TensorFlow. 
-After installation, you can follow the [instructions](Usage.md) to try it out.
+After installation, you can follow these [instructions](Usage.md) to try it out.
 
 For instructions on building from source, visit
 [google/swift](https://github.com/google/swift/tree/tensorflow).
@@ -97,7 +97,7 @@ mailing list.
 
 Before reporting an issue, please check the [Frequently Asked Questions](FAQ.md) to see if your question has already been addressed.
 
-For questions about general use or feature requests, you can report them in this repository or send an email to the [mailing list](mailto:swift@tensorflow.org).
+For questions about general use or feature requests, please report them in this repository or send an email to the [mailing list](mailto:swift@tensorflow.org).
 
 For Swift compiler bugs, please report them to [google/swift](https://github.com/google/swift/issues).
 
