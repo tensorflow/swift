@@ -220,25 +220,29 @@ extension Tensor : RealTensorRepresentable where Scalar : FloatingPoint {
 }
 ```
 
-### Making functions differentiable
+### When is a function differentiable?
 
-Once we have differentiable types, we can then define functions over these
-types. Because we are aiming for an open and extensible system, we made the
-compiler agnostic of the actual operations - it does not have special knowledge
-of numeric standard library functions or distinguish between primitive operators
-and other functions. We recursively determine a function's differentiability
-based on:
+Once we have types that support differentiation, we can then define arbitrary
+functions over these types. Because we are aiming for an open and extensible
+system, we made the compiler agnostic of the actual operations - it does not
+have special knowledge of numeric standard library functions or distinguish
+between primitive operators and other functions. We recursively determine a
+function's differentiability based on:
 
 *   its type signature: whether inputs and the output conform to
     `RealTensorRepresentable`
+*   its visibility: if the function body is not visible by the Swift compiler
+    (e.g. a C function or an argument which is a closure), then it is not
+    differentiable
 *   its data flow: whether all instructions and function calls are
     differentiable along the data flow to be differentiated
 
-To make the base case for this rule, we introduce the `@differentiable`
-attribute. Users can use this attribute to make any function (primitive or
-composite) differentiable. The attribute has a few associated arguments:
-
-
+Since the rule is recursively defined, it needs a base case, so that the
+compiler will stop looking into function calls and determine the
+differentiability. Functions representing such base cases are often referred to
+in AD as "primitives". For that, we introduce the `@differentiable` attribute.
+Users can use `@differentiable` to give any function _guaranteed
+differentiability_. The attribute has a few associated arguments:
 
 *   the differentiation mode (currently only `reverse` is supported)
 *   the primal (optional, and should be specified if the adjoint requires checkpoints)
