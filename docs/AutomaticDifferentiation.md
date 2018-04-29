@@ -363,7 +363,7 @@ compiler generates:
   stored properties and a strongly-typed tapes (only if there's any control flow
   or loops). We call this struct "checkpoints" for implementation modeling
   purposes.
-- A primal function `f_prim : (T0, T1, ..., Tn) -> (f__Checkpoints, U)` that
+- A primal function `f_prim : (T0, T1, ..., Tn) -> (C_f, U)` that
   returns primal checkpoints and the original result.
 - An adjoint function `f_adj : (T0, T1, ..., Tn, C_f, U, U) -> (T0, T1, ...,
 Tn)` that takes primal checkpoints, the original result, and a seed and returns
