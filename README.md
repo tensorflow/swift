@@ -13,7 +13,7 @@ gives you the power of
 With Swift, you can write the following imperative code, and Swift 
 automatically turns it into **a single TensorFlow Graph** and runs it 
 with the full performance of TensorFlow Sessions on CPU, GPU and 
-[TPU](https://cloud.google.com/tpu/docs/tpus).
+[TPU](https://cloud.google.com/tpu).
 
 ```swift
 import TensorFlow
