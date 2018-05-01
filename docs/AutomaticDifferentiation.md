@@ -183,15 +183,15 @@ Many other parts of Swift are library extensible already - for example, any type
 can conform to the
 [`ExpressibleByIntegerLiteral`](https://developer.apple.com/documentation/swift/expressiblebyintegerliteral)
 protocol, which teaches the compiler how to convert an integer literal to that
-type. Following this approach, we define a `RealTensorRepresentable` protocol,
+type. Following this approach, we define a `RealVectorRepresentable` protocol,
 which declares the four requirements we listed above. The compiler treats any
-`RealTensorRepresentable` types as supporting differentiation. Floating point
+`RealVectorRepresentable` types as supporting differentiation. Floating point
 types like `Float` and `Double` to support differentiation, because we made
-`RealTensorRepresentable` inherit from the `FloatingPoint` protocol.
+`RealVectorRepresentable` inherit from the `FloatingPoint` protocol.
 
 
 ```swift
-public protocol RealTensorRepresentable : FloatingPoint {
+public protocol RealVectorRepresentable : FloatingPoint {
   associatedtype Scalar : FloatingPoint
   associatedtype Dimensionality
   init(_ scalar: Scalar)
@@ -200,14 +200,14 @@ public protocol RealTensorRepresentable : FloatingPoint {
 ```
 
 To make a type support differentiation, the user can simply add a conformance to
-`RealTensorRepresentable`. For example, TensorFlow’s `Tensor<Scalar>` type
+`RealVectorRepresentable`. For example, TensorFlow’s `Tensor<Scalar>` type
 supports differentiation by conditionally conforming to the
-`RealTensorRepresentable` protocol when the associated type `Scalar` conforms to
+`RealVectorRepresentable` protocol when the associated type `Scalar` conforms to
 `FloatingPoint`.
 
 
 ```swift
-extension Tensor : RealTensorRepresentable where Scalar : FloatingPoint {
+extension Tensor : RealVectorRepresentable where Scalar : FloatingPoint {
   typealias Dimensionality = [Int32] // This is shape.
 
   init(_ scalar: Scalar) {
@@ -230,7 +230,7 @@ between primitive operators and other functions. We recursively determine a
 function's differentiability based on:
 
 *   its type signature: whether inputs and the output conform to
-    `RealTensorRepresentable`
+    `RealVectorRepresentable`
 *   its visibility: if the function body is not visible by the Swift compiler
     (e.g. a C function or an argument which is a closure), then it is not
     differentiable
