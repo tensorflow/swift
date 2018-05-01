@@ -107,9 +107,12 @@ For bugs in the example models, please report them to [tensorflow/swift-models](
 ## Contributing
 
 We welcome source code contributions: please read the [Contributor
-Guide](https://github.com/google/swift/blob/tensorflow/CONTRIBUTING.md) to get
-started.  It is always a good idea to discuss your plans on the mailing list
+Guide](https://github.com/google/swift/blob/tensorflow/CONTRIBUTING.md).
+It is always a good idea to discuss your plans on the mailing list
 before making any major submissions.
+
+The compiler and the standard library have the most [open issues](https://github.com/google/swift/issues).
+To get started, you can try to tackle issues labeled "good first issue".
 
 ## Code of Conduct
 
