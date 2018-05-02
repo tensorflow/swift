@@ -20,7 +20,7 @@ Packages will be released nightly after automated building is set up.
 
 # Using Downloads
 
-## MacOS
+## macOS
 
 ### Requirements
 
