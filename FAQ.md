@@ -75,11 +75,13 @@ x = x + 1
 print(x)
 ```
 
-The `Tensor` code is no longer "interrupted" by host code so there's no need for "send".
+The `Tensor` code is no longer "interrupted" by host code so "send" is not
+generated.
 
 ### Example 2
 
-Say you top level code (i.e., the implicit Swift main() function) has the following, where foo() and bar() are functions returning some tensor.
+Say you have the following top-level code, where `foo` and `bar` are functions
+that return some `Tensor` value:
 ```swift
 print(foo())
 print(bar())
@@ -92,21 +94,35 @@ print(x)
 let y = bar()
 print(y)
 ```
-`print(x)` above interleaves with the tensor logic in `foo()` and `bar()`, resulting in tensor sends.
 
-One work-around as mentioned above is to refactor the code and bring the tensor code together (e.g. move print(x) downward).
+The `print(x)` above interrupts the `Tensor` code (calls to `foo()` and
+`bar()`), causing a "send" to be generated.
 
-Another is to mark `foo()` and `bar()` non-inlineable. e.g.
+One workaround (as mentioned above) is to refactor the code and bring the
+`Tensor` code together (e.g. move `print(x)` downward).
+
+Another workaround is to mark `foo()` and `bar()` as `@inline(never)`, e.g.
+
 ```swift
 @inline(never)
-public func bar(_ x: Double) -> Tensor<Double> {
-  return foo(x)
+public func bar() -> Tensor<Double> {
+  return ... // returns some `Tensor` value
 }
 ```
 
-This will prevent the body of bar() from being inlined into the body of main(), when compiler processes main(). This will cause compiler to generate separate TF graphs for `foo()` and `bar()`.
+This will prevent the body of `bar()` from being inlined into the body of
+`main()` when compiler processes `main()`. This will cause compiler to generate
+separate TF graphs for `foo()` and `bar()`.
 
-**Note**: Given our implementation is going to be moving a lot and coming together in the next couple months, this is the most pragmatic workaround.  It is a pain, but to get the most predictability (without knowing all of the ins and outs of how things work), the best way to go is to define functions that do all the tensor computation inside of them (and mark them @inline(never) and public just to be safe), and do no host communication.  This will ensure that all the host values become arguments and results of the generated tensor program.
+**Note**: Given that our implementation will change a lot in the coming months,
+marking functions with `@inline(never)` is the most pragmatic and reliable
+workaround.
+
+We recommend separating functions that do tensor computation from host code in
+your programs. Those functions should be marked as `@inline(never)` (and have
+`public` access, to be safe). Within those functions, tensor computation should
+not be interrupted by host code. This ensures that the arguments and results of
+the extracted tensor program will be values on the host, as expected.
 
 ## How can I use Python 3 with the `Python` module?
 
