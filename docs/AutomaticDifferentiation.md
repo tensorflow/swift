@@ -264,7 +264,7 @@ extension Tree : RealVectorRepresentable where Value : RealVectorRepresentable {
     case let (.node(l, x, r), .leaf(y)):
       return .node(l, x + y, r)
     case let (.node(l0, x, r0), .node(l1, y, r1)):
-      return .node(l0 + l0, x + y, r0 + r1)
+      return .node(l0 + l1, x + y, r0 + r1)
     }
   }
 
