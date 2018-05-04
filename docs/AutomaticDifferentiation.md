@@ -255,7 +255,7 @@ extension Tree : RealVectorRepresentable where Value : RealVectorRepresentable {
     self = .leaf(Value(dimensionality: dimensionality, repeating: repeatedValue))
   }
 
-  static func + (lhs: Self, rhs: Self) -> Self {
+  static func + (lhs: Tree, rhs: Tree) -> Tree {
     switch self {
     case let (.leaf(x), .leaf(y)):
       return .leaf(x + y)
@@ -268,9 +268,9 @@ extension Tree : RealVectorRepresentable where Value : RealVectorRepresentable {
     }
   }
 
-  static func - (lhs: Self, rhs: Self) -> Self { ... }
-  static func * (lhs: Self, rhs: Self) -> Self { ... }
-  static func / (lhs: Self, rhs: Self) -> Self { ... }
+  static func - (lhs: Tree, rhs: Tree) -> Tree { ... }
+  static func * (lhs: Tree, rhs: Tree) -> Tree { ... }
+  static func / (lhs: Tree, rhs: Tree) -> Tree { ... }
 }
 ```
 
