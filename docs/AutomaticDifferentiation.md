@@ -229,6 +229,51 @@ extension Tensor : RealVectorRepresentable where Scalar : FloatingPoint {
 }
 ```
 
+Since `RealVectorRepresentable` is general enough to provide all necessary
+ingredients for differentiation and the compiler doesn’t make special
+assumptions about well-known types, users can make any type support automatic
+differentiation. The following example shows a generic tree structure
+`Tree<Value>`, written as an algebraic data type, conditionally conforming to
+`RealVectorRepresentable` by recursively defining operations using pattern
+matching. Now, functions over `Tree<Value>` can be differentiated!
+
+```swift
+indirect enum Tree<Value> {
+  case leaf(Value)
+  case node(Tree, Value, Tree)
+}
+
+extension Tree : RealVectorRepresentable where Value : RealVectorRepresentable {
+  typealias Scalar = Value.Scalar
+  typealias Dimensionality = Value.Dimensionality
+
+  init(_ scalar: Scalar) {
+    self = .leaf(Value(scalar))
+  }
+
+  init(dimensionality: Dimensionality, repeating repeatedValue: Scalar) {
+    self = .leaf(Value(dimensionality: dimensionality, repeating: repeatedValue))
+  }
+
+  static func + (lhs: Self, rhs: Self) -> Self {
+    switch self {
+    case let (.leaf(x), .leaf(y)):
+      return .leaf(x + y)
+    case let (.leaf(x), .node(l, y, r)):
+      return .node(l, x + y, r)
+    case let (.node(l, x, r), .leaf(y)):
+      return .node(l, x + y, r)
+    case let (.node(l0, x, r0), .node(l1, y, r1)):
+      return .node(l0 + l0, x + y, r0 + r1)
+    }
+  }
+
+  static func - (lhs: Self, rhs: Self) -> Self { ... }
+  static func * (lhs: Self, rhs: Self) -> Self { ... }
+  static func / (lhs: Self, rhs: Self) -> Self { ... }
+}
+```
+
 ### When is a function differentiable?
 
 Once we have types that support differentiation, we can then define arbitrary
