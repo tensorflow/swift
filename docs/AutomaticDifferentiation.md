@@ -185,17 +185,26 @@ can conform to the
 protocol, which teaches the compiler how to convert an integer literal to that
 type. Following this approach, we define a `RealVectorRepresentable` protocol,
 which declares the four requirements we listed above. The compiler treats any
-`RealVectorRepresentable` types as supporting differentiation. Floating point
-types like `Float` and `Double` to support differentiation, because we made
-`RealVectorRepresentable` inherit from the `FloatingPoint` protocol.
+`RealVectorRepresentable` types as supporting differentiation. We make standard
+library types such as `Float` and `Double** conform to this protocol.
 
+**Note:** Currently, arithmetic operators are defined on this protocol because
+the standard library does not have a generic `Arithmetic` protocol. Although
+most arithmetic operators are defined on `Numeric` and `FloatingPoint`, those
+protocols are not designed for aggregate mathematical objects like vectors. We
+hope to make a case for a more general arithmetic protocol in the Swift standard
+library.
 
 ```swift
-public protocol RealVectorRepresentable : FloatingPoint {
+public protocol RealVectorRepresentable {
   associatedtype Scalar : FloatingPoint
   associatedtype Dimensionality
   init(_ scalar: Scalar)
   init(dimensionality: Dimensionality, repeating repeatedValue: Scalar)
+  func + (lhs: Self, rhs: Self) -> Self
+  func - (lhs: Self, rhs: Self) -> Self
+  func * (lhs: Self, rhs: Self) -> Self
+  func / (lhs: Self, rhs: Self) -> Self
 }
 ```
 
