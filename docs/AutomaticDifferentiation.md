@@ -256,7 +256,7 @@ extension Tree : RealVectorRepresentable where Value : RealVectorRepresentable {
   }
 
   static func + (lhs: Tree, rhs: Tree) -> Tree {
-    switch self {
+    switch (lhs, rhs) {
     case let (.leaf(x), .leaf(y)):
       return .leaf(x + y)
     case let (.leaf(x), .node(l, y, r)):
