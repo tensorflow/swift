@@ -79,7 +79,10 @@ experimented with SCT AD directly on a compiler IR that's analogous to the
 [Swift Intermediate
 Language](https://github.com/apple/swift/blob/master/docs/SIL.rst) (SIL).
 
-![alt_text](images/Automatic-Differentiation0.png "image_tooltip")
+<p align="center">
+  <img src="images/AutomaticDifferentiation-Approaches.png?raw=true"
+       alt="Automatic differentiation approaches."/>
+</p>
 
 The horizontal axis of this diagram may remind people of the trade-offs between
 eager execution and graph building: In eager execution, the model is a subset of
@@ -109,7 +112,10 @@ adjoint `f_adj`. `f_prim` computes the original result, while storing primal
 intermediate values for `f_adj` to reuse. `f_adj` computes the partial
 derivatives of `f` with respect to the parameters.
 
-![drawing](images/AutomaticDifferentiation-ReverseAD.png)
+<p align="center">
+  <img src="images/AutomaticDifferentiation-ReverseAD.png?raw=true"
+       alt="Reverse-mode automatic differentiation."/>
+</p>
 
 The data structure used to store these values is called tape, also known as
 _[Wengert list](https://dl.acm.org/citation.cfm?doid=355586.364791)_. It is a
@@ -403,7 +409,10 @@ When differentiating a function in reverse mode, the compiler produces separate
 functions that contain the corresponding "primal code" and "adjoint code", which
 in turn compute the vector-Jacobian products of the computation.
 
-![drawing](images/AutomaticDifferentiation-Compiler.png)
+<p align="center">
+  <img src="images/AutomaticDifferentiation-Compiler.png?raw=true"
+       alt="Automatic differentiation compiler transform."/>
+</p>
 
 When the `#gradient(of:)` operator is applied on a function `f : (T0, T1, ...,
 Tn) -> U`, the compiler checks whether a `@differentiable` attribute exists on
