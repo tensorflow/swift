@@ -98,11 +98,8 @@ If you get an error from running `./inference.swift` directly but not from `swif
 ## Compiler
 
 With the Swift compiler, you can compile Swift programs into executable binaries. To try it, run the following:
+* Mac: `swiftc -O -sdk `xcrun --show-sdk-path` inference.swift`
 * Ubuntu: `swiftc -O inference.swift`
-* Mac:
-```
-  swiftc -O -sdk `xcrun --show-sdk-path` inference.swift
-```
 
 `swiftc` should produce an executable in the current directory called `inference`. Run it to see the same result:
 
