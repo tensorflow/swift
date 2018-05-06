@@ -8,6 +8,7 @@ encountered and prefer not to get new issues filed in our bug tracker.
 * [Why do I get "error: array input is not a constant array of tensors"?](#why-do-i-get-error-array-input-is-not-a-constant-array-of-tensors)
 * [Why do I get "error: internal error generating TensorFlow graph: GraphGen cannot lower a 'send/receive' to the host yet"](#why-do-i-get-error-internal-error-generating-tensorflow-graph-graphgen-cannot-lower-a-sendreceive-to-the-host-yet)
 * [How can I use Python 3 with the Python module?](#how-can-i-use-python-3-with-the-python-module)
+* [Mac] I wrote some code in a Xcode Playground. Why is it frozen/hanging?
 
 ## Why Swift?
 
@@ -129,3 +130,8 @@ the extracted tensor program will be values on the host, as expected.
 Currently, Swift is hard-coded to use Python 2.7.
 Adding proper Python 3 support is non-trivial but in discussion.
 See [this issue](https://github.com/tensorflow/swift/issues/13) for more information.
+
+## [Mac] I wrote some code in a Xcode Playground. Why is it frozen/hanging?
+
+Xcode Playgrounds are known to be somewhat unstable, unfortunately.
+If your Playground appears to hang, please try restarting Xcode or creating a new Playground.
