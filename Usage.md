@@ -70,7 +70,7 @@ print(prediction)
 
 Save `inference.swift` and navigate to its containing directory in the terminal. Then, run `swift -O inference.swift`. You should see something like:
 
-```
+```console
 $ swift -O inference.swift
 [[0.680704]]
 ```
@@ -103,7 +103,7 @@ With the Swift compiler, you can compile Swift programs into executable binaries
 
 `swiftc` should produce an executable in the current directory called `inference`. Run it to see the same result:
 
-```
+```console
 $ ./inference
 [[0.680704]]
 ```
