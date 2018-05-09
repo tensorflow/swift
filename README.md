@@ -32,7 +32,8 @@ Swift combines the flexibility of
 high performance of [Graphs and Sessions](https://www.tensorflow.org/programmers_guide/graphs). 
 Behind the scenes, Swift analyzes your Tensor code and automatically builds 
 graphs for you. Swift also catches type errors and shape mismatches before running 
-your code, and has [Automatic Differentiation](https://en.wikipedia.org/wiki/Automatic_differentiation)
+your code, has the ability to import any Python library, and has
+[Automatic Differentiation](https://en.wikipedia.org/wiki/Automatic_differentiation)
 built right in. We believe that machine learning tools are so important that they
 deserve **a first-class language and a compiler**.
 
