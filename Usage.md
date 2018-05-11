@@ -30,17 +30,17 @@ You can type Swift statements and the REPL will execute them immediately. Result
 
 ```
   1> import TensorFlow
-  2> var x = Tensor([[1, 2], [3, 4]])
-x: TensorFlow.Tensor<Double> = [[1.0, 2.0], [3.0, 4.0]]
+  2> var x = Tensor<Float>([[1, 2], [3, 4]])
+x: TensorFlow.Tensor<Float> = [[1.0, 2.0], [3.0, 4.0]]
   3> x + x
-$R0: TensorFlow.Tensor<Double> = [[2.0, 4.0], [6.0, 8.0]]
+$R0: TensorFlow.Tensor<Float> = [[2.0, 4.0], [6.0, 8.0]]
   4> for _ in 0..<3 {
   5.     x += x
   6. }
   7> x
-$R1: TensorFlow.Tensor<Double> = [[8.0, 16.0], [24.0, 32.0]]
+$R1: TensorFlow.Tensor<Float> = [[8.0, 16.0], [24.0, 32.0]]
   8> x[0] + x[1]
-$R2: TensorFlow.Tensor<Double> = [32.0, 48.0]
+$R2: TensorFlow.Tensor<Float> = [32.0, 48.0]
 ```
 
 ## Interpreter
@@ -131,7 +131,7 @@ To use Swift for TensorFlow with Xcode, you must have installed a toolchain from
 ```swift
 import TensorFlow
 
-let x = Tensor([[1, 2], [3, 4]])
+let x = Tensor<Float>([[1, 2], [3, 4]])
 print(x)
 ```
 

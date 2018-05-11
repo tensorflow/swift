@@ -57,7 +57,7 @@ in particular about [host-graph communication](https://github.com/tensorflow/swi
 
 ```swift
 import TensorFlow
-var x = Tensor([[1, 2], [3, 4]])
+var x = Tensor<Float>([[1, 2], [3, 4]])
 print(x)
 x = x + 1
 ```
@@ -71,7 +71,7 @@ To work around the generated "send" for this particular example, you can reorder
 
 ```swift
 import TensorFlow
-var x = Tensor([[1, 2], [3, 4]])
+var x = Tensor<Float>([[1, 2], [3, 4]])
 x = x + 1
 print(x)
 ```
