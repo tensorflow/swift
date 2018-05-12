@@ -101,7 +101,7 @@ Before reporting an issue, please check the [Frequently Asked Questions](FAQ.md)
 
 For questions about general use or feature requests, please report them in this repository or send an email to the [mailing list](mailto:swift@tensorflow.org).
 
-For Swift compiler bugs, please file them to [bugs.swift.org](https://bugs.swift.org) against the “Swift for TensorFlow” component.
+For Swift compiler bugs introduced by Swift for TensorFlow, please file them to [bugs.swift.org](https://bugs.swift.org) within the “Swift for TensorFlow” component.
 
 For bugs in the example models, please report them to [tensorflow/swift-models](https://github.com/tensorflow/swift-models/issues).
 
