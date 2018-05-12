@@ -74,8 +74,6 @@ Below are some documents explaining the Swift for TensorFlow project.
 The active development of Swift for TensorFlow will happen under the 
 "tensorflow" branch of
 [apple/swift](https://github.com/apple/swift/tree/tensorflow).
-New language features will eventually go through the Swift evolution process
-as part of being considered for being pulled into master.
 
 These projects include:
 
@@ -83,8 +81,8 @@ These projects include:
 - Debugger and REPL support: [apple/swift-lldb](http://github.com/apple/swift-lldb/tree/tensorflow)
 
 Swift for TensorFlow is **not** intended to remain a long-term fork of the official 
-Swift language. As the code matures, we aim to merge it upstream to the official
-[Swift.org](https://swift.org) repositories.
+Swift language. New language features will eventually go through the Swift evolution process
+as part of being considered for being pulled into master.
 
 ## Models
 
