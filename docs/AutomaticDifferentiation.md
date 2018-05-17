@@ -183,100 +183,102 @@ to be compatible with differentiation, including:
   computation. By the sum and product rule, this is usually addition. Addition
   is defined on the
   [`Numeric`](https://developer.apple.com/documentation/swift/numeric) protocol.
+  
+Floating point scalars already have properties above, because of the conformance
+to the `FloatingPoint` protocol, which inherits from the `Numeric` protocol.
+Similarly, we define a `VectorNumeric` protocol, which declares the four
+requirements to represent a vector space.
 
-    
-Many other parts of Swift are library extensible already - for example, any type
-can conform to the
-[`ExpressibleByIntegerLiteral`](https://developer.apple.com/documentation/swift/expressiblebyintegerliteral)
-protocol, which teaches the compiler how to convert an integer literal to that
-type. Following this approach, we define a `RealVectorRepresentable` protocol,
-which declares the four requirements we listed above. The compiler treats any
-`RealVectorRepresentable` types as supporting differentiation. We make standard
-library types such as `Float` and `Double** conform to this protocol.
+```swift
+public protocol VectorNumeric {
+    associatedtype ScalarElement
+    associatedtype Dimensionality
+    init(_ scalar: ScalarElement)
+    init(dimensionality: Dimensionality, repeating repeatedValue: ScalarElement)
+    func + (lhs: Self, rhs: Self) -> Self
+    func - (lhs: Self, rhs: Self) -> Self
+    func * (lhs: Self, rhs: Self) -> Self
+}
+```
 
-**Note:** Currently, arithmetic operators are defined on this protocol because
-the standard library does not have a generic `Arithmetic` protocol. Although
-most arithmetic operators are defined on `Numeric` and `FloatingPoint`, those
-protocols are not designed for aggregate mathematical objects like vectors. We
-hope to make a case for a more general arithmetic protocol in the Swift standard
+`VectorNumeric` and `Numeric`/`FloatingPoint` are semantically disjoint. We say
+that a type supports scalar differentiation when it conforms to the
+`FloatingPoint`. We say that a type supports **vector differentiation** when it
+conforms to `VectorNumeric` while its `ScalarElement` supports **scalar
+differentiation** (i.e. conforms to the `FloatingPoint` protocol).
+
+**Note:** According to the standard library, `Numeric` is only suitable for
+scalars, not for aggregate mathematical objects like vectors, and so is
+`FloatingPoint`. Today we make `VectorNumeric` have duplicate operators, but we
+hope to make a case for a more general numeric protocol in the Swift standard
 library.
 
-```swift
-public protocol RealVectorRepresentable {
-  associatedtype Scalar : FloatingPoint
-  associatedtype Dimensionality
-  init(_ scalar: Scalar)
-  init(dimensionality: Dimensionality, repeating repeatedValue: Scalar)
-  func + (lhs: Self, rhs: Self) -> Self
-  func - (lhs: Self, rhs: Self) -> Self
-  func * (lhs: Self, rhs: Self) -> Self
-  func / (lhs: Self, rhs: Self) -> Self
-}
-```
-
 To make a type support differentiation, the user can simply add a conformance to
-`RealVectorRepresentable`. For example, TensorFlow’s `Tensor<Scalar>` type
-supports differentiation by conditionally conforming to the
-`RealVectorRepresentable` protocol when the associated type `Scalar` conforms to
-`FloatingPoint`.
-
+`FloatingPoint` or `VectorNumeric`. For example, TensorFlow’s `Tensor<Scalar>`
+type supports differentiation by conditionally conforming to the `VectorNumeric`
+protocol when the associated type `Scalar` conforms to `FloatingPoint`.
 
 ```swift
-extension Tensor : RealVectorRepresentable where Scalar : FloatingPoint {
+extension Tensor : VectorNumeric where Scalar : Numeric {
   typealias Dimensionality = [Int32] // This is shape.
+  typealias ScalarElement = Scalar
 
-  init(_ scalar: Scalar) {
-    self = #tfop(“Const”, scalar)
+  init(_ scalar: ScalarElement) {
+    self = #tfop("Const", scalar)
   }
 
-  init(dimensionality: [Int32], repeating repeatedValue: Scalar) {
-    Self = #tfop(“Fill”, Tensor(dimensionality), repeatedValue: repeatedValue)
+  init(dimensionality: [Int32], repeating repeatedValue: ScalarElement) {
+    Self = #tfop("Fill", Tensor(dimensionality), repeatedValue: repeatedValue)
   }
+
+  func + (lhs: Tensor, rhs: Tensor) -> Tensor { ... }
+  func - (lhs: Tensor, rhs: Tensor) -> Tensor { ... }
+  func * (lhs: Tensor, rhs: Tensor) -> Tensor { ... }
 }
 ```
 
-Since `RealVectorRepresentable` is general enough to provide all necessary
-ingredients for differentiation and the compiler doesn’t make special
-assumptions about well-known types, users can make any type support automatic
-differentiation. The following example shows a generic tree structure
-`Tree<Value>`, written as an algebraic data type, conditionally conforming to
-`RealVectorRepresentable` by recursively defining operations using pattern
-matching. Now, functions over `Tree<Value>` can be differentiated!
+Since `VectorNumeric` is general enough to provide all necessary ingredients for
+differentiation and the compiler doesn’t make special assumptions about
+well-known types, users can make any type support automatic differentiation. The
+following example shows a generic tree structure `Tree<Value>`, written as an
+algebraic data type, conditionally conforming to `VectorNumeric` by recursively
+defining operations using pattern matching. Now, functions over `Tree<Value>`
+can be differentiated!
 
 ```swift
 indirect enum Tree<Value> {
-  case leaf(Value)
-  case node(Tree, Value, Tree)
+    case leaf(Value)
+    case node(Tree, Value, Tree)
 }
 
-extension Tree : RealVectorRepresentable where Value : RealVectorRepresentable {
-  typealias Scalar = Value.Scalar
-  typealias Dimensionality = Value.Dimensionality
-
-  init(_ scalar: Scalar) {
-    self = .leaf(Value(scalar))
-  }
-
-  init(dimensionality: Dimensionality, repeating repeatedValue: Scalar) {
-    self = .leaf(Value(dimensionality: dimensionality, repeating: repeatedValue))
-  }
-
-  static func + (lhs: Tree, rhs: Tree) -> Tree {
-    switch (lhs, rhs) {
-    case let (.leaf(x), .leaf(y)):
-      return .leaf(x + y)
-    case let (.leaf(x), .node(l, y, r)):
-      return .node(l, x + y, r)
-    case let (.node(l, x, r), .leaf(y)):
-      return .node(l, x + y, r)
-    case let (.node(l0, x, r0), .node(l1, y, r1)):
-      return .node(l0 + l1, x + y, r0 + r1)
+extension Tree : VectorNumeric where Value : VectorNumeric {
+    typealias ScalarElement = Value.ScalarElement
+    typealias Dimensionality = Value.Dimensionality
+  
+    init(_ scalar: ScalarElemenet) {
+        self = .leaf(Value(scalar))
     }
-  }
-
-  static func - (lhs: Tree, rhs: Tree) -> Tree { ... }
-  static func * (lhs: Tree, rhs: Tree) -> Tree { ... }
-  static func / (lhs: Tree, rhs: Tree) -> Tree { ... }
+  
+    init(dimensionality: Dimensionality, repeating repeatedValue: ScalarElement) {
+        self = .leaf(Value(dimensionality: dimensionality, repeating: repeatedValue))
+    }
+  
+    static func + (lhs: Tree, rhs: Tree) -> Tree {
+        switch self {
+        case let (.leaf(x), .leaf(y)):
+            return .leaf(x + y)
+        case let (.leaf(x), .node(l, y, r)):
+            return .node(l, x + y, r)
+        case let (.node(l, x, r), .leaf(y)):
+            return .node(l, x + y, r)
+        case let (.node(l0, x, r0), .node(l1, y, r1)):
+            return .node(l0 + l0, x + y, r0 + r1)
+        }
+    }
+  
+    static func - (lhs: Tree, rhs: Tree) -> Tree { ... }
+    static func * (lhs: Tree, rhs: Tree) -> Tree { ... }
+    static func / (lhs: Tree, rhs: Tree) -> Tree { ... }
 }
 ```
 
@@ -289,8 +291,8 @@ have special knowledge of numeric standard library functions or distinguish
 between primitive operators and other functions. We recursively determine a
 function's differentiability based on:
 
-*   its type signature: whether inputs and the output conform to
-    `RealVectorRepresentable`
+*   its type signature: whether inputs and the output support scalar
+    differentiation or vector differentiation
 *   its visibility: if the function body is not visible by the Swift compiler
     (e.g. a C function or an argument which is a closure), then it is not
     differentiable
