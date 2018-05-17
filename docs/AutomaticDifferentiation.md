@@ -166,11 +166,11 @@ to be compatible with differentiation, including:
 * The type must represent a arbitrarily ranked vector space (where tensors
   live). Elements of this vector space must be floating point numeric. There is
   an associated scalar type that is also floating point numeric.
-  
+
 * How to initialize an adjoint value for a parameter from a scalar, with the
   same dimensionality as this parameter. This will be used to initialize a zero
   derivative when the parameter does not contribute to the output.
-  
+
 * How to initialize a seed value from a value of the scalar type. This will be
   used to initialize a differentiation seed - usually `1.0`, which represents
   `dy/dy`. Note: the seed type in the adjoint can be an `Optional`, so when
@@ -178,12 +178,12 @@ to be compatible with differentiation, including:
   this will cause performance issues with TensorFlow’s `Tensor` type today
   (optional checks causing send/receive). We need to finish the implementation
   of constant expression analysis to be able to fold the optional check away.
-  
+
 * How values of this type will combine at data flow fan-ins in the adjoint
   computation. By the sum and product rule, this is usually addition. Addition
   is defined on the
   [`Numeric`](https://developer.apple.com/documentation/swift/numeric) protocol.
-  
+
 Floating point scalars already have properties above, because of the conformance
 to the `FloatingPoint` protocol, which inherits from the `Numeric` protocol.
 Similarly, we define a `VectorNumeric` protocol, which declares the four
@@ -220,20 +220,20 @@ protocol when the associated type `Scalar` conforms to `FloatingPoint`.
 
 ```swift
 extension Tensor : VectorNumeric where Scalar : Numeric {
-  typealias Dimensionality = [Int32] // This is shape.
-  typealias ScalarElement = Scalar
+    typealias Dimensionality = [Int32] // This is shape.
+    typealias ScalarElement = Scalar
 
-  init(_ scalar: ScalarElement) {
-    self = #tfop("Const", scalar)
-  }
+    init(_ scalar: ScalarElement) {
+        self = #tfop("Const", scalar)
+    }
 
-  init(dimensionality: [Int32], repeating repeatedValue: ScalarElement) {
-    Self = #tfop("Fill", Tensor(dimensionality), repeatedValue: repeatedValue)
-  }
+    init(dimensionality: [Int32], repeating repeatedValue: ScalarElement) {
+        Self = #tfop("Fill", Tensor(dimensionality), repeatedValue: repeatedValue)
+    }
 
-  func + (lhs: Tensor, rhs: Tensor) -> Tensor { ... }
-  func - (lhs: Tensor, rhs: Tensor) -> Tensor { ... }
-  func * (lhs: Tensor, rhs: Tensor) -> Tensor { ... }
+    func + (lhs: Tensor, rhs: Tensor) -> Tensor { ... }
+    func - (lhs: Tensor, rhs: Tensor) -> Tensor { ... }
+    func * (lhs: Tensor, rhs: Tensor) -> Tensor { ... }
 }
 ```
 
@@ -254,15 +254,15 @@ indirect enum Tree<Value> {
 extension Tree : VectorNumeric where Value : VectorNumeric {
     typealias ScalarElement = Value.ScalarElement
     typealias Dimensionality = Value.Dimensionality
-  
+
     init(_ scalar: ScalarElemenet) {
         self = .leaf(Value(scalar))
     }
-  
+
     init(dimensionality: Dimensionality, repeating repeatedValue: ScalarElement) {
         self = .leaf(Value(dimensionality: dimensionality, repeating: repeatedValue))
     }
-  
+
     static func + (lhs: Tree, rhs: Tree) -> Tree {
         switch self {
         case let (.leaf(x), .leaf(y)):
@@ -275,7 +275,7 @@ extension Tree : VectorNumeric where Value : VectorNumeric {
             return .node(l0 + l0, x + y, r0 + r1)
         }
     }
-  
+
     static func - (lhs: Tree, rhs: Tree) -> Tree { ... }
     static func * (lhs: Tree, rhs: Tree) -> Tree { ... }
     static func / (lhs: Tree, rhs: Tree) -> Tree { ... }
@@ -320,7 +320,7 @@ differentiability.
 // The corresponding adjoint to call is `dTanh`.
 @differentiable(reverse, adjoint: dTanh)
 func tanh(_ x: Float) -> Float {
-  ... some super low-level assembly tanh implementation ...
+    ... some super low-level assembly tanh implementation ...
 }
 // d/dx tanh(x) = 1 - (tanh(x))^2
 //
@@ -328,7 +328,7 @@ func tanh(_ x: Float) -> Float {
 // original function. We don't need to use `x` in tanh's adjoint because we already
 // have access to the original result.
 func dTanh(x: Float, y: Float, seed: Float) -> Float {
-  return (1.0 - y * y) * seed
+    return (1.0 - y * y) * seed
 }
 ```
 
@@ -344,18 +344,18 @@ defined as instance methods, e.g. `FloatingPoint.squareRoot()` and
 
 ```swift
 extension Tensor {
-  // Differentiable with respect to `self` (the input) and the first parameter
-  // (the filter) using reverse-mode AD. The corresponding adjoint to call
-  // is `dConv`
-  @differentiable(reverse, withRespectTo: (self, .0), adjoint: dConv)
-  func convolved(withFilter k: Tensor, strides: [Int32], padding: Padding) -> Tensor {
-    return #tfop("Conv2D", ...)
-  }
+    // Differentiable with respect to `self` (the input) and the first parameter
+    // (the filter) using reverse-mode AD. The corresponding adjoint to call
+    // is `dConv`
+    @differentiable(reverse, withRespectTo: (self, .0), adjoint: dConv)
+    func convolved(withFilter k: Tensor, strides: [Int32], padding: Padding) -> Tensor {
+        return #tfop("Conv2D", ...)
+    }
 
-  func dConv(k: Tensor, strides: [Int32], padding: Padding, 
-             y: Tensor, seed: Tensor) -> Tensor {
-    ...
-  }
+    func dConv(k: Tensor, strides: [Int32], padding: Padding,
+               y: Tensor, seed: Tensor) -> Tensor {
+        ...
+    }
 }
 ```
 
@@ -373,15 +373,15 @@ A trivial example is shown as follows:
 ```swift
 @differentiable(reverse, adjoint: dTanh)
 func tanh(_ x: Float) -> Float {
-  ... some super low-level assembly tanh implementation ...
+    ... some super low-level assembly tanh implementation ...
 }
 
 func dTanh(x: Float, y: Float, seed: Float) -> Float {
-  return (1.0 - (y * y)) * seed
+    return (1.0 - (y * y)) * seed
 }
 
 func foo(_ x: Float, _ y: Float) -> Float {
-  return tanh(x) + tanh(y)
+    return tanh(x) + tanh(y)
 }
 
 // Get the gradient function of tanh.
@@ -442,7 +442,7 @@ the vector-Jacobian products.
   which internally calls `f_can_grad` using a default seed `1` and throws away
   the first result (the first result would be used if `#valueAndGradient(of:)`
   was the differential operator).
-  
+
 More than one function exists to wrap the canonical gradient function
 `f_can_grad`, because we'll support a variety of AD configurations, e.g.
 `#gradient(of:)` and `#valueAndGradient(of:)`. We expect the finalized gradient
@@ -514,8 +514,8 @@ confusion](https://arxiv.org/abs/1211.4892) are two common bugs in nested uses
 of the differential operator using SCT techniques, and require user attention to
 correctly resolve. The application of rank-2 polymorphism in the
 [ad](https://hackage.haskell.org/package/ad) package in Haskell defined away
-sensitivity confusion, but Swift’s type system does not support that today. In 
-order to support higher-order differentiation with sound semantics and predictable 
+sensitivity confusion, but Swift’s type system does not support that today. In
+order to support higher-order differentiation with sound semantics and predictable
 behavior in Swift, we need to teach the compiler to carefully emit diagnostics and
 reject malformed cases.
 
