@@ -42,7 +42,7 @@ As you can see, the syntax here is immediately understandable to a Python progra
 
 This line is established through a simple requirement: we should not depend on *any Python-specific compiler or language features* to achieve Python interop - it should be completely implemented as a Swift library.  After all, while Python is incredibly important to the machine learning community, there are other dynamic languages (Javascript, Ruby, etc) that have strong footholds in other domains, and we don’t want each of these domains to impose an endless complexity creep onto the Swift language.
 
-You can see the current implementation of our bridging layer in [Python.swift](https://github.com/google/swift/blob/tensorflow/stdlib/public/Python/Python.swift).  This is pure Swift code that works with unmodified Swift 4.1.
+You can see the current implementation of our bridging layer in [Python.swift](https://github.com/apple/swift/blob/tensorflow/stdlib/public/Python/Python.swift).  This is pure Swift code that works with unmodified Swift 4.1.
 
 ### Limitations of this approach
 Because we choose to embrace the dynamic nature of Python in Swift, we get both the pros and the cons that dynamic languages bring with them. Specifically, many Swift programmers have come to expect and depend on amazing code completion and appreciate the comfort of having the compiler catch typos and other trivial bugs for them at compile time.  In contrast, Python programmers do not have these affordances (instead, bugs are usually caught at runtime), and because we are embracing Python’s dynamic nature, Python APIs in Swift work the same way.
@@ -150,7 +150,7 @@ if let swiftIntArray = Array<Int>(somePythonValue) {
 
 This fits exactly into the model that a Swift programmer would expect: failable conversions are projected into optional results (just like "string to int" conversions are), providing the safety and predictability that Swift programmers expect.
 
-Finally, because you have access to the full power of Python, all the normal reflective capabilities are Python are directly available as well, including `Python.type`, `Python.id`, `Python.dir`, and the Python `inspect` module.
+Finally, because you have access to the full power of Python, all the normal reflective capabilities of Python are directly available as well, including `Python.type`, `Python.id`, `Python.dir`, and the Python `inspect` module.
 
 ## Interoperability Challenges
 
@@ -171,7 +171,7 @@ However, we can probably all agree that this does not achieve our goal of provid
 
 After [discussion](https://forums.swift.org/t/pitch-introduce-user-defined-dynamic-member-lookup-types/7072) [with](https://forums.swift.org/t/pitch-2-introduce-user-defined-dynamic-member-lookup-types/7113) [the](https://forums.swift.org/t/proposal-introduce-user-defined-dynamic-member-lookup-types/7129) [Swift](https://forums.swift.org/t/dynamicmemberlookup-proposal-status-update/7358) [community](https://forums.swift.org/t/se-0195-introduce-user-defined-dynamic-member-lookup-types/8658), the solution to this problem is to allow library code to implement a fallback hook to handle failed member lookups.  This feature exists in many dynamic languages [including Objective-C](https://www.mikeash.com/pyblog/friday-qa-2009-03-27-objective-c-message-forwarding.html), and as such, we proposed and implemented [SE-0195: Introduce User-defined "Dynamic Member Lookup" Types](https://github.com/apple/swift-evolution/blob/master/proposals/0195-dynamic-member-lookup.md) which allows a static type to provide a fallback handler for unresolved lookups. This proposal was [discussed at length by the Swift community](https://forums.swift.org/t/se-0195-introduce-user-defined-dynamic-member-lookup-types/8658) through the Swift Evolution process, and was ultimately accepted.  It has been shipping since Swift 4.1.
 
-As a result of this, our library interoperability library is able to implement the following hook:
+As a result of this, our interoperability library is able to implement the following hook:
 
 ```swift
 @dynamicMemberLookup
