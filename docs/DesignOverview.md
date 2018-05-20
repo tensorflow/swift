@@ -43,7 +43,7 @@ To understand how this works, it is important to know how TensorFlow represents 
 
 Swift for TensorFlow has a low-level syntax that gives you direct access to any op, using a distinct `#tfop` syntax (this syntax is a placeholder that is likely to be revised).
 For example, here are a few methods defined on the Tensor type (simplified slightly for presentation),
-you can see their full definition in [Ops.swift](https://github.com/google/swift/blob/tensorflow/stdlib/public/TensorFlow/Ops.swift).
+you can see their full definition in [Ops.swift](https://github.com/apple/swift/blob/tensorflow/stdlib/public/TensorFlow/Ops.swift).
 
 ```swift
 struct Tensor<Scalar> {
@@ -82,11 +82,11 @@ etc) that connect tensor operations through a process called "deabstraction".
 After deabstraction, the tensor operations are directly connected to each other
 through SSA dataflow edges and are embedded in a control flow graph represented
 in the [Swift Intermediate Language](https://github.com/apple/swift/blob/master/docs/SIL.rst) (SIL).
-The code for this is primarily implemented in [TFDeabstraction.cpp](https://github.com/google/swift/blob/tensorflow/lib/SILOptimizer/Mandatory/TFDeabstraction.cpp).
+The code for this is primarily implemented in [TFDeabstraction.cpp](https://github.com/apple/swift/blob/tensorflow/lib/SILOptimizer/Mandatory/TFDeabstraction.cpp).
 
-Once the tensor operations are desugared, a transformation we call "partitioning" extracts the graph operations from the program and builds a new SIL function to represent the tensor code.  In addition to removing the tensor operations from the host code, new calls are injected that call into [our new runtime library](#runtime-entry-points-for-extraction) to start up TensorFlow, rendezvous to collect any results, and send/receive values between the host and the tensor program as it runs.  The bulk of the Graph Program Extraction transformation itself lives in [TFPartition.cpp](https://github.com/google/swift/blob/tensorflow/lib/SILOptimizer/Mandatory/TFPartition.cpp).
+Once the tensor operations are desugared, a transformation we call "partitioning" extracts the graph operations from the program and builds a new SIL function to represent the tensor code.  In addition to removing the tensor operations from the host code, new calls are injected that call into [our new runtime library](#runtime-entry-points-for-extraction) to start up TensorFlow, rendezvous to collect any results, and send/receive values between the host and the tensor program as it runs.  The bulk of the Graph Program Extraction transformation itself lives in [TFPartition.cpp](https://github.com/apple/swift/blob/tensorflow/lib/SILOptimizer/Mandatory/TFPartition.cpp).
 
-Once the tensor function is formed, it has some transformations applied to it, and is eventually emitted to a TensorFlow graph using the code in [TFLowerGraph.cpp](https://github.com/google/swift/blob/tensorflow/lib/SILOptimizer/Mandatory/TFLowerGraph.cpp). After the TensorFlow graph is formed, we serialize it to a protobuf and encode the bits directly into the executable, making it easy to load at program runtime.
+Once the tensor function is formed, it has some transformations applied to it, and is eventually emitted to a TensorFlow graph using the code in [TFLowerGraph.cpp](https://github.com/apple/swift/blob/tensorflow/lib/SILOptimizer/Mandatory/TFLowerGraph.cpp). After the TensorFlow graph is formed, we serialize it to a protobuf and encode the bits directly into the executable, making it easy to load at program runtime.
 
 We aren’t aware of any other system using this approach, but our implementation draws on a lot of related conceptual work, including [program slicing](https://en.wikipedia.org/wiki/Program_slicing), [abstract interpretation](https://en.wikipedia.org/wiki/Abstract_interpretation), and is implemented as a [static compiler analysis](https://en.wikipedia.org/wiki/Static_program_analysis).  Please see our detailed [Graph Program Extraction whitepaper](GraphProgramExtraction.md) for more information on how all of this works.
 
@@ -94,7 +94,7 @@ Finally, while TensorFlow is the reason we built this infrastructure, its algori
 
 ## The TensorFlow module
 
-The TensorFlow module is the library of code you get as a result of `import TensorFlow` in a Swift program.  It is written in Swift and lives in the [stdlib/public/TensorFlow](https://github.com/google/swift/tree/tensorflow/stdlib/public/TensorFlow) directory.  It implements a few different things:
+The TensorFlow module is the library of code you get as a result of `import TensorFlow` in a Swift program.  It is written in Swift and lives in the [stdlib/public/TensorFlow](https://github.com/apple/swift/tree/tensorflow/stdlib/public/TensorFlow) directory.  It implements a few different things:
 
 ### User APIs: Tensor, ShapedArray, etc.
 
@@ -158,18 +158,18 @@ let tensor2D = Tensor(matrix)
 ```
 
 The implementation of `Tensor` builds on the `#tfop` magic syntax that builds TensorFlow graph nodes, and is defined in
-[Tensor.swift](https://github.com/google/swift/blob/tensorflow/stdlib/public/TensorFlow/Tensor.swift),
-[Ops.swift](https://github.com/google/swift/blob/tensorflow/stdlib/public/TensorFlow/Ops.swift),
-[RankedTensor.swift.gyb](https://github.com/google/swift/blob/tensorflow/stdlib/public/TensorFlow/RankedTensor.swift.gyb),
-and [TensorProtocol.swift](https://github.com/google/swift/blob/tensorflow/stdlib/public/TensorFlow/TensorProtocol.swift).
+[Tensor.swift](https://github.com/apple/swift/blob/tensorflow/stdlib/public/TensorFlow/Tensor.swift),
+[Ops.swift](https://github.com/apple/swift/blob/tensorflow/stdlib/public/TensorFlow/Ops.swift),
+[RankedTensor.swift.gyb](https://github.com/apple/swift/blob/tensorflow/stdlib/public/TensorFlow/RankedTensor.swift.gyb),
+and [TensorProtocol.swift](https://github.com/apple/swift/blob/tensorflow/stdlib/public/TensorFlow/TensorProtocol.swift).
 The implementation of `ShapedArray` follows standard techniques used when implementing Swift collections and is defined primarily in
-[ShapedArray.swift](https://github.com/google/swift/blob/tensorflow/stdlib/public/TensorFlow/ShapedArray.swift) and
-[RankedArray.swift.gyb](https://github.com/google/swift/blob/tensorflow/stdlib/public/TensorFlow/RankedArray.swift.gyb).
+[ShapedArray.swift](https://github.com/apple/swift/blob/tensorflow/stdlib/public/TensorFlow/ShapedArray.swift) and
+[RankedArray.swift.gyb](https://github.com/apple/swift/blob/tensorflow/stdlib/public/TensorFlow/RankedArray.swift.gyb).
 In addition to the `Tensor` family of types, we are experimenting with building abstractions on top of the TensorFlow graph nodes for data pipelines, resources, variants, and other things representable as graph nodes.
 
 ### Runtime Entry Points for Extraction
 
-The [Graph Program Extraction algorithm](#graph-program-extraction) splits the tensor operations out to a TensorFlow graph which is serialized to a protobuf and encoded into the program’s executable.  It rewrites the host code to insert calls to "start tensor program", "finish tensor program", and "terminate tensor program" runtime entry points, which are implemented in the [CompilerRuntime.swift](https://github.com/google/swift/blob/tensorflow/stdlib/public/TensorFlow/CompilerRuntime.swift) file in terms of TensorFlow APIs.
+The [Graph Program Extraction algorithm](#graph-program-extraction) splits the tensor operations out to a TensorFlow graph which is serialized to a protobuf and encoded into the program’s executable.  It rewrites the host code to insert calls to "start tensor program", "finish tensor program", and "terminate tensor program" runtime entry points, which are implemented in the [CompilerRuntime.swift](https://github.com/apple/swift/blob/tensorflow/stdlib/public/TensorFlow/CompilerRuntime.swift) file in terms of TensorFlow APIs.
 
 Our runtime currently has several supported paths for driving TensorFlow, including paths that enable XLA, paths that go through classic executor, paths that uses the "eager execution" runtime entry points, and some specialized support for Cloud TPU configurations.  This is still rapidly evolving and subject to continuous change.
 
@@ -241,9 +241,9 @@ print(images.shape) // (50000, 784)            print(images.shape)
 
 As you can see, the syntax here is very close: the major differences are that Swift requires values to be declared before use, and that we decided to put [Python builtin functions](https://docs.python.org/3/library/functions.html) like `import`, `type`, `slice`, etc under a `Python.` namespace (to avoid cluttering the global scope).  This doesn’t require SWIG or any other wrappers, so it is super easy to use.
 
-This feature is accomplished without making Python specific changes to the compiler or language - it is completely implemented in the [Python.swift file](https://github.com/google/swift/blob/tensorflow/stdlib/public/Python/Python.swift).  This means that we can use the same techniques to directly integrate with other dynamic language runtimes (e.g. Javascript, Ruby, etc) if it becomes important in the future.  Python support is also completely independent of the other TensorFlow and automatic differentiation logic we’re building in the rest of the project.  It is a generally useful extension to the Swift ecosystem that can stand alone, useful for server side development or anything else that wants to interoperate with existing Python APIs.
+This feature is accomplished without making Python specific changes to the compiler or language - it is completely implemented in the [Python.swift file](https://github.com/apple/swift/blob/tensorflow/stdlib/public/Python/Python.swift).  This means that we can use the same techniques to directly integrate with other dynamic language runtimes (e.g. Javascript, Ruby, etc) if it becomes important in the future.  Python support is also completely independent of the other TensorFlow and automatic differentiation logic we’re building in the rest of the project.  It is a generally useful extension to the Swift ecosystem that can stand alone, useful for server side development or anything else that wants to interoperate with existing Python APIs.
 
-To find out more about how this works, please check out the [Python Interoperability Deep Dive](PythonInteroperability.md), or browse the implementation in [Python.swift on GitHub](https://github.com/google/swift/blob/tensorflow/stdlib/public/Python/Python.swift).
+To find out more about how this works, please check out the [Python Interoperability Deep Dive](PythonInteroperability.md), or browse the implementation in [Python.swift on GitHub](https://github.com/apple/swift/blob/tensorflow/stdlib/public/Python/Python.swift).
 
 ## Future Directions
 

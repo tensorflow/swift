@@ -403,7 +403,7 @@ Automatic differentiation in Swift is a compiler transform implemented as a
 static analysis. AD benefits from being implemented on a functional IR like SSA
 form, so our implementation is a transformation on the Swift Intermediate
 Language. [The differentiation
-pass](https://github.com/google/swift/blob/tensorflow/lib/SILOptimizer/Mandatory/TFDifferentiation.cpp)
+pass](https://github.com/apple/swift/blob/tensorflow/lib/SILOptimizer/Mandatory/TFDifferentiation.cpp)
 is part of the mandatory lowering pass pipeline, and is run before [Graph
 Program Extraction](GraphProgramExtraction.md).
 
