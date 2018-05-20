@@ -248,7 +248,7 @@ And of course, this integrates with all the normal mechanics provided by Swift e
 
 ## Current Implementation and Status
 
-As mentioned above, our current implementation of the Python interoperability library is available on GitHub in the [Python.swift](https://github.com/google/swift/blob/tensorflow/stdlib/public/Python/Python.swift) file.
+As mentioned above, our current implementation of the Python interoperability library is available on GitHub in the [Python.swift](https://github.com/apple/swift/blob/tensorflow/stdlib/public/Python/Python.swift) file.
 In practice, we have found that it works nicely for many use cases. However, a few things that are missing that we need to continue developing and figure out:
 
 We need to implement support for the [@dynamicCallable feature](https://gist.github.com/lattner/a6257f425f55fe39fd6ac7a2354d693d), improving the call-side syntax, just like we improved member lookup.
