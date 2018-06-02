@@ -4,7 +4,7 @@
 
 # Swift for TensorFlow
 
-Welcome to the Swift for TensorFlow development community!
+Welcome to the Swift for TensorFlow development community! For discussions, join the [swift@tensorflow.org mailing list](https://groups.google.com/a/tensorflow.org/d/forum/swift).
 
 Swift for TensorFlow is a new way to develop machine learning models. It
 gives you the power of
@@ -92,8 +92,7 @@ You can find example models in
 ## Community
 
 Discussion about Swift for TensorFlow happens on the
-[swift@tensorflow.org](https://groups.google.com/a/tensorflow.org/d/forum/swift)
-mailing list.
+[swift@tensorflow.org mailing list](https://groups.google.com/a/tensorflow.org/d/forum/swift).
 
 ## Bugs Reports and Feature Requests
 
