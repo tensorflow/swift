@@ -12,9 +12,9 @@ Packages will be released nightly after automated building is set up.
 
 | Download | Date |
 |----------|------|
-| [Xcode](https://storage.googleapis.com/swift-tensorflow/mac/swift-tensorflow-DEVELOPMENT-2018-05-10-a-osx.pkg) | May 10, 2018 |
-| [Ubuntu 16.04](https://storage.googleapis.com/swift-tensorflow/ubuntu16.04/swift-tensorflow-DEVELOPMENT-2018-05-10-a-ubuntu16.04.tar.gz) | May 10, 2018 |
-| [Ubuntu 14.04](https://storage.googleapis.com/swift-tensorflow/ubuntu14.04/swift-tensorflow-DEVELOPMENT-2018-05-10-a-ubuntu14.04.tar.gz) | May 10, 2018 |
+| [Xcode](https://storage.googleapis.com/swift-tensorflow/mac/swift-tensorflow-DEVELOPMENT-2018-06-01-a-osx.pkg) | June 1, 2018 [(last commit)](https://github.com/apple/swift/commit/0e17b3ffa380d6da4ff4e245a85316fb09e2d0f1) |
+| [Ubuntu 16.04](https://storage.googleapis.com/swift-tensorflow/ubuntu16.04/swift-tensorflow-DEVELOPMENT-2018-06-01-a-ubuntu16.04.tar.gz) | June 1, 2018 [(last commit)](https://github.com/apple/swift/commit/0e17b3ffa380d6da4ff4e245a85316fb09e2d0f1) |
+| [Ubuntu 14.04](https://storage.googleapis.com/swift-tensorflow/ubuntu14.04/swift-tensorflow-DEVELOPMENT-2018-06-01-a-ubuntu14.04.tar.gz) | June 1, 2018 [(last commit)](https://github.com/apple/swift/commit/0e17b3ffa380d6da4ff4e245a85316fb09e2d0f1) |
 
 <details>
   <summary>Older Packages</summary>
@@ -23,6 +23,7 @@ Packages will be released nightly after automated building is set up.
 
 | Download |
 |----------|
+| [May 10, 2018](https://storage.googleapis.com/swift-tensorflow/mac/swift-tensorflow-DEVELOPMENT-2018-05-10-a-osx.pkg) |
 | [May 3, 2018](https://storage.googleapis.com/swift-tensorflow/mac/swift-tensorflow-DEVELOPMENT-2018-05-03-a-osx.pkg) |
 | [April 26, 2018](https://storage.googleapis.com/swift-tensorflow/mac/swift-tensorflow-DEVELOPMENT-2018-04-26-a-osx.pkg) |
 
@@ -30,6 +31,7 @@ Packages will be released nightly after automated building is set up.
 
 | Download |
 |----------|
+| [May 10, 2018](https://storage.googleapis.com/swift-tensorflow/ubuntu16.04/swift-tensorflow-DEVELOPMENT-2018-05-10-a-ubuntu16.04.tar.gz) |
 | [May 3, 2018](https://storage.googleapis.com/swift-tensorflow/ubuntu16.04/swift-tensorflow-DEVELOPMENT-2018-05-03-a-ubuntu16.04.tar.gz) |
 | [April 26, 2018](https://storage.googleapis.com/swift-tensorflow/ubuntu16.04/swift-tensorflow-DEVELOPMENT-2018-04-26-a-ubuntu16.04.tar.gz) |
 
@@ -37,6 +39,7 @@ Packages will be released nightly after automated building is set up.
 
 | Download |
 |----------|
+| [May 10, 2018](https://storage.googleapis.com/swift-tensorflow/ubuntu14.04/swift-tensorflow-DEVELOPMENT-2018-05-10-a-ubuntu14.04.tar.gz) |
 | [May 3, 2018](https://storage.googleapis.com/swift-tensorflow/ubuntu14.04/swift-tensorflow-DEVELOPMENT-2018-05-03-a-ubuntu14.04.tar.gz) |
 | [April 26, 2018](https://storage.googleapis.com/swift-tensorflow/ubuntu14.04/swift-tensorflow-DEVELOPMENT-2018-04-26-a-ubuntu14.04.tar.gz) |
 
