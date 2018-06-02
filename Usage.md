@@ -57,9 +57,8 @@ struct MLPClassifier {
     var b2 = Tensor<Float>([[0.4]])
 
     func prediction(for x: Tensor<Float>) -> Tensor<Float> {
-        // The ⊗ operator performs matrix multiplication.
-        let o1 = tanh(x ⊗ w1 + b1)
-        return tanh(o1 ⊗ w2 + b2)
+        let o1 = tanh(matmul(x, w1) + b1)
+        return tanh(matmul(o1, w2) + b2)
     }
 }
 let input = Tensor<Float>([[0.2, 0.8]])
