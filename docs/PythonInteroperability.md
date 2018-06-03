@@ -210,7 +210,7 @@ While it is possible to get things done with this, it is clearly not achieving o
 
 Evaluating this problem with the [Swift community](https://forums.swift.org/t/pitch-introduce-user-defined-dynamically-callable-types/7038) [and #2](https://forums.swift.org/t/pitch-2-introduce-user-defined-dynamically-callable-types/7112), we observe that Python and Swift support both named and unnamed arguments: the named arguments are passed in as a dictionary.  At the same time, Smalltalk-derived languages add an additional wrinkle: *method* references are the atomic unit, which include the base name of the method along with any keyword arguments.  While interoperability with this style of language is not important for Python, we want to make sure that Swift isn’t painted into a corner that precluded great interop with Ruby, Squeak, and other SmallTalk-derived languages.
 
-Our current proposal, which has been discussed but not yet been implemented (and will need final approval by the Swift community), is to introduce a new [`@dynamicCallable` attribute](https://gist.github.com/lattner/a6257f425f55fe39fd6ac7a2354d693d) to indicate that a type (like `PyValue`) can handle dynamic call resolution.  Once we implement this Python-independent language extension will allow our interoperability library to provide this syntax for the above examples:
+Our current proposal, which has been discussed but not yet been implemented (and will need final approval by the Swift community), is to introduce a new [`@dynamicCallable` attribute](https://gist.github.com/lattner/a6257f425f55fe39fd6ac7a2354d693d) to indicate that a type (like `PyValue`) can handle dynamic call resolution. The `@dynamicCallable` feature has been implemented and made available in the Python interop module.
 
 ```swift
 // Python: a = np.arange(15).reshape(3, 5)
@@ -251,7 +251,6 @@ And of course, this integrates with all the normal mechanics provided by Swift e
 As mentioned above, our current implementation of the Python interoperability library is available on GitHub in the [Python.swift](https://github.com/apple/swift/blob/tensorflow/stdlib/public/Python/Python.swift) file.
 In practice, we have found that it works nicely for many use cases. However, a few things that are missing that we need to continue developing and figure out:
 
-We need to implement support for the [@dynamicCallable feature](https://gist.github.com/lattner/a6257f425f55fe39fd6ac7a2354d693d), improving the call-side syntax, just like we improved member lookup.
 Python slicing is more general than Swift’s slicing syntax.  Right now you can get full access to it through the `Python.slice(a, b, c)` function.  However, we should wire in the  normal `a...b` range syntax from Swift, and it might be interesting to consider implementing striding operators as an extension to that basic range syntax.
 We need to investigate and settle on the right model to use for subclassing of Python classes.
 There is currently no way to make a struct like `PyValue` work with tuple pattern matching, so we use projection properties like `.tuple2`.  If this becomes a problem in practice, we can investigate adding this to Swift, but we currently don’t think it will be enough of a problem to be worth solving in the near term.
