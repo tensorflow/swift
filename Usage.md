@@ -3,7 +3,7 @@
 This document explains basic usage of Swift for TensorFlow, including:
 * How to run the Swift REPL
 * How to use the Swift interpreter and compiler
-* How to use Swift for TensorFlow with Xcode (Mac only)
+* How to use Swift for TensorFlow with Xcode (**macOS only**)
 
 You must have a working toolchain for Swift for TensorFlow (`swift`, `swiftc`, etc) before proceeding with these instructions. If not, please [install Swift for TensorFlow](Installation.md) or [build from source](https://github.com/apple/swift/blob/tensorflow/README.md) before proceeding.
 
