@@ -13,11 +13,7 @@ To see example models written using Swift for TensorFlow, go to [tensorflow/swif
 
 ## REPL (Read Eval Print Loop)
 
-An easy way to experiment with Swift is the Read Eval Print Loop, or REPL. To try it, open your terminal application and run the following:
-
-* Mac: `swift`
-* Ubuntu: `swift -I/<path-to-toolchain>/usr/lib/swift/clang/include`
-  * This is a necessary workaround for [SR-5524](https://bugs.swift.org/browse/SR-5524), a bug causing modulemap imports to fail in the REPL.
+An easy way to experiment with Swift is the Read Eval Print Loop, or REPL. To try it, open your terminal application and run `swift`.
 
 You should see a prompt, similar to the following:
 
