@@ -17,14 +17,14 @@ An easy way to experiment with Swift is the Read Eval Print Loop, or REPL. To tr
 
 You should see a prompt, similar to the following:
 
-```
+```console
 Welcome to Swift version 4.2-dev (LLVM 04bdb56f3d, Clang b44dbbdf44). Type :help for assistance.
   1>
 ```
 
 You can type Swift statements and the REPL will execute them immediately. Results are formatted nicely:
 
-```
+```console
   1> import TensorFlow
   2> var x = Tensor<Float>([[1, 2], [3, 4]])
 x: TensorFlow.Tensor<Float> = [[1.0, 2.0], [3.0, 4.0]]
@@ -81,12 +81,16 @@ The Swift interpreter ran your program and printed the classifier's prediction, 
 
 Next, add executable permissions to `inference.swift`:
 
-    chmod +x inference.swift
+```bash
+chmod +x inference.swift
+```
 
 You can now run `inference.swift` using `./inference.swift`:
 
-    $ ./inference.swift
-    [[0.680704]]
+```console
+$ ./inference.swift
+[[0.680704]]
+```
 
 If you get an error from running `./inference.swift` directly but not from `swift -O inference.swift`, it’s likely because your operating system doesn’t support multi-argument shebang lines.
 
