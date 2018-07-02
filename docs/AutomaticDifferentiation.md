@@ -247,38 +247,38 @@ can be differentiated!
 
 ```swift
 indirect enum Tree<Value> {
-    case leaf(Value)
-    case node(Tree, Value, Tree)
+  case leaf(Value)
+  case node(Tree, Value, Tree)
 }
 
 extension Tree : VectorNumeric where Value : VectorNumeric {
-    typealias ScalarElement = Value.ScalarElement
-    typealias Dimensionality = Value.Dimensionality
-
-    init(_ scalar: ScalarElemenet) {
-        self = .leaf(Value(scalar))
+  typealias ScalarElement = Value.ScalarElement
+  typealias Dimensionality = Value.Dimensionality
+  
+  init(_ scalar: ScalarElement) {
+    self = .leaf(Value(scalar))
+  }
+  
+  init(dimensionality: Dimensionality, repeating repeatedValue: ScalarElement) {
+    self = .leaf(Value(dimensionality: dimensionality, repeating: repeatedValue))
+  }
+  
+  static func + (lhs: Tree, rhs: Tree) -> Tree {
+    switch (lhs, rhs) {
+    case let (.leaf(x), .leaf(y)):
+      return .leaf(x + y)
+    case let (.leaf(x), .node(l, y, r)):
+      return .node(l, x + y, r)
+    case let (.node(l, x, r), .leaf(y)):
+      return .node(l, x + y, r)
+    case let (.node(l0, x, r0), .node(l1, y, r1)):
+      return .node(l0 + l0, x + y, r0 + r1)
     }
-
-    init(dimensionality: Dimensionality, repeating repeatedValue: ScalarElement) {
-        self = .leaf(Value(dimensionality: dimensionality, repeating: repeatedValue))
-    }
-
-    static func + (lhs: Tree, rhs: Tree) -> Tree {
-        switch self {
-        case let (.leaf(x), .leaf(y)):
-            return .leaf(x + y)
-        case let (.leaf(x), .node(l, y, r)):
-            return .node(l, x + y, r)
-        case let (.node(l, x, r), .leaf(y)):
-            return .node(l, x + y, r)
-        case let (.node(l0, x, r0), .node(l1, y, r1)):
-            return .node(l0 + l0, x + y, r0 + r1)
-        }
-    }
-
-    static func - (lhs: Tree, rhs: Tree) -> Tree { ... }
-    static func * (lhs: Tree, rhs: Tree) -> Tree { ... }
-    static func / (lhs: Tree, rhs: Tree) -> Tree { ... }
+  }
+  
+  static func - (lhs: Tree, rhs: Tree) -> Tree { ... }
+  static func * (lhs: Tree, rhs: Tree) -> Tree { ... }
+  static func / (lhs: Tree, rhs: Tree) -> Tree { ... }
 }
 ```
 
