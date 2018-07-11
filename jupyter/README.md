@@ -8,15 +8,14 @@ Create a virtualenv and install jupyter in it.
 ```
 virtualenv venv
 . venv/bin/activate
-pip -V # Make sure this says python 2.7. LLDB doesn't support python 3.
-pip install jupyter
+pip2 install jupyter # Must use python2, because LLDB doesn't support python3.
 ```
 
 Install a Swift toolchain ([see instructions here](https://github.com/tensorflow/swift/blob/master/Installation.md)).
 
 Register the kernel with jupyter.
 ```
-python register.py --sys-prefix --swift-toolchain <path to swift toolchain>
+python2 register.py --sys-prefix --swift-toolchain <path to swift toolchain>
 ```
 
 Now run `jupyter notebook`, and it should have a Swift kernel.
