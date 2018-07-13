@@ -65,8 +65,8 @@ Packages will be released nightly after automated building is set up.
 
 ### Requirements
 
-* macOS 10.12.4 or later
-* Xcode 9.0 beta or later
+* macOS 10.13.5 or later
+* Xcode 10.0 beta or later
 
 ### Installation
 
