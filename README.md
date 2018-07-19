@@ -89,6 +89,13 @@ as part of being considered for being pulled into master.
 You can find example machine learning models at
 [tensorflow/swift-models](https://github.com/tensorflow/swift-models).
 
+## Related Projects
+
+### Jupyter Notebook support
+
+[Jupyter Notebook](http://jupyter.org/) support for Swift for TensorFlow is under development at
+[google/swift-jupyter](https://github.com/google/swift-jupyter).
+
 ## Community
 
 Discussion about Swift for TensorFlow happens on the
