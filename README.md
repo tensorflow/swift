@@ -86,7 +86,7 @@ as part of being considered for being pulled into master.
 
 ## Models
 
-You can find example models in
+You can find example machine learning models at
 [tensorflow/swift-models](https://github.com/tensorflow/swift-models).
 
 ## Community
