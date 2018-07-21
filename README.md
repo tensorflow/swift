@@ -37,8 +37,8 @@ your code, has the ability to import any Python library, and has
 built right in. We believe that machine learning tools are so important that they
 deserve **a first-class language and a compiler**.
 
-**Note:** Swift for TensorFlow is an early stage research project. It has been
-released to enable open source development and is not yet ready for general use
+**Note:** Swift for TensorFlow is an early stage project. It has been released
+to enable open source development and is not yet ready for general use
 by machine learning developers.
 
 ## Installation and Usage
