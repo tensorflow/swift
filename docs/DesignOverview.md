@@ -200,9 +200,9 @@ func adjointLog(_ x: Float, originalResult: Float, seed: Float) -> Float {
 }
 ```
 
-In addition to making the operator differentiable, the compiler needs to know how to combine two derivatives for "fanouts" in the forward pass (usually a `+` by the sum and product rule, but sometimes also broadcasting) and how to create a zero gradient.  Types can specify custom behavior by implementing a conformance to the `RealVectorRepresentable` protocol, and we’ve made all `FloatingPoint` types conform. `Tensor` also conforms when its scalar type is `FloatingPoint`. With this foundation, the user can request the gradient of any function over `RealVectorRepresentable` types so long as the functions called along the data flow are differentiable. When any operation along the data flow is not differentiable, e.g. a call to a non-differentiable function or an assignment to a global variable, the compiler will produce a compile-time error and point to the location of the relevant problem.
+In addition to making the operator differentiable, the compiler needs to know how to combine two derivatives for "fanouts" in the forward pass (usually a `+` by the sum and product rule, but sometimes also broadcasting) and how to create a zero gradient.  Types can specify custom behavior by implementing a conformance to the `VectorNumeric` protocol, and we’ve made all `FloatingPoint` types conform. `Tensor` also conforms when its scalar type is `FloatingPoint`. With this foundation, the user can request the gradient of any function over `VectorNumeric` types so long as the functions called along the data flow are differentiable. When any operation along the data flow is not differentiable, e.g. a call to a non-differentiable function or an assignment to a global variable, the compiler will produce a compile-time error and point to the location of the relevant problem.
 
-We provide two differential operators for requesting the gradient of a function: `#gradient(of:)` and `#valueAndGradient(of:)`. The former takes a function and returns another function that computes the gradient of the original function. The latter takes a function and returns another function that computes both the result and the gradient of the original function. An optional variadic argument `wrt:` specifies the indices of parameters (of `self`) to differentiate with respect to. The following example demonstrates how to request the gradient of a differentiable function with respect to certain arguments.
+We provide two differential operators for requesting the gradient of a function: `#gradient()` and `#valueAndGradient()`. The former takes a function and returns another function that computes the gradient of the original function. The latter takes a function and returns another function that computes both the result and the gradient of the original function. An optional variadic argument `wrt:` specifies the indices of parameters (of `self`) to differentiate with respect to. The following example demonstrates how to request the gradient of a differentiable function with respect to certain arguments.
 
 ```swift
 func cube<T : FloatingPoint>(_ x: T, _ str: String) -> T {
@@ -210,7 +210,7 @@ func cube<T : FloatingPoint>(_ x: T, _ str: String) -> T {
   return x * x * x
 }
 
-let dCube_dx = #gradient(of: cube, wrt: .0)
+let dCube_dx = #gradient(cube, wrt: .0)
 
 cube(5, "hi")  // prints "hi" and returns 125
 dCube_dx(5, "hi") // prints "hi" and returns 75
