@@ -224,11 +224,11 @@ extension Tensor : VectorNumeric where Scalar : Numeric {
     typealias ScalarElement = Scalar
 
     init(_ scalar: ScalarElement) {
-        self = #tfop("Const", scalar)
+        self = Raw.const(scalar)
     }
 
     init(dimensionality: [Int32], repeating repeatedValue: ScalarElement) {
-        Self = #tfop("Fill", Tensor(dimensionality), repeatedValue: repeatedValue)
+        self = Raw.fill(dims: Tensor(dimensionality), repeatedValue)
     }
 
     func + (lhs: Tensor, rhs: Tensor) -> Tensor { ... }
@@ -247,38 +247,38 @@ can be differentiated!
 
 ```swift
 indirect enum Tree<Value> {
-  case leaf(Value)
-  case node(Tree, Value, Tree)
+    case leaf(Value)
+    case node(Tree, Value, Tree)
 }
 
 extension Tree : VectorNumeric where Value : VectorNumeric {
-  typealias ScalarElement = Value.ScalarElement
-  typealias Dimensionality = Value.Dimensionality
+    typealias ScalarElement = Value.ScalarElement
+    typealias Dimensionality = Value.Dimensionality
   
-  init(_ scalar: ScalarElement) {
-    self = .leaf(Value(scalar))
-  }
-  
-  init(dimensionality: Dimensionality, repeating repeatedValue: ScalarElement) {
-    self = .leaf(Value(dimensionality: dimensionality, repeating: repeatedValue))
-  }
-  
-  static func + (lhs: Tree, rhs: Tree) -> Tree {
-    switch (lhs, rhs) {
-    case let (.leaf(x), .leaf(y)):
-      return .leaf(x + y)
-    case let (.leaf(x), .node(l, y, r)):
-      return .node(l, x + y, r)
-    case let (.node(l, x, r), .leaf(y)):
-      return .node(l, x + y, r)
-    case let (.node(l0, x, r0), .node(l1, y, r1)):
-      return .node(l0 + l0, x + y, r0 + r1)
+    init(_ scalar: ScalarElement) {
+        self = .leaf(Value(scalar))
     }
-  }
   
-  static func - (lhs: Tree, rhs: Tree) -> Tree { ... }
-  static func * (lhs: Tree, rhs: Tree) -> Tree { ... }
-  static func / (lhs: Tree, rhs: Tree) -> Tree { ... }
+    init(dimensionality: Dimensionality, repeating repeatedValue: ScalarElement) {
+        self = .leaf(Value(dimensionality: dimensionality, repeating: repeatedValue))
+    }
+  
+    static func + (lhs: Tree, rhs: Tree) -> Tree {
+        switch (lhs, rhs) {
+        case let (.leaf(x), .leaf(y)):
+            return .leaf(x + y)
+        case let (.leaf(x), .node(l, y, r)):
+            return .node(l, x + y, r)
+        case let (.node(l, x, r), .leaf(y)):
+            return .node(l, x + y, r)
+        case let (.node(l0, x, r0), .node(l1, y, r1)):
+            return .node(l0 + l0, x + y, r0 + r1)
+        }
+    }
+  
+    static func - (lhs: Tree, rhs: Tree) -> Tree { ... }
+    static func * (lhs: Tree, rhs: Tree) -> Tree { ... }
+    static func / (lhs: Tree, rhs: Tree) -> Tree { ... }
 }
 ```
 
@@ -363,8 +363,8 @@ extension Tensor {
 
 ### Using automatic differentiation
 
-We currently support two differential operators: `#gradient(of:)` and
-`#valueAndGradient(of:)`. The former takes a function and returns a function
+We currently support two differential operators: `#gradient()` and
+`#valueAndGradient()`. The former takes a function and returns a function
 that computes partial derivatives. The latter takes a function and returns a
 function that computes both the original value and the vector-Jacobian products.
 A trivial example is shown as follows:
@@ -385,16 +385,16 @@ func foo(_ x: Float, _ y: Float) -> Float {
 }
 
 // Get the gradient function of tanh.
-let dtanh_dx = #gradient(of: tanh)
+let dtanh_dx = #gradient(tanh)
 dtanh_dx(2)
 
 // Get the gradient function of foo with respect to the first parameter.
-let dfoo_dx = #gradient(of: foo, withRespectTo: .0)
+let dfoo_dx = #gradient(foo, withRespectTo: .0)
 dfoo_dx(3, 4)
 ```
 
 
-Note that implementation of `#gradient(of: foo, withRespectTo: .0)` is still in progress.
+Note that implementation of `#gradient(foo, withRespectTo: .0)` is still in progress.
 
 
 ## Automatic Differentiation in the Swift compiler
@@ -416,7 +416,7 @@ in turn compute the vector-Jacobian products of the computation.
        alt="Automatic differentiation compiler transform."/>
 </p>
 
-When the `#gradient(of:)` operator is applied on a function `f : (T0, T1, ...,
+When the `#gradient()` operator is applied on a function `f : (T0, T1, ...,
 Tn) -> U`, the compiler checks whether a `@differentiable` attribute exists on
 this function. If it does, then the compiler generates a direct call to this
 declared adjoint, passing in the original input parameters, the original result
@@ -440,12 +440,12 @@ the vector-Jacobian products.
   the original result and the vector-Jacobian produts.
 - A finalized gradient function `∇f : (T0, T1, ..., Tn) -> (T0, T1, ..., Tn)`
   which internally calls `f_can_grad` using a default seed `1` and throws away
-  the first result (the first result would be used if `#valueAndGradient(of:)`
+  the first result (the first result would be used if `#valueAndGradient()`
   was the differential operator).
 
 More than one function exists to wrap the canonical gradient function
 `f_can_grad`, because we'll support a variety of AD configurations, e.g.
-`#gradient(of:)` and `#valueAndGradient(of:)`. We expect the finalized gradient
+`#gradient()` and `#valueAndGradient()`. We expect the finalized gradient
 function `∇f` to be inlined and have other normal optimization passes applied,
 to expose primal-adjoint data flow and eliminate dead code.
 
@@ -460,8 +460,92 @@ today's differential operators work only when there's a `@differentiable`
 attribute specifying the adjoint (or both the primal and the adjoint**.
 Completing the AD implementation is our immediate priority.
 
-# Known limitations and future directions
+# Future directions
 
+### Better syntax
+
+AD is an unconventional feature in a general-purpose programming language like
+Swift. In order to allow users to specify what formal parameter to differentiate
+with respect to and make it work well with the type checker, we use the
+`#`-literal syntax that takes parameter indices or `self`, and which is parsed
+into a distinct expression in the Swift AST. However, we would prefer to define
+differential operators as regular generic functions.
+
+
+### Flow-sensitive differential operators
+
+As described in the document, we intially provide two differential operators on
+functions: `#gradient` and `#valueAndGradient`. Differentiating functions, 
+however, do not provide a similar developer experience as
+
+```swift
+let y = log(x)
+#gradient(y, wrt: x)
+```
+
+... in which `#gradient` is effectively a flow-sensitive differential operator.
+However, from a technical standpoint, function-to-function transformation that
+we initially develop is the foundation even for flow-sensitive differentiation. 
+Once the foundation is done, syntactic features on top such as this one will be
+considered and implemented to enable more expressive user code.
+
+
+### Inline adjoint definition
+
+When defining a custom adjoint for a function, today we use the attribute 
+`@differentiable(reverse, adjoint: someAdjointFunction)` where 
+`someAdjointFunction` is defined out-of-line. However, there are a few problems:
+1) adjoints are never directly called by the user, so it does not make sense to
+require the user to define such a function with a standalone function name,
+2) out-of-line definition of adjoints also makes it hard for user to customize 
+checkpointing in the original computation, and 3) `@differentiable` uses confusing 
+indices to refer to parameters to differentiate with respect to. To address these
+isues, a possible solution would be to introduce an inline syntax with keywords
+`adjoint` and `wrt`:
+
+```swift
+func foo(_ a: Float, _ b: String) -> Float {
+   let x = ... a ...
+   let y = ...
+   return y
+   
+   adjoint let seed wrt a, b { // `seed` is the backpropagated value.
+     return ... x ... * seed
+     //         ^ 
+     // The primal value `x` falls out of lexical scoping, and will be checkpointed.
+   }
+}
+```
+
+### Differentiating opaque closures and dynamic method dispatch
+
+Statically differentiating a function requires the body of the function to be
+visible to the compiler. However, this limits the expressiveness of differential
+operators. For example, users can't apply `#gradient` to a function argument
+that has a function type because the compiler can't always see into the body of
+the original function.
+
+```swift
+func foo(_ f: (Float) -> Float) -> Float {
+    return #gradient(f)(0)
+}
+```
+
+```console
+test.swift:2:22: error: cannot differentiate an opaque closure
+    return #gradient(f)(0)
+           ~~~~~~~~~~^~
+test.swift:1:12: note: value defined here
+func foo(_ f: (Float) -> Float) -> Float {
+           ^~~~~~~~~~~~~~~~~~~
+```
+
+
+One potential solution is to introduce a new function calling convention 
+`@convention(differentiable)`, which causes function references to carry their
+primal and adjoint function pointers with them. This enables the compiler to
+directly call the primal and the adjoint, without the need to see into the 
+function declaration.
 
 ### Differentiating with respect to properties
 
@@ -477,22 +561,27 @@ representing all parameters in a model type, and make the differential operator
 this approach but need to develop the ideas further.
 
 
-### Better syntax
-
-AD is an unconventional feature in a general-purpose programming language like
-Swift. In order to allow users to specify what formal parameter to differentiate
-with respect to and make it work well with the type checker, we use the
-`#`-literal syntax that takes parameter indices or `self`, and which is parsed
-into a distinct expression in the Swift AST. However, we would prefer to define
-differential operators as regular generic functions.
-
-
 ### Derivative surgery
 
-Some NN architectures require manipulating the gradient of certain nodes in the
-backward pass. [Tangent](https://github.com/google/tangent) provides such a
-feature as a syntax extension in Python. We are interested in figuring out the
-best programming model to express derivative surgery.
+Some machine learning models require manipulating the gradient with respect to 
+certain values, e.g. gradient clipping. [Tangent](https://github.com/google/tangent) 
+provides such a feature as a syntax extension in Python. We are interested in 
+figuring out the best programming model to express derivative surgery, for example:
+introducing a compiler-known `replaceGradient(of:_:)` API.
+
+```swift
+func prediction(for input: Tensor<Float>, parameters: Tensor<Float>) -> Float {
+    var prediction = input
+    for _ in 0...5 {
+        // Gradient clipping.
+        replaceGradient(of: prediction) { dPred in
+            max(min(dPred, 1), -1)
+        }
+        prediction = lstm.prediction(for: input, parameters)
+    }
+    return prediction
+}
+```
 
 
 ### Checkpointing
@@ -518,18 +607,6 @@ sensitivity confusion, but Swift’s type system does not support that today. In
 order to support higher-order differentiation with sound semantics and predictable
 behavior in Swift, we need to teach the compiler to carefully emit diagnostics and
 reject malformed cases.
-
-
-### Differentiating opaque closures and dynamic method dispatch
-
-Statically differentiating a function requires the body of the function to be
-visible to the compiler. However, this limits the expressiveness of differential
-operators. For example, users can't apply `#gradient` to a function argument
-that has a function type because the compiler can't always see into the body of
-the original function. One option is to introduce a new function convention -
-which causes function pointers to carry their primal and adjoint with them. This
-enables the compiler to directly call the primal and the adjoint, without the
-need to see into the function declaration.
 
 
 ### Forward mode
