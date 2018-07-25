@@ -92,9 +92,14 @@ Packages will be released nightly after automated building is set up.
 
 6. Selecting a Swift toolchain affects the Xcode IDE only. To use the Swift toolchain with command-line tools, add the Swift toolchain to your path as follows:
 
-```
-$ export PATH=/Library/Developer/Toolchains/swift-latest/usr/bin:"${PATH}"
-```
+    ```bash
+    $ export PATH=/Library/Developer/Toolchains/swift-latest/usr/bin:"${PATH}"
+    ```
+
+7. **CUDA-only**: If you downloaded a CUDA GPU version of the toolchain, add the library path(s) to CUDA and CuDNN to `$LD_LIBRARY_PATH`.
+    ```bash
+    $ export LD_LIBRARY_PATH=/usr/local/cuda/lib:"${LD_LIBRARY_PATH}"
+    ```
 
 ## Linux
 
