@@ -1,5 +1,9 @@
 # Graph Program Extraction: One Graph Function per Host Function
 
+* Author: [@eaplatanios](https://github.com/eaplatanios)
+
+## Introduction
+
 This document aims to serve as complementary to the original graph program extraction (GPE) [whitepaper](<https://github.com/tensorflow/swift/blob/master/docs/GraphProgramExtraction.md>). It is a proposal for a general high-level design for performing GPE. Even though the document uses Swift and TensorFlow as the running use case, the proposed design is more general and could be used with other languages and frameworks. It is also a very early draft but the hope is that it will stimulate discussion and evolve into a few well-defined and well-specified design guidelines.
 
 ## Desired Features
