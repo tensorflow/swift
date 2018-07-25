@@ -9,7 +9,7 @@ You must have a working toolchain for Swift for TensorFlow (`swift`, `swiftc`, e
 
 To see example models written using Swift for TensorFlow, go to [tensorflow/swift-models](https://github.com/tensorflow/swift-models).
 
-**Note:** Swift for TensorFlow is an early stage research project. It has been released to enable open source development and is not yet ready for general use by machine learning developers.
+**Note:** Swift for TensorFlow is an early stage project. It has been released to enable open source development and is not yet ready for general use by machine learning developers.
 
 ## REPL (Read Eval Print Loop)
 
