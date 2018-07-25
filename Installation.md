@@ -4,7 +4,7 @@ To install Swift for TensorFlow, download one of the packages below and follow t
 
 **Note:** If you want to modify the Swift for TensorFlow source code or build with a custom version of TensorFlow, see [here](https://github.com/apple/swift/blob/tensorflow/README.md) for instructions on building from source.
 
-**Note:** Swift for TensorFlow is an early stage research project. It has been released to enable open source development and is not yet ready for general use by machine learning developers.
+**Note:** Swift for TensorFlow is an early stage project. It has been released to enable open source development and is not yet ready for general use by machine learning developers.
 
 ## Pre-built Packages
 
