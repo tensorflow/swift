@@ -1,4 +1,4 @@
-# Graph Program Extraction: High-Level Design Proposal
+# Graph Program Extraction: One Graph Function per Host Function
 
 This document aims to serve as complementary to the original graph program extraction (GPE) [whitepaper](<https://github.com/tensorflow/swift/blob/master/docs/GraphProgramExtraction.md>). It is a proposal for a general high-level design for performing GPE. Even though the document uses Swift and TensorFlow as the running use case, the proposed design is more general and could be used with other languages and frameworks. It is also a very early draft but the hope is that it will stimulate discussion and evolve into a few well-defined and well-specified design guidelines.
 
@@ -64,6 +64,12 @@ This is really beneficial because it allows us to avoid aggressive inlining and 
 Many of the current optimizations that Swift for TF performs and aims to perform, can still be achieved due to the SIL and the `FunctionDef`s being distributed with compiled libraries. Furthermore, a simpler approach may be to let the Swift compiler optimize the Swift-side code in isolation, and the same for the TF graph compiler (assuming that the TF graph compiler can also perform inlining of TF graph functions, if needed). This should already allow for lots of optimizations and would most likely already result in much more performant code than would have been obtained using TF eager mode, for example.
 
 Note also that a lot of `SendToTF` and `ReceiveFromTF` ops can be avoided by being smart as to how the graph is wired and by allowing constant expressions on the Swift side to be implicitly converted to constant tensors in the TF graph, if needed.
+
+## Questions for Discussion
+
+1. How should we handle send/receive ops? More specifically, we may want to pass around tensor handles and/or tensor content and I believe the answer to this question should be aware of this distinction.
+2. How do we package TF graph functions and host functions such that certain optimizations can still be performed on the user code (as in user of a Swift for TF library)?
+3. What kind of optimizations do we want to allow/consider?
 
 ## Conclusion
 
