@@ -2,9 +2,9 @@
 
 To install Swift for TensorFlow, download one of the packages below and follow the instructions for your operating system. After installation, you can use the full suite of Swift tools, including `swift` (Swift REPL/interpreter) and `swiftc` (Swift compiler). See [here](Usage.md) for more details about using Swift for TensorFlow.
 
-**Note:** If you want to modify the Swift for TensorFlow source code or build with a custom version of TensorFlow, see [here](https://github.com/apple/swift/blob/tensorflow/README.md) for instructions on building from source.
-
-**Note:** Swift for TensorFlow is an early stage project. It has been released to enable open source development and is not yet ready for general use by machine learning developers.
+**Note:** 
+- If you want to modify the Swift for TensorFlow source code or build with a custom version of TensorFlow, see [here](https://github.com/apple/swift/blob/tensorflow/README.md) for instructions on building from source.
+- Swift for TensorFlow is an early stage project. It has been released to enable open source development and is not yet ready for general use by machine learning developers.
 
 ## Pre-built Packages
 
@@ -84,6 +84,13 @@ Packages will be released nightly after automated building is set up.
 
 * macOS 10.13.5 or later
 * Xcode 10.0 beta or later
+
+### Additional Requirements
+
+* For GPU toolchains:
+  * CUDA Toolkit 9.2
+  * CuDNN 7.1
+  * An NVIDIA GPU with compute compability 3.5, 6.1 or 7.0
 
 ### Installation
 
