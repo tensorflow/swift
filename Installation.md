@@ -22,11 +22,19 @@ Packages will be released nightly after automated building is set up.
 
 ### Xcode
 
+#### Xcode 10
+
 | Download |
 |----------|
 | [July 19, 2018](https://storage.googleapis.com/swift-tensorflow/mac/swift-tensorflow-DEVELOPMENT-2018-07-19-a-osx.pkg) |
 | [July 12, 2018](https://storage.googleapis.com/swift-tensorflow/mac/swift-tensorflow-DEVELOPMENT-2018-07-12-a-osx.pkg) |
 | [June 29, 2018](https://storage.googleapis.com/swift-tensorflow/mac/swift-tensorflow-DEVELOPMENT-2018-06-29-a-osx.pkg) |
+</div>
+
+#### Xcode 9
+
+| Download |
+|----------|
 | [June 25, 2018](https://storage.googleapis.com/swift-tensorflow/mac/swift-tensorflow-DEVELOPMENT-2018-06-25-a-osx.pkg) |
 | [June 22, 2018](https://storage.googleapis.com/swift-tensorflow/mac/swift-tensorflow-DEVELOPMENT-2018-06-22-a-osx.pkg) |
 | [June 1, 2018](https://storage.googleapis.com/swift-tensorflow/mac/swift-tensorflow-DEVELOPMENT-2018-06-01-a-osx.pkg) |
@@ -36,6 +44,8 @@ Packages will be released nightly after automated building is set up.
 </div>
 
 ### Xcode (CUDA GPU)
+
+Xcode 10 is required.
 
 | Download |
 |----------|
