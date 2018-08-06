@@ -188,10 +188,10 @@ public protocol ParameterAggregate {
   /// The parameter type.
   associatedtype Parameter
 
-  /// Update parameters with their gradient values, using an updater function.
+  /// Update parameters with their gradient values, using an update function.
   mutating func update(
     withGradients gradients: Self,
-    _ updater: (inout Parameter, Parameter) -> Void
+    _ update: (inout Parameter, Parameter) -> Void
   )
 }
 ```
@@ -212,14 +212,14 @@ struct Parameters : ParameterAggregate {
   // property type.
   // typealias Parameter = Tensor<Float>
 
-  // The synthesized `update` method applies the `updater` argument to each
+  // The synthesized `update` method applies the `update` argument to each
   // parameter-gradient pair.
   // mutating func update(
   //   withGradients gradients: Parameters,
-  //   _ updater: (inout Parameter, Parameter) -> Void
+  //   _ update: (inout Parameter, Parameter) -> Void
   // ) {
-  //   updater(&w, gradients.w)
-  //   updater(&b, gradients.b)
+  //   update(&w, gradients.w)
+  //   update(&b, gradients.b)
   // }
 }
 
@@ -238,10 +238,10 @@ Model creators can define custom structs that conforms to `ParameterAggregate`, 
 ```swift
 /// Parameters of an MNIST classifier.
 struct MNISTParameters : ParameterAggregate {
-    var w1 = Tensor<Float>(randomUniform: [784, 30])
-    var w2 = Tensor<Float>(randomUniform: [30, 10])
-    var b1 = Tensor<Float>(zeros: [1, 30])
-    var b2 = Tensor<Float>(zeros: [1, 10])
+  var w1 = Tensor<Float>(randomUniform: [784, 30])
+  var w2 = Tensor<Float>(randomUniform: [30, 10])
+  var b1 = Tensor<Float>(zeros: [1, 30])
+  var b2 = Tensor<Float>(zeros: [1, 10])
 }
 
 func inference(input: Tensor<Float>, parameters: MNISTParameters) {
@@ -256,7 +256,6 @@ func inference(input: Tensor<Float>, parameters: MNISTParameters) {
 Automatic differentiation in Swift will support differentiating with respect to structs like `MNISTParameters`:
 
 ```swift
-@differentiable(reverse, wrt: (.0, .1))
 func inference(input: Tensor<Float>, parameters: MNISTParameters) { ... }
 
 let dInference = #gradient(inference)
@@ -308,10 +307,10 @@ struct Model : Parameterized {
   //
   //   mutating func update(
   //     withGradients gradients: Parameters,
-  //     _ updater: (inout Parameter, Parameter) -> Void
+  //     _ update: (inout Parameter, Parameter) -> Void
   //   ) {
-  //     updater(&w, gradients.w)
-  //     updater(&b, gradients.b)
+  //     update(&w, gradients.w)
+  //     update(&b, gradients.b)
   //   }
   //
   // var allParameters: Parameters {
@@ -325,12 +324,12 @@ The `Parameterized` protocol also conditionally defines an `updateParameters` fu
 
 ```swift
 public extension Parameterized where Parameters : ParameterAggregate {
-  /// Update parameters with their gradient values, using an updater function.
+  /// Update parameters with their gradient values, using an update function.
   @inlinable
   mutating func updateParameters(
     withGradients gradients: Parameters,
-    _ updater: (inout Parameters.Parameter, Parameters.Parameter) -> Void) {
-    allParameters.update(withGradients: gradients, updater)
+    _ update: (inout Parameters.Parameter, Parameters.Parameter) -> Void) {
+    allParameters.update(withGradients: gradients, update)
   }
 }
 ```
@@ -375,10 +374,10 @@ struct Model : Parameterized {
   //
   //   mutating func update(
   //     withGradients gradients: Parameters,
-  //     _ updater: (inout Parameter, Parameter) -> Void
+  //     _ update: (inout Parameter, Parameter) -> Void
   //   ) {
-  //     layer.update(withGradients: gradients.layer1, updater)
-  //     updater(&tensor, gradients.tensor)
+  //     layer.update(withGradients: gradients.layer1, update)
+  //     update(&tensor, gradients.tensor)
   //   }
   //   var allParameters: Parameters {
   //     get { return Parameters(layer: layer.parameters, tensor: tensor)
@@ -423,10 +422,10 @@ struct Parameters : ParameterAggregate {
 
   func update(
     withGradients gradients: Parameters,
-    _ updater: <T : FloatingPoint>(inout T, T) -> Void
+    _ update: <T : FloatingPoint>(inout T, T) -> Void
   ) {
-    updater(&w, gradients.w)
-    updater(&b, gradients.b)
+    update(&w, gradients.w)
+    update(&b, gradients.b)
   }
 }
 ```
@@ -540,10 +539,10 @@ Sample implementation:
 public extension ParameterAggregate {
   mutating func update(
     withGradients gradients: Self,
-    _ updater: (inout Parameter, Parameter) -> Void
+    _ update: (inout Parameter, Parameter) -> Void
   ) {
     for kp in Self.allKeyPaths {
-      updater(&self[keyPath: kp], gradients[keyPath: kp])
+      update(&self[keyPath: kp], gradients[keyPath: kp])
     }
   }
 }
