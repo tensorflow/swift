@@ -191,7 +191,7 @@ public protocol ParameterAggregate {
   /// Update parameters with their gradient values, using an update function.
   mutating func update(
     withGradients gradients: Self,
-    _ update: (inout Parameter, Parameter) -> Void
+    _ updateParameter: (inout Parameter, Parameter) -> Void
   )
 }
 ```
@@ -216,10 +216,10 @@ struct Parameters : ParameterAggregate {
   // parameter-gradient pair.
   // mutating func update(
   //   withGradients gradients: Parameters,
-  //   _ update: (inout Parameter, Parameter) -> Void
+  //   _ updateParameter: (inout Parameter, Parameter) -> Void
   // ) {
-  //   update(&w, gradients.w)
-  //   update(&b, gradients.b)
+  //   updateParameter(&w, gradients.w)
+  //   updateParameter(&b, gradients.b)
   // }
 }
 
@@ -307,10 +307,10 @@ struct Model : Parameterized {
   //
   //   mutating func update(
   //     withGradients gradients: Parameters,
-  //     _ update: (inout Parameter, Parameter) -> Void
+  //     _ updateParameter: (inout Parameter, Parameter) -> Void
   //   ) {
-  //     update(&w, gradients.w)
-  //     update(&b, gradients.b)
+  //     updateParameter(&w, gradients.w)
+  //     updateParameter(&b, gradients.b)
   //   }
   //
   // var allParameters: Parameters {
@@ -328,8 +328,8 @@ public extension Parameterized where Parameters : ParameterAggregate {
   @inlinable
   mutating func updateParameters(
     withGradients gradients: Parameters,
-    _ update: (inout Parameters.Parameter, Parameters.Parameter) -> Void) {
-    allParameters.update(withGradients: gradients, update)
+    _ updateParameter: (inout Parameters.Parameter, Parameters.Parameter) -> Void) {
+    allParameters.update(withGradients: gradients, updateParameter)
   }
 }
 ```
@@ -374,10 +374,10 @@ struct Model : Parameterized {
   //
   //   mutating func update(
   //     withGradients gradients: Parameters,
-  //     _ update: (inout Parameter, Parameter) -> Void
+  //     _ updateParameter: (inout Parameter, Parameter) -> Void
   //   ) {
-  //     layer.update(withGradients: gradients.layer1, update)
-  //     update(&tensor, gradients.tensor)
+  //     layer.update(withGradients: gradients.layer1, updateParameter)
+  //     updateParameter(&tensor, gradients.tensor)
   //   }
   //   var allParameters: Parameters {
   //     get { return Parameters(layer: layer.parameters, tensor: tensor)
@@ -422,10 +422,10 @@ struct Parameters : ParameterAggregate {
 
   func update(
     withGradients gradients: Parameters,
-    _ update: <T : FloatingPoint>(inout T, T) -> Void
+    _ updateParameter: <T : FloatingPoint>(inout T, T) -> Void
   ) {
-    update(&w, gradients.w)
-    update(&b, gradients.b)
+    updateParameter(&w, gradients.w)
+    updateParameter(&b, gradients.b)
   }
 }
 ```
@@ -539,10 +539,10 @@ Sample implementation:
 public extension ParameterAggregate {
   mutating func update(
     withGradients gradients: Self,
-    _ update: (inout Parameter, Parameter) -> Void
+    _ updateParameter: (inout Parameter, Parameter) -> Void
   ) {
     for kp in Self.allKeyPaths {
-      update(&self[keyPath: kp], gradients[keyPath: kp])
+      updateParameter(&self[keyPath: kp], gradients[keyPath: kp])
     }
   }
 }
