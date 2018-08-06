@@ -69,6 +69,11 @@ Below are some documents explaining the Swift for TensorFlow project.
 
 - [TensorFlow](https://www.tensorflow.org/api_docs/swift/Structs/Tensor)
 
+### Design proposals
+
+- [One Graph Function per Host Function](https://github.com/tensorflow/swift/blob/master/proposals/OneGraphFunctionPerHostFunction.md)
+- [Parameter Update Design](https://github.com/tensorflow/swift/blob/master/proposals/ParameterUpdate.md)
+
 ## Source code
 
 The active development of Swift for TensorFlow will happen under the 
