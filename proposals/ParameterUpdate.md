@@ -422,7 +422,7 @@ struct Parameters : ParameterAggregate {
 
   func update(
     withGradients gradients: Parameters,
-    _ updateParameter: <T : FloatingPoint>(inout T, T) -> Void
+    _ updateParameter: <Scalar : BinaryFloatingPoint>(inout Tensor<Scalar>, Tensor<Scalar>) -> Void
   ) {
     updateParameter(&w, gradients.w)
     updateParameter(&b, gradients.b)
