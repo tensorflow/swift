@@ -465,10 +465,9 @@ For example, an Adam optimizer implementation requires creating auxiliary variab
 struct AdamOptimizer<P : ParameterAggregate> where ... {
   // There is one moving average per parameter.
   // Thus, the moving averages can be represented as an instance of `P`.
-  // Note: initializing `ParameterAggregate` types with zeros isn't possible, but
-  // is necessary in some form or another. This requires further exploration (like
-  // synthesizing conformances of `ParameterAggregate` types to `VectorNumeric`, which
-  // defines a repeating value initializer).
+  // Note: `P(0)` is pseudocode that initializes all members of `P` to 0. This
+  // kind of direct zero initialization isn't possible, but is used here to
+  // keep the example code simple.
   var movingAverages = P(0)
 
   mutating func fitParameters(
