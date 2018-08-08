@@ -1,6 +1,6 @@
 # Parameter Update Design
 
-* Authors: [Daniel Zheng](https://github.com/dan-zheng), [Richard Wei](https://github.com/rxwei)
+* Authors: [Dan Zheng](https://github.com/dan-zheng), [Richard Wei](https://github.com/rxwei)
 
 ## Introduction
 
