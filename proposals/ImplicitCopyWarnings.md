@@ -12,10 +12,11 @@ warnings).
 I propose that we clean up the warnings as follows:
 1. Emit no warnings for data transferred while the program is starting (e.g.
    training data being copied to the GPU) or ending (e.g. final weights being
-   copied to the CPU). [The example] demonstrates a lot of warnings at the
-   beginnings and ends of partitioned functions.
+   copied to the CPU).
 2. Within the program, only warn when data makes a round trip from one device to
    another device and back again.
+
+Concretely, this proposal eliminates all warnings in [the example].
 
 Since the round-trip-rule might be hard to implement, I also propose that we
 initially implement a simple heuristic that approximates the round-trip-rule:
@@ -24,9 +25,6 @@ transfers from the accelerator to the host.
 
 Since all round trips involve a transfer from the host to the accelerator, the
 heuristic catches all transfers that the round-trip-rule catches.
-
-Concretely, [the example] should compile with no warnings, both under the
-round-trip-rule and under the heuristic.
 
 [Graph Program Extraction]: https://github.com/tensorflow/swift/blob/master/docs/GraphProgramExtraction.md
 [this simple model]: ./ImplicitCopyWarnings/LinearRegression.swift
