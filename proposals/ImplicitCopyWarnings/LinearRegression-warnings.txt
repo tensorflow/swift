@@ -1,0 +1,84 @@
+reduced.swift:14:23: warning: 'inputs' implicitly copied to the accelerator, use .toAccelerator() to make transfer explicit
+  public func predict(inputs: Tensor<Float>) -> Tensor<Float> {
+                      ^~~~~~~~~~~~~~~~~~~~~
+reduced.swift:15:19: note: value used here
+    return inputs • w + b
+reduced.swift:15:23: warning: value implicitly copied to the accelerator, use .toAccelerator() to make transfer explicit
+    return inputs • w + b
+reduced.swift:15:27: warning: value implicitly copied to the accelerator, use .toAccelerator() to make transfer explicit
+    return inputs • w + b
+reduced.swift:18:20: warning: 'inputs' implicitly copied to the accelerator, use .toAccelerator() to make transfer explicit
+  public func loss(inputs: Tensor<Float>, outputs: Tensor<Float>) -> Float {
+                   ^~~~~~~~~~~~~~~~~~~~~
+reduced.swift:15:19: note: value used here
+    return inputs • w + b
+reduced.swift:15:23: warning: value implicitly copied to the accelerator, use .toAccelerator() to make transfer explicit
+    return inputs • w + b
+reduced.swift:15:27: warning: value implicitly copied to the accelerator, use .toAccelerator() to make transfer explicit
+    return inputs • w + b
+reduced.swift:18:43: warning: 'outputs' implicitly copied to the accelerator, use .toAccelerator() to make transfer explicit
+  public func loss(inputs: Tensor<Float>, outputs: Tensor<Float>) -> Float {
+                                          ^~~~~~~~~~~~~~~~~~~~~~
+reduced.swift:20:25: note: value used here
+    return (predictions - outputs).squared().mean()
+            ~~~~~~~~~~~~^~~~~~~~~
+reduced.swift:23:34: warning: 'inputs' implicitly copied to the accelerator, use .toAccelerator() to make transfer explicit
+  public mutating func trainStep(inputs: Tensor<Float>, outputs: Tensor<Float>,
+                                 ^~~~~~~~~~~~~~~~~~~~~
+reduced.swift:15:19: note: value used here
+    return inputs • w + b
+reduced.swift:23:24: warning: 'self' implicitly copied to the accelerator, use .toAccelerator() to make transfer explicit
+  public mutating func trainStep(inputs: Tensor<Float>, outputs: Tensor<Float>,
+                       ^~~~~~~~~
+reduced.swift:15:19: note: value used here
+    return inputs • w + b
+reduced.swift:23:57: warning: 'outputs' implicitly copied to the accelerator, use .toAccelerator() to make transfer explicit
+  public mutating func trainStep(inputs: Tensor<Float>, outputs: Tensor<Float>,
+                                                        ^~~~~~~~~~~~~~~~~~~~~~
+reduced.swift:27:30: note: value used here
+    let errors = predictions - outputs
+                 ~~~~~~~~~~~~^~~~~~~~~
+reduced.swift:35:30: warning: 'inputs' implicitly copied to the accelerator, use .toAccelerator() to make transfer explicit
+  public mutating func train(inputs: Tensor<Float>, outputs: Tensor<Float>, learningRate: Float,
+                             ^~~~~~~~~~~~~~~~~~~~~
+reduced.swift:15:19: note: value used here
+    return inputs • w + b
+reduced.swift:35:24: warning: 'self' implicitly copied to the accelerator, use .toAccelerator() to make transfer explicit
+  public mutating func train(inputs: Tensor<Float>, outputs: Tensor<Float>, learningRate: Float,
+                       ^~~~~
+reduced.swift:15:19: note: value used here
+    return inputs • w + b
+reduced.swift:35:53: warning: 'outputs' implicitly copied to the accelerator, use .toAccelerator() to make transfer explicit
+  public mutating func train(inputs: Tensor<Float>, outputs: Tensor<Float>, learningRate: Float,
+                                                    ^~~~~~~~~~~~~~~~~~~~~~
+reduced.swift:27:30: note: value used here
+    let errors = predictions - outputs
+                 ~~~~~~~~~~~~^~~~~~~~~
+reduced.swift:31:7: warning: value implicitly copied to the host, use .toHost() to make transfer explicit
+    w -= learningRate * dw
+    ~~^~~~~~~~~~~~~~~~~~~~
+reduced.swift:35:24: note: value used here
+  public mutating func train(inputs: Tensor<Float>, outputs: Tensor<Float>, learningRate: Float,
+                  ~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+reduced.swift:32:7: warning: value implicitly copied to the host, use .toHost() to make transfer explicit
+    b -= learningRate * db
+    ~~^~~~~~~~~~~~~~~~~~~~
+reduced.swift:35:24: note: value used here
+  public mutating func train(inputs: Tensor<Float>, outputs: Tensor<Float>, learningRate: Float,
+                  ~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+reduced.swift:31:7: warning: value implicitly copied to the host, use .toHost() to make transfer explicit
+    w -= learningRate * dw
+    ~~^~~~~~~~~~~~~~~~~~~~
+reduced.swift:65:10: note: value used here
+  return model
+         ^~~~~
+reduced.swift:32:7: warning: value implicitly copied to the host, use .toHost() to make transfer explicit
+    b -= learningRate * db
+    ~~^~~~~~~~~~~~~~~~~~~~
+reduced.swift:65:10: note: value used here
+  return model
+         ^~~~~
+reduced.swift:15:23: warning: value implicitly copied to the accelerator, use .toAccelerator() to make transfer explicit
+    return inputs • w + b
+reduced.swift:15:27: warning: value implicitly copied to the accelerator, use .toAccelerator() to make transfer explicit
+    return inputs • w + b
