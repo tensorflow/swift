@@ -88,7 +88,8 @@ public func train(inputs: Tensor<Float>, outputs: Tensor<Float>, initialWeights:
 We should emit a warning in the above code so that the user is aware that their
 training loop is blocking on data transfer and CPU computation.
 
-The round-trip-rule achieves exactly what we want!
+The round-trip-rule achieves exactly what we want in these examples! So does the
+heuristic.
 
 ## The round-trip-rule does not catch all slow programs
 
