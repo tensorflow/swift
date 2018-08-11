@@ -4,32 +4,23 @@
 
 ## Introduction
 
-The Swift for TensorFlow compiler splits imperative tensor code into multiple
-programs that run on separate devices and occasionally send each other data.
-Since the splitting and sending happen implicitly, the compiler can generate
-programs with performance bottlenecks that the user does not expect (e.g. a
-program that sends data from the GPU to the CPU and then halts all GPU
-computation until the CPU processes the data and sends it back to the GPU). To
-address this problem, Swift for TensorFlow introduces implicit copy warnings
-that warn the user when data gets copied between devices. See the "Performance
-Predictability" section of [Graph Program Extraction] for more information.
-
-Currently, these warnings are very noisy. For example, [this simple model]
-produces [these warnings].
+Currently, implicit copy warnings are very noisy. For example, [this simple
+model] produces [these warnings]. (See the "Performance Predictability" section
+of [Graph Program Extraction] for more information about implicit copy
+warnings).
 
 I propose that we clean up the warnings as follows:
 1. Emit no warnings for data transferred while the program is starting (e.g.
    training data being copied to the GPU) or ending (e.g. final weights being
-   copied to the CPU). The current implementation might already intend to not
-   warn for these, but [the example] above demonstrates a lot of warnings at the
-   beginnings of partitioned functions.
+   copied to the CPU). [The example] demonstrates a lot of warnings at the
+   beginnings and ends of partitioned functions.
 2. Within the program, only warn when data makes a round trip from one device to
    another device and back again.
 
 Since the round-trip-rule might be hard to implement, I also propose that we
-initially implement a simple heuristic that approximates the round-trip-rule to
-try it out: Warn for all transfers from the host to the accelerator, but do not
-warn for any transfers from the accelerator to the host.
+initially implement a simple heuristic that approximates the round-trip-rule:
+Warn for all transfers from the host to the accelerator, but do not warn for any
+transfers from the accelerator to the host.
 
 Since all round trips involve a transfer from the host to the accelerator, the
 heuristic catches all transfers that the round-trip-rule catches.
@@ -72,12 +63,12 @@ public func train(inputs: Tensor<Float>, outputs: Tensor<Float>, initialWeights:
 }
 ```
 
-What we want to avoid is unexpectedly blocking users' computations on data
-transfers between devices. This can happen when the user writes some code that
-(unbeknownst to them) forces some computation to happen on the CPU before
-computation on the accelerator can proceed. For example, suppose that
-`cpuOnlyComputation` runs a computation that can only happen on the CPU. Then
-this training loop blocks on data transfer and CPU computation every iteration:
+What we want to avoid is unexpectedly blocking users' computations. This can
+happen when the user writes some code that (unbeknownst to them) forces some
+computation to happen on the CPU before computation on the accelerator can
+proceed. For example, suppose that `cpuOnlyComputation` runs a computation that
+can only happen on the CPU. Then this training loop blocks on data transfer and
+CPU computation every iteration:
 
 ```swift
 public func train(inputs: Tensor<Float>, outputs: Tensor<Float>, initialWeights: Tensor<Float>) -> Tensor<Float> {
@@ -99,8 +90,7 @@ public func train(inputs: Tensor<Float>, outputs: Tensor<Float>, initialWeights:
 We should emit a warning in the above code so that the user is aware that their
 training loop is blocking on data transfer and CPU computation.
 
-The round-trip-rule gives us exactly what we want in the example. So does the
-proposed heuristic.
+The round-trip-rule achieves exactly what we want!
 
 ## The round-trip-rule does not catch all slow programs
 
@@ -108,9 +98,11 @@ This rule obviously does not catch all slow programs. For example, a program
 that frequently dumps large pieces of data from the GPU to the CPU might soak up
 GPU memory with data waiting to be copied, and this rule will not catch that.
 
+TOD: Justify!
+
 ## Issues with the heuristic
 
-<DESCRIBE THESE!!!>
+TODO: Fill this in!
 
 We [recently eliminated warnings for scalar copies], because they cause a lot of
 noise when used for control flow. For example, the following code emits warnings
