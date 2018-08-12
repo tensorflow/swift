@@ -36,8 +36,8 @@ heuristic catches all transfers that the round-trip-rule catches.
 ## Justification
 
 The main purpose of implicit copy warnings is to alert the user when the Swift
-for TensorFlow programming model causes their program to compile in an
-unexpected and surprising way.
+for TensorFlow programming model causes their program to have unexpectedly bad
+performance.
 
 Users expect their programs to start off by transferring data to an accelerator,
 they expect their programs to occasionally send debugging or status information
@@ -128,6 +128,7 @@ public func example(steps: Int) -> Tensor<Float> {
     }
     step += 1
   }
+  return result
 }
 ```
 
