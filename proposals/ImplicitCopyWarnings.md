@@ -13,8 +13,10 @@ I propose that we clean up the warnings as follows:
 1. Emit no warnings for data transferred while the program is starting (e.g.
    training data being copied to the GPU) or ending (e.g. final weights being
    copied to the CPU).
-2. Within the program, only warn when data makes a round trip from one device to
-   another device and back again.
+2. Within the program, only warn when data makes a round trip between devices:
+   when a piece of data moves from device A to device B, then a computation
+   using that data happens on device B, and then the result of that computation
+   moves back to device A.
 
 Concretely, this proposal eliminates all warnings in [the example].
 
@@ -89,37 +91,53 @@ We should emit a warning in the above code so that the user is aware that their
 training loop is blocking on data transfer and CPU computation.
 
 The round-trip-rule achieves exactly what we want in these examples! So does the
-heuristic.
+heuristic of warning for all transfers from the host to the accelerator.
 
-## The round-trip-rule does not catch all slow programs
+## False-positive / False-negative tradeoff
 
-This rule obviously does not catch all slow programs. For example, a program
-that frequently dumps large pieces of data from the GPU to the CPU might soak up
-GPU memory with data waiting to be copied, and this rule will not catch that.
+The round-trip-rule does not catch all slowness related to implicit copies. For
+example, a program that frequently dumps large pieces of data from the GPU to
+the CPU might soak up GPU memory with data waiting to be copied, and the
+round-trip-rule will not catch that.
 
-TOD: Justify!
+However, the round-trip-rule does capture what I currently believe will be the
+main source of performance unpredictability (accidentally writing code that
+moves a piece of a computation onto a different device), so I propose that it's
+a good initial balance between false positives and false negatives.
+
+After we gain more experience with Swift models, we can revisit implicit copy
+warnings and see whether the balance still appears to be good.
 
 ## Issues with the heuristic
 
-TODO: Fill this in!
-
-We [recently eliminated warnings for scalar copies], because they cause a lot of
-noise when used for control flow. For example, the following code emits warnings
-about transferring the result of the while condition to the accelerator even
-though the transfer doesn't slow or block anything:
+The heuristic (warn for all transfers from the host to the accelerator) can
+produce false positive warnings for harmless transfers from the host to the
+accelerator. One common situation where this happens is when the host calculates
+some simple control flow conditions and sends them to the accelerator. For
+example:
 
 ```swift
-public func train(steps: Int) -> Tensor<Double> {
-  var weights = Tensor<Double>([0, 0, 0])
-  var step = 0
+public func example(steps: Int) -> Tensor<Float> {
+  var result: Tensor<Float> = Tensor(zeros: [10, 10])
+  vat step: Int = 0
   while step < steps {
-    weights += 0.1
+    if step % 2 == 0 {
+      result += 1
+    } else {
+      result += 2
+    }
     step += 1
   }
-  return weights
 }
 ```
 
+If `step < steps` and `step % 2 == 0` get evaluated on the host and the boolean
+results get copied over to the accelerator, then the heuristic will warn about
+implicit copies. But these implicit copies are harmless because the host can
+quickly run through a bunch of iterations and queue up a bunch of booleans for
+the accelerator to consume.
 
-
-[recently eliminated warnings for scalar copies]: https://github.com/apple/swift/pull/18549
+Without implementing the true round-trip-rule, we can denoise the warnings in
+that situation by suppressing warnings for scalar transfers. But the
+round-trip-rule suppresses those warnings in a cleaner and more reliable way, so
+I propose that we eventually do implement the round-trip-rule.
