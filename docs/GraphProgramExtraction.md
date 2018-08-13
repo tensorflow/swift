@@ -381,7 +381,7 @@ A final important topic is performance predictability.  We like that our define-
 
 The solution to this fits right into the standard compiler design: by default, Swift produces compiler warnings when an implicit copy is made (as in the examples above), which makes it immediately clear when a copy is being introduced.
 
-These warnings can be annoying when the copies are intentional, so the user can either disable the warning entirely (e.g. when doing research on small problem sizes where performance doesn’t matter at all) or the warnings can be disabled on a case-by-case basis by calling a method (currently named `x.toDevice()` and `x.toHost()`) to tell the compiler (and future maintainers of the code!) that the copy is intentional.
+These warnings can be annoying when the copies are intentional, so the user can either disable the warning entirely (e.g. when doing research on small problem sizes where performance doesn’t matter at all) or the warnings can be disabled on a case-by-case basis by calling a method (currently named `x.toAccelerator()` and `x.toHost()`) to tell the compiler (and future maintainers of the code!) that the copy is intentional.
 
 This model is particularly helpful to production engineers who deploy code at scale, because they can upgrade the warning to an error, to make sure that no implicit copies creep in, even as the code continues to evolve.
 
@@ -491,10 +491,10 @@ Another nice thing about this is that this extends to high level and user-define
 
 ```swift
 struct DenseLayer<Scalar : Numeric> {
-  var weights: Tensor2D<Scalar>
-  var bias: Tensor1D<Scalar>
-  var dLoss_dB: Tensor1D<Scalar>
-  var dLoss_dW: Tensor2D<Scalar>
+  var weights: Tensor<Scalar>
+  var bias: Tensor<Scalar>
+  var dLoss_dB: Tensor<Scalar>
+  var dLoss_dW: Tensor<Scalar>
 
   init(inputSize: Int, outputSize: Int) {...}
 }
@@ -506,10 +506,10 @@ Generic specialization will desugar into this:
 
 ```swift
 struct DenseLayer_Float {
-  var weights: Tensor2D_Float
-  var bias: Tensor1D_Float
-  var dLoss_dB: Tensor1D_Float
-  var dLoss_dW: Tensor2D_Float
+  var weights: Tensor_Float
+  var bias: Tensor_Float
+  var dLoss_dB: Tensor_Float
+  var dLoss_dW: Tensor_Float
 
   init(inputSize: Int, outputSize: Int) {...}
 }
