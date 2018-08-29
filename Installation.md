@@ -126,6 +126,13 @@ Xcode 10 is required.
     ```bash
     $ export LD_LIBRARY_PATH=/usr/local/cuda/lib:"${LD_LIBRARY_PATH}"
     ```
+**KNOWN ISSUE XCODE 10 Beta - No such module 'TensorFlow'**     
+Xcode 10 beta doesn't work very well with third-party toolchains. A workaround is the following:   
+    
+Go to "File" - "Project Settings"    
+Set "Build System" to "Legacy Build System"    
+Click "Done".    
+    
 
 ## Linux
 
