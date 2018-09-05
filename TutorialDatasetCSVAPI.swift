@@ -14,7 +14,7 @@
 /// work even though we do not have general APIs. Soon, we will have general
 /// APIs replacing this.
 
-/// Initialize a (features: Tensor<Float>, labels: Tensor<Float>) dataset from
+/// Initialize a (features: Tensor<Float>, labels: Tensor<Int32>) dataset from
 /// a CSV file.
 extension Dataset where Element == (Tensor<Float>, Tensor<Int32>) {
   @inlinable @inline(__always)
