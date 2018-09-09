@@ -171,11 +171,3 @@ $ export PATH=$(pwd)/usr/bin:"${PATH}"
 ```
 
 You can now execute the `swift` command to run the REPL or build Swift projects.
-
-**Note**: when running the REPL on Ubuntu, you must manually specify the include path to `clang` headers:
-
-```
-swift -I/<path-to-toolchain>/usr/lib/swift/clang/include
-```
-
-This is a necessary workaround for [SR-5524](https://bugs.swift.org/browse/SR-5524), a bug causing modulemap imports to fail in the REPL.
