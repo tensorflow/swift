@@ -149,7 +149,7 @@ Note that nothing prevents Swift from being ported to other Linux distributions 
 1. Install required dependencies:
 
 ```
-$ sudo apt-get install clang libicu-dev libpython-dev libncurses5-dev
+$ sudo apt-get install clang libcurl3 libicu-dev libpython-dev libncurses5-dev
 ```
 
 2. Download the latest binary release above.
