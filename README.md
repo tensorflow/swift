@@ -89,10 +89,11 @@ Swift for TensorFlow is **not** intended to remain a long-term fork of the offic
 Swift language. New language features will eventually go through the Swift evolution process
 as part of being considered for being pulled into master.
 
-## Models
+## Models and Tutorials
 
 You can find example machine learning models at
-[tensorflow/swift-models](https://github.com/tensorflow/swift-models).
+[tensorflow/swift-models](https://github.com/tensorflow/swift-models), or try out a tutorial at
+[tensorflow/swift-tutorials](https://github.com/tensorflow/swift-tutorials).
 
 ## Related Projects
 
