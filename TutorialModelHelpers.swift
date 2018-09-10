@@ -16,15 +16,15 @@
 
 // TODO: Add this to the standard library? It's a pretty useful op for
 // classification problems.
-@differentiable(reverse, wrt: (.0), adjoint: adjSparseSoftmaxCrossEntropy)
+@differentiable(reverse, wrt: (.0), adjoint: adjSoftmaxCrossEntropy)
 @inlinable @inline(__always)
-func sparseSoftmaxCrossEntropy(logits: Tensor<Float>, labels: Tensor<Int32>) -> Float {
-  return Raw.sparseSoftmaxCrossEntropyWithLogits(features: logits, labels: labels).loss.mean()
+func softmaxCrossEntropy(logits: Tensor<Float>, categoricalLabels: Tensor<Int32>) -> Float {
+  return Raw.sparseSoftmaxCrossEntropyWithLogits(features: logits, labels: categoricalLabels).loss.mean()
 }
 
 @inlinable @inline(__always)
-func adjSparseSoftmaxCrossEntropy(logits: Tensor<Float>, labels: Tensor<Int32>, primal: Float, seed: Float) -> Tensor<Float> {
-  return seed * Raw.sparseSoftmaxCrossEntropyWithLogits(features: logits, labels: labels).backprop
+func adjSoftmaxCrossEntropy(logits: Tensor<Float>, categoricalLabels: Tensor<Int32>, primal: Float, seed: Float) -> Tensor<Float> {
+  return seed * Raw.sparseSoftmaxCrossEntropyWithLogits(features: logits, labels: categoricalLabels).backprop
 }
 
 // TODO: Necessary because of SR-8699.

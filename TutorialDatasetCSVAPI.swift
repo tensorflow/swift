@@ -48,3 +48,12 @@ extension Dataset where Element == (Tensor<Float>, Tensor<Int32>) {
     self.init(elements: (featuresTensor, labelsTensor))
   }
 }
+
+/// Sequence doesn't have a non-predicated first() method, so we define one.
+/// TODO: Add this to Swift's stdlib.
+extension Sequence where Element == (Tensor<Float>, Tensor<Int32>) {
+  @inlinable
+  func first() -> (Tensor<Float>, Tensor<Int32>)? {
+      return first(where: {_ in true})
+  }
+}
