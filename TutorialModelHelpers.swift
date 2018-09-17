@@ -27,7 +27,8 @@ func adjSoftmaxCrossEntropy(logits: Tensor<Float>, categoricalLabels: Tensor<Int
   return seed * Raw.sparseSoftmaxCrossEntropyWithLogits(features: logits, labels: categoricalLabels).backprop
 }
 
-extension Tensor where Scalar : BinaryFloatingPoint {
+extension Tensor where Scalar : BinaryFloatingPoint,
+                       Scalar.RawSignificand : FixedWidthInteger {
   @inlinable
   init(glorotUniform shape: TensorShape) {
     let minusOneToOne = 2 * Tensor(randomUniform: shape) - 1
