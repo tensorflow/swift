@@ -16,15 +16,30 @@
 
 // TODO: Add this to the standard library? It's a pretty useful op for
 // classification problems.
-@differentiable(reverse, wrt: (.0), adjoint: adjSoftmaxCrossEntropy)
 @inlinable
+@differentiable(reverse, wrt: (.0), 
+                primal: _primalSoftmaxCrossEntropy, 
+                adjoint: _adjointSoftmaxCrossEntropy)
 func softmaxCrossEntropy(logits: Tensor<Float>, categoricalLabels: Tensor<Int32>) -> Float {
-  return Raw.sparseSoftmaxCrossEntropyWithLogits(features: logits, labels: categoricalLabels).loss.mean()
+  return Raw.sparseSoftmaxCrossEntropyWithLogits(features: logits, 
+                                                 labels: categoricalLabels).loss.mean()
 }
 
 @inlinable
-func adjSoftmaxCrossEntropy(logits: Tensor<Float>, categoricalLabels: Tensor<Int32>, primal: Float, seed: Float) -> Tensor<Float> {
-  return seed * Raw.sparseSoftmaxCrossEntropyWithLogits(features: logits, labels: categoricalLabels).backprop
+internal func _primalSoftmaxCrossEntropy(logits: Tensor<Float>, 
+                                         categoricalLabels: Tensor<Int32>) -> (Tensor<Float>, Float) {
+  let (loss, grad) = Raw.sparseSoftmaxCrossEntropyWithLogits(features: logits, 
+                                                             labels: categoricalLabels)
+  return (grad, loss.mean())
+}
+
+@inlinable
+internal func _adjointSoftmaxCrossEntropy(logits: Tensor<Float>, 
+                                          categoricalLabels: Tensor<Int32>, 
+                                          checkpointedGrad: Tensor<Float>, 
+                                          originalResult: Float, 
+                                          seed: Float) -> Tensor<Float> {
+  return checkpointedGrad
 }
 
 extension Tensor where Scalar : BinaryFloatingPoint,
