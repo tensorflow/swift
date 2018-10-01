@@ -64,6 +64,7 @@ Below are some documents explaining the Swift for TensorFlow project.
 - [Graph Program Extraction](docs/GraphProgramExtraction.md)
 - [Automatic Differentiation](docs/AutomaticDifferentiation.md)
 - [Python Interoperability](docs/PythonInteroperability.md)
+- [Parameter Update](proposals/ParameterUpdate.md)
 
 ### Swift API reference
 
@@ -71,8 +72,7 @@ Below are some documents explaining the Swift for TensorFlow project.
 
 ### Design proposals
 
-- [One Graph Function per Host Function](https://github.com/tensorflow/swift/blob/master/proposals/OneGraphFunctionPerHostFunction.md)
-- [Parameter Update Design](https://github.com/tensorflow/swift/blob/master/proposals/ParameterUpdate.md)
+- [One Graph Function per Host Function](proposals/OneGraphFunctionPerHostFunction.md)
 
 ## Source code
 
