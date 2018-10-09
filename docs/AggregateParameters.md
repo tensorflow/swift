@@ -1,4 +1,4 @@
-# Parameter Update Design
+# Aggregate Parameters and Parameter Update
 
 * Authors: [Dan Zheng](https://github.com/dan-zheng), [Richard Wei](https://github.com/rxwei)
 
