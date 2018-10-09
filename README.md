@@ -63,7 +63,7 @@ Below are some documents explaining the Swift for TensorFlow project.
 - [Graph Program Extraction](docs/GraphProgramExtraction.md)
 - [Automatic Differentiation](docs/AutomaticDifferentiation.md)
 - [Python Interoperability](docs/PythonInteroperability.md)
-- [Parameter Update](docs/ParameterUpdate.md)
+- [Aggregate Parameters and Parameter Update](docs/AggregateParameters.md)
 
 ### Swift API reference
 
