@@ -163,7 +163,7 @@ in pure Swift code.
 To achieve this, Swift’s AD system needs to know some key ingredients for a type
 to be compatible with differentiation, including:
 
-* The type must represent a arbitrarily ranked vector space (where tensors
+* The type must represent an arbitrarily ranked vector space (where tensors
   live). Elements of this vector space must be floating point numeric. There is
   an associated scalar type that is also floating point numeric.
 
@@ -177,7 +177,7 @@ to be compatible with differentiation, including:
   there is no back-propagated adjoint, the value will be set to `nil`. However
   this will cause performance issues with TensorFlow’s `Tensor` type today
   (optional checks causing send/receive). We need to finish the implementation
-  of constant expression analysis to be able to fold the optional check away.
+  of constant expression analysis to be able to fold away the optional check.
 
 * How values of this type will combine at data flow fan-ins in the adjoint
   computation. By the sum and product rule, this is usually addition. Addition
@@ -202,7 +202,7 @@ public protocol VectorNumeric {
 ```
 
 `VectorNumeric` and `Numeric`/`FloatingPoint` are semantically disjoint. We say
-that a type supports scalar differentiation when it conforms to the
+that a type supports scalar differentiation when it conforms to
 `FloatingPoint`. We say that a type supports **vector differentiation** when it
 conforms to `VectorNumeric` while its `ScalarElement` supports **scalar
 differentiation** (i.e. conforms to the `FloatingPoint` protocol).
@@ -317,7 +317,7 @@ differentiability.
 
 ```swift
 // Differentiable with respect to all parameters using reverse-mode AD.
-// The corresponding adjoint to call is `dTanh`.
+// The corresponding adjoint is `dTanh`.
 @differentiable(reverse, adjoint: dTanh)
 func tanh(_ x: Float) -> Float {
     ... some super low-level assembly tanh implementation ...
@@ -345,8 +345,7 @@ defined as instance methods, e.g. `FloatingPoint.squareRoot()` and
 ```swift
 extension Tensor {
     // Differentiable with respect to `self` (the input) and the first parameter
-    // (the filter) using reverse-mode AD. The corresponding adjoint to call
-    // is `dConv`
+    // (the filter) using reverse-mode AD. The corresponding adjoint is `dConv`.
     @differentiable(reverse, withRespectTo: (self, .0), adjoint: dConv)
     func convolved(withFilter k: Tensor, strides: [Int32], padding: Padding) -> Tensor {
         return #tfop("Conv2D", ...)
@@ -457,7 +456,7 @@ overall workflow implemented, but code synthesis within primal generation and
 adjoint generation, including control flow graph canonicalization, loop counter
 insertion and tape management, are still a work in progress. This means that
 today's differential operators work only when there's a `@differentiable`
-attribute specifying the adjoint (or both the primal and the adjoint**.
+attribute specifying the adjoint (or both the primal and the adjoint).
 Completing the AD implementation is our immediate priority.
 
 # Future directions
