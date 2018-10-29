@@ -61,7 +61,8 @@ Below are some documents explaining the Swift for TensorFlow project.
 ### Technology deep dive
 
 - [Graph Program Extraction](docs/GraphProgramExtraction.md)
-- [Automatic Differentiation](docs/AutomaticDifferentiation.md)
+- [Automatic Differentiation Whitepaper](docs/AutomaticDifferentiation.md)
+- [Automatic Differentiation Manifesto](https://gist.github.com/rxwei/30ba75ce092ab3b0dce4bde1fc2c9f1d)
 - [Python Interoperability](docs/PythonInteroperability.md)
 - [Aggregate Parameters and Parameter Update](docs/AggregateParameters.md)
 
