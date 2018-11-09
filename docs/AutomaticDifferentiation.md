@@ -425,7 +425,7 @@ differentiate instructions and function calls within it. In this process, the
 compiler generates:
 
 - A struct type `C_f`, whose members include primal intermediate values as
-  stored properties and a strongly-typed tapes (only if there's any control flow
+  stored properties and strongly-typed tapes (only if there's any control flow
   or loops). We call this struct "checkpoints" for implementation modeling
   purposes.
 - A primal function `f_prim : (T0, T1, ..., Tn) -> (C_f, U)` that
@@ -437,7 +437,7 @@ the vector-Jacobian products.
   `f_can_grad : (T0, T1, ..., Tn, U) -> (U, T0, T1, ..., Tn)` which internally
   calls `f_prim` and uses the primal's returns to call `f_adj`. The last
   parameter of this function takes a differentiation seed. This function returns
-  the original result and the vector-Jacobian produts.
+  the original result and the vector-Jacobian products.
 - A finalized gradient function `∇f : (T0, T1, ..., Tn) -> (T0, T1, ..., Tn)`
   which internally calls `f_can_grad` using a default seed `1` and throws away
   the first result (the first result would be used if `#valueAndGradient()`
@@ -474,7 +474,7 @@ differential operators as regular generic functions.
 
 ### Flow-sensitive differential operators
 
-As described in the document, we intially provide two differential operators on
+As described in the document, we initially provide two differential operators on
 functions: `#gradient` and `#valueAndGradient`. Differentiating functions, 
 however, do not provide a similar developer experience as
 
@@ -500,7 +500,7 @@ require the user to define such a function with a standalone function name,
 2) out-of-line definition of adjoints also makes it hard for user to customize 
 checkpointing in the original computation, and 3) `@differentiable` uses confusing 
 indices to refer to parameters to differentiate with respect to. To address these
-isues, a possible solution would be to introduce an inline syntax with keywords
+issues, a possible solution would be to introduce an inline syntax with keywords
 `adjoint` and `wrt`:
 
 ```swift
@@ -551,7 +551,7 @@ function declaration.
 
 Real-world models are often written as a `struct` type that declares parameters,
 but differentiation parameters in the `#gradient` expression syntax currently
-only supports parameter indices or `self`. When the prediction function is
+only support parameter indices or `self`. When the prediction function is
 defined as an instance method on the type, how can we express "differentiate
 `prediction(for:)` with respect to all parameters"?
 
