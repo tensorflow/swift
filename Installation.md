@@ -13,7 +13,7 @@ Packages will be released nightly after automated building is set up.
 | Download | Date [(last commit)](https://github.com/apple/swift/commit/2538fca7f914e56f3822e5b6a415d48278c5d38f) |
 |----------|------|
 | [Xcode 10](https://storage.googleapis.com/swift-tensorflow/mac/swift-tensorflow-DEVELOPMENT-2018-11-21-a-osx.pkg) | November 21, 2018 |
-| [Ubuntu 16.04](https://storage.googleapis.com/swift-tensorflow/mac/swift-tensorflow-DEVELOPMENT-2018-11-21-a-osx.pkg) | November 21, 2018 |
+| [Ubuntu 16.04](https://storage.googleapis.com/swift-tensorflow/ubuntu16.04/swift-tensorflow-DEVELOPMENT-2018-11-21-a-ubuntu16.04.tar.gz) | November 21, 2018 |
 
 <details>
   <summary>Older Packages</summary>
