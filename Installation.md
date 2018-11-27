@@ -116,7 +116,7 @@ Xcode 10 is required.
 * For GPU toolchains:
   * CUDA Toolkit 9.2
   * CuDNN 7.1
-  * An NVIDIA GPU with compute compability 3.5, 6.1 or 7.0
+  * An NVIDIA GPU with compute compatibility 3.5, 6.1 or 7.0
 
 ### Installation
 
