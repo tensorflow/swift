@@ -10,10 +10,10 @@ To install Swift for TensorFlow, download one of the packages below and follow t
 
 Packages will be released nightly after automated building is set up.
 
-| Download | Date [(last commit)](https://github.com/apple/swift/commit/2538fca7f914e56f3822e5b6a415d48278c5d38f) |
+| Download | Date [(last commit)](https://github.com/apple/swift/commit/0fe79b79a374129fddcc327c89836bf33a9be005) |
 |----------|------|
-| [Xcode 10](https://storage.googleapis.com/swift-tensorflow/mac/swift-tensorflow-DEVELOPMENT-2018-11-21-a-osx.pkg) | November 21, 2018 |
-| [Ubuntu 16.04](https://storage.googleapis.com/swift-tensorflow/ubuntu16.04/swift-tensorflow-DEVELOPMENT-2018-11-21-a-ubuntu16.04.tar.gz) | November 21, 2018 |
+| [Xcode 10](https://storage.googleapis.com/swift-tensorflow/mac/swift-tensorflow-DEVELOPMENT-2018-12-04-a-osx.pkg) | December 04, 2018 |
+| [Ubuntu 16.04](https://storage.googleapis.com/swift-tensorflow/ubuntu16.04/swift-tensorflow-DEVELOPMENT-2018-12-04-a-ubuntu16.04.tar.gz) | December 04, 2018 |
 
 <details>
   <summary>Older Packages</summary>
@@ -24,6 +24,7 @@ Packages will be released nightly after automated building is set up.
 
 | Download |
 |----------|
+| [November 21, 2018](https://storage.googleapis.com/swift-tensorflow/mac/swift-tensorflow-DEVELOPMENT-2018-11-21-a-osx.pkg) |
 | [October 17, 2018](https://storage.googleapis.com/swift-tensorflow/mac/swift-tensorflow-DEVELOPMENT-2018-10-17-a-osx.pkg) |
 | [October 13, 2018](https://storage.googleapis.com/swift-tensorflow/mac/swift-tensorflow-DEVELOPMENT-2018-10-13-a-osx.pkg) |
 | [October 05, 2018](https://storage.googleapis.com/swift-tensorflow/mac/swift-tensorflow-DEVELOPMENT-2018-10-05-a-osx.pkg) |
@@ -62,6 +63,7 @@ Xcode 10 is required.
 
 | Download |
 |----------|
+| [November 21, 2018](https://storage.googleapis.com/swift-tensorflow/ubuntu16.04/swift-tensorflow-DEVELOPMENT-2018-11-21-a-ubuntu16.04.tar.gz) |
 | [October 17, 2018](https://storage.googleapis.com/swift-tensorflow/ubuntu16.04/swift-tensorflow-DEVELOPMENT-2018-10-17-a-ubuntu16.04.tar.gz) |
 | [October 13, 2018](https://storage.googleapis.com/swift-tensorflow/ubuntu16.04/swift-tensorflow-DEVELOPMENT-2018-10-13-a-ubuntu16.04.tar.gz) |
 | [October 05, 2018](https://storage.googleapis.com/swift-tensorflow/ubuntu16.04/swift-tensorflow-DEVELOPMENT-2018-10-05-a-ubuntu16.04.tar.gz) |
