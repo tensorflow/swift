@@ -1,4 +1,5 @@
 # Graph Program Extraction
+([Tech talk video recording](https://www.youtube.com/watch?v=HSneJdPkaKk) from LLVM 2018 dev meeting)
 
 Swift for TensorFlow provides a define-by-run programming model while also providing the full benefit of graphs.  This is possible because of a core "graph program extraction" algorithm that we’ve built into the Swift compiler that takes imperative Swift code and automatically builds a graph as part of the normal compilation flow.  This document [frames and motivates the challenge](#motivation), explains [related work](#related-work), describes our [technique at a high level](#graph-program-extraction-a-new-define-by-run-approach) to contrast with prior work, explains an inductive mental model for [how our approach works](#building-a-programming-model), and explains the [resultant programming model](#explaining-the-swift-for-tensorflow-model-to-users) in user terms.
 
