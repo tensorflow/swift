@@ -160,7 +160,7 @@ In Swift, TensorFlow graphs are an implementation detail and aren't visible to u
 
 ## Parameter update in Swift
 
-The current Swift parameter update design is based on two protocols: `ParameterAggregate` and `Parameterized`.
+The current Swift parameter update design is based on two protocols: `ParameterGroup` and `Parameterized`.
 
 They enable:
 * Parameter update for parameter aggregates and parameterized models, where all parameters have the same type.
@@ -168,23 +168,23 @@ They enable:
 * General optimizers that work with any floating-point parameter aggregate type.
 
 Examples:
-* [MNIST](https://github.com/tensorflow/swift-models/blob/master/MNIST/MNIST.swift): demonstrates `ParameterAggregate`.
+* [MNIST](https://github.com/tensorflow/swift-models/blob/master/MNIST/MNIST.swift): demonstrates `ParameterGroup`.
 * [Autoencoder](https://github.com/tensorflow/swift-models/blob/master/Autoencoder/Autoencoder.swift): demonstrates `Parameterized`.
 * Optimizers are a work-in-progress, see a sample sketch in this [PR description](https://github.com/apple/swift/pull/18171#issue-203387822).
 
 Implementation:
-* [Part 1: ParameterAggregate protocol and synthesis](https://github.com/apple/swift/pull/18140)
+* [Part 1: ParameterGroup protocol and synthesis](https://github.com/apple/swift/pull/18140)
 * [Part 2: Parameterized protocol and synthesis](https://github.com/apple/swift/pull/18171)
 
 ---
 
-Two protocols have been added to the TensorFlow module: `ParameterAggregate` and `Parameterized`.
+Two protocols have been added to the TensorFlow module: `ParameterGroup` and `Parameterized`.
 
-The `ParameterAggregate` protocol represents an aggregate of parameters. Types that conform to `ParameterAggregate` must specify a `Parameter` associated type and an update method.
+The `ParameterGroup` protocol represents an aggregate of parameters. Types that conform to `ParameterGroup` must specify a `Parameter` associated type and an update method.
 
 ```swift
 /// A type representing an aggregate of parameters.
-public protocol ParameterAggregate {
+public protocol ParameterGroup {
   /// The parameter type.
   associatedtype Parameter
 
@@ -196,12 +196,12 @@ public protocol ParameterAggregate {
 }
 ```
 
-For structs whose stored properties all have the same type, the compiler can synthesize the `ParameterAggregate` protocol requirements.
+For structs whose stored properties all have the same type, the compiler can synthesize the `ParameterGroup` protocol requirements.
 
 Here's an example:
 
 ```swift
-struct Parameters : ParameterAggregate {
+struct Parameters : ParameterGroup {
   // Note: all stored properties have the same type.
   var w: Tensor<Float>
   var b: Tensor<Float>
@@ -233,11 +233,11 @@ print(parameters)
 // Parameters(w: [[0.95, 0.95], [0.95, 0.95]], b: 0.95)
 ```
 
-Model creators can define custom structs that conforms to `ParameterAggregate`, and use them in functions:
+Model creators can define custom structs that conforms to `ParameterGroup`, and use them in functions:
 
 ```swift
 /// Parameters of an MNIST classifier.
-struct MNISTParameters : ParameterAggregate {
+struct MNISTParameters : ParameterGroup {
   var w1 = Tensor<Float>(randomUniform: [784, 30])
   var w2 = Tensor<Float>(randomUniform: [30, 10])
   var b1 = Tensor<Float>(zeros: [1, 30])
@@ -264,7 +264,7 @@ let dInference = #gradient(inference)
 
 ---
 
-`ParameterAggregate` is useful for representing structs that are "bundles of parameters", where all stored properties are parameters. However, model structs may have stored properties which are not parameters (e.g. configuration flags or state-caching variables), and thus they cannot conform to `ParameterAggregate`.
+`ParameterGroup` is useful for representing structs that are "bundles of parameters", where all stored properties are parameters. However, model structs may have stored properties which are not parameters (e.g. configuration flags or state-caching variables), and thus they cannot conform to `ParameterGroup`.
 
 The `Parameterized` protocol solves this problem. `Parameterized` represents a type whose values have parameters, and where not all stored properties are necessarily parameters.
 
@@ -290,7 +290,7 @@ struct Model : Parameterized {
 
 For types that conform to `Parameterized`, the compiler can synthesize a member struct type `Parameters` (which includes all of the marked properties) and a computed instance `allParameters`.
 
-If all parameters have the same type, the compiler also synthesizes a conformance of `Parameters` to `ParameterAggregate`.
+If all parameters have the same type, the compiler also synthesizes a conformance of `Parameters` to `ParameterGroup`.
 
 ```swift
 struct Model : Parameterized {
@@ -299,7 +299,7 @@ struct Model : Parameterized {
 
   // Compiler-synthesized:
   //
-  // struct Parameters : ParameterAggregate {
+  // struct Parameters : ParameterGroup {
   //   var w: Tensor<Float>
   //   var b: Tensor<Float>
   //
@@ -320,10 +320,10 @@ struct Model : Parameterized {
 }
 ```
 
-The `Parameterized` protocol also conditionally defines an `updateParameters` function, when `Parameters` conforms to `ParameterAggregate`:
+The `Parameterized` protocol also conditionally defines an `updateParameters` function, when `Parameters` conforms to `ParameterGroup`:
 
 ```swift
-public extension Parameterized where Parameters : ParameterAggregate {
+public extension Parameterized where Parameters : ParameterGroup {
   /// Update parameters with their gradient values, using an update function.
   @inlinable
   mutating func updateParameters(
@@ -339,7 +339,7 @@ public extension Parameterized where Parameters : ParameterAggregate {
 In layer-based high level APIs, layers may have parameters which are themselves layers.
 
 The current parameter design supports this:
-* `ParameterAggregate` has special behavior for stored properties that conform to `ParameterAggregate`.
+* `ParameterGroup` has special behavior for stored properties that conform to `ParameterGroup`.
 * `Parameterized` has special behavior for parameters that conform to `Parameterized`.
 
 The behavior is perhaps most easily explained via an example:
@@ -358,8 +358,8 @@ struct Model : Parameterized {
   @TFParameter var tensor: Tensor<Float>
 
   // Synthesized:
-  // struct Parameters : ParameterAggregate {
-  //   // Since `DenseLayer.Parameters` conforms to `ParameterAggregate`, its
+  // struct Parameters : ParameterGroup {
+  //   // Since `DenseLayer.Parameters` conforms to `ParameterGroup`, its
   //   // "effective parameter type" is considered to be 
   //   // `DenseLayer.Parameters.Parameter`. This ultimately enables nested
   //   // parameters.
@@ -369,7 +369,7 @@ struct Model : Parameterized {
   //
   //   // The `DenseLayer.Parameters.Parameter` is `Tensor<Float>`.
   //   // Since all stored properties have the same "effective parameter type",
-  //   // `ParameterAggregate` synthesis is possible.
+  //   // `ParameterGroup` synthesis is possible.
   //   typealias Parameter = Tensor<Float>
   //
   //   mutating func update(
@@ -395,15 +395,15 @@ The current parameter update design only supports parameters with the same type.
 For example, synthesis below doesn't work:
 
 ```swift
-// The compiler cannot synthesize `ParameterAggregate` requirements because 
+// The compiler cannot synthesize `ParameterGroup` requirements because 
 // there is no unified parameter type.
-struct HeterogeneousParameters : ParameterAggregate {
+struct HeterogeneousParameters : ParameterGroup {
   var w: Tensor<Double>
   var b: Tensor<Float>
 }
 
 // `Parameters` and `allParameters` are synthesized, but the `Parameters` 
-// struct does not conform to `ParameterAggregate` because there is no 
+// struct does not conform to `ParameterGroup` because there is no 
 // unified parameter type.
 struct ModelWithHeterogeneousParameters : Parameterized {
   @TFParameter var w: Tensor<Double>
@@ -411,12 +411,12 @@ struct ModelWithHeterogeneousParameters : Parameterized {
 }
 ```
 
-It's technically possible to manually conform `HeterogeneousParameters` to `ParameterAggregate`, but it requires casting and is very inefficient.
+It's technically possible to manually conform `HeterogeneousParameters` to `ParameterGroup`, but it requires casting and is very inefficient.
 
 One way to enable heterogeneous floating-point tensor parameters is adding support for generic closures in Swift (a subset of rank-2 polymorphism). Generic closures would enable the following:
 
 ```swift
-struct Parameters : ParameterAggregate {
+struct Parameters : ParameterGroup {
   var w: Tensor<Double>
   var b: Tensor<Float>
 
@@ -455,14 +455,14 @@ Semantically, "GroupParameterized" and `Parameterized` are quite different. For 
 
 ### Complex iteration and mutation of parameters (implementation in progress)
 
-Currently, `ParameterAggregate` only defines one function: `update(withGradients:_:)`.
+Currently, `ParameterGroup` only defines one function: `update(withGradients:_:)`.
 
 This functionality is limited and insufficient for implementing complex optimizers.
 For example, an Adam optimizer implementation requires creating auxiliary variables (moving averages) per parameter, and iterating over them jointly with parameters and their gradients:
 
 ```swift
 // Pseudocode.
-struct AdamOptimizer<P : ParameterAggregate> where ... {
+struct AdamOptimizer<P : ParameterGroup> where ... {
   // There is one moving average per parameter.
   // Thus, the moving averages can be represented as an instance of `P`.
   // Note: `P(0)` is pseudocode that initializes all members of `P` to 0. This
@@ -483,14 +483,14 @@ struct AdamOptimizer<P : ParameterAggregate> where ... {
 
 #### Proposed solution
 
-We can access members of a `ParameterAggregate`-conforming type using key paths.
+We can access members of a `ParameterGroup`-conforming type using key paths.
 
-By synthesizing an `allKeyPaths` static property for types conforming to `ParameterAggregate`, we can jointly iterate over the members of instances of a `ParameterAggregate`-conforming type and access/mutate them arbitrarily.
+By synthesizing an `allKeyPaths` static property for types conforming to `ParameterGroup`, we can jointly iterate over the members of instances of a `ParameterGroup`-conforming type and access/mutate them arbitrarily.
 
 Implementing the Adam optimizer becomes possible:
 
 ```swift
-struct AdamOptimizer<P : ParameterAggregate> where ... {
+struct AdamOptimizer<P : ParameterGroup> where ... {
   var movingAverages = P(0)
   mutating func fitParameters(
     parameters: inout P, withGradients gradients: P
@@ -509,13 +509,13 @@ Eventually, support may be added to evaluate such key path initialization/applic
 
 #### Implementation steps
 
-1. Synthesize `allKeyPaths` static property for types that conform to `ParameterAggregate`. This should enable the implementation of optimizers like Adam. ([SR-8457](https://bugs.swift.org/browse/SR-8457))
+1. Synthesize `allKeyPaths` static property for types that conform to `ParameterGroup`. This should enable the implementation of optimizers like Adam. ([SR-8457](https://bugs.swift.org/browse/SR-8457))
 2. Investigate compile-time evaluation of key path initialization/arrays. That `KeyPath`s are classes may complicate things.
 3. Investigate full unrolling of loops over `allKeyPaths` at compile-time.
 
 Perhaps a TensorFlow-specific attribute (e.g. `@TensorFlowUnroll`) may be added:
 ```swift
-struct P : ParameterAggregate {
+struct P : ParameterGroup {
   var x1, x2, ...
 }
 var parameters: P = ...
@@ -531,11 +531,11 @@ for kp in P.allKeyPaths {
 // ...
 ```
 
-4. Remove `update(withGradients:_:)` as a protocol requirement and reimplement it as an extension method on `ParameterAggregate`.
+4. Remove `update(withGradients:_:)` as a protocol requirement and reimplement it as an extension method on `ParameterGroup`.
 
 Sample implementation:
 ```swift
-public extension ParameterAggregate {
+public extension ParameterGroup {
   mutating func update(
     withGradients gradients: Self,
     _ updateParameter: (inout Parameter, Parameter) -> Void
@@ -625,15 +625,15 @@ if useResNet {
 
 However, with a "register parameter" function, it's not clear what the parameter aggregate representation would be. Since actual registered parameters may be conditional on based runtime values, a runtime "parameters" data structure may be necessary, requiring much more compiler support. From a design perspective, the "register parameter" function is a type of metaprogramming and goes against the principles of Swift for TensorFlow.
 
-For this particular example, a more robust solution would be to support enum conformance to `ParameterAggregate`/`Parameterized`, and to use an enum to represent the sub-model:
+For this particular example, a more robust solution would be to support enum conformance to `ParameterGroup`/`Parameterized`, and to use an enum to represent the sub-model:
 
 ```swift
-enum ResNetOrRNNParameters : ParameterAggregate {
+enum ResNetOrRNNParameters : ParameterGroup {
   case resnet(ResNetModel)
   case rnn(RNNModel)
 }
 
-struct ToyParameters : ParameterAggregate {
+struct ToyParameters : ParameterGroup {
   var resnetOrRnn: ResNetOrRNNParameters
 
   init(resnet: ResNetModel, rnn: RNNModel, useResNet: Bool) {
@@ -650,12 +650,12 @@ During early stages of the design, the parameter registration attribute was name
 
 ### Macro-based parameter update (works with heterogeneous parameters)
 
-Since `ParameterAggregate` types are structs and not an `Array`-like collection, it's not possible to use a regular for-loop to iterate over each parameter. We need some way to jointly iterate over the members of two structs of the same type (parameters and gradients) to perform parameter update.
+Since `ParameterGroup` types are structs and not an `Array`-like collection, it's not possible to use a regular for-loop to iterate over each parameter. We need some way to jointly iterate over the members of two structs of the same type (parameters and gradients) to perform parameter update.
 
-Swift doesn't directly support zipping or iterating over struct members, so we can introduce an ad-hoc, specific language feature to meet our needs. The most specific/reduced language feature is a macro like `#forZippedParameters` which jointly zips and iterates over the members of two instances of a `ParameterAggregate` type, takes a trailing closure with two arguments, and expands to straight-line code:
+Swift doesn't directly support zipping or iterating over struct members, so we can introduce an ad-hoc, specific language feature to meet our needs. The most specific/reduced language feature is a macro like `#forZippedParameters` which jointly zips and iterates over the members of two instances of a `ParameterGroup` type, takes a trailing closure with two arguments, and expands to straight-line code:
 
 ```swift
-struct Parameters : ParameterAggregate {
+struct Parameters : ParameterGroup {
   var weight: Tensor<Float>
   var bias: Float
 }
@@ -682,4 +682,4 @@ Macro expansion for `#forZippedParameters` would occur before type-checking, so 
 }
 ```
 
-Swift does not yet have a hygienic macro system, which is a strong reason to avoid this design. It makes more sense to use compiler synthesis to implement the `func update(withGradients:_:)` protocol requirement since there's existing infrastructure to do that. It is possible to iterate over `ParameterAggregate` members and perform arbitrary accesses/mutation using key paths. By synthesizing an `allKeyPaths` static property for `ParameterAggregate` types, we can achieve most of the functionality of macros. [Read above](#complex-iteration-and-mutation-of-parameters-implementation-in-progress) for more details on the `allKeyPaths` synthesis design.
+Swift does not yet have a hygienic macro system, which is a strong reason to avoid this design. It makes more sense to use compiler synthesis to implement the `func update(withGradients:_:)` protocol requirement since there's existing infrastructure to do that. It is possible to iterate over `ParameterGroup` members and perform arbitrary accesses/mutation using key paths. By synthesizing an `allKeyPaths` static property for `ParameterGroup` types, we can achieve most of the functionality of macros. [Read above](#complex-iteration-and-mutation-of-parameters-implementation-in-progress) for more details on the `allKeyPaths` synthesis design.
