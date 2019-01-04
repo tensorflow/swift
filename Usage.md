@@ -153,3 +153,16 @@ To build an executable with Xcode 10, you must change some project settings from
    * Add `libtensorflow.so` and `libtensorflow_framework.so` to `Linked Frameworks and Libraries` and change `Runtime Search Paths`.
      See [this comment](https://github.com/tensorflow/swift/issues/10#issuecomment-385167803) for specific instructions with screenshots.
    * Go to `Linking > Other Linker Flags` and add `-lpython` to the list of flags.
+   
+   
+   # XCodeGen - macOS Command Line Executable #     
+   You can use XCodeGen to generate a new project with all above settings. N.B. Place your main.swift file into a Sources directory. 
+
+ 
+   
+   Save this file [project.yml](https://gist.githubusercontent.com/johndpope/7ad704adf84f4ff6dbf48da6abde31f7/raw/8df73522376dcf8bc9a6fe77110979f05e8a5ae9/project.yml)   
+
+   <img src="https://user-images.githubusercontent.com/289994/50693682-a6278700-1005-11e9-8d43-70a27b2f35b9.png" width="800">
+   
+   **brew install XCodeGen**    
+   **XcodeGen generate**
