@@ -160,7 +160,7 @@ To build an executable with Xcode 10, you must change some project settings from
 
  
    
-   Save this file [project.yml](https://gist.githubusercontent.com/johndpope/7ad704adf84f4ff6dbf48da6abde31f7/raw/8df73522376dcf8bc9a6fe77110979f05e8a5ae9/project.yml)   
+   Save this file [project.yml](https://gist.githubusercontent.com/johndpope/b91748d307b2a49e710d8d0580bd52a8/raw/aef9ffc1e532e413bba947c7339507d475f7981c/project.yml)   
 
    <img src="https://user-images.githubusercontent.com/289994/50693682-a6278700-1005-11e9-8d43-70a27b2f35b9.png" width="800">
    
