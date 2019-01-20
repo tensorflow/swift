@@ -80,8 +80,9 @@ due to the low-level `#tfop` syntax described above).  Next, it desugars
 high-level abstractions (like structs, tuples, generics, functions, variables,
 etc) that connect tensor operations through a process called "deabstraction".
 After deabstraction, the tensor operations are directly connected to each other
-through SSA dataflow edges and are embedded in a control flow graph represented
-in the [Swift Intermediate Language](https://github.com/apple/swift/blob/master/docs/SIL.rst) (SIL).
+through [SSA](https://en.wikipedia.org/wiki/Static_single_assignment_form)
+dataflow edges and are embedded in a control flow graph represented in the
+[Swift Intermediate Language](https://github.com/apple/swift/blob/master/docs/SIL.rst) (SIL).
 The code for this is primarily implemented in [TFDeabstraction.cpp](https://github.com/apple/swift/blob/tensorflow/lib/SILOptimizer/Mandatory/TFDeabstraction.cpp).
 
 Once the tensor operations are desugared, a transformation we call "partitioning" extracts the graph operations from the program and builds a new SIL function to represent the tensor code.  In addition to removing the tensor operations from the host code, new calls are injected that call into [our new runtime library](#runtime-entry-points-for-extraction) to start up TensorFlow, rendezvous to collect any results, and send/receive values between the host and the tensor program as it runs.  The bulk of the Graph Program Extraction transformation itself lives in [TFPartition.cpp](https://github.com/apple/swift/blob/tensorflow/lib/SILOptimizer/Mandatory/TFPartition.cpp).
