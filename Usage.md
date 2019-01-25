@@ -14,17 +14,17 @@ To see example models written using Swift for TensorFlow, go to [tensorflow/swif
 
 [Colaboratory](https://colab.research.google.com) is a free [Jupyter](https://jupyter.org/) notebook environment that requires no setup and runs entirely in the cloud.
 
-To launch Swift in Colab, just open [this blank Swift notebook](https://colab.research.google.com/github/tensorflow/swift/blob/swift-launch-documentation/notebooks/blank_swift.ipynb)!
+To launch Swift in Colab, just open [this blank Swift notebook](https://colab.research.google.com/github/tensorflow/swift/blob/master/notebooks/blank_swift.ipynb)!
 
 Put Swift code in the cell, and click the play button on the left of the cell (or hit Ctrl + Enter) to execute it.
 
-Use [this blank Swift GPU notebook](https://colab.research.google.com/github/tensorflow/swift/blob/swift-launch-documentation/notebooks/blank_swift_gpu.ipynb) to launch Swift with a GPU, or [this blank Swift TPU notebook](https://colab.research.google.com/github/tensorflow/swift/blob/swift-launch-documentation/notebooks/blank_swift_tpu.ipynb) to launch Swift with a TPU.
+Use [this blank Swift GPU notebook](https://colab.research.google.com/github/tensorflow/swift/blob/master/notebooks/blank_swift_gpu.ipynb) to launch Swift with a GPU, or [this blank Swift TPU notebook](https://colab.research.google.com/github/tensorflow/swift/blob/master/notebooks/blank_swift_tpu.ipynb) to launch Swift with a TPU.
 
 ### Getting newer Swift builds
 
 The default Swift build running in Colab is typically 2-3 business days behind the head of the [swift/tensorflow branch](https://github.com/apple/swift/tree/tensorflow). To install a newer Swift build (which is typically 2-8 hours behind the head of the swift/tensorflow branch), follow these instructions:
 
-1. Open [this Swift installation notebook](https://colab.research.google.com/github/tensorflow/swift/blob/swift-launch-documentation/notebooks/install_latest_swift.ipynb).
+1. Open [this Swift installation notebook](https://colab.research.google.com/github/tensorflow/swift/blob/master/notebooks/install_latest_swift.ipynb).
 2. **Optional**: If you plan to use Swift with a GPU or TPU, use "Runtime > Change runtime type" to set the accelerator on the Swift installation notebook before executing it.
 3. Click the play button to the left of the cell and wait until you see `"The newly installed Swift build is:"` in the output area.
 4. Now any new Swift notebooks that you open will run against the new Swift build. If you have any Swift notebooks already running, then you must restart their runtime ("Runtime > Restart Runtime") to run them against the new Swift build.
