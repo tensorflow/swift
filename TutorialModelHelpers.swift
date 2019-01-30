@@ -17,38 +17,18 @@
 // TODO: Add this to the standard library? It's a pretty useful op for
 // classification problems.
 @inlinable
-@differentiable(reverse, wrt: (.0), 
-                primal: _primalSoftmaxCrossEntropy, 
-                adjoint: _adjointSoftmaxCrossEntropy)
-func softmaxCrossEntropy(logits: Tensor<Float>, categoricalLabels: Tensor<Int32>) -> Float {
-  return Raw.sparseSoftmaxCrossEntropyWithLogits(features: logits, 
+@differentiable(wrt: logits, vjp: _vjpSoftmaxCrossEntropy)
+func softmaxCrossEntropy(logits: Tensor<Float>, categoricalLabels: Tensor<Int32>) -> Tensor<Float> {
+  return Raw.sparseSoftmaxCrossEntropyWithLogits(features: logits,
                                                  labels: categoricalLabels).loss.mean()
 }
 
-@inlinable
-internal func _primalSoftmaxCrossEntropy(logits: Tensor<Float>, 
-                                         categoricalLabels: Tensor<Int32>) -> (Tensor<Float>, Float) {
-  let (loss, grad) = Raw.sparseSoftmaxCrossEntropyWithLogits(features: logits, 
+@usableFromInline
+func _vjpSoftmaxCrossEntropy(logits: Tensor<Float>, categoricalLabels: Tensor<Int32>) -> (Tensor<Float>, (Tensor<Float>) -> Tensor<Float>) {
+  let (loss, grad) = Raw.sparseSoftmaxCrossEntropyWithLogits(features: logits,
                                                              labels: categoricalLabels)
-  return (grad, loss.mean())
-}
-
-@inlinable
-internal func _adjointSoftmaxCrossEntropy(logits: Tensor<Float>, 
-                                          categoricalLabels: Tensor<Int32>, 
-                                          checkpointedGrad: Tensor<Float>, 
-                                          originalResult: Float, 
-                                          seed: Float) -> Tensor<Float> {
-  return checkpointedGrad
-}
-
-extension Tensor where Scalar : BinaryFloatingPoint,
-                       Scalar.RawSignificand : FixedWidthInteger {
-  @inlinable
-  init(glorotUniform shape: TensorShape) {
-    let minusOneToOne = 2 * Tensor(randomUniform: shape) - 1
-    self = sqrt(Tensor(6 / Scalar(shape.contiguousSize))) * minusOneToOne
+  func pullback(seed: Tensor<Float>) -> Tensor<Float> {
+    return seed * grad
   }
+  return (loss.mean(), pullback)
 }
-
-
