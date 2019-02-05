@@ -13,8 +13,8 @@ Packages will be released nightly after automated building is set up.
 | Download | Date [(last commit)](https://github.com/apple/swift/commit/280486afdc0c940af345c614a80826fcc8326abc) |
 |----------|------|
 | [Xcode 10](https://storage.googleapis.com/swift-tensorflow/mac/swift-tensorflow-DEVELOPMENT-2019-01-04-a-osx.pkg) | January 04, 2019 |
-| [Ubuntu 16.04](https://storage.googleapis.com/swift-tensorflow/ubuntu16.04/swift-tensorflow-DEVELOPMENT-2019-01-04-a-ubuntu16.04.tar.gz) | January 04, 2019 |
-
+| [ubuntu 18.04 (Cuda 10.0)](https://storage.googleapis.com/s4tf-kokoro-artifact-testing/latest/swift-tensorflow-DEVELOPMENT-cuda10.0-cudnn7-ubuntu18.04.tar.gz) | Nightly Build |
+| [ubuntu 18.04 (Cuda 9.2)](https://storage.googleapis.com/s4tf-kokoro-artifact-testing/latest/swift-tensorflow-DEVELOPMENT-cuda9.2-cudnn7-ubuntu18.04.tar.gz) | Nightly Build |
 <details>
   <summary>Older Packages</summary>
 
@@ -64,6 +64,7 @@ Xcode 10 is required.
 
 | Download |
 |----------|
+| [January 04, 2019](https://storage.googleapis.com/swift-tensorflow/ubuntu16.04/swift-tensorflow-DEVELOPMENT-2019-01-04-a-ubuntu16.04.tar.gz) |
 | [December 04, 2018](https://storage.googleapis.com/swift-tensorflow/ubuntu16.04/swift-tensorflow-DEVELOPMENT-2018-12-04-a-ubuntu16.04.tar.gz) |
 | [November 21, 2018](https://storage.googleapis.com/swift-tensorflow/ubuntu16.04/swift-tensorflow-DEVELOPMENT-2018-11-21-a-ubuntu16.04.tar.gz) |
 | [October 17, 2018](https://storage.googleapis.com/swift-tensorflow/ubuntu16.04/swift-tensorflow-DEVELOPMENT-2018-10-17-a-ubuntu16.04.tar.gz) |
@@ -156,11 +157,11 @@ Note that nothing prevents Swift from being ported to other Linux distributions 
 
 ### Requirements
 
-* Ubuntu 14.04 or 16.04 (64-bit)
+* Ubuntu 18.04 (64-bit)
 
 ### Supported Target Platforms
 
-* Ubuntu 14.04 or 16.04 (64-bit)
+* Ubuntu 18.04 (64-bit)
 
 ### Installation
 
