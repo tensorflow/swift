@@ -14,6 +14,8 @@ To see example models written using Swift for TensorFlow, go to [tensorflow/swif
 
 [Colaboratory](https://colab.research.google.com) is a free [Jupyter](https://jupyter.org/) notebook environment that requires no setup and runs entirely in the cloud.
 
+**Note: Due to a temporary problem in our default Swift build, you must follow the instructions in the "Getting newer Swift builds" before launching any Swift notebook in Colab.** This problem should be resolved around Feb 7, 2019 around noon Pacific time.
+
 To launch Swift in Colab, just open [this blank Swift notebook](https://colab.research.google.com/github/tensorflow/swift/blob/master/notebooks/blank_swift.ipynb)!
 
 Put Swift code in the cell, and click the play button on the left of the cell (or hit Ctrl + Enter) to execute it.
