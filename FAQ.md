@@ -7,7 +7,7 @@ encountered and prefer not to get new issues filed in our bug tracker.
 * [Why Swift?](#why-swift)
 * [Why do I get "error: array input is not a constant array of tensors"?](#why-do-i-get-error-array-input-is-not-a-constant-array-of-tensors)
 * [How can I use Python 3 with the Python module?](#how-can-i-use-python-3-with-the-python-module)
-* [\[Mac\] I wrote some code in an Xcode Playground. Why is it frozen/hanging?](https://github.com/tensorflow/swift/blob/master/FAQ.md#mac-i-wrote-some-code-in-a-xcode-playground-why-is-it-frozenhanging)
+* [\[Mac\] I wrote some code in an Xcode Playground. Why is it frozen/hanging?](https://github.com/tensorflow/swift/blob/master/FAQ.md#mac-i-wrote-some-code-in-an-xcode-playground-why-is-it-frozenhanging)
 
 ## Why Swift?
 
