@@ -163,13 +163,21 @@ Note that nothing prevents Swift from being ported to other Linux distributions 
 
 * Ubuntu 18.04 (64-bit)
 
+### Additional Requirements
+
+* For GPU toolchains:
+  * CUDA Toolkit 9.2 or 10.0 
+  * CuDNN 7.1
+  * An NVIDIA GPU with compute compatibility 3.5, 6.1 or 7.0
+
 ### Installation
 
 1. Install required dependencies:
 
 ```
-$ sudo apt-get install clang libcurl3 libicu-dev libpython-dev libncurses5-dev libxml2
+$ sudo apt-get install clang libpython-dev libblocksruntime-dev
 ```
+(**Note:** You _may_ also need to install other [dependencies](https://github.com/apple/swift#linux), if you are unable to run `swift` or other tools below.)
 
 2. Download the latest binary release above.
 
