@@ -2,6 +2,8 @@
 
 * Authors: [Dan Zheng](https://github.com/dan-zheng), [Richard Wei](https://github.com/rxwei)
 
+* **Note**: `ParameterGroup` and `Parameterized` have been superceded by [`KeyPathIterable`](https://github.com/apple/swift/blob/tensorflow/stdlib/public/core/KeyPathIterable.swift#L29) and removed from the TensorFlow library. This document will be updated to reflect the new design.
+
 ## Introduction
 
 The concept of parameter update is crucial for implementing general machine learning optimization algorithms. This document explains the concept of parameters and parameter update, shows how TensorFlow (graph mode) and PyTorch handle parameter update, and describes the current design for Swift.
