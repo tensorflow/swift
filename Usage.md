@@ -18,7 +18,7 @@ To launch Swift in Colab, just open [this blank Swift notebook](https://colab.re
 
 Put Swift code in the cell, and click the play button on the left of the cell (or hit Ctrl + Enter) to execute it.
 
-Use [this blank Swift GPU notebook](https://colab.research.google.com/github/tensorflow/swift/blob/master/notebooks/blank_swift_gpu.ipynb) to launch Swift with a GPU, or [this blank Swift TPU notebook](https://colab.research.google.com/github/tensorflow/swift/blob/master/notebooks/blank_swift_tpu.ipynb) to launch Swift with a TPU.
+For examples of what you can do, visit [this tutorial](https://colab.research.google.com/github/tensorflow/swift-tutorials/blob/master/iris/swift_tensorflow_tutorial.ipynb) in Colab.
 
 ### Getting newer Swift builds
 
