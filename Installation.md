@@ -25,7 +25,7 @@ Packages will be released nightly after automated building is set up.
 
 | Download |
 |----------|
-| [January 04, 2018](https://storage.googleapis.com/swift-tensorflow/mac/swift-tensorflow-DEVELOPMENT-2019-01-04-a-osx.pkg) |
+| [January 04, 2019](https://storage.googleapis.com/swift-tensorflow/mac/swift-tensorflow-DEVELOPMENT-2019-01-04-a-osx.pkg) |
 | [December 04, 2018](https://storage.googleapis.com/swift-tensorflow/mac/swift-tensorflow-DEVELOPMENT-2018-12-04-a-osx.pkg) |
 | [November 21, 2018](https://storage.googleapis.com/swift-tensorflow/mac/swift-tensorflow-DEVELOPMENT-2018-11-21-a-osx.pkg) |
 | [October 17, 2018](https://storage.googleapis.com/swift-tensorflow/mac/swift-tensorflow-DEVELOPMENT-2018-10-17-a-osx.pkg) |
