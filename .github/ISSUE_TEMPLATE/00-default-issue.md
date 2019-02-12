@@ -4,7 +4,7 @@ about: Most issues are tracked in JIRA, please read further...
 
 ---
 
-We are using [JIRA](https://bugs.swift.org) instead of Github issues to track
+We are using [JIRA](https://bugs.swift.org) instead of GitHub issues to track
 our work in order to integrate more effectively with the rest of the Swift
 ecosystem.
 
