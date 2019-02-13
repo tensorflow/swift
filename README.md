@@ -6,7 +6,7 @@
 
 > Swift for TensorFlow: No barriers.
 
-Swift for TensorFlow (aka S4TF) is a next-generation system for machine
+Swift for TensorFlow (aka S4TF) is a next-generation platform for machine
 learning, incorporating the latest research across: machine learning,
 compilers, differentiable programming, systems design, and beyond. This project
 is approaching version _0.2_; it is neither feature complete nor
@@ -65,18 +65,18 @@ model by calling standard library method `model.gradient { ... }`.
 
 ```swift
 // Custom differentiable type.
-struct Model : Differentiable {
-  var w: Float
-  var b: Float
-  func applied(to input: Float) -> Float {
-    return w * input + b
-  }
+struct Model: Differentiable {
+    var w: Float
+    var b: Float
+    func applied(to input: Float) -> Float {
+        return w * input + b
+    }
 }
 
-// Differentiate using `Differentiable.gradient(at:)`.
+// Differentiate using `Differentiable.gradient(at:in:)`.
 let model = Model(w: 4.0, b: 3.0)
-let (𝛁model, 𝛁input) = model.gradient(at: 2.0) { (model, input) in
-  model.applied(to: input)
+let (𝛁model, 𝛁input) = model.gradient(at: 2.0) { model, input in
+    model.applied(to: input)
 }
 
 print(𝛁model) // Model.AllDifferentiableVariables(w: 2.0, b: 1.0)
@@ -96,8 +96,8 @@ favorite Python libraries), because you can easily call your favorite Python
 library with a familiar syntax:
 
 ```swift
-import Python
 import TensorFlow
+import Python
 
 let np = Python.import("numpy")
 
@@ -133,15 +133,14 @@ out the following documentation.
 
 ## Source code
 
-Compiler and standard library development of Swift for TensorFlow happens
-on the `tensorflow` branch of the
-[apple/swift](https://github.com/apple/swift/tree/tensorflow) repository.
+Compiler and standard library development happens on the `tensorflow` branch of
+the [apple/swift](https://github.com/apple/swift/tree/tensorflow) repository.
 
 Additional code repositories that make up the core of project include:
 
  - [Swift fork of LLDB](http://github.com/apple/swift-lldb/tree/tensorflow):
    debugger and REPL support.
- - [Deep Learning library](https://github.com/tensorflow/swift-apis): a high-level
+ - [Deep learning library](https://github.com/tensorflow/swift-apis): high-level
    API familiar to Keras users.
 
 > Swift for TensorFlow is **not** intended to remain a long-term fork of the official 
