@@ -13,10 +13,10 @@ is approaching version _0.2_; it is neither feature complete nor
 production-ready. But it is ready for _pioneers_ to try it for your own
 projects, give us feedback, and help shape the future!
 
-The S4TF project is currently focusing on 2 kinds of users:
+The Swift for TensorFlow project is currently focusing on 2 kinds of users:
 
  1. **Advanced ML researchers** who are limited by current ML frameworks.
-    S4TF's advantages include a seamless integration with a modern general-purpose
+    Swift for TensorFlow's advantages include a seamless integration with a modern general-purpose
     language, allowing for more dynamic and sophisticated models. Fast
     abstractions can be developed "in user-space" (as opposed to in C/C++
     aka "framework-space"), resulting in modular APIs that can be easily
@@ -29,7 +29,7 @@ The S4TF project is currently focusing on 2 kinds of users:
 
 ## Getting started
 
- - **Google Colaboratory**: The fastest way to get started is to try out S4TF right in your
+ - **Google Colaboratory**: The fastest way to get started is to try out Swift for TensorFlow right in your
    browser. Just open up our [getting started
    notebook](https://colab.research.google.com/github/tensorflow/swift-tutorials/blob/master/iris/swift_tensorflow_tutorial.ipynb) (or start from a
    [blank notebook](https://colab.research.google.com/github/tensorflow/swift/blob/master/notebooks/blank_swift.ipynb))!
@@ -40,8 +40,8 @@ The S4TF project is currently focusing on 2 kinds of users:
    [step-by-step instructions](Usage.md) to build and execute a Swift script
    on your computer.
 
- - **Compile from source**: If you'd like to customize S4TF or even contribute
-   back, follow our [instructions on building the S4TF compiler from
+ - **Compile from source**: If you'd like to customize Swift for TensorFlow or even contribute
+   back, follow our [instructions on building the Swift for TensorFlow compiler from
    source](https://github.com/apple/swift/tree/tensorflow).
 
 Please do join the
@@ -83,14 +83,14 @@ print(𝛁model) // Model.AllDifferentiableVariables(w: 2.0, b: 1.0)
 print(𝛁input) // 4.0
 ```
 
-Beyond derivatives, the S4TF project comes with a sophisticated toolchain
+Beyond derivatives, the Swift for TensorFlow project comes with a sophisticated toolchain
 to make users more productive. You can run Swift interactively in a Jupyter
 notebook, and get helpful autocomplete suggestions to help you explore the
 massive API surface of a modern deep learning library. You can [get started
 right in your browser in
 seconds](https://colab.research.google.com/github/tensorflow/swift-tutorials/blob/master/iris/swift_tensorflow_tutorial.ipynb)!
 
-Migrating to S4TF is really easy thanks to Swift's powerful Python integration.
+Migrating to Swift for TensorFlow is really easy thanks to Swift's powerful Python integration.
 You can incrementally migrate your Python code over (or continue to use your
 favorite Python libraries), because you can easily call your favorite Python
 library with a familiar syntax:
