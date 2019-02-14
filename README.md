@@ -136,7 +136,7 @@ out the following documentation.
 Compiler and standard library development happens on the `tensorflow` branch of
 the [apple/swift](https://github.com/apple/swift/tree/tensorflow) repository.
 
-Additional code repositories that make up the core of project include:
+Additional code repositories that make up the core of the project include:
 
  - [Swift fork of LLDB](http://github.com/apple/swift-lldb/tree/tensorflow):
    debugger and REPL support.
