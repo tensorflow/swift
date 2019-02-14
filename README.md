@@ -112,7 +112,7 @@ let tensor = Tensor(numpy: array)  // Seamless integration!
 - [Swift for TensorFlow Design Overview](docs/DesignOverview.md)
 - [Why *Swift* for TensorFlow?](docs/WhySwiftForTensorFlow.md)
 - [Sample Models](https://github.com/tensorflow/swift-models)
-- [Tutorials](https://github.com/tensorflow/swift-tutorials)]
+- [Tutorials](https://github.com/tensorflow/swift-tutorials)
 - [Frequently Asked Questions](FAQ.md)
 - [Swift Tensor API Reference](https://www.tensorflow.org/api_docs/swift/Structs/Tensor)
 
