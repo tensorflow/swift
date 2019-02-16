@@ -157,7 +157,7 @@ Additional code repositories that make up the core of the project include:
 Swift for TensorFlow discussions happen on the
 [swift@tensorflow.org mailing list](https://groups.google.com/a/tensorflow.org/d/forum/swift).
 
-### Bugs Reports and Feature Requests
+### Bugs reports and feature requests
 
 Before reporting an issue, please check the [Frequently Asked Questions](FAQ.md)
 to see if your question has already been addressed.
@@ -179,7 +179,7 @@ making any major submissions.
 Check out our [starter bugs](https://bugs.swift.org/issues/?filter=11323) if
 you'd like to get involved but don't know where to start!
 
-### Code of Conduct
+### Code of conduct
 
 In the interest of fostering an open and welcoming environment, we as
 contributors and maintainers pledge to making participation in our project and
