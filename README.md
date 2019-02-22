@@ -4,7 +4,7 @@
 
 # Swift for TensorFlow
 
-> Swift for TensorFlow: No barriers.
+> Swift for TensorFlow: No boundaries.
 
 Swift for TensorFlow is a next-generation platform for machine
 learning, incorporating the latest research across: machine learning,
