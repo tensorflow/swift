@@ -1,5 +1,7 @@
 # Automatic Differentiation in Swift
 
+* Date: April 2018
+
 For a mathematical introduction and language design, see [First-Class Automatic Differentiation in Swift: A Manifesto](https://gist.github.com/rxwei/30ba75ce092ab3b0dce4bde1fc2c9f1d).
 
 ## Introduction

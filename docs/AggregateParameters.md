@@ -1,6 +1,7 @@
 # Aggregate Parameters and Parameter Update
 
 * Authors: [Dan Zheng](https://github.com/dan-zheng), [Richard Wei](https://github.com/rxwei)
+* Date: July 2018
 
 * **Note**: `ParameterGroup` and `Parameterized` have been superceded by [`KeyPathIterable`](https://github.com/apple/swift/blob/tensorflow/stdlib/public/core/KeyPathIterable.swift#L29) and removed from the TensorFlow library. This document will be updated to reflect the new design.
 

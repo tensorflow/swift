@@ -1,5 +1,7 @@
 # Swift for TensorFlow Design Overview
 
+* Date: April 2018
+
 Swift for TensorFlow provides a new programming model for TensorFlow - one that combines the performance of graphs with the flexibility and expressivity of Eager execution, while keeping a strong focus on improved usability at every level of the stack.  In order to achieve our goals, we scope in the possibility of making (carefully considered) compiler and language enhancements, which enables us to provide a great user experience.
 
 For users, we’ve designed Swift for TensorFlow to feel like a simple and obvious tool for writing machine learning libraries and models that "just work".  However, if you look under the hood, the implementation of this user experience is a bunch of mostly independent features and subsystems that compose and feel natural together, but which can also be used in isolation.

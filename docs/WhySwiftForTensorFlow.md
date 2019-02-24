@@ -1,5 +1,7 @@
 # Why *Swift* for TensorFlow?
 
+* Date: April 2018
+
 The core [graph program extraction algorithm](GraphProgramExtraction.md), [automatic differentiation](AutomaticDifferentiation.md), and [Python language interoperability](PythonInteroperability.md) features of Swift for TensorFlow can be implemented for other programming languages, and we are occasionally asked why we didn’t use some other one for this project.
 
 The engineers on the project were previously familiar with Swift (and several other languages), but the choice was guided by the goals of our project, which imposed specific technical requirements (explained below).  This choice was also discussed extensively, debated with coworkers and other interested engineers, and we concluded that Swift was the best direction.  In this document we're sharing our deliberation process with the community to help explain our decisions.
