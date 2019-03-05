@@ -31,7 +31,7 @@ The Swift for TensorFlow project is currently focusing on 2 kinds of users:
 
  - **Google Colaboratory**: The fastest way to get started is to try out Swift for TensorFlow right in your
    browser. Just open up our [getting started
-   notebook](https://colab.research.google.com/github/tensorflow/swift-tutorials/blob/master/iris/swift_tensorflow_tutorial.ipynb) (or start from a
+   notebook](https://colab.research.google.com/github/tensorflow/swift/blob/master/docs/site/tutorials/walkthrough.ipynb) (or start from a
    [blank notebook](https://colab.research.google.com/github/tensorflow/swift/blob/master/notebooks/blank_swift.ipynb))!
    Read more in our [usage guide](Usage.md).
 
@@ -88,7 +88,7 @@ to make users more productive. You can run Swift interactively in a Jupyter
 notebook, and get helpful autocomplete suggestions to help you explore the
 massive API surface of a modern deep learning library. You can [get started
 right in your browser in
-seconds](https://colab.research.google.com/github/tensorflow/swift-tutorials/blob/master/iris/swift_tensorflow_tutorial.ipynb)!
+seconds](https://colab.research.google.com/github/tensorflow/swift/blob/master/docs/site/tutorials/walkthrough.ipynb)!
 
 Migrating to Swift for TensorFlow is really easy thanks to Swift's powerful Python integration.
 You can incrementally migrate your Python code over (or continue to use your
@@ -112,7 +112,6 @@ let tensor = Tensor(numpy: array)  // Seamless integration!
 - [Swift for TensorFlow Design Overview](docs/DesignOverview.md)
 - [Why *Swift* for TensorFlow?](docs/WhySwiftForTensorFlow.md)
 - [Sample Models](https://github.com/tensorflow/swift-models)
-- [Tutorials](https://github.com/tensorflow/swift-tutorials)
 - [Frequently Asked Questions](FAQ.md)
 - [Swift Tensor API Reference](https://www.tensorflow.org/api_docs/swift/Structs/Tensor)
 
