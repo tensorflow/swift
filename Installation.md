@@ -61,13 +61,6 @@ If you like to get the latest and greatest, you can get the nightly builds:
 * macOS 10.13.5 or later
 * Xcode 10.0 beta or later
 
-### Additional Requirements
-
-* For GPU toolchains:
-  * CUDA Toolkit 9.2
-  * CuDNN 7.1
-  * An NVIDIA GPU with compute compatibility 3.5, 6.1 or 7.0
-
 ### Installation
 
 1. Download the latest package release.
@@ -113,7 +106,7 @@ Note that nothing prevents Swift from being ported to other Linux distributions 
 * For GPU toolchains:
   * CUDA Toolkit 9.2 or 10.0 
   * CuDNN 7.1
-  * An NVIDIA GPU with compute compatibility 3.5, 6.1 or 7.0
+  * An NVIDIA GPU with compute compatibility 3.5 or 7.0
 
 ### Installation
 
@@ -143,3 +136,5 @@ $ export PATH=$(pwd)/usr/bin:"${PATH}"
 ```
 
 You can now execute the `swift` command to run the REPL or build Swift projects.
+
+**Note:** If you are using a CUDA build and you have an NVIDIA GPU with a compute capability other than 3.5 or 7.0, then you will experience a ~10 minute delay the first time you execute a TensorFlow operation, while TensorFlow compiles kernels for your GPU's compute capability. The program will not print anything out and it will appear to be frozen.
