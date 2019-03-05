@@ -38,9 +38,12 @@ Here's how to enable optimizations in different environments:
 
 ## How can I use Python 3 with the `Python` module?
 
-Currently, Swift is hard-coded to use Python 2.7.
-Adding proper Python 3 support is non-trivial but in discussion.
-See [this issue](https://github.com/tensorflow/swift/issues/13) for more information.
+By default, Swift will use the highest version of Python available on your system.
+You can dynamically switch Python versions by calling:
+`PythonLibrary.useVersion(2, 7)`
+
+On macOS, Python 2.7 comes pre-installed and cannot be modified without disabling SIP.
+You can, however, install Python 3 from [Python.org](https://docs.python.org/3/using/mac.html).
 
 ## [Mac] I wrote some code in an Xcode Playground. Why is it frozen/hanging?
 
