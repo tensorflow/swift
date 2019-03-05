@@ -2,7 +2,7 @@ upper_tabs:
 - name: "Install"
   lower_tabs:
     guides:
-    - include: /install/toc.yaml
+    - include: /install/_toc.yaml
 
 - name: "Learn"
   path: /learn/
