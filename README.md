@@ -170,13 +170,7 @@ For the most part, the core team's development is also tracked in
 
 ### Contributing
 
-We welcome source code contributions: please read 
-[Contributing Code](https://swift.org/contributing/#contributing-code).
-It is always a good idea to discuss your plans on the mailing list before
-making any major submissions.
-
-Check out our [starter bugs](https://bugs.swift.org/issues/?filter=11323) if
-you'd like to get involved but don't know where to start!
+We welcome contributions from everyone. Read the [contributing guide](Contributing.md) for information on how to get started.
 
 ### Code of conduct
 
