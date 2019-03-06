@@ -6,12 +6,12 @@
 
 > Swift for TensorFlow: No boundaries.
 
-Swift for TensorFlow is a next-generation platform for machine
-learning, incorporating the latest research across: machine learning,
-compilers, differentiable programming, systems design, and beyond. This project
-is approaching version _0.2_; it is neither feature complete nor
-production-ready. But it is ready for _pioneers_ to try it for your own
-projects, give us feedback, and help shape the future!
+Swift for TensorFlow is a next-generation platform for machine learning,
+incorporating the latest research across: machine learning, compilers,
+differentiable programming, systems design, and beyond. This project is at
+version _0.2_; it is neither feature-complete nor production-ready. But it is
+ready for _pioneers_ to try it for your own projects, give us feedback, and help
+shape the future!
 
 The Swift for TensorFlow project is currently focusing on 2 kinds of users:
 
@@ -29,24 +29,36 @@ The Swift for TensorFlow project is currently focusing on 2 kinds of users:
 
 ## Getting started
 
- - **Google Colaboratory**: The fastest way to get started is to try out Swift for TensorFlow right in your
-   browser. Just open up our [getting started
-   notebook](https://colab.research.google.com/github/tensorflow/swift/blob/master/docs/site/tutorials/walkthrough.ipynb) (or start from a
-   [blank notebook](https://colab.research.google.com/github/tensorflow/swift/blob/master/notebooks/blank_swift.ipynb))!
+- **Google Colaboratory**: The fastest way to get started is to try out Swift
+   for TensorFlow right in your browser. Just open up our [getting started
+   notebook](https://colab.research.google.com/github/tensorflow/swift/blob/master/docs/site/tutorials/walkthrough.ipynb)
+   (or start from a [blank
+   notebook](https://colab.research.google.com/github/tensorflow/swift/blob/master/notebooks/blank_swift.ipynb))!
    Read more in our [usage guide](Usage.md).
 
- - **Install locally**: you can [download a pre-built Swift for TensorFlow
+- **Install locally**: you can [download a pre-built Swift for TensorFlow
    package](Installation.md). After installation, you can follow these
-   [step-by-step instructions](Usage.md) to build and execute a Swift script
-   on your computer.
+   [step-by-step instructions](Usage.md) to build and execute a Swift script on
+   your computer.
 
- - **Compile from source**: If you'd like to customize Swift for TensorFlow or even contribute
-   back, follow our [instructions on building the Swift for TensorFlow compiler from
+- **Compile from source**: If you'd like to customize Swift for TensorFlow or
+   even contribute back, follow our [instructions on building the Swift for
+   TensorFlow compiler from
    source](https://github.com/apple/swift/tree/tensorflow).
 
 Please do join the
 [swift@tensorflow.org mailing list](https://groups.google.com/a/tensorflow.org/d/forum/swift)
 to hear the latest announcements, get help, and share your thoughts!
+
+## Tutorials
+
+![](https://www.tensorflow.org/images/colab_logo_32px.png) [A Swift Tour](https://colab.sandbox.google.com/github/tensorflow/swift/blob/master/docs/site/tutorials/a_swift_tour.ipynb)
+
+![](https://www.tensorflow.org/images/colab_logo_32px.png) [Python Interoperability](https://colab.sandbox.google.com/github/tensorflow/swift/blob/master/docs/site/tutorials/python_interoperability.ipynb)
+
+![](https://www.tensorflow.org/images/colab_logo_32px.png) [Model Training Walkthrough](https://colab.sandbox.google.com/github/tensorflow/swift/blob/master/docs/site/tutorials/walkthrough.ipynb)
+
+![](https://www.tensorflow.org/images/colab_logo_32px.png) [Using Raw TensorFlow Operators](https://colab.sandbox.google.com/github/tensorflow/swift/blob/master/docs/site/tutorials/using_raw_tensorflow_operators.ipynb)
 
 ## Why Swift for TensorFlow?
 
