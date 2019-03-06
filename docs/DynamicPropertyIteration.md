@@ -69,7 +69,8 @@ func update(layer: inout Parameters, gradients: Parameters) {
 ## Design
 
 In Swift, custom property iteration is implemented using key paths and the
-[`KeyPathIterable`](KeyPathIterable) protocol.
+[`KeyPathIterable`](https://www.tensorflow.org/swift/api_docs/Protocols/KeyPathIterable)
+protocol.
 
 Key paths are a statically-typed mechanism for referring to the properties
 (and other members) of a type. The `KeyPathIterable` protocol represents types
