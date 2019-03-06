@@ -4,7 +4,7 @@
 
 Last updated: March 2019
 
-# Background and motivation
+## Background and motivation
 
 The ability to iterate over the properties of a type is a powerful reflection
 technique. It enables algorithms that can abstract over types with arbitrary
@@ -66,7 +66,7 @@ func update(layer: inout Parameters, gradients: Parameters) {
 }
 ```
 
-# Design
+## Design
 
 In Swift, custom property iteration is implemented using key paths and the
 [`KeyPathIterable`](KeyPathIterable) protocol.
