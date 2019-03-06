@@ -166,7 +166,7 @@ without using derived conformances. This is adapted from
 ```swift
 // These implementations will be used for types that conform to
 // both `KeyPathIterable` and `Hashable`.
-extension Hashable where Self : KeyPathIterable {
+extension Hashable where Self: KeyPathIterable {
     static func == (lhs: Self, rhs: Self) -> Bool {
         guard lhs.allKeyPaths.elementsEqual(rhs.allKeyPaths) else {
             return false
@@ -192,7 +192,7 @@ extension Hashable where Self : KeyPathIterable {
     }
 }
 
-struct Person : KeyPathIterable, Hashable {
+struct Person: KeyPathIterable, Hashable {
     var firstName: String
     var age: Int
     var friends: [Person]
@@ -213,7 +213,7 @@ Optimizers update structs of parameters by iterating over recursively all
 writable key paths to parameters.
 
 ```swift
-class SGD<Parameter : BinaryFloatingPoint> {
+class SGD<Parameter: BinaryFloatingPoint> {
     let learningRate: Parameter
 
     init(learningRate: Parameter = 0.01) {
@@ -221,7 +221,7 @@ class SGD<Parameter : BinaryFloatingPoint> {
         self.learningRate = learningRate
     }
 
-    func update<Parameters : KeyPathIterable>(
+    func update<Parameters: KeyPathIterable>(
         _ parameters: inout Parameters,
         with gradient: Parameters
     ) {
@@ -233,7 +233,7 @@ class SGD<Parameter : BinaryFloatingPoint> {
     }
 }
 
-struct DenseLayer : KeyPathIterable {
+struct DenseLayer: KeyPathIterable {
     // Parameters.
     var weight, bias: Float
     // Non-parameter.
@@ -245,7 +245,7 @@ struct DenseLayer : KeyPathIterable {
     }
 }
 
-struct MyMLModel : KeyPathIterable {
+struct MyMLModel: KeyPathIterable {
     // Parameters.
     var layers: [DenseLayer]
     // Non-parameters.
@@ -290,10 +290,10 @@ and `CustomKeyPathIterable`.
   an instance computed property `allKeyPaths` that can represent stored
   properties, or dynamic properties like elements.
 
-# Acknowledgements
+## Acknowledgements
 
 The authors would like to thank Dominik Grewe and Dimitrios Vytiniotis for their
-keypath-related ideas, which contributed to the design of the `KeyPathIterable`
+key-path-related ideas, which contributed to the design of the `KeyPathIterable`
 protocol.
 
 [Python_dir]: https://docs.python.org/3/library/functions.html#dir
