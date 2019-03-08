@@ -52,8 +52,7 @@ struct MyMLModel {
 The ability to jointly iterate over parameters and gradients is crucial for writing simple, generic code that works with all models. Without this ability to perform "generic parameter update", users must duplicate code for each parameter, with no potential for generalization:
 
 ```swift
-// w1, w2: Tensor<Float>
-// b1, b2: Float
+// w1, w2, b1, b2: Tensor<Float>
 w1 -= learningRate * dw1
 w2 -= learningRate * dw2
 b1 -= learningRate * db1
@@ -305,7 +304,7 @@ To update a model’s parameters, machine learning optimizers need the gradient 
 The `Differentiable` protocol defines a `CotangentVector` associated type that represents gradient values of the conforming type. Thus, the accurate gradient type for a `Model` type conforming to `Differentiable` is `Model.CotangentVector`. Let’s write a core optimizer update function, defined for a generic `Model` type:
 
 ```swift
-func update<Model : Differentiable & KeyPathIterable>(
+func update<Model: Differentiable & KeyPathIterable>(
     _ model: inout Model,
     with gradient: Model.CotangentVector
 ) {
@@ -322,7 +321,7 @@ This update function has a problem: `kp` is a key path with `Model` as the `Root
 How can we reconcile this type mismatch? The solution lies in the `AllDifferentiableVariables` associated type requirement of the `Differentiable` protocol. In most cases, `Model.AllDifferentiableVariables` is the same type as `Model.CotangentVector`. For example, the following `DenseLayer` has `DenseLayer.AllDifferentiableVariables == DenseLayer.CotangentVector`:
 
 ```swift
-struct DenseLayer : KeyPathIterable, Differentiable {
+struct DenseLayer: KeyPathIterable, Differentiable {
     var weight, bias: Tensor<Float>
     @noDerivative var activation: (Tensor<Float>) -> Tensor<Float> = relu
 }
@@ -348,10 +347,10 @@ Since `Model.AllDifferentiableVariables` is the same type as `Model.CotangentVec
 
 ```swift
 // A stochastic gradient descent optimizer.
-class SGD<Scalar : TensorFlowFloatingPoint> {
+class SGD<Scalar: TensorFlowFloatingPoint> {
     let learningRate: Scalar = 0.01
 
-    func update<Model : KeyPathIterable>(
+    func update<Model: KeyPathIterable>(
         _ parameters: inout Model.AllDifferentiableVariables,
         with gradient: Model.CotangentVector
     ) where Model.AllDifferentiableVariables == Model.CotangentVector {
@@ -386,8 +385,8 @@ Such auxiliary variables can be defined as stored properties in the optimizer wi
 
 ```swift
 class Adam<Model, Scalar: TensorFlowFloatingPoint>
-    where Model : Differentiable,
-          Model.AllDifferentiableVariables : KeyPathIterable,
+    where Model: Differentiable,
+          Model.AllDifferentiableVariables: KeyPathIterable,
           Model.AllDifferentiableVariables == Model.CotangentVector
 {
     public let learningRate: Scalar = 1e-3
@@ -426,7 +425,7 @@ class Adam<Model, Scalar: TensorFlowFloatingPoint>
 Machine learning models may have parameters with different types. To optimize models with heterogeneous parameter types, simply create optimizers for each of the parameter types. Here’s a toy example:
 
 ```swift
-struct MixedParameters : Differentiable & KeyPathIterable {
+struct MixedParameters: Differentiable & KeyPathIterable {
     // Two parameters with different types.
     var weight: Tensor<Float>
     var bias: Tensor<Double>
