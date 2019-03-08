@@ -156,8 +156,8 @@ Examples:
 * [tensorflow/swift-models][swift-models]: Swift for TensorFlow models written using `swift-apis`.
 
 Related discussion:
-* [Dynamic property iteration using `KeyPathIterable`][KeyPathIterable].
-* Differentiable types and `Differentiable`: *coming soon*
+* [Dynamic property iteration using the `KeyPathIterable` protocol][KeyPathIterable].
+* [Differentiable types and the `Differentiable` protocol][Differentiable].
 
 ---
 
@@ -525,3 +525,4 @@ By comparison, the new design with `KeyPathIterable` and `Differentiable` is mor
 [swift-apis-Layer]: https://github.com/tensorflow/swift-apis/blob/master/Sources/DeepLearning/Layer.swift
 [swift-models]: https://github.com/tensorflow/swift-models
 [KeyPathIterable]: https://github.com/tensorflow/swift/blob/master/docs/DynamicPropertyIteration.md
+[Differentiable]: https://github.com/tensorflow/swift/blob/master/docs/DifferentiableTypes.md
