@@ -12,8 +12,8 @@ properties: examples include property-based default implementations of
 equality/comparison/hash functions.
 
 Many dynamic languages offer custom property iteration as an accessible
-top-level feature (e.g. [`dir`](Python_dir) in Python and
-[`Object.values`](JS_Object_values) in JavaScript).
+top-level feature (e.g. [`dir`][Python_dir] in Python and
+[`Object.values`][JS_Object_values] in JavaScript).
 
 Static types can complicate custom property iteration: since a type’s properties
 may have different types, representing a unified property type may require type
@@ -24,22 +24,22 @@ Here’s a non-comprehensive list of different approaches to custom property
 iteration:
 
 - Dynamic languages
-  - Python: the [`dir` builtin](Python_dir) returns a list of valid attributes
+  - Python: the [`dir` builtin][Python_dir] returns a list of valid attributes
     for an object.
-  - JavaScript: [`Object.keys`](JS_Object_keys)
-    and [`Object.values`](JS_Object_values) return an array of property
+  - JavaScript: [`Object.keys`][JS_Object_keys]
+    and [`Object.values`][JS_Object_values] return an array of property
     names/values for an object.
-  - Objective-C: [key-value coding (KVC)](ObjC_KVC) defines string-based APIs
+  - Objective-C: [key-value coding (KVC)][ObjC_KVC] defines string-based APIs
     for getting/setting properties.
 - Runtime reflection
-  - Java: [`Class.getFields`](Java_getFields) returns an array reflecting the
+  - Java: [`Class.getFields`][Java_getFields] returns an array reflecting the
     public fields of a class.
-  - Swift: [`Mirror`](Swift_Mirror), a "representation of the substructure and
+  - Swift: [`Mirror`][Swift_Mirror], a "representation of the substructure and
     display style of an instance of any type."
 - Metaprogramming/macros
-  - [C](C_macro), [Rust](Rust_macro), etc.
+  - [C][C_macro], [Rust][Rust_macro], etc.
 - Other
-  - [Lenses in functional programming](Lenses).
+  - [Lenses in functional programming][Lenses].
 
 A motivating use case for custom property iteration is machine learning
 optimization. Machine learning optimizers update structs of parameters using

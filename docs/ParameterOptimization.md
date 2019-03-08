@@ -143,7 +143,7 @@ In Swift, TensorFlow graphs are an implementation detail and aren't visible to u
 
 The current parameter update design in Swift is based on the `KeyPathIterable` protocol.
 
-Machine learning models are data structures with mutable properties called parameters. Optimizers “train” models by applying an algorithm (e.g. stochastic gradient descent) to update the parameters of a model.
+Machine learning models are data structures with mutable properties called parameters. Optimizers "train" models by applying an algorithm (e.g. stochastic gradient descent) to update the parameters of a model.
 
 The current Swift parameter update design is based on two protocols: `KeyPathIterable` and `Differentiable`.
 
