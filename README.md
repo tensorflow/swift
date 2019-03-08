@@ -136,12 +136,15 @@ out the following documentation.
 > Beware: the project is moving very quickly, and thus some of these documents
 > are slightly out of date as compared to the current state-of-the-art.
 
-- [Automatic Differentiation Whitepaper](docs/AutomaticDifferentiation.md)
-- [Automatic Differentiation Manifesto](https://gist.github.com/rxwei/30ba75ce092ab3b0dce4bde1fc2c9f1d)
-- [Dynamic Property Iteration using Key Paths](docs/DynamicPropertyIteration.md)
-- [Hierarchical Parameter Iteration and Optimization](docs/ParameterOptimization.md)
-- [Python Interoperability](docs/PythonInteroperability.md)
-- [Graph Program Extraction](docs/GraphProgramExtraction.md)
+Documents | Last Updated | Status |
+--------- | ------------ | ------ |
+[Differentiable Types](docs/DifferentiableTypes.md) | March 2019 | Current
+[Dynamic Property Iteration using Key Paths](docs/DynamicPropertyIteration.md) | March 2019 | Current
+[Hierarchical Parameter Iteration and Optimization](docs/ParameterOptimization.md) | March 2019 | Current
+[First-Class Automatic Differentiation in Swift: A Manifesto](https://gist.github.com/rxwei/30ba75ce092ab3b0dce4bde1fc2c9f1d) | October 2018 | Outdated
+[Automatic Differentiation Whitepaper](docs/AutomaticDifferentiation.md) | April 2018 | Outdated
+[Python Interoperability](docs/PythonInteroperability.md) | April 2018 | Current
+[Graph Program Extraction](docs/GraphProgramExtraction.md) | April 2018 | Outdated
 
 ## Source code
 
