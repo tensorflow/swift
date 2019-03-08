@@ -35,30 +35,30 @@ Here are some additional rules about models and parameters:
 
 1. Not all properties of a model are required to be parameters: a model may have properties which aren't meant to be trainable (e.g. configuration flags or state-caching variables). This requires a clear way to distinguish parameters from other properties.
 
-```swift
-struct MyMLModel {
-    // These are parameters.
-    var weight: Tensor<Float>
-    var bias: Tensor<Float>
+    ```swift
+    struct MyMLModel {
+        // These are parameters.
+        var weight: Tensor<Float>
+        var bias: Tensor<Float>
 
-    // Need to distinguish from non-parameter stored properties.
-    let useBias: Bool
-    var previousWeight: Tensor<Float>
-}
-```
+        // Need to distinguish from non-parameter stored properties.
+        let useBias: Bool
+        var previousWeight: Tensor<Float>
+    }
+    ```
 
 2. There must exist some mechanism to update all parameters of a model given their gradients.
 
-The ability to jointly iterate over parameters and gradients is crucial for writing simple, generic code that works with all models. Without this ability to perform "generic parameter update", users must duplicate code for each parameter, with no potential for generalization:
+    The ability to jointly iterate over parameters and gradients is crucial for writing simple, generic code that works with all models. Without this ability to perform "generic parameter update", users must duplicate code for each parameter, with no potential for generalization:
 
-```swift
-// w1, w2, b1, b2: Tensor<Float>
-w1 -= learningRate * dw1
-w2 -= learningRate * dw2
-b1 -= learningRate * db1
-b2 -= learningRate * db2
-...
-```
+    ```swift
+    // w1, w2, b1, b2: Tensor<Float>
+    w1 -= learningRate * dw1
+    w2 -= learningRate * dw2
+    b1 -= learningRate * db1
+    b2 -= learningRate * db2
+    ...
+    ```
 
 ### Existing approaches
 
