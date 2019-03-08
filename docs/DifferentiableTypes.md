@@ -149,7 +149,7 @@ Here is a detailed explanation of the `Differentiable` protocol:
 * Manifold operations.
   * These currently involve `tangentVector(from:)` and `moved(along:)`. These operations can be useful for implementing manifold-related algorithms, like optimization on manifolds, but are not relevant for simple differentiation use cases.
 
-The standard library defines conformances to the `Differentiable` protocol for `Float`, `Double`, and `Float80`. Conditional conformances will be added to floating-point [SIMD vector types](SIMD). The [`Tensor`][TensorFlow_Tensor] type defined in the TensorFlow library also conditionally conforms to `Differentiable`:
+The standard library defines conformances to the `Differentiable` protocol for `Float`, `Double`, and `Float80`. Conditional conformances will be added to floating-point [SIMD vector types][SIMD]. The [`Tensor`][TensorFlow_Tensor] type defined in the TensorFlow library also conditionally conforms to `Differentiable`:
 
 ```swift
 extension Float: Differentiable {
