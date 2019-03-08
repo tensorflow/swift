@@ -1,4 +1,4 @@
-# Parameter Update
+# Hierarchical parameter iteration and optimization
 
 [Richard Wei](https://github.com/rxwei), [Dan Zheng](https://github.com/dan-zheng)
 
@@ -6,9 +6,9 @@ Last updated: March 2019
 
 ## Introduction
 
-The concept of parameter update is crucial for implementing general machine learning optimization algorithms. This document explains the concept of parameters and parameter update, shows how TensorFlow (graph mode) and PyTorch handle parameter update, and describes the current design for Swift.
+The concept of parameter optimization is crucial for machine learning algorithms. This document explains the concept of parameters and parameter optimization, shows how TensorFlow (graph mode) and PyTorch handle parameter update, and describes the current design for Swift.
 
-### Parameters and optimizers
+### Parameters and optimization
 
 Machine learning models are data structures with mutable properties called parameters. Machine learning optimizers "train" models by applying an algorithm (e.g. stochastic gradient descent) to update the parameters of a model.
 
@@ -91,7 +91,7 @@ class SGD(Optimizer):
       ...
 ```
 
-However, in Swift, this is difficult. Constructing a collection of parameters is difficult because parameters aren't required to have the same type: for example, a model may have parameters with types `Float`, `Tensor<Float>`, and `Tensor<Double>`. To represent parameters as a collection, advanced type-erasure is needed to generalize all parameter types. It's also not clear how parameter updates would work (at compile-time, how is it possible to identify the correct concrete `+` function for a type-erased parameter value?).
+However, in Swift, this is difficult. Constructing a collection of parameters is difficult because parameters aren't required to have the same type: for example, a model may have parameters with types `Float`, `Tensor<Float>`, and `Tensor<Double>`. To represent parameters as a collection, advanced type-erasure is needed to generalize all parameter types. It's also not clear how parameter update would work (at compile-time, how is it possible to identify the correct concrete `+` function for a type-erased parameter value?).
 
 Additionally, while we want to enable code that achieves the following:
 ```swift
