@@ -122,7 +122,15 @@ public protocol Differentiable {
 }
 ```
 
-Mathematically, `Differentiable` represents a differentiable manifold: this is a technical term for smooth-surfaced objects like spheres and generalizes types that are compatible with differentiation, like `Float`, `Double`, `Tensor`, and `SIMD4<Float>`. This definition comes from differential geometry and is quite technical, and not all details are relevant for most use cases.
+Mathematically, `Differentiable` represents a differentiable manifold: this is a technical term for smooth-surfaced objects like spheres and generalizes types that are compatible with differentiation, like `Float`, `Double`, `Tensor`, and `SIMD4<Float>`. Here's an example of a sphere as a differentiable manifold:
+
+<p align="center">
+  <img src="https://upload.wikimedia.org/wikipedia/commons/3/37/Pushforward.svg" align=center>
+  <br>
+  <sub>Image from https://en.wikipedia.org/wiki/Pushforward_(differential) showing two differentiable manifolds: M and N</sub>
+</p>
+
+This definition comes from differential geometry and is quite technical, and not all details are relevant for most use cases.
 
 Here are the important requirements:
 * `associatedtype TangentVector`: represents the type of directional derivatives computed via forward-mode differentiation.
