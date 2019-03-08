@@ -32,7 +32,7 @@ The Swift for TensorFlow project is currently focusing on 2 kinds of users:
 ### Using Swift for TensorFlow
 
 - **Google Colaboratory**: The fastest way to get started is to try out Swift
-   for TensorFlow right in your browser. Just open up [a tutorial](#tutorials), or start from a [blank
+   for TensorFlow right in your browser. Just open up [a tutorial](#tutorials-), or start from a [blank
    notebook](https://colab.research.google.com/github/tensorflow/swift/blob/master/notebooks/blank_swift.ipynb)!
    Read more in our [usage guide](Usage.md).
 
