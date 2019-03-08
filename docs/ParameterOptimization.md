@@ -218,9 +218,9 @@ These enable member mutation, which in turn enable basic machine learning optimi
 
 ```swift
 var parameters = DenseLayer(weight: [[1, 1], [1, 1]], bias: [1])
-let gradients = DenseLayer(weight: [[0.5, 0.5], [0.5, 0.5]], bias: Tensor(0.5))
+let 𝛁parameters = DenseLayer(weight: [[0.5, 0.5], [0.5, 0.5]], bias: Tensor(0.5))
 for kp in parameters.allWritableKeyPaths(to: Tensor<Float>.self) {
-    parameters[keyPath: kp] -= 0.1 * gradients[keyPath: kp]
+    parameters[keyPath: kp] -= 0.1 * 𝛁parameters[keyPath: kp]
 }
 print(parameters)
 // DenseLayer(weight: [[0.95, 0.95], [0.95, 0.95]], bias: 0.95)
@@ -323,12 +323,16 @@ How can we reconcile this type mismatch? The solution lies in the `AllDifferenti
 ```swift
 struct DenseLayer: KeyPathIterable, Differentiable {
     var weight, bias: Tensor<Float>
-    @noDerivative var activation: (Tensor<Float>) -> Tensor<Float> = relu
+    @noDerivative var activation: @differentiable (Tensor<Float>) -> Tensor<Float> = relu
+
+    @differentiable
+    func applied(to input: Tensor<Float>) -> Tensor<Float> {
+        return activation(matmul(input, weight) + bias)
+    }
 }
 
 var dense = DenseLayer(weight: [[1, 1], [1, 1]], bias: [1])
-
-print(dense)
+dump(dense)
 // ▿ DenseLayer
 //   - weight: [[1.0, 1.0], [1.0, 1.0]]
 //   - bias: [1.0]
@@ -339,21 +343,21 @@ print(dense.allDifferentiableVariables)
 
 print(type(of: DenseLayer.CotangentVector.self))
 // AllDifferentiableVariables.Type
-
-// `AllDifferentiableVariables` and `CotangentVector` are the same type!
 ```
 
 Since `Model.AllDifferentiableVariables` is the same type as `Model.CotangentVector`, we can access them using the same key paths, as in the following full-fledged optimizer:
 
 ```swift
 // A stochastic gradient descent optimizer.
-class SGD<Scalar: TensorFlowFloatingPoint> {
+class SGD<Model, Scalar: TensorFlowFloatingPoint>
+    where Model: Differentiable,
+          Model.AllDifferentiableVariables: KeyPathIterable,
+          Model.AllDifferentiableVariables == Model.CotangentVector
+{
     let learningRate: Scalar = 0.01
 
-    func update<Model: KeyPathIterable>(
-        _ parameters: inout Model.AllDifferentiableVariables,
-        with gradient: Model.CotangentVector
-    ) where Model.AllDifferentiableVariables == Model.CotangentVector {
+    func update(_ parameters: inout Model.AllDifferentiableVariables,
+                with gradient: Model.CotangentVector) {
         // Iterate over recursively all writable key paths to the parameter type
         // to perform update.
         for kp in parameters.recursivelyAllWritableKeyPaths(to: Tensor<Scalar>.self) {
@@ -363,19 +367,24 @@ class SGD<Scalar: TensorFlowFloatingPoint> {
 }
 
 // Example optimizer usage.
-let optimizer = SGD<Float>()
-var dense = DenseLayer(weight: [[1, 1], [1, 1]], bias: [1])
-let gradient = DenseLayer(weight: [[0.5, 0.5], [0.5, 0.5]], bias: [0.5])
-optimizer.update(&dense, with: gradient)
+var dense = DenseLayer(weight: [[1, 1], [1, 1]], bias: [1, 1])
+let input = Tensor<Float>(ones: [2, 2])
+let 𝛁dense = dense.gradient { dense in dense.applied(to: input) }
+
+let optimizer = SGD<DenseLayer, Float>()
+optimizer.update(&dense.allDifferentiableVariables, with: 𝛁dense)
 
 dump(dense)
 // ▿ DenseLayer
-//   - weight: [[0.995, 0.995], [0.995, 0.995]]
-//   - bias: [0.995]
+//   - weight: [[0.98, 0.98], [0.98, 0.98]]
+//   - bias: [0.98, 0.98]
 //   - activation: (Function)
+
+print(𝛁dense.weight)
+// [[2.0, 2.0], [2.0, 2.0]]
 ```
 
-This is essentially how optimizers are defined in tensorflow/swift-apis. (tensorflow/swift-apis uses a `Layer` protocol that conforms to `Differentiable` and `KeyPathIterable` and has more requirements).
+This is essentially how optimizers are defined in [tensorflow/swift-apis](swift-apis). ([tensorflow/swift-apis](swift-apis) uses a [`Layer`](swift-apis-Layer) protocol that conforms to `Differentiable` and `KeyPathIterable` and has more requirements).
 
 ### Optimizers with auxiliary variables
 
@@ -433,11 +442,11 @@ struct MixedParameters: Differentiable & KeyPathIterable {
 
 // To update parameters, create an optimizer for each parameter type.
 var parameters = MixedParameters.AllDifferentiableVariables(weight: [[1, 1], [1, 1]], bias: Tensor(1))
-let gradient = MixedParameters.AllDifferentiableVariables(weight: [[0.5, 0.5], [0.5, 0.5]], bias: Tensor(0.5))
+let 𝛁parameters = MixedParameters.AllDifferentiableVariables(weight: [[0.5, 0.5], [0.5, 0.5]], bias: Tensor(0.5))
 let floatSGD = SGD<MixedParameters, Float>()
 let doubleSGD = SGD<MixedParameters, Double>()
-floatSGD.update(&parameters, along: gradient)
-doubleSGD.update(&parameters, along: gradient)
+floatSGD.update(&parameters, along: 𝛁parameters)
+doubleSGD.update(&parameters, along: 𝛁parameters)
 
 dump(parameters)
 // ▿ MixedParameters.AllDifferentiableVariables
@@ -446,6 +455,50 @@ dump(parameters)
 ```
 
 In practice, most models are likely to have the same innermost parameter type (e.g. `Tensor<Float>`).
+
+## End-to-end example
+
+Here's an end-to-end example adapted from [tensorflow/swift-apis](swift-apis) demonstrating parameter optimization for a simple XOR classifier.
+
+```swift
+public protocol Layer: Differentiable & KeyPathIterable
+    where AllDifferentiableVariables: KeyPathIterable {
+    ...
+}
+
+struct Classifier: Layer {
+    var l1, l2: Dense<Float>
+    init(hiddenSize: Int) {
+        l1 = Dense<Float>(inputSize: 2, outputSize: hiddenSize, activation: relu)
+        l2 = Dense<Float>(inputSize: hiddenSize, outputSize: 1, activation: relu)
+    }
+    @differentiable
+    func applied(to input: Tensor<Float>) -> Tensor<Float> {
+        let h1 = l1.applied(to: input)
+        return l2.applied(to: h1)
+    }
+}
+var classifier = Classifier(hiddenSize: 4)
+let optimizer = Adam<Classifier, Float>(learningRate: 0.02)
+let x: Tensor<Float> = [[0, 0], [0, 1], [1, 0], [1, 1]]
+let y: Tensor<Float> = [[0], [1], [1], [0]]
+
+for _ in 0..<3000 {
+    let 𝛁model = classifier.gradient { classifier -> Tensor<Float> in
+        let ŷ = classifier.applied(to: x)
+        return meanSquaredError(predicted: ŷ, expected: y)
+    }
+    // Parameter optimization here!
+    optimizer.update(&classifier.allDifferentiableVariables, along: 𝛁model)
+}
+
+// After training, check prediction vs. expected output.
+let ŷ = classifier.inferring(from: x)
+print(ŷ)
+// [[2.2782544e-05], [0.99999344], [0.99999225], [2.4871624e-06]]
+print(y)
+// [[0.0], [1.0], [1.0], [0.0]]
+```
 
 ## Evolution from previous design
 
@@ -470,4 +523,5 @@ We quickly found that the `ParameterAggregate` is not sufficiently general for d
 By comparison, the new design with `KeyPathIterable` and `Differentiable` is more general. `KeyPathIterable` solves the core problem of parameter update by enabling joint iteration/mutation over all nested parameters of a particular. Compiler synthesis of the `Differentiable.AllDifferentiableVariables` struct enables parameters and their gradients to have the same type and work with the same key paths.
 
 [swift-apis]: https://github.com/tensorflow/swift-apis
+[swift-apis-Layer]: https://github.com/tensorflow/swift-apis/blob/master/Sources/DeepLearning/Layer.swift
 [swift-models]: https://github.com/tensorflow/swift-models
