@@ -42,9 +42,8 @@ The Swift for TensorFlow project is currently focusing on 2 kinds of users:
    your computer.
 
 - **Compile from source**: If you'd like to customize Swift for TensorFlow or
-   even contribute back, follow our [instructions on building the Swift for
-   TensorFlow compiler from
-   source](https://github.com/apple/swift/tree/tensorflow).
+   contribute back, follow our [instructions](https://github.com/apple/swift/tree/tensorflow)
+   on building Swift for TensorFlow from source.
 
 ### Tutorials ![](https://www.tensorflow.org/images/colab_logo_32px.png)
 
