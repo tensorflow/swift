@@ -18,30 +18,6 @@ project.  We have a long document that explains all of this rationale in depth n
 
 Separate from that, Swift really is a great fit for our purposes, and a very nice language.
 
-## Why do I get ["error: array input is not a constant array of tensors"](https://github.com/tensorflow/swift/issues/10)?
-
-If you ran into this error, you likely wrote some code using `Tensor` without running Swift with optimizations (`-O`). 
-
-The `-O` flag enables optimizations and is currently required for the [graph program extraction
-algorithm](https://github.com/tensorflow/swift/blob/master/docs/GraphProgramExtraction.md) to work correctly.
-We're working on making `-O` not required, but in the meantime you need to specify it.
-
-Here's how to enable optimizations in different environments:
-
-* REPL: No need to add extra flags. Optimizations are on by default. 
-* Interpreter: `swift -O main.swift`
-* Compiler: `swiftc -O main.swift`
-* `swift build`: `swift build -Xswiftc -O`
-* Xcode: Go to `Build Settings > Swift Compiler > Code Generation > Optimization Level` and select `Optimize for Speed [-O]`.
-  * You may also need to add `libtensorflow.so` and `libtensorflow_framework.so` to `Linked Frameworks and Libraries` and change `Runtime Search Paths`.
-    See [this comment](https://github.com/tensorflow/swift/issues/10#issuecomment-385167803) for specific instructions with screenshots.
-
-## How can I use Python 3 with the `Python` module?
-
-Currently, Swift is hard-coded to use Python 2.7.
-Adding proper Python 3 support is non-trivial but in discussion.
-See [this issue](https://github.com/tensorflow/swift/issues/13) for more information.
-
 ## [Mac] I wrote some code in an Xcode Playground. Why is it frozen/hanging?
 
 Xcode Playgrounds are known to be somewhat unstable, unfortunately.
