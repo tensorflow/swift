@@ -147,7 +147,7 @@ Here is a detailed explanation of the `Differentiable` protocol:
 * Manifold operations.
   * These currently involve `tangentVector(from:)` and `moved(along:)`. These operations can be useful for implementing manifold-related algorithms, like optimization on manifolds, but are not relevant for simple differentiation use cases.
 
-The standard library defines conformances to the `Differentiable` protocol for `Float` and `Double`. The [`Tensor`][TensorFlow_Tensor] type defined in the TensorFlow library also conditionally conforms to `Differentiable`:
+The standard library defines conformances to the `Differentiable` protocol for `Float`, `Double`, and `Float80`. Conditional conformances will be added to floating-point [SIMD vector types](SIMD). The [`Tensor`][TensorFlow_Tensor] type defined in the TensorFlow library also conditionally conforms to `Differentiable`:
 
 ```swift
 extension Float: Differentiable {
@@ -155,7 +155,7 @@ extension Float: Differentiable {
     public typealias CotangentVector = Float
     public typealias AllDifferentiableVariables = Float
 }
-// The conformance for `Double` is defined similarly.
+// Conformances for `Double` and `Float80` are defined similarly.
 
 // `Tensor` is defined in the TensorFlow library and represents a multidimensional array.
 extension Tensor: Differentiable where Scalar: TensorFlowFloatingPoint {
@@ -170,7 +170,7 @@ extension Tensor: Differentiable where Scalar: TensorFlowFloatingPoint {
 As shown above, the compiler automatically synthesizes implementations of `Differentiable` requirements for struct types.
 
 Here are the current conditions for synthesis:
-* The type must declare a conformance to `Differentiable`, either on the type declaration or on an extension.
+* The type must declare a conformance to `Differentiable`, either on the type declaration or on an extension in the same file.
 * The conforming type must be a `struct`.
 * All stored properties of the conforming type must either conform to `Differentiable` or be marked with the `@noDerivative` attribute.
   * If a non-`Differentiable` stored property is not marked with `@noDerivative`, then it is treated as if it has `@noDerivative` and the compiler emits a warning (with a fix-it in IDEs) asking the user to make the attribute explicit.
@@ -251,23 +251,23 @@ struct GenericWrapper<T: Differentiable, U: Differentiable>: Differentiable {
     // The compiler synthesizes:
     //
     // struct TangentVector: Differentiable, AdditiveArithmetic {
-    //   var x: T.TangentVector
-    //   var y: U.TangentVector
-    //   ...
+    //     var x: T.TangentVector
+    //     var y: U.TangentVector
+    //     ...
     // }
     // struct CotangentVector: Differentiable, AdditiveArithmetic {
-    //   var x: T.CotangentVector
-    //   var y: U.CotangentVector
-    //   ...
+    //     var x: T.CotangentVector
+    //     var y: U.CotangentVector
+    //     ...
     // }
     // struct AllDifferentiableVariables: Differentiable {
-    //   var x: T.AllDifferentiableVariables
-    //   var y: U.AllDifferentiableVariables
-    //   ...
+    //     var x: T.AllDifferentiableVariables
+    //     var y: U.AllDifferentiableVariables
+    //     ...
     // }
     // var allDifferentiableVariables: AllDifferentiableVariables {
-    //   get { return AllDifferentiableVariables(weight: weight, bias: bias) }
-    //   set { weight = newValue.weight; bias = newValue.bias }
+    //     get { return AllDifferentiableVariables(weight: weight, bias: bias) }
+    //     set { weight = newValue.weight; bias = newValue.bias }
     // }
     // func tangentVector(from cotangent: CotangentVector) -> TangentVector {
     //     return TangentVector(x: x.tangentVector(from: cotangent.x),
