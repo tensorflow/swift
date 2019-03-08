@@ -29,11 +29,11 @@ The Swift for TensorFlow project is currently focusing on 2 kinds of users:
 
 ## Getting started
 
+### Using Swift for TensorFlow
+
 - **Google Colaboratory**: The fastest way to get started is to try out Swift
-   for TensorFlow right in your browser. Just open up our [getting started
-   notebook](https://colab.research.google.com/github/tensorflow/swift/blob/master/docs/site/tutorials/walkthrough.ipynb)
-   (or start from a [blank
-   notebook](https://colab.research.google.com/github/tensorflow/swift/blob/master/notebooks/blank_swift.ipynb))!
+   for TensorFlow right in your browser. Just open up [a tutorial](#tutorials), or start from a [blank
+   notebook](https://colab.research.google.com/github/tensorflow/swift/blob/master/notebooks/blank_swift.ipynb)!
    Read more in our [usage guide](Usage.md).
 
 - **Install locally**: you can [download a pre-built Swift for TensorFlow
@@ -46,19 +46,26 @@ The Swift for TensorFlow project is currently focusing on 2 kinds of users:
    TensorFlow compiler from
    source](https://github.com/apple/swift/tree/tensorflow).
 
-Please do join the
+### Tutorials ![](https://www.tensorflow.org/images/colab_logo_32px.png)
+
+Tutorial | Last Updated |
+-------- | ------------ |
+[A Swift Tour](https://colab.sandbox.google.com/github/tensorflow/swift/blob/master/docs/site/tutorials/a_swift_tour.ipynb) | March 2019
+[Python Interoperability](https://colab.sandbox.google.com/github/tensorflow/swift/blob/master/docs/site/tutorials/python_interoperability.ipynb) | March 2019
+[Model Training Walkthrough](https://colab.sandbox.google.com/github/tensorflow/swift/blob/master/docs/site/tutorials/walkthrough.ipynb) | March 2019
+[Using Raw TensorFlow Operators](https://colab.sandbox.google.com/github/tensorflow/swift/blob/master/docs/site/tutorials/using_raw_tensorflow_operators.ipynb) | March 2019
+
+### Resources
+
+- [Models and Examples](https://github.com/tensorflow/swift-models)
+- [TensorFlow Swift API Reference](https://www.tensorflow.org/api_docs/swift/Structs/Tensor)
+- [Frequently Asked Questions](FAQ.md)
+
+### Forums
+
+Please join the
 [swift@tensorflow.org mailing list](https://groups.google.com/a/tensorflow.org/d/forum/swift)
 to hear the latest announcements, get help, and share your thoughts!
-
-## Tutorials
-
-![](https://www.tensorflow.org/images/colab_logo_32px.png) [A Swift Tour](https://colab.sandbox.google.com/github/tensorflow/swift/blob/master/docs/site/tutorials/a_swift_tour.ipynb)
-
-![](https://www.tensorflow.org/images/colab_logo_32px.png) [Python Interoperability](https://colab.sandbox.google.com/github/tensorflow/swift/blob/master/docs/site/tutorials/python_interoperability.ipynb)
-
-![](https://www.tensorflow.org/images/colab_logo_32px.png) [Model Training Walkthrough](https://colab.sandbox.google.com/github/tensorflow/swift/blob/master/docs/site/tutorials/walkthrough.ipynb)
-
-![](https://www.tensorflow.org/images/colab_logo_32px.png) [Using Raw TensorFlow Operators](https://colab.sandbox.google.com/github/tensorflow/swift/blob/master/docs/site/tutorials/using_raw_tensorflow_operators.ipynb)
 
 ## Why Swift for TensorFlow?
 
@@ -102,10 +109,10 @@ massive API surface of a modern deep learning library. You can [get started
 right in your browser in
 seconds](https://colab.research.google.com/github/tensorflow/swift/blob/master/docs/site/tutorials/walkthrough.ipynb)!
 
-Migrating to Swift for TensorFlow is really easy thanks to Swift's powerful Python integration.
-You can incrementally migrate your Python code over (or continue to use your
-favorite Python libraries), because you can easily call your favorite Python
-library with a familiar syntax:
+Migrating to Swift for TensorFlow is really easy thanks to Swift's powerful
+Python integration. You can incrementally migrate your Python code over (or
+continue to use your favorite Python libraries), because you can easily call
+your favorite Python library with a familiar syntax:
 
 ```swift
 import TensorFlow
@@ -119,13 +126,15 @@ let tensor = Tensor(numpy: array)  // Seamless integration!
 
 ## Documentation
 
-### Getting started
+> Beware: the project is moving very quickly, and thus some of these documents
+> are slightly out of date as compared to the current state-of-the-art.
 
-- [Swift for TensorFlow Design Overview](docs/DesignOverview.md)
-- [Why *Swift* for TensorFlow?](docs/WhySwiftForTensorFlow.md)
-- [Sample Models](https://github.com/tensorflow/swift-models)
-- [Frequently Asked Questions](FAQ.md)
-- [Swift Tensor API Reference](https://www.tensorflow.org/api_docs/swift/Structs/Tensor)
+### Overview
+
+Document | Last Updated | Status |
+-------- | ------------ | ------ |
+[Why *Swift* for TensorFlow?](docs/WhySwiftForTensorFlow.md) | April 2018 | Current
+[Swift for TensorFlow Design Overview](docs/DesignOverview.md) | April 2018 | Outdated
 
 ### Technology deep dive
 
@@ -133,11 +142,8 @@ The Swift for TensorFlow project builds on top of powerful theoretical
 foundations. For insight into some of the underlying technologies, check
 out the following documentation.
 
-> Beware: the project is moving very quickly, and thus some of these documents
-> are slightly out of date as compared to the current state-of-the-art.
-
-Documents | Last Updated | Status |
---------- | ------------ | ------ |
+Document | Last Updated | Status |
+-------- | ------------ | ------ |
 [Differentiable Types](docs/DifferentiableTypes.md) | March 2019 | Current
 [Dynamic Property Iteration using Key Paths](docs/DynamicPropertyIteration.md) | March 2019 | Current
 [Hierarchical Parameter Iteration and Optimization](docs/ParameterOptimization.md) | March 2019 | Current
