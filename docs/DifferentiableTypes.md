@@ -134,7 +134,7 @@ Here is a detailed explanation of the `Differentiable` protocol:
 * `associatedtype CotangentVector` represents the type of gradient values computed via reverse-mode differentiation.
   * `CotangentVector` types are used and produced by differential operators like `gradient` and `pullback`.
 * `var allDifferentiableVariables: AllDifferentiableVariables` represents all differentiable variables in an instance of the conforming type, where `associatedtype AllDifferentiableVariables` is the type of all differentiable variables.
-  * The motivation/design behind "all differentiable variables" is enabling key-path-based parameter optimization by making parameters and their gradients have the same type. Read the [synthesis rules](#compiler-synthesized-implementations) below and the [parameter optimization doc][parameter-optimization] for more information.
+  * The motivation/design behind "all differentiable variables" is enabling key-path-based parameter optimization by making parameters and their gradients have the same type. Read the [synthesis rules](#compiler-synthesized-implementations) below and the [parameter optimization document][parameter-optimization] for more information.
 * `TangentVector`, `CotangentVector`, and `AllDifferentiableVariables` are closely related.
   * All three associated types must themselves conform to `Differentiable`.
   * The `Differentiable` protocol associated types of the associated types themselves are defined to be mathematically correct.
