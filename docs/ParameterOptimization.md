@@ -153,11 +153,11 @@ With this design,
 * Library authors can write generic algorithms that read and update model parameters, including machine learning optimizers.
 
 Examples:
-* [tensorflow/swift-apis](swift-apis): the Swift for TensorFlow deep learning library. Layers and optimizers are written using `Differentiable` and `KeyPathIterable`.
-* [tensorflow/swift-models](swift-models): Swift for TensorFlow models written using `swift-apis`.
+* [tensorflow/swift-apis][swift-apis]: the Swift for TensorFlow deep learning library. Layers and optimizers are written using `Differentiable` and `KeyPathIterable`.
+* [tensorflow/swift-models][swift-models]: Swift for TensorFlow models written using `swift-apis`.
 
 Related discussion:
-* [Dynamic property iteration using `KeyPathIterable`](https://github.com/tensorflow/swift/blob/master/docs/DynamicPropertyIteration.md)
+* [Dynamic property iteration using `KeyPathIterable`][KeyPathIterable].
 * Differentiable types and `Differentiable`: *coming soon*
 
 ---
@@ -384,7 +384,7 @@ print(𝛁dense.weight)
 // [[2.0, 2.0], [2.0, 2.0]]
 ```
 
-This is essentially how optimizers are defined in [tensorflow/swift-apis](swift-apis). ([tensorflow/swift-apis](swift-apis) uses a [`Layer`](swift-apis-Layer) protocol that conforms to `Differentiable` and `KeyPathIterable` and has more requirements).
+This is essentially how optimizers are defined in [tensorflow/swift-apis][swift-apis]. ([tensorflow/swift-apis][swift-apis] uses a [`Layer`][swift-apis-Layer] protocol that conforms to `Differentiable` and `KeyPathIterable` and has more requirements).
 
 ### Optimizers with auxiliary variables
 
@@ -458,7 +458,7 @@ In practice, most models are likely to have the same innermost parameter type (e
 
 ## End-to-end example
 
-Here's an end-to-end example adapted from [tensorflow/swift-apis](swift-apis) demonstrating parameter optimization for a simple XOR classifier.
+Here's an end-to-end example adapted from [tensorflow/swift-apis][swift-apis] demonstrating parameter optimization for a simple XOR classifier.
 
 ```swift
 public protocol Layer: Differentiable & KeyPathIterable
@@ -525,3 +525,4 @@ By comparison, the new design with `KeyPathIterable` and `Differentiable` is mor
 [swift-apis]: https://github.com/tensorflow/swift-apis
 [swift-apis-Layer]: https://github.com/tensorflow/swift-apis/blob/master/Sources/DeepLearning/Layer.swift
 [swift-models]: https://github.com/tensorflow/swift-models
+[KeyPathIterable]: https://github.com/tensorflow/swift/blob/master/docs/DynamicPropertyIteration.md
