@@ -139,7 +139,7 @@ out the following documentation.
 - [Automatic Differentiation Whitepaper](docs/AutomaticDifferentiation.md)
 - [Automatic Differentiation Manifesto](https://gist.github.com/rxwei/30ba75ce092ab3b0dce4bde1fc2c9f1d)
 - [Dynamic Property Iteration using Key Paths](docs/DynamicPropertyIteration.md)
-- [Hierarchical parameter iteration and optimization](docs/ParameterOptimization.md)
+- [Hierarchical Parameter Iteration and Optimization](docs/ParameterOptimization.md)
 - [Python Interoperability](docs/PythonInteroperability.md)
 - [Graph Program Extraction](docs/GraphProgramExtraction.md)
 

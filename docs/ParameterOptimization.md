@@ -103,10 +103,9 @@ for (inout θ, dθ) in zip(parameters, gradients) {
 We don't want to actually lower the for-loop or zip operation to TensorFlow (lowering wouldn't be straightforward or and lowered representation wouldn't be efficient). Instead, we want to fully unroll the loop into individual straight-line statements:
 
 ```swift
-// w1, w2: Tensor<Float>
+// w1, w2, b1, b2: Tensor<Float>
 w1 -= learningRate * dw1
 w2 -= learningRate * dw2
-// b1, b2: Float
 b1 -= learningRate * db1
 b2 -= learningRate * db2
 ```
