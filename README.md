@@ -51,6 +51,7 @@ Tutorial | Last Updated |
 -------- | ------------ |
 [A Swift Tour](https://colab.sandbox.google.com/github/tensorflow/swift/blob/master/docs/site/tutorials/a_swift_tour.ipynb) | March 2019
 [Python Interoperability](https://colab.sandbox.google.com/github/tensorflow/swift/blob/master/docs/site/tutorials/python_interoperability.ipynb) | March 2019
+[Custom Differentiation](https://colab.sandbox.google.com/github/tensorflow/swift/blob/master/docs/site/tutorials/custom_differentiation.ipynb) | March 2019
 [Model Training Walkthrough](https://colab.sandbox.google.com/github/tensorflow/swift/blob/master/docs/site/tutorials/walkthrough.ipynb) | March 2019
 [Using Raw TensorFlow Operators](https://colab.sandbox.google.com/github/tensorflow/swift/blob/master/docs/site/tutorials/using_raw_tensorflow_operators.ipynb) | March 2019
 
