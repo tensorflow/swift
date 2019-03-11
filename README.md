@@ -78,9 +78,13 @@ machine learning paradigms are so important that they deserve
 
 A fundamental primitive in machine learning is gradient-based optimization:
 computing function derivatives to optimize parameters. With Swift for
-TensorFlow, you can easily differentiate custom functions using differential
-operators like `gradient(of:)`, or differentiate with respect to an entire
-model by calling standard library method `model.gradient { ... }`.
+TensorFlow, you can easily differentiate functions using differential
+operators like [`gradient(of:)`](https://www.tensorflow.org/swift/api_docs/Functions#/s:10TensorFlow8gradient2of15CotangentVectorQzxcq_xc_tAA14DifferentiableRzSFR_AaFR_AdaFPQy_Rs_r0_lF), or differentiate with respect to an entire
+model by calling method [`gradient(in:)`](https://www.tensorflow.org/swift/api_docs/Protocols/Differentiable#/s:10TensorFlow14DifferentiablePAAE8gradient2in15CotangentVectorQzqd__xXE_tSFRd__AaBRd__AfCQyd__Rsd__lF). These differentiation APIs
+are not just available for `Tensor`-related concepts—they are
+generalized for all types that conform to the [`Differentiable`](https://www.tensorflow.org/swift/api_docs/Protocols/Differentiable)
+protocol, including `Float`, `Double`, SIMD vectors, and your own data
+structures.
 
 ```swift
 // Custom differentiable type.
