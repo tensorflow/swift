@@ -105,8 +105,10 @@ test.swift:2:11: note: cannot differentiate through a non-differentiable result;
 ```
 
 There are a few reasons why differentiation can fail:
-* The function to differentiate contains non-differentiable computation along
-  the dataflow from parameters to function result.
+* The function to differentiate contains computation, from parameters to result,
+  that cannot be differentiated.
+* The function to differentiate is opaque, i.e. it is a function parameter with
+  a non-`@differentiable` function type.
 * The function to differentiate is defined in another module.
 * The function to differentiate uses [control
   flow](https://docs.swift.org/swift-book/LanguageGuide/ControlFlow.html)
@@ -123,19 +125,20 @@ parameters (the varying parameters, explained below). `@differentiable` requires
 the types of the varying parameters and the function result type to all conform
 to the `Differentiable` protocol.
 
-This annotation does not change the declaration to have a `@differentiable`
-function type; instead, it triggers differentiation by the compiler on the
-function. If differentiation succeeds, then conversion of the function to a
-`@differentiable` function is guaranteed to succeed later.
+This annotation does not change the function declaration to have a
+`@differentiable` function type; instead, it tells the compiler to differentiate
+the function when compiling its containing file. If differentiation succeeds,
+the function can be coerced to have a `@differentiable` function type anytime;
+if not, a compile-time error will be produced.
 
 You may wonder about the purpose of the `@differentiable` declaration attribute,
 given that non-differentiable functions can implicitly be converted to
 `@differentiable` functions, as mentioned above. The main reason is that the
 `@differentiable` declaration attribute is a contract for differentiability: if
 a function is declared with `@differentiable` and it compiles, then it is always
-guaranteed to be differentiable, even in other modules. On the other hand, if a
-function is not declared with `@differentiable`, then differentiation of the
-function in other modules will fail.
+guaranteed to be differentiable, even in other modules when the function is
+public. On the other hand, if a function is not declared with `@differentiable`,
+then differentiation of the function in other modules will fail.
 
 This is why floating-point operations in the standard library are declared with
 `@differentiable`:
@@ -149,10 +152,13 @@ extension Float {
 
 Besides function declarations, there are a few other function-like declarations
 that can be marked with `@differentiable`:
-- Computed property getters. (This requires both the type defining the property
-  and the type of the property to conform to `Differentiable`.)
-- Initializers. (This requires the type defining the initializer to conform to
-  `Differentiable`.)
+- Stored and computed properties.
+  - This requires both the type defining the property
+    and the type of the property to conform to `Differentiable`.
+  - Property getters are differentiable with respect to `self`.
+- Initializers.
+  - This requires the type defining the initializer to conform to
+    `Differentiable`.
 
 For instance methods defined on types that conform to `Differentiable`, the
 `self` property can be marked as a varying parameter. Derivatives of these
@@ -192,9 +198,10 @@ are computed by the function's derivative.
 
 By default, the `@differentiable` attribute infers all function parameters that
 conform to `Differentiable` to be the varying parameters. However, this is not
-always desirable. To explicitly declare functions as differentiable with respect
-to a subset of parameters, explicitly specify the varying parameters using the
-`@differentiable(wrt: ...)` syntax.
+always desirable, because differentiating with respect to a subset of parameters
+is computationally less expensive. To declare functions as differentiable with
+respect to a subset of parameters, explicitly specify the varying parameters
+using the `@differentiable(wrt: ...)` syntax.
 
 Here's an example of a 2-D convolution operation, adapted from the TensorFlow
 library. The convolution input and filter are the varying parameters; strides
@@ -208,15 +215,15 @@ func conv2d(input: Tensor<Float>, filter: Tensor<Float>, strides: (Int, Int), pa
 ```
 
 Functions can have multiple `@differentiable` attributes with differentiable
-`wrt` parameter lists. `@differentiable` protocol requirements If a protocol
-requirement is marked with `@differentiable`, all implementations of the
-requirement are required to specify the same attribute. This enables generic
-code using differentiation defined in terms of protocol requirements.
+`wrt` parameter lists. If a protocol requirement is marked with
+`@differentiable`, all implementations of the requirement are required to
+specify the same attribute. This enables generic code using differentiation
+defined in terms of protocol requirements.
 
 Here is an example of a neural network `Layer` protocol that defines a
-`@differentiable` required method called `applied(to:)`. As shown, the
-`applied(to:)` method can be differentiated in a `Layer` protocol extension,
-even though it is not a concrete method.
+`@differentiable` method called `applied(to:)`. As shown, the `applied(to:)`
+method can be differentiated in a `Layer` protocol extension, even though it is
+not a concrete method.
 
 ```swift
 import TensorFlow
@@ -281,15 +288,16 @@ print(𝛁input)
 ## Providing a custom derivative
 
 Use the `@differentiating` attribute to mark a function as a custom derivative
-for another function. This is useful for registering derivatives for primitive
-operations.
+for another function. This is useful for registering derivatives for functions
+that cannot be differentiated by traversing the function body, typically
+primitive math library operators.
 
-Note: currently, the `@differentiating` attribute can only be used to define
+*Note: currently, the `@differentiating` attribute can only be used to define
 derivatives for functions in the same module. We plan to lift this limitation
 soon so that derivatives can be retroactively declared for functions in other
 modules - [see this forum
 discussion](https://forums.swift.org/t/help-needed-with-retroactive-differentiability/19927)
-for more information.
+for more information.*
 
 ```swift
 import Darwin
@@ -303,7 +311,7 @@ func sillyExp(_ x: Float) -> Float {
 @differentiating(sillyExp)
 func sillyDerivative(_ x: Float) -> (value: Float, pullback: (Float) -> Float) {
     let y = sillyExp(x)
-    return (value: y, pullback: { _ in y })
+    return (value: y, pullback: { v in v * y })
 }
 
 print(gradient(of: sillyExp)(3))
@@ -315,12 +323,12 @@ print(gradient(of: sillyExp)(3))
 
 Given a function and its derivative, it is possible to construct a
 `@differentiable` version of the function using the
-`differentiableFunction(from:)` helper function defined in the standard library.
+[`differentiableFunction(from:)`] API defined in the standard library.
 
 Here's an example:
 ```swift
 let multiply: @differentiable (Float, Float) -> Float =
-    differentiableFunction(from: { x, y in (value: x * y, pullback: { v in v * y, v * x }))
+    differentiableFunction(from: { x, y in (value: x * y, pullback: { v in (v * y, v * x) }) })
 ```
 
 Internally, `differentiableFunction(from:)` is defined just using the
@@ -344,17 +352,22 @@ public func differentiableFunction<T: Differentiable, R: Differentiable>(
 
 ## `@differentiable` functions and automatic differentiation
 
-Automatic differentiation is the technique used by the compiler to automatically
-compute function derivatives. This document does not go into detail about
-automatic differentiation - but with an understanding of `@differentiable`
-functions and differentiation APIs, one can get a glimpse of how automatic
-differentiation works.
+[Automatic differentiation] is the technique used by the compiler to
+automatically compute function derivatives. This document does not go into
+detail about the automatic differentiation algorithm - but with an understanding
+of `@differentiable` functions and differentiation APIs, one can get a glimpse
+of how automatic differentiation works.
 
-The key differentiation API is the [`valueWithPullback`] function, which takes a
-`@differentiable` function and arguments and returns two things: the result of
-the function when applied to arguments, and a backpropagation function called a
-"pullback", which takes the gradient of the result and returns the gradient of
-the arguments.
+*Note: automatic differentiation is an implementation detail in the compiler
+that enables differentiation. `@differentiable` functions and differentiation
+APIs are the important, visible features to understand.*
+
+The key differentiation API is the [`valueWithPullback(at:in:)`] function, which
+takes a `@differentiable` function and arguments and returns two things: the
+result of the function when applied to arguments, and a backpropagation function
+called a "pullback", which takes a direction vector (usually the partial
+derivative w.r.t. the original result) and returns the directional gradient
+w.r.t. the varying parameters.
 
 Let's consider the following function `foo`:
 
@@ -366,7 +379,8 @@ func foo(_ x: Float) -> Float {
 }
 ```
 
-Conceptually, here's how the compiler computes `valueWithPullback` for `foo`:
+Conceptually, here's how the compiler computes the `value` and the `pullback`
+for `foo`:
 
 ```swift
 func fooValueWithPullback(_ x: Float) -> (value: Float, pullback: (Float) -> Float) {
@@ -398,21 +412,28 @@ do {
 }
 ```
 
-All other differentiation APIs are defined in terms of `valueWithPullback`.
-Here's an example for `gradient`:
+All other differentiation APIs are defined in terms of
+[`valueWithPullback(at:in:)`]. For example, here's how [`gradient(at:in:)`] is
+defined:
 
 ```swift
 // `gradient` returns the partial derivative with respect to varying parameters for scalar-result
 // functions. It simply returns `pullback(1)`.
-func fooGradient(_ x: Float) -> Float {
-    let pullback = foo_valueWithPullback(x).pullback
-    return pullback(1)
+func gradient<T, R>(
+    at x: T, in f: @differentiable (T) -> R
+) -> T.CotangentVector
+    where T: Differentiable, R: FloatingPoint & Differentiable, R.CotangentVector == R
+{
+    let (value, pullback) = valueWithPullback(at: x, in: f)
+    return pullback(R(1))
 }
 
-// Test.
-print(fooGradient(x)) // 24.0
 print(gradient(at: x, in: foo)) // 24.0
 ```
+
+You can find [the implementation of
+`gradient(at:in:)`](https://github.com/apple/swift/blob/6e20cf1d2746435d879ccfeee9713aa7a32e1081/stdlib/public/core/AutoDiff.swift#L467)
+in the standard library.
 
 ## Conclusion
 
@@ -424,7 +445,6 @@ differentiation
 tutorial](https://github.com/tensorflow/swift/blob/master/docs/site/tutorials/custom_differentiation.ipynb)
 for examples!
 
-[`valueWithPullback`]: https://tensorflow.org/swift/api_docs/Functions#/s:10TensorFlow17valueWithPullback2at2inq_0C0_15CotangentVectorQzAFQy_c8pullbacktx_q_xXEtAA14DifferentiableRzAaJR_r0_lF
 [`valueWithPullback(at:in:)`]: https://tensorflow.org/swift/api_docs/Functions#/s:10TensorFlow17valueWithPullback2at2inq_0C0_15CotangentVectorQzAFQy_c8pullbacktx_q_xXEtAA14DifferentiableRzAaJR_r0_lF
 [`valueWithPullback(at:_:in:)`]: https://tensorflow.org/swift/api_docs/Functions#/s:10TensorFlow17valueWithPullback2at_2inq0_0C0_15CotangentVectorQz_AFQy_tAFQy0_c8pullbacktx_q_q0_x_q_tXEtAA14DifferentiableRzAaKR_AaKR0_r1_lF
 [`pullback(at:in:)`]: https://tensorflow.org/swift/api_docs/Functions#/s:10TensorFlow8pullback2at2in15CotangentVectorQzAEQy_cx_q_xXEtAA14DifferentiableRzAaHR_r0_lF
@@ -432,11 +452,15 @@ for examples!
 [`gradient(at:in:)`]: https://tensorflow.org/swift/api_docs/Functions#/s:10TensorFlow8gradient2at2in15CotangentVectorQzx_q_xXEtAA14DifferentiableRzSFR_AaGR_AeaGPQy_Rs_r0_lF
 [`gradient(at:_:in:)`]: https://tensorflow.org/swift/api_docs/Functions#/s:10TensorFlow8gradient2at_2in15CotangentVectorQz_AEQy_tx_q_q0_x_q_tXEtAA14DifferentiableRzAaHR_SFR0_AaHR0_AeaHPQy0_Rs0_r1_lF
 [`valueWithGradient(at:in:)`]: https://tensorflow.org/swift/api_docs/Functions#/s:10TensorFlow17valueWithGradient2at2inq_0C0_15CotangentVectorQz8gradienttx_q_xXEtAA14DifferentiableRzSFR_AaIR_AfaIPQy_Rs_r0_lF
-[`valueWithGradient(at:_:in:)`]: https://tensorflow.org/swift/api_docs/Functions#/s:10TensorFlow17valueWithGradient2at2inq_0C0_15CotangentVectorQz8gradienttx_q_xXEtAA14DifferentiableRzSFR_AaIR_AfaIPQy_Rs_r0_lF
+[`valueWithGradient(at:_:in:)`]: https://tensorflow.org/swift/api_docs/Functions#/s:10TensorFlow17valueWithGradient2at_2inq0_0C0_15CotangentVectorQz_AFQy_t8gradienttx_q_q0_x_q_tXEtAA14DifferentiableRzAaJR_SFR0_AaJR0_AfaJPQy0_Rs0_r1_lF
 [`gradient(of:)`]: https://tensorflow.org/swift/api_docs/Functions#/s:10TensorFlow8gradient2of15CotangentVectorQzxcAA0A0Vyq_Gxc_tAA14DifferentiableRzAA0aB13FloatingPointR_r0_lF
 [`gradient(of:)` (arity 2)]: https://tensorflow.org/swift/api_docs/Functions#/s:10TensorFlow8gradient2of15CotangentVectorQz_ADQy_tx_q_tcAA0A0Vyq0_Gx_q_tc_tAA14DifferentiableRzAaJR_AA0aB13FloatingPointR0_r1_lF
 [`valueWithGradient(of:)`]: https://tensorflow.org/swift/api_docs/Functions#/s:10TensorFlow17valueWithGradient2ofAA0A0Vyq_G0C0_15CotangentVectorQz8gradienttxcAFxc_tAA14DifferentiableRzAA0aB13FloatingPointR_r0_lF
 [`valueWithGradient(of:)` (arity 2)]: https://tensorflow.org/swift/api_docs/Functions#/s:10TensorFlow17valueWithGradient2ofAA0A0Vyq0_G0C0_15CotangentVectorQz_AHQy_t8gradienttx_q_tcAFx_q_tc_tAA14DifferentiableRzAaLR_AA0aB13FloatingPointR0_r1_lF
+[`differentiableFunction(from:)`]: https://tensorflow.org/swift/api_docs/Functions#/s:10TensorFlow22differentiableFunction4fromq_xcq_5value_15CotangentVectorQzAEQy_c8pullbacktxc_tAA14DifferentiableRzAaIR_r0_lF
+[`differentiableFunction(from:)` (arity 2)]: https://tensorflow.org/swift/api_docs/Functions#/s:10TensorFlow22differentiableFunction4fromq0_x_q_tcq0_5value_15CotangentVectorQz_AEQy_tAEQy0_c8pullbacktx_q_tc_tAA14DifferentiableRzAaJR_AaJR0_r1_lF
+
+[automatic differentiation]: https://en.wikipedia.org/wiki/Automatic_differentiation
 
 [Richard Wei]: http://github.com/rxwei
 [Dan Zheng]: http://github.com/dan-zheng
