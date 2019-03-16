@@ -307,4 +307,4 @@ protocol.
 [C_macro]: https://natecraun.net/articles/struct-iteration-through-abuse-of-the-c-preprocessor.html
 [Rust_macro]: https://stackoverflow.com/questions/38111486/how-do-i-iterate-over-elements-of-a-struct-in-rust
 
-[KeyPathIterable]: https://tensorflow.devsite.corp.google.com/swift/api_docs/Protocols/KeyPathIterable
+[KeyPathIterable]: https://tensorflow.org/swift/api_docs/Protocols/KeyPathIterable
