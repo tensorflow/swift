@@ -149,6 +149,7 @@ out the following documentation.
 Document | Last Updated | Status |
 -------- | ------------ | ------ |
 [Differentiable Types](docs/DifferentiableTypes.md) | March 2019 | Current
+[Differentiable Functions and Differentiation APIs](docs/DifferentiableFunctions.md) | March 2019 | Current
 [Dynamic Property Iteration using Key Paths](docs/DynamicPropertyIteration.md) | March 2019 | Current
 [Hierarchical Parameter Iteration and Optimization](docs/ParameterOptimization.md) | March 2019 | Current
 [First-Class Automatic Differentiation in Swift: A Manifesto](https://gist.github.com/rxwei/30ba75ce092ab3b0dce4bde1fc2c9f1d) | October 2018 | Outdated
