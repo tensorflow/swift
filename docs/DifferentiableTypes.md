@@ -291,5 +291,5 @@ The authors would like to thank Casey Chu, Dougal Maclaurin, Matthew Johnson, Ro
 [differentiable manifold]: https://en.wikipedia.org/wiki/Differentiable_manifold
 
 [SIMD]: https://github.com/apple/swift-evolution/blob/master/proposals/0229-simd.md
-[TensorFlow_Tensor]: https://tensorflow.devsite.corp.google.com/swift/api_docs/Extensions/Tensor
+[TensorFlow_Tensor]: https://www.tensorflow.org/swift/api_docs/Structs/Tensor
 [parameter-optimization]: https://github.com/tensorflow/swift/blob/master/docs/ParameterOptimization.md#full-fledged-optimizer-using-differentiable
