@@ -72,7 +72,7 @@ With the Swift interpreter, you can use Swift like a scripting language. Create 
 import TensorFlow
 
 struct MLPClassifier {
-    var w1 = Tensor<Float>(shape: [2, 4], repeating: 0.1)
+    var w1 = Tensor<Float>(repeating: 0.1, shape: [2, 4])
     var w2 = Tensor<Float>(shape: [4, 1], scalars: [0.4, -0.5, -0.5, 0.4])
     var b1 = Tensor<Float>([0.2, -0.3, -0.3, 0.2])
     var b2 = Tensor<Float>([[0.4]])
