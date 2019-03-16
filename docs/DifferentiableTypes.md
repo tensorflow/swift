@@ -121,7 +121,10 @@ public protocol Differentiable {
 }
 ```
 
-Mathematically, `Differentiable` represents a [differentiable manifold]: this is a technical term for smooth-surfaced objects like spheres and generalizes types that are compatible with differentiation, like `Float`, `Double`, [`Tensor`][https://www.tensorflow.org/guide/tensors], and `SIMD4<Float>`. This definition comes from differential geometry and is quite technical, and not all details are relevant for most use cases.
+Mathematically, `Differentiable` represents a [differentiable manifold]: this is a technical term for smooth-surfaced objects like spheres and generalizes types that are compatible with differentiation, like `Float`, `Double`, [`Tensor`][TensorFlow_Tensor], and `SIMD4<Float>`. This definition comes from differential geometry and is quite technical, and not all details are relevant for most use cases.
+
+... // At bottom of file:
+[TensorFlow_Tensor]: https://www.tensorflow.org/swift/api_docs/Structs/Tensor
 
 <p align="center">
   <img src="https://upload.wikimedia.org/wikipedia/commons/3/37/Pushforward.svg" align=center>
