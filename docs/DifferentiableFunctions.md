@@ -445,6 +445,12 @@ differentiation
 tutorial](https://github.com/tensorflow/swift/blob/master/docs/site/tutorials/custom_differentiation.ipynb)
 for examples!
 
+## Acknowledgements
+
+The authors would like to thank Chris Lattner, Doug Gregor, John McCall, Slava
+Pestov, Joe Groff, and Dmitri Gribenko for their input to the design of
+differentiable functions and differentiation APIs.
+
 [`valueWithPullback(at:in:)`]: https://tensorflow.org/swift/api_docs/Functions#/s:10TensorFlow17valueWithPullback2at2inq_0C0_15CotangentVectorQzAFQy_c8pullbacktx_q_xXEtAA14DifferentiableRzAaJR_r0_lF
 [`valueWithPullback(at:_:in:)`]: https://tensorflow.org/swift/api_docs/Functions#/s:10TensorFlow17valueWithPullback2at_2inq0_0C0_15CotangentVectorQz_AFQy_tAFQy0_c8pullbacktx_q_q0_x_q_tXEtAA14DifferentiableRzAaKR_AaKR0_r1_lF
 [`pullback(at:in:)`]: https://tensorflow.org/swift/api_docs/Functions#/s:10TensorFlow8pullback2at2in15CotangentVectorQzAEQy_cx_q_xXEtAA14DifferentiableRzAaHR_r0_lF
