@@ -4,6 +4,15 @@
 
 Last updated: March 2019
 
+> #### Experimental
+>
+> Automatic differentiation and differentiable programming are being incubated in the
+> ['tensorflow' branch of apple/swift](https://github.com/apple/swift/tree/tensorflow)
+> and released as part of the
+> [Swift for TensorFlow toolchains](https://github.com/tensorflow/swift#getting-started),
+> which you can play with. The authors will propose this feature through
+> [Swift Evolution](https://forums.swift.org/c/evolution) in 2019.
+
 ## Preface
 
 Speaking in terms of elementary calculus, only functions are "differentiable": only functions have derivatives and can be differentiated. In this document, the terminology "differentiable types" is used as a shorthand for "types that can be used as arguments and results of differentiable functions". This notion is important because not all types are "differentiable" in this sense. For example, types representing real numbers and vector spaces are "differentiable", but strings and integers are not.
