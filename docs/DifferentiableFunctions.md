@@ -4,6 +4,15 @@
 
 Last updated: March 2019
 
+> #### Experimental
+>
+> Automatic differentiation and differentiable programming are being incubated in the
+> ['tensorflow' branch of apple/swift](https://github.com/apple/swift/tree/tensorflow)
+> and released as part of the
+> [Swift for TensorFlow toolchains](https://github.com/tensorflow/swift#getting-started)
+> that you can play with. The authors will propose this feature through
+> [Swift Evolution](https://forums.swift.org/c/evolution) in 2019.
+
 ## Introduction
 
 Swift supports differentiable functions as part of the language. The
@@ -24,9 +33,9 @@ can be differentiated.
 APIs that take `@differentiable` functions, like [`gradient(of:)`]. The binary
 representation of a `@differentiable` function is a special data structure
 containing the original function along with extra information required for
-computing its derivatives. Usage `@differentiable` functions are a part of
-Swift's type system. Most notably, they are used by differentiation APIs in the
-standard library. Here are some examples demonstrating differentiation APIs:
+computing its derivatives. `@differentiable` functions are a part of Swift's
+type system. Most notably, they are used by differentiation APIs in the standard
+library. Here are some examples demonstrating differentiation APIs:
 
 ```swift
 func square(_ x: Float) -> Float {
