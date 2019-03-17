@@ -109,7 +109,8 @@ There are a few reasons why differentiation can fail:
   that cannot be differentiated.
 * The function to differentiate is opaque, i.e. it is a function parameter with
   a non-`@differentiable` function type.
-* The function to differentiate is defined in another module.
+* The function to differentiate is defined in another module, and is neither
+  marked with `@differentiable` nor has a registered derivative.
 * The function to differentiate uses [control
   flow](https://docs.swift.org/swift-book/LanguageGuide/ControlFlow.html)
   (if-statements, switch-statements, loops, etc). This restriction will be
