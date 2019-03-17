@@ -9,8 +9,8 @@ Last updated: March 2019
 > Automatic differentiation and differentiable programming are being incubated in the
 > ['tensorflow' branch of apple/swift](https://github.com/apple/swift/tree/tensorflow)
 > and released as part of the
-> [Swift for TensorFlow toolchains](https://github.com/tensorflow/swift#getting-started)
-> that you can play with. The authors will propose this feature through
+> [Swift for TensorFlow toolchains](https://github.com/tensorflow/swift#getting-started),
+> which you can play with. The authors will propose this feature through
 > [Swift Evolution](https://forums.swift.org/c/evolution) in 2019.
 
 ## Introduction
