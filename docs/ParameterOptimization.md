@@ -10,7 +10,7 @@ The concept of parameter optimization is crucial for machine learning algorithms
 
 ### Parameters and optimization
 
-Machine learning models are concepturally functions with internal state called "parameters". In code, models are often represented as a data structure that stores parameters as mutable properties and has an "apply" method. Machine learning optimizers "train" models by applying an algorithm (e.g. stochastic gradient descent) to update the parameters of a model.
+Machine learning models are conceptually functions with internal state called "parameters". In code, models are often represented as data structures that store parameters as mutable properties and have an "apply" method. Machine learning optimizers "train" models by applying an algorithm (e.g. stochastic gradient descent) to update the parameters of a model.
 
 In Swift, this might look like:
 
