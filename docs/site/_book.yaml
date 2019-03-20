@@ -14,8 +14,16 @@ upper_tabs:
     other:
     - name: Tutorials
       contents:
-      - title: "Swift for TensorFlow: walkthrough"
-        path: /swift/tutorials/walkthrough
+      - title: "Model training walkthrough"
+        path: /swift/tutorials/model_training_walkthrough
+      - title: "A Swift tour"
+        path: /swift/tutorials/a_swift_tour
+      - title: "Python interoperability"
+        path: /swift/tutorials/python_interoperability
+      - title: "Custom differentiation"
+        path: /swift/tutorials/custom_differentiation
+      - title: "Using raw tensorFlow operators"
+        path: /swift/tutorials/using_raw_tensorflow_operators
     - name: API
       skip_translation: true
       contents:
