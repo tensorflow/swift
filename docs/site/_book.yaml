@@ -23,7 +23,7 @@ upper_tabs:
       - title: "Custom differentiation"
         path: /swift/tutorials/custom_differentiation
       - title: "Using raw tensorFlow operators"
-        path: /swift/tutorials/using_raw_tensorflow_operators
+        path: /swift/tutorials/raw_tensorflow_operators
     - name: API
       skip_translation: true
       contents:
