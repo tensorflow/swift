@@ -197,7 +197,7 @@ let v = Vector(x: 2, y: 2)
 print(v.magnitude)
 // 2.828427
 print(gradient(at: v) { v in v.magnitude })
-// Vector(x: 64.0, y: 64.0)
+// Vector(x: 0.70710677, y: 0.70710677)
 ```
 
 ### Differentiating with respect to
