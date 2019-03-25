@@ -277,8 +277,8 @@ struct GenericWrapper<T: Differentiable, U: Differentiable>: Differentiable {
     //     ...
     // }
     // var allDifferentiableVariables: AllDifferentiableVariables {
-    //     get { return AllDifferentiableVariables(weight: weight, bias: bias) }
-    //     set { weight = newValue.weight; bias = newValue.bias }
+    //     get { return AllDifferentiableVariables(x: x, y: y) }
+    //     set { x = newValue.x; y = newValue.y }
     // }
     // func tangentVector(from cotangent: CotangentVector) -> TangentVector {
     //     return TangentVector(x: x.tangentVector(from: cotangent.x),
