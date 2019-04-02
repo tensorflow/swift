@@ -24,6 +24,8 @@ upper_tabs:
         path: /swift/tutorials/custom_differentiation
       - title: "Using raw tensorFlow operators"
         path: /swift/tutorials/raw_tensorflow_operators
+      - title: "Device Placement Tutorial"
+        path: /swift/tutorials/device_placement
     - name: API
       skip_translation: true
       contents:
