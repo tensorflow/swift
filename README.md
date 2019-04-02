@@ -54,6 +54,7 @@ Tutorial | Last Updated |
 [Custom Differentiation](https://colab.sandbox.google.com/github/tensorflow/swift/blob/master/docs/site/tutorials/custom_differentiation.ipynb) | March 2019
 [Model Training Walkthrough](https://colab.sandbox.google.com/github/tensorflow/swift/blob/master/docs/site/tutorials/model_training_walkthrough.ipynb) | March 2019
 [Raw TensorFlow Operators](https://colab.sandbox.google.com/github/tensorflow/swift/blob/master/docs/site/tutorials/raw_tensorflow_operators.ipynb) | March 2019
+[Device Placement Tutorial](https://colab.sandbox.google.com/github/tensorflow/swift/blob/master/docs/site/tutorials/device_placement.ipynb) | March 2019
 
 ### Resources
 
