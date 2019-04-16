@@ -33,7 +33,7 @@ The Swift for TensorFlow project is currently focusing on 2 kinds of users:
 
 - **Google Colaboratory**: The fastest way to get started is to try out Swift
    for TensorFlow right in your browser. Just open up [a tutorial](#tutorials-), or start from a [blank
-   notebook](https://colab.research.google.com/github/tensorflow/swift/blob/colab/notebooks/blank_swift.ipynb)!
+   notebook](https://colab.research.google.com/github/tensorflow/swift/blob/master/notebooks/blank_swift.ipynb)!
    Read more in our [usage guide](Usage.md).
 
 - **Install locally**: you can [download a pre-built Swift for TensorFlow
@@ -49,11 +49,11 @@ The Swift for TensorFlow project is currently focusing on 2 kinds of users:
 
 Tutorial | Last Updated |
 -------- | ------------ |
-[A Swift Tour](https://colab.research.google.com/github/tensorflow/swift/blob/colab/docs/site/tutorials/a_swift_tour.ipynb) | March 2019
-[Python Interoperability](https://colab.research.google.com/github/tensorflow/swift/blob/colab/docs/site/tutorials/python_interoperability.ipynb) | March 2019
-[Custom Differentiation](https://colab.research.google.com/github/tensorflow/swift/blob/colab/docs/site/tutorials/custom_differentiation.ipynb) | March 2019
-[Model Training Walkthrough](https://colab.research.google.com/github/tensorflow/swift/blob/colab/docs/site/tutorials/model_training_walkthrough.ipynb) | March 2019
-[Raw TensorFlow Operators](https://colab.research.google.com/github/tensorflow/swift/blob/colab/docs/site/tutorials/raw_tensorflow_operators.ipynb) | March 2019
+[A Swift Tour](https://colab.research.google.com/github/tensorflow/swift/blob/master/docs/site/tutorials/a_swift_tour.ipynb) | March 2019
+[Python Interoperability](https://colab.research.google.com/github/tensorflow/swift/blob/master/docs/site/tutorials/python_interoperability.ipynb) | March 2019
+[Custom Differentiation](https://colab.research.google.com/github/tensorflow/swift/blob/master/docs/site/tutorials/custom_differentiation.ipynb) | March 2019
+[Model Training Walkthrough](https://colab.research.google.com/github/tensorflow/swift/blob/master/docs/site/tutorials/model_training_walkthrough.ipynb) | March 2019
+[Raw TensorFlow Operators](https://colab.research.google.com/github/tensorflow/swift/blob/master/docs/site/tutorials/raw_tensorflow_operators.ipynb) | March 2019
 
 ### Resources
 
@@ -111,7 +111,7 @@ to make users more productive. You can run Swift interactively in a Jupyter
 notebook, and get helpful autocomplete suggestions to help you explore the
 massive API surface of a modern deep learning library. You can [get started
 right in your browser in
-seconds](https://colab.research.google.com/github/tensorflow/swift/blob/colab/docs/site/tutorials/walkthrough.ipynb)!
+seconds](https://colab.research.google.com/github/tensorflow/swift/blob/master/docs/site/tutorials/walkthrough.ipynb)!
 
 Migrating to Swift for TensorFlow is really easy thanks to Swift's powerful
 Python integration. You can incrementally migrate your Python code over (or

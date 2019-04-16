@@ -1,7 +1,5 @@
-All development happens on the `master` branch.
+Notebooks on the `master` branch should be compatible with the toolchain that is
+released in Colab.
 
-The `stable` branch contains notebooks compatible with the [latest
-release](https://github.com/tensorflow/swift/blob/master/Installation.md#releases).
-
-The `colab` branch contains notebooks compatible with the latest release that
-has been deployed to Colab.
+Make incompatible changes to notebooks in the `nightly-notebooks` branch. We
+promote `nightly-notebooks` to `master` when we deploy new toolchains to Colab.
