@@ -30,31 +30,38 @@ and refining APIs.
   ([apple/swift#24684](https://github.com/apple/swift/pull/23684))
 * `Tensor`s are now pretty-printed, based on the format of NumPy.
   ([apple/swift#23837](https://github.com/apple/swift/pull/23837))
-* TensorFlow APIs now use `Int` instead of `Int32`.
-  ([apple/swift#24012](https://github.com/apple/swift/pull/24012))
+* TensorFlow APIs involving shape dimensions, indices, and sizes now use `Int`
+  instead of `Int32`.
+  ([apple/swift#24012](https://github.com/apple/swift/pull/24012),
+  [apple/swift#24110](https://github.com/apple/swift/pull/24110))
 * The `saveV2` and `restoreV2` ops are now supported.
   ([apple/swift#23777](https://github.com/apple/swift/pull/23777))
 * The `split` and `splitV` ops are now supported.
   ([apple/swift#24096](https://github.com/apple/swift/pull/24096),
   [apple/swift#24120](https://github.com/apple/swift/pull/24120))
-* Experimental APIs have been added to trace functions that take and return
-  `TensorGroup`, optionally using XLA compilation.
-  ([apple/swift#23868](https://github.com/apple/swift/pull/23868))
+* Experimental APIs have been added to group tensor ops into specialized tensor
+  functions for further optimization, optionally using XLA compilation.
+  ([apple/swift#23868](https://github.com/apple/swift/pull/23868)
 
 ### Swift for TensorFlow Deep Learning Library
 
-* The `Layer` protocol `applied(to:)` method has been renamed to `call(_:)`.
-  `Layer`s are now “callable” like functions, e.g. `layer(input)`.
-  * Note: this is experimental functionality that is currently [being proposed
+* The `Layer` protocol's `applied(to:in:)` method has been renamed to `call(_:)`.
+  `Layer`s are now "callable" like functions, e.g. `layer(input)`.
+  * **Note: this is experimental functionality that is currently [being proposed
     through Swift
-    Evolution](https://forums.swift.org/t/se-0253-static-callables/22243).
-    Expect some changes.
-* The `context` argument has been removed from `Layer`’s `applied(to:)` method.
-  It is replaced by the `ContextManager` class, which manages a stack of
-  contexts for a single thread.
-  ([swift-apis#87](https://github.com/tensorflow/swift-apis/pull/87))
-* A `RNNCell` protocol has been added, generalizing simple RNNs, LSTMs, GRUs,
-  and NTMs. ([swift-apis#80](https://github.com/tensorflow/swift-apis/pull/80),
+    Evolution](https://github.com/apple/swift-evolution/blob/master/proposals/0253-callable.md).**
+    Expect potential changes.
+* The `context` argument has been removed from `Layer`'s `applied(to:)` method.
+  Instead, contexts are now thread-local. ([swift-apis#87](https://github.com/tensorflow/swift-apis/pull/87))
+  * Use `Context.local` to access the current thread-local context.
+  * Note: layers like `BatchNorm` and `Dropout` check `Context.local` to
+    determine whether the current learning phase is training or inference. **Be
+    sure to set the context learning phase to `.training` before running a
+    training loop.**
+  * Use `withContext(_:_:)` and `withLearningPhase(_:_:)` to call a closure
+    under a temporary context or learning phase, respectively.
+* A `RNNCell` protocol has been added, generalizing simple RNNs, LSTMs, and
+  GRUs. ([swift-apis#80](https://github.com/tensorflow/swift-apis/pull/80),
   [swift-apis#86](https://github.com/tensorflow/swift-apis/pull/86))
 * New layers have been added.
   * `Conv1D`, `MaxPool1D`, `AvgPool1D`.
@@ -77,11 +84,14 @@ and refining APIs.
   ([apple/swift#23183](https://github.com/apple/swift/pull/23183))
 * The `@differentiating` attribute now works when the derivative function has a
   generic context that is more constrained than the original function's generic
-  context.
+  context. ([apple/swift#23384](https://github.com/apple/swift/pull/23384))
+* The `@differentiating` attribute now accepts a `wrt` differentiation parameter
+  list, just like the `@differentiable` attribute.
+  ([apple/swift#23370](https://github.com/apple/swift/pull/23370))
 * The error `function is differentiable only with respect to a smaller subset of
   arguments` is now obsolete.
   ([apple/swift#23887](https://github.com/apple/swift/pull/23887))
-* Differentiation-related memory leaks have been fixed.
+* A differentiation-related memory leak has been fixed.
   ([apple/swift#24165](https://github.com/apple/swift/pull/24165))
 
 ### Acknowledgements
@@ -92,7 +102,7 @@ Anthony Platanios, Bart Chrzaszcz, Bastian Müller, Brett Koonce, Dante Broggi,
 Dave Fernandes, Doug Friedman, Ken Wigginton Jr, Jeremy Howard, John Pope, Leo
 Zhao, Nanjiang Jiang, Pawan Sasanka Ammanamanchi, Pedro Cuenca, Pedro José
 Pereira Vieito, Sendil Kumar N, Sylvain Gugger, Tanmay Bakshi, Valeriy Van,
-Victor Guerra, Volodymyr, Vova Manannikov, Wayne Nixalo.
+Victor Guerra, Volodymyr Pavliukevych, Vova Manannikov, Wayne Nixalo.
 
 ## Version 0.2
 
