@@ -5,7 +5,7 @@
 ### Overview
 
 This is the second public release of Swift for TensorFlow, available across
-Google Colaboratory, Linux and macOS. The focus is improving overall stability
+Google Colaboratory, Linux, and macOS. The focus is improving overall stability
 and refining APIs.
 
 ### Notebook Environments (Colab and Jupyter)
@@ -34,14 +34,17 @@ and refining APIs.
   instead of `Int32`.
   ([apple/swift#24012](https://github.com/apple/swift/pull/24012),
   [apple/swift#24110](https://github.com/apple/swift/pull/24110))
-* The `saveV2` and `restoreV2` ops are now supported.
-  ([apple/swift#23777](https://github.com/apple/swift/pull/23777))
-* The `split` and `splitV` ops are now supported.
-  ([apple/swift#24096](https://github.com/apple/swift/pull/24096),
+* Additional raw TensorFlow operator are now supported.
+  ([apple/swift#23777](https://github.com/apple/swift/pull/23777),
+  [apple/swift#24096](https://github.com/apple/swift/pull/24096),
   [apple/swift#24120](https://github.com/apple/swift/pull/24120))
+  * `SaveV2` (`Raw.saveV2(prefix:tensorNames:shapeAndSlices:tensors:)`)
+  * `RestoreV2` (`Raw.restoreV2(prefix:tensorNames:shapeAndSlices:dtypes:)`)
+  * `Split` (`Raw.split(splitDim:value:numSplit:)`)
+  * `SplitV` (`Raw.splitV(value:sizeSplits:splitDim:numSplit:)`)
 * Experimental APIs have been added to group tensor ops into specialized tensor
   functions for further optimization, optionally using XLA compilation.
-  ([apple/swift#23868](https://github.com/apple/swift/pull/23868)
+  ([apple/swift#23868](https://github.com/apple/swift/pull/23868))
 
 ### Swift for TensorFlow Deep Learning Library
 
@@ -109,7 +112,7 @@ Victor Guerra, Volodymyr Pavliukevych, Vova Manannikov, Wayne Nixalo.
 ### Overview
 
 This is the first public release of Swift for TensorFlow, available across
-Google Colaboratory, Linux and macOS. The focus is building the basic technology
+Google Colaboratory, Linux, and macOS. The focus is building the basic technology
 platform and fundamental deep learning APIs.
 
 This release includes the core Swift for TensorFlow compiler, the standard

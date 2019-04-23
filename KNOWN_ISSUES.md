@@ -19,7 +19,7 @@ for a full list of known issues.
 * [ ] When a runtime error occurs or when you interrupt cell execution,
       resources (e.g. host memory, GPU memory) do not get released. This can
       lead to OOMs. ([TF-338](https://bugs.swift.org/browse/TF-338))
-  * Workaround: Restart the runtime ("Runtime > Restart Runtime" in the Colab
+  * Workaround: Restart the runtime (`Runtime > Restart Runtime` in the Colab
     menu bar) to release all the resources.
 * [ ] If the last statement on a cell evaluates to a struct that was defined in
       the notebook, then you get an error ("use of undeclared type") instead of
@@ -29,16 +29,17 @@ for a full list of known issues.
 * [ ] Using extensions to conform a type to a protocol (e.g. `extension MyType:
       MyProtocol { ... }`), often causes duplicate conformance errors.
       ([TF-162](https://bugs.swift.org/browse/TF-162))
-  * Workaround: Go back to the cell where the type is defined, add the
-    conformance to the original declaration, and re-execute the cell.
+  * Workaround: Add the conformance in the same cell where the type is defined.
 * [ ] If a cell that declares a type executes twice, then it creates two
       different types with the same name. Mixing these types can lead to
-      confusing error messages like "cannot convert value of type 'MyType' to
-      expected argument type 'MyType'".
+      confusing error messages like `cannot convert value of type 'MyType' to
+      expected argument type 'MyType'`.
       ([TF-156](https://bugs.swift.org/browse/TF-156))
-* [ ] The autocomplete UI needs improvement. It should show types and
-      documentation. It should position your cursor in the first argument when
-      you complete a function call.
+  * Workaround: Re-run all cells that use the declared type, so that they use the
+    new type.
+* [ ] The autocomplete UI should show types and documentation. It should
+      position your cursor in the first argument when you complete a function
+      call.
 
 ### Swift Standard Library Enhancements
 
@@ -51,10 +52,7 @@ for a full list of known issues.
 
 ### Swift for TensorFlow Deep Learning Library
 
-* [ ] The `Differentiable` protocol's `allDifferentiableVariables` property
-      requirement should not have a setter.
-      ([TF-208](https://bugs.swift.org/browse/TF-208))
-* [ ] The majority of the Keras layers remain to be implemented; help wanted!
+* [ ] Many Keras layers remain to be implemented, help wanted!
       ([swift-apis#54](https://github.com/tensorflow/swift-apis/issues/54))
 * [ ] There is no built-in API for parameter sharing.
 * [ ] The
@@ -73,6 +71,9 @@ for a full list of known issues.
 * [ ] The compiler will only synthesize conformance requirements for
       `Differentiable` in `struct` types.
       ([TF-37](https://bugs.swift.org/browse/TF-37))
+* [ ] The `@differentiable` attribute incorrectly passes type-checking in some
+      cases, when an error should be produced. This leads to compiler crashes.
+      ([TF-449](https://bugs.swift.org/browse/TF-449))
 * [x] ~~The `@differentiating` attribute leads to a compiler crash when the
       derivative function is defined in a generic context that is more
       constrained than the original function's generic context.
