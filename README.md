@@ -7,25 +7,24 @@
 > Swift for TensorFlow: No boundaries.
 
 Swift for TensorFlow is a next-generation platform for machine learning,
-incorporating the latest research across: machine learning, compilers,
-differentiable programming, systems design, and beyond. This project is at
-version _0.2_; it is neither feature-complete nor production-ready. But it is
-ready for _pioneers_ to try it for your own projects, give us feedback, and help
-shape the future!
+incorporating the latest research across machine learning, compilers,
+differentiable programming, systems design, and beyond. This is an early-stage
+project: it is not feature-complete nor production-ready, but it is ready for
+_pioneers_ to try in projects, give feedback, and help shape the future!
 
 The Swift for TensorFlow project is currently focusing on 2 kinds of users:
 
- 1. **Advanced ML researchers** who are limited by current ML frameworks.
-    Swift for TensorFlow's advantages include a seamless integration with a modern general-purpose
-    language, allowing for more dynamic and sophisticated models. Fast
-    abstractions can be developed "in user-space" (as opposed to in C/C++
-    aka "framework-space"), resulting in modular APIs that can be easily
-    customized.
+1. **Advanced ML researchers** who are limited by current ML frameworks. Swift
+   for TensorFlow's advantages include a seamless integration with a modern
+   general-purpose language, allowing for more dynamic and sophisticated models.
+   Fast abstractions can be developed "in user-space" (as opposed to in C/C++
+   aka "framework-space"), resulting in modular APIs that can be easily
+   customized.
 
- 2. **ML learners** who are just getting started with machine learning. Thanks
-    to Swift's support for quality tooling (e.g. context-aware autocomplete),
-    Swift for TensorFlow can be one of the most productive ways to get started
-    learning the fundamentals of machine learning.
+2. **ML learners** who are just getting started with machine learning. Thanks to
+   Swift's support for quality tooling (e.g. context-aware autocomplete), Swift
+   for TensorFlow can be one of the most productive ways to get started learning
+   the fundamentals of machine learning.
 
 ## Getting started
 
@@ -59,6 +58,8 @@ Tutorial | Last Updated |
 
 - [Models and Examples](https://github.com/tensorflow/swift-models)
 - [TensorFlow Swift API Reference](https://www.tensorflow.org/api_docs/swift/Structs/Tensor)
+- [Release Notes](RELEASES.md)
+- [Known Issues](KNOWN_ISSUES.md)
 - [Frequently Asked Questions](FAQ.md)
 
 ### Forums
@@ -74,7 +75,7 @@ gives you the power of
 [TensorFlow](https://www.tensorflow.org) directly integrated into the
 [Swift programming language](https://swift.org/about). We believe that
 machine learning paradigms are so important that they deserve
-**first-class language and compiler support**. 
+**first-class language and compiler support**.
 
 A fundamental primitive in machine learning is gradient-based optimization:
 computing function derivatives to optimize parameters. With Swift for
@@ -169,9 +170,10 @@ Additional code repositories that make up the core of the project include:
  - [Deep learning library](https://github.com/tensorflow/swift-apis): high-level
    API familiar to Keras users.
 
-> Swift for TensorFlow is **not** intended to remain a long-term fork of the official 
-> Swift language. New language features will eventually go through the Swift evolution process
-> as part of being considered for being pulled into master.
+> Swift for TensorFlow is **not** intended to remain a long-term fork of the official
+> Swift language. Language additions are designed to fit with the direction of
+> Swift and will go through the [Swift
+> Evolution](https://github.com/apple/swift-evolution) process.
 
 ### Jupyter Notebook support
 
@@ -197,7 +199,8 @@ For the most part, the core team's development is also tracked in
 
 ### Contributing
 
-We welcome contributions from everyone. Read the [contributing guide](Contributing.md) for information on how to get started.
+We welcome contributions from everyone. Read the [contributing
+guide](Contributing.md) for information on how to get started.
 
 ### Code of conduct
 
