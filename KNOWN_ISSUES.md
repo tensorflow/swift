@@ -1,7 +1,12 @@
 # Swift for TensorFlow Known Issues
 
-This is a curated list of known Swift for TensorFlow issues. With every release,
-new issues are added and resolved issues are updated.
+This is a curated list of Swift for TensorFlow known issues and missing
+features. With every release, new issues are added and resolved issues are
+updated.
+
+Legend:
+* Notable issues are marked in **bold**.
+* Issues under active development are marked with 🚧.
 
 Please see the [JIRA issue tracker](https://bugs.swift.org/projects/TF/issues)
 for a full list of known issues.
@@ -50,11 +55,20 @@ for a full list of known issues.
       `Differentiable` conformance constraint.
       ([TF-208](https://bugs.swift.org/browse/TF-208))
 
+### TensorFlow Library
+
+* [ ] 🚧 **Model checkpointing and serialization APIs are missing.**
+      ([TF-388](https://bugs.swift.org/projects/TF/issues/TF-388))
+* [ ] **TensorFlow runtime errors (e.g. shape mismatch errors) do not show useful
+      source location information or useful stack traces.**
+      ([TF-458](https://bugs.swift.org/browse/TF-458))
+
 ### Swift for TensorFlow Deep Learning Library
 
 * [ ] Many Keras layers remain to be implemented, help wanted!
       ([swift-apis#54](https://github.com/tensorflow/swift-apis/issues/54))
-* [ ] There is no built-in API for parameter sharing.
+* [ ] Parameter sharing APIs (e.g. using the same `Tensor` weights in multiple
+      layers) are missing.
 * [ ] The
       [`Parameter`](https://www.tensorflow.org/swift/api_docs/Classes/Parameter)
       class does not conform to `Differentiable` yet, and is not recommended for
@@ -64,8 +78,9 @@ for a full list of known issues.
 
 ### Automatic Differentiation
 
-* [ ] Differentiation does not yet support functions with control flow.
+* [ ] 🚧 **Differentiation does not yet support functions with control flow.**
       ([TF-356](https://bugs.swift.org/browse/TF-356))
+* [ ] 🚧 **Higher-order differentiation is not yet supported.**
 * [ ] Differentiating functions with respect to an `inout` parameter is not yet
       supported. ([TF-357](https://bugs.swift.org/browse/TF-357))
 * [ ] The compiler will only synthesize conformance requirements for
@@ -83,6 +98,8 @@ for a full list of known issues.
     generic context.
 * [ ] Referring to a `@differentiable` function using key paths leads to a
       compiler crash. ([TF-123](https://bugs.swift.org/browse/TF-123))
+* [ ] Python runtime errors do not show useful source location information or
+      useful stack traces. ([TF-150](https://bugs.swift.org/browse/TF-150)) 
 
 ### Python Interoperability
 
