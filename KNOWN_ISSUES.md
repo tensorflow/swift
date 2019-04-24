@@ -72,7 +72,7 @@ for a full list of known issues.
 
 * [ ] 🚧 **Differentiation does not yet support functions with control flow.**
       ([TF-356])
-* [ ] 🚧 **Higher-order differentiation is not yet supported.**
+* [ ] 🚧 **Higher-order differentiation is not yet supported.** ([TF-459])
 * [ ] Differentiating functions with respect to an `inout` parameter is not yet
       supported. ([TF-357])
 * [ ] The compiler will only synthesize conformance requirements for
@@ -88,13 +88,11 @@ for a full list of known issues.
     original function's generic context.
 * [ ] Referring to a `@differentiable` function using key paths leads to a
       compiler crash. ([TF-123])
-* [ ] Python runtime errors do not show useful source location information or
-      useful stack traces. ([TF-150])
 
 ### Python Interoperability
 
-* [ ] When the execution of a Python expression raises an exception, the stack
-      trace will not show the Python call stack.
+* [ ] Python runtime errors do not show useful source location information.
+      The Python call stack should be shown. ([TF-150])
 * [ ] When an argument to a Python function cannot be converted to a Python
       object, the compiler wrongly claims that the function is of non-function
       type rather than pointing out that the argument doesn't conform to
@@ -122,3 +120,4 @@ for a full list of known issues.
 [TF-388]: https://bugs.swift.org/browse/TF-388
 [TF-449]: https://bugs.swift.org/browse/TF-449
 [TF-458]: https://bugs.swift.org/browse/TF-458
+[TF-459]: https://bugs.swift.org/browse/TF-459
