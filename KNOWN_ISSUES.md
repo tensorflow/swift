@@ -46,15 +46,23 @@ for a full list of known issues.
 
 ### Swift Standard Library Enhancements
 
-* [ ] The
-      [`Differentiable`]
-      protocol's `allDifferentiableVariables` requirement should not have a
-      setter. Do not use this directly through a generic type with a
-      `Differentiable` conformance constraint. ([TF-208])
+* [ ] The [`Differentiable`] protocol's `allDifferentiableVariables` requirement
+      should not have a setter. Do not use this directly through a generic type
+      with a `Differentiable` conformance constraint. ([TF-208])
 
 ### TensorFlow Library
 
 * [ ] 🚧 **Model checkpointing and serialization APIs are missing.** ([TF-388])
+
+### TensorFlow Runtime
+
+* [ ] If you are using a CUDA build and you have an NVIDIA GPU with a compute
+      capability other than 3.5 or 7.0, then you will experience a ~10 minute
+      delay the first time you execute a TensorFlow operation, while TensorFlow
+      compiles kernels for your GPU's compute capability. The program will not
+      print anything out and it will appear to be frozen. ([TF-461])
+* [ ] There is a long latency when allocating a `Tensor` for the first time on
+      GPUs. Subsequent allocations are normal speed. ([TF-460])
 * [ ] **TensorFlow runtime errors (e.g. shape mismatch errors) do not show useful
       source location information or useful stack traces.** ([TF-458])
 
@@ -121,3 +129,5 @@ for a full list of known issues.
 [TF-449]: https://bugs.swift.org/browse/TF-449
 [TF-458]: https://bugs.swift.org/browse/TF-458
 [TF-459]: https://bugs.swift.org/browse/TF-459
+[TF-460]: https://bugs.swift.org/browse/TF-460
+[TF-461]: https://bugs.swift.org/browse/TF-461
