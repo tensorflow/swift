@@ -24,10 +24,12 @@ For examples of what you can do, visit [this tutorial](https://colab.research.go
 
 The default Swift build running in Colab is typically 2-3 business days behind the head of the [swift/tensorflow branch](https://github.com/apple/swift/tree/tensorflow). To install a newer Swift build (which is typically 2-8 hours behind the head of the swift/tensorflow branch), follow these instructions:
 
-1. Open [this Swift installation notebook](https://colab.research.google.com/github/tensorflow/swift/blob/master/notebooks/install_latest_swift.ipynb).
-2. **Optional**: If you plan to use Swift with a GPU or TPU, use "Runtime > Change runtime type" to set the accelerator on the Swift installation notebook before executing it.
-3. Click the play button to the left of the cell and wait until you see `"The newly installed Swift build is:"` in the output area.
-4. Now any new Swift notebooks that you open will run against the new Swift build. If you have any Swift notebooks already running, then you must restart their runtime ("Runtime > Restart Runtime") to run them against the new Swift build.
+1. Close all Colab tabs in your browser.
+2. Open [this Swift installation notebook](https://colab.research.google.com/github/tensorflow/swift/blob/master/notebooks/install_latest_swift.ipynb).
+3. In the menu bar, click "Runtime > Reset all runtimes".
+4. **Optional**: If you plan to use Swift with a GPU or TPU, use "Runtime > Change runtime type" to set the accelerator on the Swift installation notebook before executing it.
+5. Click the play button to the left of the cell and wait until you see `"The newly installed Swift build is:"` in the output area.
+6. Now any new Swift notebooks that you open will run against the new Swift build. If you have any Swift notebooks already running, then you must restart their runtime ("Runtime > Restart Runtime") to run them against the new Swift build.
 
 
 Important note: If you leave your notebook to idle for a while, Colab will garbage collect your runtime. When you start using Colab again, it will re-create a new runtime with the default (older) Swift build. To get the new Swift build back, start over from step 1.
