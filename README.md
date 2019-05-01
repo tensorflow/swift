@@ -112,7 +112,7 @@ to make users more productive. You can run Swift interactively in a Jupyter
 notebook, and get helpful autocomplete suggestions to help you explore the
 massive API surface of a modern deep learning library. You can [get started
 right in your browser in
-seconds](https://colab.research.google.com/github/tensorflow/swift/blob/master/docs/site/tutorials/walkthrough.ipynb)!
+seconds](https://colab.research.google.com/github/tensorflow/swift/blob/master/docs/site/tutorials/model_training_walkthrough.ipynb)!
 
 Migrating to Swift for TensorFlow is really easy thanks to Swift's powerful
 Python integration. You can incrementally migrate your Python code over (or
