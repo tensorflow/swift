@@ -10,7 +10,7 @@ To install Swift for TensorFlow, download one of the packages below and follow t
 
 | Download | Version | Date | 
 |----------|---------|------|
-| [Xcode 10](https://storage.googleapis.com/swift-tensorflow-artifacts/releases/v0.3/rc1/swift-tensorflow-RELEASE-0.3-osx.pkg) | v0.3 | April 23, 2019 |
+| [Xcode 10](https://storage.googleapis.com/swift-tensorflow-artifacts/releases/v0.3.1/rc1/swift-tensorflow-RELEASE-0.3.1-osx.pkg) | v0.3.1 | April 30, 2019 |
 | [Ubuntu 18.04 (CPU Only)](https://storage.googleapis.com/swift-tensorflow-artifacts/releases/v0.3.1/rc1/swift-tensorflow-RELEASE-0.3.1-ubuntu18.04.tar.gz) | v0.3.1 | April 30, 2019 |
 | [Ubuntu 18.04 (CUDA 10.0)](https://storage.googleapis.com/swift-tensorflow-artifacts/releases/v0.3.1/rc1/swift-tensorflow-RELEASE-0.3.1-cuda10.0-cudnn7-ubuntu18.04.tar.gz) | v0.3.1 | April 30, 2019 |
 | [Ubuntu 18.04 (CUDA 9.2)](https://storage.googleapis.com/swift-tensorflow-artifacts/releases/v0.3.1/rc1/swift-tensorflow-RELEASE-0.3.1-cuda9.2-cudnn7-ubuntu18.04.tar.gz) | v0.3.1 | April 30, 2019 |
