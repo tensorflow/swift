@@ -368,7 +368,7 @@ class SGD<Model, Scalar: TensorFlowFloatingPoint>
 // Example optimizer usage.
 var dense = DenseLayer(weight: [[1, 1], [1, 1]], bias: [1, 1])
 let input = Tensor<Float>(ones: [2, 2])
-let 𝛁dense = dense.gradient { dense in dense.call(_: input) }
+let 𝛁dense = dense.gradient { dense in dense(input) }
 
 let optimizer = SGD<DenseLayer, Float>()
 optimizer.update(&dense.allDifferentiableVariables, with: 𝛁dense)
