@@ -484,7 +484,7 @@ let y: Tensor<Float> = [[0], [1], [1], [0]]
 
 for _ in 0..<3000 {
     let 𝛁model = classifier.gradient { classifier -> Tensor<Float> in
-        let ŷ = classifier.call(_: x)
+        let ŷ = classifier(x)
         return meanSquaredError(predicted: ŷ, expected: y)
     }
     // Parameter optimization here!
