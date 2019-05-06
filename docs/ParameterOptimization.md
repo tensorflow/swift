@@ -28,7 +28,7 @@ struct MyMLModel {
 
 let model = MyMLModel(...)
 let input = Tensor<Float>([0.2, 0.4])
-print(model.call(_: input))
+print(model(input))
 ```
 
 Here are some additional rules about models and parameters:
