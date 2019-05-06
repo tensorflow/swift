@@ -262,7 +262,6 @@ extension Layer {
             backpropagator: (_ direction: Output.CotangentVector)
                 -> (layerGradient: CotangentVector, inputGradient: Input.CotangentVector)) {
         let (out, pullback) = valueWithPullback(at: input) { layer, input in
-            return layer.applied(to: input)
             return layer.call(_: input)
         }
         return (out, pullback)
