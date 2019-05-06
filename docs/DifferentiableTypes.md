@@ -84,7 +84,7 @@ struct DenseLayer: Differentiable {
 
 // Differential operators like `gradient(at:in:)` just work!
 let dense = DenseLayer(weight: [[1, 1], [1, 1]], bias: [0, 0])
-let 𝛁dense = gradient(at: dense) { dense in dense.call(_: [[3, 3]]).sum() }
+let 𝛁dense = gradient(at: dense) { dense in dense([[3, 3]]).sum() }
 
 dump(𝛁dense)
 // ▿ DenseLayer.AllDifferentiableVariables
