@@ -20,7 +20,7 @@ struct MyMLModel {
     var weight1, weight2: Tensor<Float>
     var bias1, bias2: Tensor<Float>
 
-    func applied(to input: Tensor<Float>) {
+    func call(_ input: Tensor<Float>) {
         let h = relu(input • weight1 + bias1)
         return sigmoid(h • weight2 + bias2)
     }
@@ -28,7 +28,7 @@ struct MyMLModel {
 
 let model = MyMLModel(...)
 let input = Tensor<Float>([0.2, 0.4])
-print(model.applied(to: input))
+print(model.call(_: input))
 ```
 
 Here are some additional rules about models and parameters:
@@ -187,7 +187,7 @@ struct DenseLayer: KeyPathIterable {
     var bias: Tensor<Float>
     var activation: (Tensor<Float>) -> (Tensor<Float>) = relu
 
-    func applied(to input: Tensor<Float>) -> Tensor<Float> {
+    func call(_ input: Tensor<Float>) -> Tensor<Float> {
         return activation(matmul(input, weight) + bias)
     }
   
