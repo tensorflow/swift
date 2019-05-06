@@ -325,7 +325,7 @@ struct DenseLayer: KeyPathIterable, Differentiable {
     @noDerivative var activation: @differentiable (Tensor<Float>) -> Tensor<Float> = relu
 
     @differentiable
-    func applied(to input: Tensor<Float>) -> Tensor<Float> {
+    func call(_ input: Tensor<Float>) -> Tensor<Float> {
         return activation(matmul(input, weight) + bias)
     }
 }
@@ -368,7 +368,7 @@ class SGD<Model, Scalar: TensorFlowFloatingPoint>
 // Example optimizer usage.
 var dense = DenseLayer(weight: [[1, 1], [1, 1]], bias: [1, 1])
 let input = Tensor<Float>(ones: [2, 2])
-let 𝛁dense = dense.gradient { dense in dense.applied(to: input) }
+let 𝛁dense = dense.gradient { dense in dense.call(_: input) }
 
 let optimizer = SGD<DenseLayer, Float>()
 optimizer.update(&dense.allDifferentiableVariables, with: 𝛁dense)
@@ -472,9 +472,9 @@ struct Classifier: Layer {
         l2 = Dense<Float>(inputSize: hiddenSize, outputSize: 1, activation: relu)
     }
     @differentiable
-    func applied(to input: Tensor<Float>) -> Tensor<Float> {
-        let h1 = l1.applied(to: input)
-        return l2.applied(to: h1)
+    func call(_ input: Tensor<Float>) -> Tensor<Float> {
+        let h1 = l1.call(_: input)
+        return l2.call(_: h1)
     }
 }
 var classifier = Classifier(hiddenSize: 4)
@@ -484,7 +484,7 @@ let y: Tensor<Float> = [[0], [1], [1], [0]]
 
 for _ in 0..<3000 {
     let 𝛁model = classifier.gradient { classifier -> Tensor<Float> in
-        let ŷ = classifier.applied(to: x)
+        let ŷ = classifier.call(_: x)
         return meanSquaredError(predicted: ŷ, expected: y)
     }
     // Parameter optimization here!
