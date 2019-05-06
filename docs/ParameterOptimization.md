@@ -474,7 +474,7 @@ struct Classifier: Layer {
     @differentiable
     func call(_ input: Tensor<Float>) -> Tensor<Float> {
         let h1 = l1.call(_: input)
-        return l2.call(_: h1)
+        return l2(h1)
     }
 }
 var classifier = Classifier(hiddenSize: 4)
