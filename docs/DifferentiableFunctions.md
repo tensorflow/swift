@@ -231,7 +231,7 @@ specify the same attribute. This enables generic code using differentiation
 defined in terms of protocol requirements.
 
 Here is an example of a neural network `Layer` protocol that defines a
-`@differentiable` method called `applied(to:)`. As shown, the `applied(to:)`
+`@differentiable` method called `call(_:)`. As shown, the `call(_:)`
 method can be differentiated in a `Layer` protocol extension, even though it is
 not a concrete method.
 
@@ -246,7 +246,7 @@ protocol Layer: Differentiable {
     associatedtype Output: Differentiable
     /// Returns the output obtained from applying the layer to the given input.
     @differentiable
-    func applied(to input: Input) -> Output
+    func call(_ input: Input) -> Output
 }
 
 extension Layer {
@@ -262,7 +262,7 @@ extension Layer {
             backpropagator: (_ direction: Output.CotangentVector)
                 -> (layerGradient: CotangentVector, inputGradient: Input.CotangentVector)) {
         let (out, pullback) = valueWithPullback(at: input) { layer, input in
-            return layer.applied(to: input)
+            return layer(input)
         }
         return (out, pullback)
     }
@@ -274,7 +274,7 @@ struct DenseLayer: Layer {
     var bias: Tensor<Float>
 
     @differentiable
-    func applied(to input: Tensor<Float>) -> Tensor<Float> {
+    func call(_ input: Tensor<Float>) -> Tensor<Float> {
         return matmul(input, weight) + bias
     }
 }

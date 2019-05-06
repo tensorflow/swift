@@ -20,7 +20,7 @@ struct MyMLModel {
     var weight1, weight2: Tensor<Float>
     var bias1, bias2: Tensor<Float>
 
-    func applied(to input: Tensor<Float>) {
+    func call(_ input: Tensor<Float>) {
         let h = relu(input • weight1 + bias1)
         return sigmoid(h • weight2 + bias2)
     }
@@ -28,7 +28,7 @@ struct MyMLModel {
 
 let model = MyMLModel(...)
 let input = Tensor<Float>([0.2, 0.4])
-print(model.applied(to: input))
+print(model(input))
 ```
 
 Here are some additional rules about models and parameters:
@@ -187,7 +187,7 @@ struct DenseLayer: KeyPathIterable {
     var bias: Tensor<Float>
     var activation: (Tensor<Float>) -> (Tensor<Float>) = relu
 
-    func applied(to input: Tensor<Float>) -> Tensor<Float> {
+    func call(_ input: Tensor<Float>) -> Tensor<Float> {
         return activation(matmul(input, weight) + bias)
     }
   
@@ -325,7 +325,7 @@ struct DenseLayer: KeyPathIterable, Differentiable {
     @noDerivative var activation: @differentiable (Tensor<Float>) -> Tensor<Float> = relu
 
     @differentiable
-    func applied(to input: Tensor<Float>) -> Tensor<Float> {
+    func call(_ input: Tensor<Float>) -> Tensor<Float> {
         return activation(matmul(input, weight) + bias)
     }
 }
@@ -368,7 +368,7 @@ class SGD<Model, Scalar: TensorFlowFloatingPoint>
 // Example optimizer usage.
 var dense = DenseLayer(weight: [[1, 1], [1, 1]], bias: [1, 1])
 let input = Tensor<Float>(ones: [2, 2])
-let 𝛁dense = dense.gradient { dense in dense.applied(to: input) }
+let 𝛁dense = dense.gradient { dense in dense(input) }
 
 let optimizer = SGD<DenseLayer, Float>()
 optimizer.update(&dense.allDifferentiableVariables, with: 𝛁dense)
@@ -472,9 +472,9 @@ struct Classifier: Layer {
         l2 = Dense<Float>(inputSize: hiddenSize, outputSize: 1, activation: relu)
     }
     @differentiable
-    func applied(to input: Tensor<Float>) -> Tensor<Float> {
-        let h1 = l1.applied(to: input)
-        return l2.applied(to: h1)
+    func call(_ input: Tensor<Float>) -> Tensor<Float> {
+        let h1 = l1(input)
+        return l2(h1)
     }
 }
 var classifier = Classifier(hiddenSize: 4)
@@ -484,7 +484,7 @@ let y: Tensor<Float> = [[0], [1], [1], [0]]
 
 for _ in 0..<3000 {
     let 𝛁model = classifier.gradient { classifier -> Tensor<Float> in
-        let ŷ = classifier.applied(to: x)
+        let ŷ = classifier(x)
         return meanSquaredError(predicted: ŷ, expected: y)
     }
     // Parameter optimization here!

@@ -77,14 +77,14 @@ struct DenseLayer: Differentiable {
     // The compiler synthesizes all `Differentiable` protocol requirements, adding only properties
     // not marked with `@noDerivative` to associated tangent space types.
 
-    func applied(to input: Tensor<Float>) -> Tensor<Float> {
+    func call(_ input: Tensor<Float>) -> Tensor<Float> {
         return matmul(input, weight) + bias
     }
 }
 
 // Differential operators like `gradient(at:in:)` just work!
 let dense = DenseLayer(weight: [[1, 1], [1, 1]], bias: [0, 0])
-let 𝛁dense = gradient(at: dense) { dense in dense.applied(to: [[3, 3]]).sum() }
+let 𝛁dense = gradient(at: dense) { dense in dense([[3, 3]]).sum() }
 
 dump(𝛁dense)
 // ▿ DenseLayer.AllDifferentiableVariables
