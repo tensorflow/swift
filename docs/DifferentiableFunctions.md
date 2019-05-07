@@ -310,7 +310,7 @@ discussion](https://forums.swift.org/t/help-needed-with-retroactive-differentiab
 for more information.*
 
 ```swift
-import Darwin
+import Foundation
 
 func sillyExp(_ x: Float) -> Float {
     let 𝑒 = Float(M_E)
