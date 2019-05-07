@@ -124,10 +124,10 @@ var matrix: Tensor<Float> = [[1, 2], [3, 4]]
 
 // Arithmetic operations, using TensorFlow.
 let sum = matrix + matrix
-let sqrt = Raw.sqrt(matrix)
+let root = sqrt(matrix)
 let matrixProduct = matrix • matrix
 // `sum` represents [[2.0, 4.0], [6.0, 8.0]].
-// `sqrt` represents [[1.0, 1.41421], [1.73205, 2.0]].
+// `root` represents [[1.0, 1.41421], [1.73205, 2.0]].
 // `matrixProduct` represents [[7.0, 10.0], [15.0, 22.0]].
 
 // Convert `Tensor` to `ShapedArray`.
