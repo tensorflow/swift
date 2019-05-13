@@ -103,7 +103,10 @@ To install Swift for TensorFlow, download one of the packages below and follow t
 
     ```bash
     $ export PATH=/Library/Developer/Toolchains/swift-latest/usr/bin:"${PATH}"
-    $ export SDKROOT=/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.14.sdk
+    # xcode-select --install # Install Command Line Tools if you haven't already.
+    # check that /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk exists
+    $ ls /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk
+    $ export SDKROOT=/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk
 
     ```
 
