@@ -142,7 +142,7 @@ This was a simple demonstration of Swift for TensorFlow. To see example models w
 
 To use Swift for TensorFlow with Xcode, you must have installed a toolchain from [this page](Installation.md).
 
-1. Open Xcode’s `Preferences`, navigate to `Components > Toolchains`, and select the installed Swift for TensorFlow toolchain. The name of the toolchain should start with "Swift for TensorFlow Development Snapshot".
+1. Open Xcode’s `Preferences`, navigate to `Components > Toolchains`, and select the installed Swift for TensorFlow toolchain. The name of the toolchain should start with "Swift for TensorFlow Development Snapshot" OR "Swift for TensorFlow Release".
 
 <p align="center">
   <img src="docs/images/Installation-XcodePreferences.png?raw=true" alt="Select toolchain in Xcode preferences."/>
