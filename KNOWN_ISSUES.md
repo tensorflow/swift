@@ -11,6 +11,22 @@ Legend:
 Please see the [JIRA issue tracker](https://bugs.swift.org/projects/TF/issues)
 for a full list of known issues.
 
+## Version 0.4
+
+### Automatic Differentiation
+* [ ] Can get an assertion failure when marking stored properties as
+      `@differentiable`. ([TF-521](https://bugs.swift.org/browse/TF-521))
+* [ ] Marking an intializer as `@differentiable` can lead to a
+      `SIL verification failed: operand of 'apply' doesn't match function input type`
+      error. ([TF-526](https://bugs.swift.org/browse/TF-526))
+* [ ] Cannot Define Custom VJPs on Functions marked `@_alwaysEmitIntoClient`.
+      ([TF-545](https://bugs.swift.org/browse/TF-545))
+* [ ] Differentiating initializers of structs can lead to a
+      `SIL verification failed: substituted callee type does not match substitutions` error. ([TF-546](https://bugs.swift.org/browse/TF-546))
+* [ ] When relying on the compiler to derive the VJP/JVP using another custom
+      VJP/JVP, can get a `Assertion failed: (isLoadableOrOpaque(Ty))` failure.
+      ([TF-547](https://bugs.swift.org/browse/TF-547))
+
 ## Version 0.3
 
 ### TensorFlow Library
@@ -79,7 +95,8 @@ for a full list of known issues.
 ### Automatic Differentiation
 
 * [ ] 🚧 **Differentiation does not yet support functions with control flow.**
-      ([TF-356](https://bugs.swift.org/browse/TF-356))
+      ([TF-356](https://bugs.swift.org/browse/TF-384))
+    * Conditionals are now supported ([PR 25057](https://github.com/apple/swift/pull/25057))
 * [ ] 🚧 **Higher-order differentiation is not yet supported.**
 * [ ] Differentiating functions with respect to an `inout` parameter is not yet
       supported. ([TF-357](https://bugs.swift.org/browse/TF-357))
@@ -99,7 +116,7 @@ for a full list of known issues.
 * [ ] Referring to a `@differentiable` function using key paths leads to a
       compiler crash. ([TF-123](https://bugs.swift.org/browse/TF-123))
 * [ ] Python runtime errors do not show useful source location information or
-      useful stack traces. ([TF-150](https://bugs.swift.org/browse/TF-150)) 
+      useful stack traces. ([TF-150](https://bugs.swift.org/browse/TF-150))
 
 ### Python Interoperability
 
