@@ -96,7 +96,7 @@ for a full list of known issues.
 
 * [ ] 🚧 **Differentiation does not yet support functions with control flow.**
       ([TF-356](https://bugs.swift.org/browse/TF-384))
-    * Conditionals are now supported ([PR 25057](https://github.com/apple/swift/pull/25057))
+    * Conditionals are supported since 0.4 ([PR 25057](https://github.com/apple/swift/pull/25057))
 * [ ] 🚧 **Higher-order differentiation is not yet supported.**
 * [ ] Differentiating functions with respect to an `inout` parameter is not yet
       supported. ([TF-357](https://bugs.swift.org/browse/TF-357))
