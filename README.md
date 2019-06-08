@@ -125,8 +125,8 @@ import Python
 
 let np = Python.import("numpy")
 
-let array = np.arange([10, 10])  // Create a 10x10 numpy array.
-let tensor = Tensor(numpy: array)  // Seamless integration!
+let array = np.arange(100).reshape(10, 10)  // Create a 10x10 numpy array.
+let tensor = Tensor<Float>(numpy: array)  // Seamless integration!
 ```
 
 ## Documentation
