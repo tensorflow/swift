@@ -60,16 +60,16 @@ print(x.gradient(in: square)) // 6.0
 print(x.valueWithGradient(in: square)) // (value: 9.0, gradient: 6.0)
 ```
 
-Here's a list of differentiation APIs provided by the standard library:
+Here's a list of differentiation APIs currently provided by the standard library:
 
 | Differentiation APIs  | Description                                                                                                                                                      |
 |-----------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| [`valueWithPullback(at:in:)`] <br/> [`valueWithPullback(at:_:in:)`] | Returns original result and backpropagation function. <br/> **Important note: this is the core differentiation API. All other APIs are defined in terms of `valueWithPullback`.** |
-| [`pullback(at:in:)`] <br/> [`pullback(at:_:in:)`] | Returns backpropagation function. |
+| [`valueWithPullback(at:in:)`] <br/> [`valueWithPullback(at:_:in:)`] | Returns original result and pullback function. <br/> **Important note: this is the core differentiation API. All other APIs are defined in terms of `valueWithPullback`.** |
+| [`pullback(at:in:)`] <br/> [`pullback(at:_:in:)`] | Returns pullback function. |
 | [`gradient(at:in:)`] <br/> [`gradient(at:_:in:)`] | Returns partial derivatives with respect to arguments. |
 | [`valueWithGradient(at:in:)`] <br/> [`valueWithGradient(at:_:in:)`] | Returns original result and partial derivatives with respect to arguments. |
-| [`gradient(of:)`] <br/> [`gradient(of:)` (arity 2)] | Returns gradient function. |
-| [`valueWithGradient(of:)`] <br/> [`valueWithGradient(of:)` (arity 2)] | Returns gradient function. |
+| [`gradient(of:)`] <br/> [`gradient(of:)` (arity 2)] | Returns gradient function, taking original arguments and returning and partial derivatives with respect to arguments. |
+| [`valueWithGradient(of:)`] <br/> [`valueWithGradient(of:)` (arity 2)] | Returns function taking original arguments and returning original result and partial derivatives with respect to arguments. |
 
 ### Constructing `@differentiable` functions
 
@@ -461,20 +461,20 @@ The authors would like to thank Chris Lattner, Doug Gregor, John McCall, Slava
 Pestov, Joe Groff, and Dmitri Gribenko for their input to the design of
 differentiable functions and differentiation APIs.
 
-[`valueWithPullback(at:in:)`]: https://tensorflow.org/swift/api_docs/Functions#/s:10TensorFlow17valueWithPullback2at2inq_0C0_15CotangentVectorQzAFQy_c8pullbacktx_q_xXEtAA14DifferentiableRzAaJR_r0_lF
-[`valueWithPullback(at:_:in:)`]: https://tensorflow.org/swift/api_docs/Functions#/s:10TensorFlow17valueWithPullback2at_2inq0_0C0_15CotangentVectorQz_AFQy_tAFQy0_c8pullbacktx_q_q0_x_q_tXEtAA14DifferentiableRzAaKR_AaKR0_r1_lF
-[`pullback(at:in:)`]: https://tensorflow.org/swift/api_docs/Functions#/s:10TensorFlow8pullback2at2in15CotangentVectorQzAEQy_cx_q_xXEtAA14DifferentiableRzAaHR_r0_lF
-[`pullback(at:_:in:)`]: https://tensorflow.org/swift/api_docs/Functions#/s:10TensorFlow8pullback2at_2in15CotangentVectorQz_AEQy_tAEQy0_cx_q_q0_x_q_tXEtAA14DifferentiableRzAaIR_AaIR0_r1_lF
-[`gradient(at:in:)`]: https://tensorflow.org/swift/api_docs/Functions#/s:10TensorFlow8gradient2at2in15CotangentVectorQzx_q_xXEtAA14DifferentiableRzSFR_AaGR_AeaGPQy_Rs_r0_lF
-[`gradient(at:_:in:)`]: https://tensorflow.org/swift/api_docs/Functions#/s:10TensorFlow8gradient2at_2in15CotangentVectorQz_AEQy_tx_q_q0_x_q_tXEtAA14DifferentiableRzAaHR_SFR0_AaHR0_AeaHPQy0_Rs0_r1_lF
-[`valueWithGradient(at:in:)`]: https://tensorflow.org/swift/api_docs/Functions#/s:10TensorFlow17valueWithGradient2at2inq_0C0_15CotangentVectorQz8gradienttx_q_xXEtAA14DifferentiableRzSFR_AaIR_AfaIPQy_Rs_r0_lF
-[`valueWithGradient(at:_:in:)`]: https://tensorflow.org/swift/api_docs/Functions#/s:10TensorFlow17valueWithGradient2at_2inq0_0C0_15CotangentVectorQz_AFQy_t8gradienttx_q_q0_x_q_tXEtAA14DifferentiableRzAaJR_SFR0_AaJR0_AfaJPQy0_Rs0_r1_lF
-[`gradient(of:)`]: https://tensorflow.org/swift/api_docs/Functions#/s:10TensorFlow8gradient2of15CotangentVectorQzxcAA0A0Vyq_Gxc_tAA14DifferentiableRzAA0aB13FloatingPointR_r0_lF
-[`gradient(of:)` (arity 2)]: https://tensorflow.org/swift/api_docs/Functions#/s:10TensorFlow8gradient2of15CotangentVectorQz_ADQy_tx_q_tcAA0A0Vyq0_Gx_q_tc_tAA14DifferentiableRzAaJR_AA0aB13FloatingPointR0_r1_lF
-[`valueWithGradient(of:)`]: https://tensorflow.org/swift/api_docs/Functions#/s:10TensorFlow17valueWithGradient2ofAA0A0Vyq_G0C0_15CotangentVectorQz8gradienttxcAFxc_tAA14DifferentiableRzAA0aB13FloatingPointR_r0_lF
-[`valueWithGradient(of:)` (arity 2)]: https://tensorflow.org/swift/api_docs/Functions#/s:10TensorFlow17valueWithGradient2ofAA0A0Vyq0_G0C0_15CotangentVectorQz_AHQy_t8gradienttx_q_tcAFx_q_tc_tAA14DifferentiableRzAaLR_AA0aB13FloatingPointR0_r1_lF
-[`differentiableFunction(from:)`]: https://tensorflow.org/swift/api_docs/Functions#/s:10TensorFlow22differentiableFunction4fromq_xcq_5value_15CotangentVectorQzAEQy_c8pullbacktxc_tAA14DifferentiableRzAaIR_r0_lF
-[`differentiableFunction(from:)` (arity 2)]: https://tensorflow.org/swift/api_docs/Functions#/s:10TensorFlow22differentiableFunction4fromq0_x_q_tcq0_5value_15CotangentVectorQz_AEQy_tAEQy0_c8pullbacktx_q_tc_tAA14DifferentiableRzAaJR_AaJR0_r1_lF
+[`valueWithPullback(at:in:)`]: https://github.com/apple/swift/blob/c1211a3f78992c89a3ab4d638c378c6f45ab8fe8/stdlib/public/core/AutoDiff.swift#L276
+[`valueWithPullback(at:_:in:)`]: https://github.com/apple/swift/blob/c1211a3f78992c89a3ab4d638c378c6f45ab8fe8/stdlib/public/core/AutoDiff.swift#L283
+[`pullback(at:in:)`]: https://github.com/apple/swift/blob/c1211a3f78992c89a3ab4d638c378c6f45ab8fe8/stdlib/public/core/AutoDiff.swift#L302
+[`pullback(at:_:in:)`]: https://github.com/apple/swift/blob/c1211a3f78992c89a3ab4d638c378c6f45ab8fe8/stdlib/public/core/AutoDiff.swift#L309
+[`gradient(at:in:)`]: https://github.com/apple/swift/blob/c1211a3f78992c89a3ab4d638c378c6f45ab8fe8/stdlib/public/core/AutoDiff.swift#L384
+[`gradient(at:_:in:)`]: https://github.com/apple/swift/blob/c1211a3f78992c89a3ab4d638c378c6f45ab8fe8/stdlib/public/core/AutoDiff.swift#L392
+[`valueWithGradient(at:in:)`]: https://github.com/apple/swift/blob/c1211a3f78992c89a3ab4d638c378c6f45ab8fe8/stdlib/public/core/AutoDiff.swift#L326
+[`valueWithGradient(at:_:in:)`]: https://github.com/apple/swift/blob/c1211a3f78992c89a3ab4d638c378c6f45ab8fe8/stdlib/public/core/AutoDiff.swift#L335
+[`gradient(of:)`]: https://github.com/apple/swift/blob/c1211a3f78992c89a3ab4d638c378c6f45ab8fe8/stdlib/public/core/AutoDiff.swift#L410
+[`gradient(of:)` (arity 2)]: https://github.com/apple/swift/blob/c1211a3f78992c89a3ab4d638c378c6f45ab8fe8/stdlib/public/core/AutoDiff.swift#L418
+[`valueWithGradient(of:)`]: https://github.com/apple/swift/blob/c1211a3f78992c89a3ab4d638c378c6f45ab8fe8/stdlib/public/core/AutoDiff.swift#L356
+[`valueWithGradient(of:)` (arity 2)]: https://github.com/apple/swift/blob/c1211a3f78992c89a3ab4d638c378c6f45ab8fe8/stdlib/public/core/AutoDiff.swift#L364
+[`differentiableFunction(from:)`]: https://github.com/apple/swift/blob/c1211a3f78992c89a3ab4d638c378c6f45ab8fe8/stdlib/public/core/AutoDiff.swift#L103
+[`differentiableFunction(from:)` (arity 2)]: https://github.com/apple/swift/blob/c1211a3f78992c89a3ab4d638c378c6f45ab8fe8/stdlib/public/core/AutoDiff.swift#L120
 
 [automatic differentiation]: https://en.wikipedia.org/wiki/Automatic_differentiation
 
