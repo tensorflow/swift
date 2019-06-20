@@ -22,7 +22,7 @@ For examples of what you can do, visit [this tutorial](https://colab.research.go
 
 ### Getting newer Swift builds
 
-The default Swift build running in Colab is typically 2-3 business days behind the head of the [swift/tensorflow branch](https://github.com/apple/swift/tree/tensorflow). To install a newer Swift build (which is typically 2-8 hours behind the head of the swift/tensorflow branch), follow these instructions:
+We typically upgrade the Swift version in Colab to the [latest numbered release](https://github.com/tensorflow/swift/blob/master/Installation.md#releases) 2-3 business days after the release. To install a newer Swift build (which is typically 2-8 hours behind the head of the [swift/tensorflow branch](https://github.com/apple/swift/tree/tensorflow)), follow these instructions:
 
 1. Close all Colab tabs in your browser.
 2. Open [this Swift installation notebook](https://colab.research.google.com/github/tensorflow/swift/blob/master/notebooks/install_latest_swift.ipynb).
