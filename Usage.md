@@ -183,7 +183,7 @@ To build an executable with Xcode 10, you must change some project settings from
      See [this comment](https://github.com/tensorflow/swift/issues/10#issuecomment-385167803) for specific instructions with screenshots.
    * Go to `Linking > Other Linker Flags` and add `-lpython` to the list of flags.
 
-## VS Code setup for Swift (only tested on Linux)
+## Visual Studio Code setup for Swift (only tested on Linux)
 
 1. Install the [LLDB extension](https://marketplace.visualstudio.com/items?itemName=vadimcn.vscode-lldb).
 2. Install the [Swift extension](https://marketplace.visualstudio.com/items?itemName=vknabel.vscode-swift-development-environment).
