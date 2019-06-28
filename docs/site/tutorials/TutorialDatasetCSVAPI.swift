@@ -21,8 +21,8 @@ extension IrisBatch: TensorGroup {
     ]
     public static var _unknownShapeList: [TensorShape?] = [nil, nil]
     public var _tensorHandles: [_AnyTensorHandle] {
-￼       fatalError("unimplemented")
-￼   }
+        fatalError("unimplemented")
+    }
     public func _unpackTensorHandles(into address: UnsafeMutablePointer<CTensorHandle>?) {
         address!.advanced(by: 0).initialize(to: features.handle._cTensorHandle)
         address!.advanced(by: 1).initialize(to: labels.handle._cTensorHandle)
@@ -32,8 +32,8 @@ extension IrisBatch: TensorGroup {
         labels = Tensor(handle: TensorHandle(_owning: tensorHandles!.advanced(by: 1).pointee))
     }
     public init<C: RandomAccessCollection>(_handles: C) where C.Element: _AnyTensorHandle {
-￼       fatalError("unimplemented")
-￼   }
+        fatalError("unimplemented")
+    }
 }
 
 /// Initialize an `IrisBatch` dataset from a CSV file.
