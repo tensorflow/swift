@@ -182,3 +182,25 @@ To build an executable with Xcode 10, you must change some project settings from
    * Add `libtensorflow.so` and `libtensorflow_framework.so` to `Linked Frameworks and Libraries` and change `Runtime Search Paths`.
      See [this comment](https://github.com/tensorflow/swift/issues/10#issuecomment-385167803) for specific instructions with screenshots.
    * Go to `Linking > Other Linker Flags` and add `-lpython` to the list of flags.
+
+## VS Code setup for Swift (only tested on Linux)
+
+1. Install the [LLDB extension](https://marketplace.visualstudio.com/items?itemName=vadimcn.vscode-lldb).
+2. Install the [Swift extension](https://marketplace.visualstudio.com/items?itemName=vknabel.vscode-swift-development-environment).
+3. Build [SourceKit-LSP](https://github.com/apple/sourcekit-lsp#building-on-linux) from sources.
+4. Search for swift-lsp-dev from the VS Code extensions view and install it.
+
+Steps 3 and 4 are only required for code outline and navigation, first two steps are sufficient for debugging with LLDB. There are two significant caveats:
+
+* Navigation doesn't work across multiple files. In other words, jumping to a definition in another file than the current one isn't possible.
+* Debugging sometimes stops spuriously while stepping through the code. Also, watch doesn't work with expressions.
+
+Debugging and outline workflows match the usual VS Code experience:
+
+<p align="center">
+  <img src="docs/images/VSCodeSwiftDebug.png?raw=true" alt="Debugging Swift with VS Code."/>
+</p>
+
+<p align="center">
+  <img src="docs/images/VSCodeSwiftOutline.png?raw=true" alt="Debugging Swift with VS Code."/>
+</p>
