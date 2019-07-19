@@ -1,8 +1,9 @@
 # Automatic Differentiation in Swift
 
 * Date: April 2018
+* Status: Deprecated
 
-For a mathematical introduction and language design, see [First-Class Automatic Differentiation in Swift: A Manifesto](https://gist.github.com/rxwei/30ba75ce092ab3b0dce4bde1fc2c9f1d).
+For language design, see [Swift Differentiable Programming Design Overview](http://bit.ly/swift-autodiff).
 
 ## Introduction
 
