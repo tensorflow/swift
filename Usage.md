@@ -142,7 +142,7 @@ This was a simple demonstration of Swift for TensorFlow. To see example models w
 
 To use Swift for TensorFlow with Xcode, you must have installed a toolchain from [this page](Installation.md).
 
-1. Open Xcode’s `Preferences`, navigate to `Components > Toolchains`, and select the installed Swift for TensorFlow toolchain. The name of the toolchain should start with "Swift for TensorFlow Development Snapshot".
+1. Open Xcode’s `Preferences`, navigate to `Components > Toolchains`, and select the installed Swift for TensorFlow toolchain. The name of the toolchain should start with "Swift for TensorFlow".
 
 <p align="center">
   <img src="docs/images/Installation-XcodePreferences.png?raw=true" alt="Select toolchain in Xcode preferences."/>
@@ -171,17 +171,15 @@ print(x)
 
 **Note:** Xcode Playgrounds are a great interactive environment for prototyping code, but they often hang or crash. If that happens, try restarting Xcode. There are some documented bugs regarding Swift for TensorFlow and Playgrounds. If you discover a new bug, please file an issue.
 
-To build an executable with Xcode 10, you must change some project settings from their default values:
+To build an executable with Xcode 10 or 11, you must change some project settings from their default values:
 
  1. In the menu bar, select `File > Project Settings...`.
 
  2. Then, select `Legacy Build System` for Build Settings and click `Done`.
 
  3. In your target's Build Settings:
-   * Go to `Swift Compiler > Code Generation > Optimization Level` and select `Optimize for Speed [-O]`.
-   * Add `libtensorflow.so` and `libtensorflow_framework.so` to `Linked Frameworks and Libraries` and change `Runtime Search Paths`.
-     See [this comment](https://github.com/tensorflow/swift/issues/10#issuecomment-385167803) for specific instructions with screenshots.
-   * Go to `Linking > Other Linker Flags` and add `-lpython` to the list of flags.
+   * Go to `Apple Clang - Code Generation > Optimization Level` and select `Fast [-O, O1]`. This isn't strictly necessary for debugging, but building without optimization will lead to much slower execution.
+   * Change `Runpath Search Paths` to `$(TOOLCHAIN_DIR)`.
 
 ## Visual Studio Code setup for Swift (only tested on Linux)
 
