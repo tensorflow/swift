@@ -173,7 +173,7 @@ print(x)
 
 To build an executable with Xcode 10 or 11, you must change some project settings from their default values:
 
- 1. In the menu bar, select `File > Project Settings...`.
+ 1. In the menu bar, select `File > Project Settings` if you are working inside a project or `Playground Settings` if you are using a playground.
 
  2. Then, select `Legacy Build System` for Build Settings and click `Done`.
 
