@@ -335,6 +335,7 @@ class SILParser: Parser {
         }
         guard !skip("[always_inline]") else { return .alwaysInline }
         guard !peek("[differentiable") else { return try parseDifferentiable() }
+        guard !skip("[dynamically_replacable]") else { return .dynamicallyReplacable }
         guard !skip("[noinline]") else { return .noInline }
         guard !peek("[_semantics") else { return try parseSemantics() }
         guard !skip("[serialized]") else { return .serialized }
@@ -384,10 +385,17 @@ class SILParser: Parser {
 
     // https://github.com/apple/swift/blob/master/docs/SIL.rst#linkage
     func parseLinkage() throws -> Linkage {
-        // Must appear before "public" to parse correctly.
+        // The order in here is a bit relaxed because longer words need to come
+        // before the shorter ones to parse correctly.
+        guard !skip("hidden_external") else { return .hiddenExternal }
+        guard !skip("hidden") else { return .hidden }
+        guard !skip("private_external") else { return .privateExternal }
+        guard !skip("private") else { return .private }
         guard !skip("public_external") else { return .publicExternal }
+        guard !skip("non_abi") else { return .publicNonABI }
         guard !skip("public") else { return .public }
         guard !skip("shared_external") else { return .sharedExternal }
+        guard !skip("shared") else { return .shared }
         return .public
     }
 

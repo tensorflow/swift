@@ -290,6 +290,7 @@ public enum Enforcement {
 public enum FunctionAttribute {
     case alwaysInline
     case differentiable(_ spec: String)
+    case dynamicallyReplacable
     case noInline
     case semantics(_ value: String)
     case serialized
@@ -299,8 +300,14 @@ public enum FunctionAttribute {
 
 // https://github.com/apple/swift/blob/master/docs/SIL.rst#linkage
 public enum Linkage {
+    case hidden
+    case hiddenExternal
+    case `private`
+    case privateExternal
     case `public`
     case publicExternal
+    case publicNonABI
+    case shared
     case sharedExternal
 }
 
