@@ -72,7 +72,6 @@ class Printer: CustomStringConvertible {
   }
 
   func literal(_ s: String) {
-    // TODO(#28): Print string literals with control characters in a useful way.
     print("\"")
     print(s)
     print("\"")

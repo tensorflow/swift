@@ -325,7 +325,7 @@ public final class QuoteTests: XCTestCase {
 
   private func blackHole(_ x: Any) {
     // This method exists to silence unused variable warnings.
-    // TODO(#4): Get rid of this method.
+    // TODO(TF-728): Get rid of this method.
   }
 
   public static let allTests = [

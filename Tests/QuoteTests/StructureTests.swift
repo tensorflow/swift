@@ -517,7 +517,7 @@ public final class StructureTests: XCTestCase {
 
   public func testAssign() {
     var x = 0
-    x = 42  // TODO(#4): Get rid of this assignment.
+    x = 42  // TODO(TF-728): Get rid of this assignment.
     blackHole(x)
     let q = #quote(x = 42)
     assertStructure(
@@ -772,7 +772,7 @@ public final class StructureTests: XCTestCase {
     func foo(_ x: inout Int) {}
     var x = 0
     blackHole(x)
-    x = 42  // TODO(#4): Get rid of this assignment.
+    x = 42  // TODO(TF-728): Get rid of this assignment.
     let q = #quote(foo(&x))
     assertStructure(
       q,
@@ -1030,7 +1030,7 @@ public final class StructureTests: XCTestCase {
   }
 
   public func testPostfix() {
-    // TODO(#3): Find out how to conveniently test this.
+    // TODO(TF-729): Find out how to conveniently test this.
   }
 
   public func testPostfixSelf1() {
@@ -1291,7 +1291,7 @@ public final class StructureTests: XCTestCase {
   }
 
   public func testFunction() {
-    // TODO(#5): Find out how to conveniently test this.
+    // TODO(TF-724): Find out how to conveniently test this.
   }
 
   public func testLet() {
@@ -1402,7 +1402,7 @@ public final class StructureTests: XCTestCase {
 
   private func blackHole(_ x: Any) {
     // This method exists to silence unused variable warnings.
-    // TODO(#4): Get rid of this method.
+    // TODO(TF-728): Get rid of this method.
   }
 
   public static let allTests = [

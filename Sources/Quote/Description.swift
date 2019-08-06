@@ -290,7 +290,7 @@ class DescriptionPrinter: Printer {
 
   private func printArguments(_ labels: [String?], _ arguments: [Expression]) {
     var needComma = false
-    // TODO(#1): Figure out why this is necessary.
+    // TODO(TF-731): Figure out why this is necessary.
     var fixedLabels: [String?] = labels
     if labels.count == 0 {
       fixedLabels = Array(repeating: nil, count: arguments.count)
