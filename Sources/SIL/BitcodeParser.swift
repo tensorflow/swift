@@ -255,24 +255,3 @@ class BitcodeParser {
         }
     }
 }
-
-let SIB_MAGIC: [UInt8] = [0xE2, 0x9C, 0xA8, 0x0E]
-
-enum SIBFileError: Error {
-    case cannotOpenFile
-    case incorrectMagic
-}
-
-func loadSIBBitcode(fromPath path: String) throws -> BitcodeBlock {
-    guard let handle = FileHandle(forReadingAtPath: path) else {
-        throw SIBFileError.cannotOpenFile
-    }
-
-    var stream = Bitstream(handle.readDataToEndOfFile())
-    if (try stream.next(bytes: 4) != SIB_MAGIC) {
-        throw SIBFileError.incorrectMagic
-    }
-
-    let parser = BitcodeParser(stream)
-    return try parser.parse()
-}
