@@ -52,7 +52,7 @@ class BitcodePrinter: Printer {
         print("/>")
         if case let .some(.blob(value)) = record.ops.last {
             print(" blob data = ")
-            if let asString = value.asString() {
+            if let asString = String(bytes: value, encoding: .utf8) {
                 print("'")
                 print(asString)
                 print("'")

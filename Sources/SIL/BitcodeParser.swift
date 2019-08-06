@@ -63,7 +63,7 @@ class BitcodeParser {
         case .blob:
             let length = try read(vbr: 6).asInt()
             stream.align(toMultipleOf: 32)
-            let result = try stream.next(bits: length * 8)
+            let result = try stream.next(bytes: length)
             stream.align(toMultipleOf: 32)
             return .blob(result)
         }

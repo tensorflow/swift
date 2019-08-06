@@ -14,7 +14,7 @@ indirect enum OperandKind {
 
 indirect enum BitcodeOperand {
     case bits(_ value: Bits)
-    case blob(_ value: Bits)
+    case blob(_ value: [UInt8])
     case array(_ values: [BitcodeOperand])
 
     var bits: Bits? {
@@ -58,5 +58,9 @@ class BitcodeBlock {
         self.info = info
         self.abbrLen = abbrLen
         self.blockLen32 = blockLen32
+    }
+
+    func name(of record: BitcodeRecord) -> String? {
+        return info.recordNames[record.code]
     }
 }
