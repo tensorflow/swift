@@ -103,7 +103,7 @@ let (𝛁model, 𝛁input) = model.gradient(at: 2.0) { model, input in
     model.applied(to: input)
 }
 
-print(𝛁model) // Model.AllDifferentiableVariables(w: 2.0, b: 1.0)
+print(𝛁model) // Model.TangentVector(w: 2.0, b: 1.0)
 print(𝛁input) // 4.0
 ```
 
