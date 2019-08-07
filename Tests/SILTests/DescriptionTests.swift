@@ -1,0 +1,112 @@
+import XCTest
+import SIL
+
+final class DescriptionTests: XCTestCase {
+  public func testIdentity() {
+    let block = Block(
+      "bb0",
+      [Argument("%0", .namedType("Int"))],
+      [InstructionDef(nil, .return(Operand("%0", .namedType("Int"))), nil)]
+    )
+    let identity = Function(
+      .public,
+      [],
+      "$s4main8identityyS2iF",
+      .attributedType(
+        [.convention(.thin)],
+        .functionType([.namedType("Int")], .namedType("Int"))),
+      [block])
+    let module = Module([identity])
+    XCTAssertEqual(
+      module.description,
+      """
+      sil @$s4main8identityyS2iF : $@convention(thin) (Int) -> Int {
+      bb0(%0 : $Int):
+        return %0 : $Int
+      }
+      """
+    )
+  }
+
+  public func testAdd() {
+    let block = Block(
+      "bb0",
+      [Argument("%0", .namedType("Int")), Argument("%1", .namedType("Int"))],
+      [
+        InstructionDef(
+          Result(["%4"]),
+          .structExtract(Operand("%0", .namedType("Int")), DeclRef(["Int", "_value"], nil, nil)),
+          nil),
+        InstructionDef(
+          Result(["%5"]),
+          .structExtract(Operand("%1", .namedType("Int")), DeclRef(["Int", "_value"], nil, nil)),
+          nil),
+        InstructionDef(
+          Result(["%6"]),
+          .integerLiteral(.namedType("Builtin.Int1"), -1),
+          nil),
+        InstructionDef(
+          Result(["%7"]),
+          .builtin(
+            "sadd_with_overflow_Int64",
+            [
+              Operand("%4", .namedType("Builtin.Int64")),
+              Operand("%5", .namedType("Builtin.Int64")),
+              Operand("%6", .namedType("Builtin.Int1"))
+            ],
+            .tupleType([.namedType("Builtin.Int64"), .namedType("Builtin.Int1")])),
+          nil),
+        InstructionDef(
+          Result(["%8"]),
+          .tupleExtract(
+            Operand("%7", .tupleType([.namedType("Builtin.Int64"), .namedType("Builtin.Int1")])),
+            0),
+          nil),
+        InstructionDef(
+          Result(["%9"]),
+          .tupleExtract(
+            Operand("%7", .tupleType([.namedType("Builtin.Int64"), .namedType("Builtin.Int1")])),
+            1),
+          nil),
+        InstructionDef(
+          nil,
+          .condFail(Operand("%9", .namedType("Builtin.Int1")), ""),
+          nil),
+        InstructionDef(
+          Result(["%11"]),
+          .struct(.namedType("Int"), [Operand("%8", .namedType("Builtin.Int64"))]),
+          nil),
+        InstructionDef(
+          nil,
+          .return(Operand("%11", .namedType("Int"))),
+          nil)
+      ]
+    )
+    let add = Function(
+      .public,
+      [],
+      "$s4main3addyS2i_SitF",
+      .attributedType(
+        [.convention(.thin)],
+        .functionType([.namedType("Int"), .namedType("Int")], .namedType("Int"))),
+      [block])
+    let module = Module([add])
+    XCTAssertEqual(
+      module.description,
+      """
+      sil @$s4main3addyS2i_SitF : $@convention(thin) (Int, Int) -> Int {
+      bb0(%0 : $Int, %1 : $Int):
+        %4 = struct_extract %0 : $Int, #Int._value
+        %5 = struct_extract %1 : $Int, #Int._value
+        %6 = integer_literal $Builtin.Int1, -1
+        %7 = builtin "sadd_with_overflow_Int64"(%4 : $Builtin.Int64, %5 : $Builtin.Int64, %6 : $Builtin.Int1) : $(Builtin.Int64, Builtin.Int1)
+        %8 = tuple_extract %7 : $(Builtin.Int64, Builtin.Int1), 0
+        %9 = tuple_extract %7 : $(Builtin.Int64, Builtin.Int1), 1
+        cond_fail %9 : $Builtin.Int1, ""
+        %11 = struct $Int (%8 : $Builtin.Int64)
+        return %11 : $Int
+      }
+      """
+    )
+  }
+}

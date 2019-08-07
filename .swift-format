@@ -1,0 +1,14 @@
+{
+    "version": 1,
+    "lineLength": 100,
+    "indentation": {
+        "spaces": 2
+    },
+    "maximumBlankLines": 1,
+    "respectsExistingLineBreaks": true,
+    "blankLineBetweenMembers": {
+        "ignoreSingleLineProperties": true
+    },
+    "lineBreakBeforeControlFlowKeywords": false,
+    "lineBreakBeforeEachArgument": false
+}
