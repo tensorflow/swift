@@ -49,6 +49,7 @@ The Swift for TensorFlow project is currently focusing on 2 kinds of users:
 Tutorial | Last Updated |
 -------- | ------------ |
 [A Swift Tour](https://colab.research.google.com/github/tensorflow/swift/blob/master/docs/site/tutorials/a_swift_tour.ipynb) | March 2019
+[Protocol-Oriented Programming & Generics](https://colab.research.google.com/github/tensorflow/swift/blob/master/docs/site/tutorials/protocol_oriented_generics.ipynb) | August 2019
 [Python Interoperability](https://colab.research.google.com/github/tensorflow/swift/blob/master/docs/site/tutorials/python_interoperability.ipynb) | March 2019
 [Custom Differentiation](https://colab.research.google.com/github/tensorflow/swift/blob/master/docs/site/tutorials/custom_differentiation.ipynb) | March 2019
 [Model Training Walkthrough](https://colab.research.google.com/github/tensorflow/swift/blob/master/docs/site/tutorials/model_training_walkthrough.ipynb) | March 2019
