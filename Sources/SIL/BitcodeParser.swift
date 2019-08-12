@@ -10,18 +10,18 @@ class BitcodeParser {
     var stream: Bitstream
 
     // Builtin abbreviation IDs
-    let END_BLOCK: Bits = 0
-    let ENTER_SUBBLOCK: Bits = 1
-    let DEFINE_ABBREV: Bits = 2
-    let UNABBREV_RECORD: Bits = 3
+    let endBlock: Bits = 0
+    let enterSubBlock: Bits = 1
+    let defineAbbrev: Bits = 2
+    let unabbrevRecord: Bits = 3
 
     // Builtin abbreviations within the info block
-    let SETBID: Bits = 1
-    let BLOCKNAME: Bits = 2
-    let SETRECORDNAME: Bits = 3
+    let setbid: Bits = 1
+    let blockName: Bits = 2
+    let setRecordName: Bits = 3
 
     // Block ID of the info block
-    let BLOCKINFO_ID: Bits = 0
+    let blockInfoId: Bits = 0
 
     enum Error: Swift.Error {
         case unsupportedBlockInfoAbbrev(_ code: Bits)
@@ -70,7 +70,7 @@ class BitcodeParser {
     }
 
     func parseUnabbrevRecord() throws -> BitcodeRecord {
-        // [UNABBREV_RECORD, code(vbr6), numops(vbr6), op0(vbr6), op1(vbr6), ...]
+        // [unabbrevRecord, code(vbr6), numops(vbr6), op0(vbr6), op1(vbr6), ...]
         let code = try read(vbr: 6)
         let numOps = try read(vbr: 6)
         var ops: [BitcodeOperand] = []
@@ -122,21 +122,21 @@ class BitcodeParser {
         while true {
             let abbrev = try stream.next(bits: abbrLen)
             switch (abbrev) {
-            case END_BLOCK:
+            case endBlock:
                 return
-            case UNABBREV_RECORD:
+            case unabbrevRecord:
                 let record = try parseUnabbrevRecord()
                 // Unabbreviated records have no structure, so the cast to bits is safe
                 let ops = record.ops.map { $0.bits! }
                 switch (record.code) {
-                case SETBID:
+                case setbid:
                     assert(ops.count == 1)
                     let blockId: Bits = ops[0]
                     if blockInfoTemplates[blockId] == nil {
                         blockInfoTemplates[blockId] = BitcodeBlockInfo(id: blockId)
                     }
                     currentInfo = blockInfoTemplates[blockId]
-                case BLOCKNAME:
+                case blockName:
                     let nameBytes = ops.map { $0.asUInt8() }
                     guard let name = String(bytes: nameBytes, encoding: .utf8) else {
                         // The name was incorrect, so we skip it.
@@ -144,7 +144,7 @@ class BitcodeParser {
                     }
                     currentInfo?.name = name
                     break
-                case SETRECORDNAME:
+                case setRecordName:
                     let recordId = ops[0]
                     let nameBytes = ops.suffix(from: 1).map { $0.asUInt8() }
                     guard let name = String(bytes: nameBytes, encoding: .utf8) else {
@@ -184,18 +184,18 @@ class BitcodeParser {
         }
         let abbrev = try stream.next(bits: currentBlock.abbrLen)
         switch (abbrev) {
-        case END_BLOCK:
-            // [END_BLOCK, <align32bits>]
+        case endBlock:
+            // [endBlock, <align32bits>]
             stream.align(toMultipleOf: 32)
 
             let _ = blockStack.popLast()
             guard !blockStack.isEmpty else {
-                throw Error.parseError("Unexpected END_BLOCK")
+                throw Error.parseError("Unexpected endBlock")
             }
 
             return try parse()
-        case ENTER_SUBBLOCK:
-            // [ENTER_SUBBLOCK, blockid(vbr8), newabbrevlen(vbr4), <align32bits>, blocklen_32]
+        case enterSubBlock:
+            // [enterSubBlock, blockid(vbr8), newabbrevlen(vbr4), <align32bits>, blocklen_32]
             let blockId = try read(vbr: 8)
             let newAbbrevLenBits = try read(vbr: 4)
             stream.align(toMultipleOf: 32)
@@ -204,7 +204,7 @@ class BitcodeParser {
             let newAbbrevLen = newAbbrevLenBits.asInt()
             // BLOCKINFO block is a bit special and we'll reparse it
             // into blockInfoTemplates instead of having it as a subblock
-            if (blockId == BLOCKINFO_ID) {
+            if (blockId == blockInfoId) {
                 try parseInfoBlock(abbrLen: newAbbrevLen)
             } else {
                 var subblockInfo: BitcodeBlockInfo
@@ -221,14 +221,14 @@ class BitcodeParser {
             }
 
             return try parse()
-        case DEFINE_ABBREV:
+        case defineAbbrev:
             // NB: Abbreviation IDs are assign in order of their declaration,
             //     but starting from 4 (because there are 4 builtin abbrevs).
             let abbrevId = Bits(currentBlock.info.abbreviations.count + 4)
             currentBlock.info.abbreviations[abbrevId] = try parseAbbrevStructure()
 
             return try parse()
-        case UNABBREV_RECORD:
+        case unabbrevRecord:
             currentBlock.records.append(try parseUnabbrevRecord())
             return try parse()
         default:  // Abbreviated record
