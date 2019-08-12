@@ -3,12 +3,16 @@
 import PackageDescription
 
 let package = Package(
-    name: "SIL",
+    name: "Metaprogramming",
     products: [
         .library(
             name: "SIL",
             type: .dynamic,
             targets: ["SIL"]),
+        .library(
+            name: "Quote",
+            type: .dynamic,
+            targets: ["Quote"]),
     ],
     dependencies: [],
     targets: [
@@ -18,6 +22,13 @@ let package = Package(
         .testTarget(
             name: "SILTests",
             dependencies: ["SIL"],
-            path: "Tests/SILTests")
+            path: "Tests/SILTests"),
+        .target(
+            name: "Quote",
+            dependencies: []),
+        .testTarget(
+            name: "QuoteTests",
+            dependencies: ["Quote"],
+            path: "Tests/QuoteTests"),
     ]
 )
