@@ -89,12 +89,12 @@ public protocol Tree: CustomStringConvertible {
 /// frequent guest in quotes. In the future, we are planning to extend the supported subset of
 /// the language until it eventually covers everything.
 public class UnknownTree: Attribute, Type, Condition, Statement, Expression, Declaration {
-  public var type: Type {
-    return UnknownTree()
-  }
+    public var type: Type {
+        return UnknownTree()
+    }
 
-  public init() {
-  }
+    public init() {
+    }
 }
 
 // MARK: Attributes
@@ -113,8 +113,8 @@ public protocol Attribute: Tree {
 ///       [TypeName("Float", "s:Sf")],
 ///       TypeName("Float", "s:Sf"))
 public class Differentiable: Attribute {
-  public init() {
-  }
+    public init() {
+    }
 }
 
 // MARK: Types
@@ -136,11 +136,11 @@ public protocol Type: Tree {
 ///       [TypeName("A", "s:4main1AP"),
 ///       TypeName("B", "s:4main1BP")])
 public class AndType: Type {
-  public let types: [Type]
+    public let types: [Type]
 
-  public init(_ types: [Type]) {
-    self.types = types
-  }
+    public init(_ types: [Type]) {
+        self.types = types
+    }
 }
 
 /// Tree that represents an array type [T].
@@ -151,11 +151,11 @@ public class AndType: Type {
 ///     ArrayType(
 ///       TypeName("Int", "s:Si"))
 public class ArrayType: Type {
-  public let type: Type
+    public let type: Type
 
-  public init(_ type: Type) {
-    self.type = type
-  }
+    public init(_ type: Type) {
+        self.type = type
+    }
 }
 
 /// Tree that represents a dictionary type [T: U].
@@ -167,13 +167,13 @@ public class ArrayType: Type {
 ///       TypeName("Int", "s:Si"),
 ///       TypeName("Int", "s:Si"))
 public class DictionaryType: Type {
-  public let key: Type
-  public let value: Type
+    public let key: Type
+    public let value: Type
 
-  public init(_ key: Type, _ value: Type) {
-    self.key = key
-    self.value = value
-  }
+    public init(_ key: Type, _ value: Type) {
+        self.key = key
+        self.value = value
+    }
 }
 
 /// Tree that represents a function type (T1, ..., Tn) -> R.
@@ -186,15 +186,15 @@ public class DictionaryType: Type {
 ///       [TypeName("Int", "s:Si")],
 ///       TypeName("Int", "s:Si"))
 public class FunctionType: Type {
-  public let attributes: [Attribute]
-  public let parameters: [Type]
-  public let result: Type
+    public let attributes: [Attribute]
+    public let parameters: [Type]
+    public let result: Type
 
-  public init(_ attributes: [Attribute], _ parameters: [Type], _ result: Type) {
-    self.attributes = attributes
-    self.parameters = parameters
-    self.result = result
-  }
+    public init(_ attributes: [Attribute], _ parameters: [Type], _ result: Type) {
+        self.attributes = attributes
+        self.parameters = parameters
+        self.result = result
+    }
 }
 
 /// Tree that represents a type of an inout parameter.
@@ -207,11 +207,11 @@ public class FunctionType: Type {
 ///         TypeName("Int", "s:Si"))],
 ///       TypeName("Int", "s:Si"))
 public class InoutType: Type {
-  public let type: Type
+    public let type: Type
 
-  public init(_ type: Type) {
-    self.type = type
-  }
+    public init(_ type: Type) {
+        self.type = type
+    }
 }
 
 /// Tree that represents a type of a reference to an in-out parameter.
@@ -241,11 +241,11 @@ public class InoutType: Type {
 ///         TupleType(
 ///           [])))
 public class LValueType: Type {
-  public let type: Type
+    public let type: Type
 
-  public init(_ type: Type) {
-    self.type = type
-  }
+    public init(_ type: Type) {
+        self.type = type
+    }
 }
 
 /// Tree that represents a metatype T.Type or T.Protocol.
@@ -256,11 +256,11 @@ public class LValueType: Type {
 ///     MetaType(
 ///       TypeName("Int", "s:Si"))
 public class MetaType: Type {
-  public let type: Type
+    public let type: Type
 
-  public init(_ type: Type) {
-    self.type = type
-  }
+    public init(_ type: Type) {
+        self.type = type
+    }
 }
 
 /// Tree that represents an optional type T?.
@@ -271,11 +271,11 @@ public class MetaType: Type {
 ///     OptionalType(
 ///       TypeName("Int", "s:Si"))
 public class OptionalType: Type {
-  public let type: Type
+    public let type: Type
 
-  public init(_ type: Type) {
-    self.type = type
-  }
+    public init(_ type: Type) {
+        self.type = type
+    }
 }
 
 /// Tree that represents a specialized type, i.e. a generic type with generic arguments.
@@ -287,13 +287,13 @@ public class OptionalType: Type {
 ///       TypeName("ClosedRange", "s:SN"),
 ///       [TypeName("Int", "s:Si")])
 public class SpecializedType: Type {
-  public let type: Type
-  public let arguments: [Type]
+    public let type: Type
+    public let arguments: [Type]
 
-  public init(_ type: Type, _ arguments: [Type]) {
-    self.type = type
-    self.arguments = arguments
-  }
+    public init(_ type: Type, _ arguments: [Type]) {
+        self.type = type
+        self.arguments = arguments
+    }
 }
 
 /// Tree that represents a tuple type (T1, ..., Tn)
@@ -306,11 +306,11 @@ public class SpecializedType: Type {
 ///       TypeName("String", "s:SS"),
 ///       TypeName("Int", "s:Si")])
 public class TupleType: Type {
-  public let types: [Type]
+    public let types: [Type]
 
-  public init(_ types: [Type]) {
-    self.types = types
-  }
+    public init(_ types: [Type]) {
+        self.types = types
+    }
 }
 
 /// Tree that represents a reference to a class, struct, protocol, etc.
@@ -320,13 +320,13 @@ public class TupleType: Type {
 ///    > print(q.type.structure)
 ///    TypeName("Int", "s:Si")
 public class TypeName: Type {
-  public let value: String
-  public let symbol: String
+    public let value: String
+    public let symbol: String
 
-  public init(_ value: String, _ symbol: String) {
-    self.value = value
-    self.symbol = symbol
-  }
+    public init(_ value: String, _ symbol: String) {
+        self.value = value
+        self.symbol = symbol
+    }
 }
 
 // MARK: Conditions
@@ -364,11 +364,11 @@ public protocol Statement: Tree {
 ///         TupleType(
 ///           [])))
 public class Break: Statement {
-  public let label: String?
+    public let label: String?
 
-  public init(_ label: String?) {
-    self.label = label
-  }
+    public init(_ label: String?) {
+        self.label = label
+    }
 }
 
 /// Tree that represents a continue statement.
@@ -394,11 +394,11 @@ public class Break: Statement {
 ///         TupleType(
 ///           [])))
 public class Continue: Statement {
-  public let label: String?
+    public let label: String?
 
-  public init(_ label: String?) {
-    self.label = label
-  }
+    public init(_ label: String?) {
+        self.label = label
+    }
 }
 
 /// Tree that represents a defer statement.
@@ -424,11 +424,11 @@ public class Continue: Statement {
 ///         TupleType(
 ///           [])))
 public class Defer: Statement {
-  public let body: [Statement]
+    public let body: [Statement]
 
-  public init(_ body: [Statement]) {
-    self.body = body
-  }
+    public init(_ body: [Statement]) {
+        self.body = body
+    }
 }
 
 /// Tree that represents a do statement.
@@ -447,13 +447,13 @@ public class Defer: Statement {
 ///         TupleType(
 ///           [])))
 public class Do: Statement {
-  public let label: String?
-  public let body: [Statement]
+    public let label: String?
+    public let body: [Statement]
 
-  public init(_ label: String?, _ body: [Statement]) {
-    self.label = label
-    self.body = body
-  }
+    public init(_ label: String?, _ body: [Statement]) {
+        self.label = label
+        self.body = body
+    }
 }
 
 /// Tree that represents a for-in loop.
@@ -484,17 +484,17 @@ public class Do: Statement {
 ///         TupleType(
 ///           [])))
 public class For: Statement {
-  public let label: String?
-  public let name: Name
-  public let expression: Expression
-  public let body: [Statement]
+    public let label: String?
+    public let name: Name
+    public let expression: Expression
+    public let body: [Statement]
 
-  public init(_ label: String?, _ name: Name, _ expression: Expression, _ body: [Statement]) {
-    self.label = label
-    self.name = name
-    self.expression = expression
-    self.body = body
-  }
+    public init(_ label: String?, _ name: Name, _ expression: Expression, _ body: [Statement]) {
+        self.label = label
+        self.name = name
+        self.expression = expression
+        self.body = body
+    }
 }
 
 /// Tree that represents a guard statement.
@@ -516,13 +516,13 @@ public class For: Statement {
 ///         TupleType(
 ///           [])))
 public class Guard: Statement {
-  public let condition: [Condition]
-  public let body: [Statement]
+    public let condition: [Condition]
+    public let body: [Statement]
 
-  public init(_ condition: [Condition], _ body: [Statement]) {
-    self.condition = condition
-    self.body = body
-  }
+    public init(_ condition: [Condition], _ body: [Statement]) {
+        self.condition = condition
+        self.body = body
+    }
 }
 
 /// Tree that represents an if statement.
@@ -552,19 +552,20 @@ public class Guard: Statement {
 ///         TupleType(
 ///           [])))
 public class If: Statement {
-  public let label: String?
-  public let condition: [Condition]
-  public let thenBranch: [Statement]
-  public let elseBranch: [Statement]
+    public let label: String?
+    public let condition: [Condition]
+    public let thenBranch: [Statement]
+    public let elseBranch: [Statement]
 
-  public init(
-    _ label: String?, _ condition: [Condition], _ thenBranch: [Statement], _ elseBranch: [Statement]
-  ) {
-    self.label = label
-    self.condition = condition
-    self.thenBranch = thenBranch
-    self.elseBranch = elseBranch
-  }
+    public init(
+        _ label: String?, _ condition: [Condition], _ thenBranch: [Statement],
+        _ elseBranch: [Statement]
+    ) {
+        self.label = label
+        self.condition = condition
+        self.thenBranch = thenBranch
+        self.elseBranch = elseBranch
+    }
 }
 
 /// Tree that represents a repeat-while loop.
@@ -587,15 +588,15 @@ public class If: Statement {
 ///         TupleType(
 ///           [])))
 public class Repeat: Statement {
-  public let label: String?
-  public let body: [Statement]
-  public let condition: Expression
+    public let label: String?
+    public let body: [Statement]
+    public let condition: Expression
 
-  public init(_ label: String?, _ body: [Statement], _ condition: Expression) {
-    self.label = label
-    self.body = body
-    self.condition = condition
-  }
+    public init(_ label: String?, _ body: [Statement], _ condition: Expression) {
+        self.label = label
+        self.body = body
+        self.condition = condition
+    }
 }
 
 /// Tree that represents a return statement.
@@ -616,11 +617,11 @@ public class Repeat: Statement {
 ///         TupleType(
 ///           [])))
 public class Return: Statement {
-  public let expression: Expression
+    public let expression: Expression
 
-  public init(_ expression: Expression) {
-    self.expression = expression
-  }
+    public init(_ expression: Expression) {
+        self.expression = expression
+    }
 }
 
 /// Tree that represents a throw statement.
@@ -652,11 +653,11 @@ public class Return: Statement {
 ///         TupleType(
 ///           [])))
 public class Throw: Statement {
-  public let expression: Expression
+    public let expression: Expression
 
-  public init(_ expression: Expression) {
-    self.expression = expression
-  }
+    public init(_ expression: Expression) {
+        self.expression = expression
+    }
 }
 
 /// Tree that represents a while loop.
@@ -679,15 +680,15 @@ public class Throw: Statement {
 ///         TupleType(
 ///           [])))
 public class While: Statement {
-  public let label: String?
-  public let condition: [Condition]
-  public let body: [Statement]
+    public let label: String?
+    public let condition: [Condition]
+    public let body: [Statement]
 
-  public init(_ label: String?, _ condition: [Condition], _ body: [Statement]) {
-    self.label = label
-    self.condition = condition
-    self.body = body
-  }
+    public init(_ label: String?, _ condition: [Condition], _ body: [Statement]) {
+        self.label = label
+        self.condition = condition
+        self.body = body
+    }
 }
 
 // MARK: Expressions
@@ -695,7 +696,7 @@ public class While: Statement {
 /// Tree that represents a Swift expression.
 /// Always has an associated type computed for this expression by the typechecker.
 public protocol Expression: Statement, Condition {
-  var type: Type { get }
+    var type: Type { get }
 }
 
 /// Tree that represents an array literal [...].
@@ -712,13 +713,13 @@ public protocol Expression: Statement, Condition {
 ///       ArrayType(
 ///         TypeName("Int", "s:Si")))
 public class ArrayLiteral: Expression {
-  public let expressions: [Expression]
-  public let type: Type
+    public let expressions: [Expression]
+    public let type: Type
 
-  public init(_ expressions: [Expression], _ type: Type) {
-    self.expressions = expressions
-    self.type = type
-  }
+    public init(_ expressions: [Expression], _ type: Type) {
+        self.expressions = expressions
+        self.type = type
+    }
 }
 
 /// Tree that represents an as expression.
@@ -730,13 +731,13 @@ public class ArrayLiteral: Expression {
 ///         42,
 ///         TypeName("Int", "s:Si")))
 public class As: Expression {
-  public let expression: Expression
-  public let type: Type
+    public let expression: Expression
+    public let type: Type
 
-  public init(_ expression: Expression, _ type: Type) {
-    self.expression = expression
-    self.type = type
-  }
+    public init(_ expression: Expression, _ type: Type) {
+        self.expression = expression
+        self.type = type
+    }
 }
 
 /// Tree that represents an assignment expression.
@@ -756,15 +757,15 @@ public class As: Expression {
 ///       TupleType(
 ///         []))
 public class Assign: Expression {
-  public let lhs: Expression
-  public let rhs: Expression
-  public let type: Type
+    public let lhs: Expression
+    public let rhs: Expression
+    public let type: Type
 
-  public init(_ lhs: Expression, _ rhs: Expression, _ type: Type) {
-    self.lhs = lhs
-    self.rhs = rhs
-    self.type = type
-  }
+    public init(_ lhs: Expression, _ rhs: Expression, _ type: Type) {
+        self.lhs = lhs
+        self.rhs = rhs
+        self.type = type
+    }
 }
 
 /// Tree that represents a binary operator expression.
@@ -788,17 +789,17 @@ public class Assign: Expression {
 ///         TypeName("Int", "s:Si")),
 ///       TypeName("Int", "s:Si"))
 public class Binary: Expression {
-  public let lhs: Expression
-  public let name: Name
-  public let rhs: Expression
-  public let type: Type
+    public let lhs: Expression
+    public let name: Name
+    public let rhs: Expression
+    public let type: Type
 
-  public init(_ lhs: Expression, _ name: Name, _ rhs: Expression, _ type: Type) {
-    self.lhs = lhs
-    self.name = name
-    self.rhs = rhs
-    self.type = type
-  }
+    public init(_ lhs: Expression, _ name: Name, _ rhs: Expression, _ type: Type) {
+        self.lhs = lhs
+        self.name = name
+        self.rhs = rhs
+        self.type = type
+    }
 }
 
 /// Tree that represents a boolean literal.
@@ -809,13 +810,13 @@ public class Binary: Expression {
 ///       true,
 ///       TypeName("Bool", "s:Sb"))
 public class BooleanLiteral: Expression {
-  public let value: Bool
-  public let type: Type
+    public let value: Bool
+    public let type: Type
 
-  public init(_ value: Bool, _ type: Type) {
-    self.value = value
-    self.type = type
-  }
+    public init(_ value: Bool, _ type: Type) {
+        self.value = value
+        self.type = type
+    }
 }
 
 /// Tree that represents a call expression.
@@ -853,22 +854,22 @@ public class BooleanLiteral: Expression {
 ///       TupleType(
 ///         []))
 public class Call: Expression {
-  public let expression: Expression
-  public let labels: [String?]
-  public let arguments: [Expression]
-  public let type: Type
+    public let expression: Expression
+    public let labels: [String?]
+    public let arguments: [Expression]
+    public let type: Type
 
-  public init(
-    _ expression: Expression,
-    _ labels: [String?],
-    _ arguments: [Expression],
-    _ type: Type
-  ) {
-    self.expression = expression
-    self.labels = labels
-    self.arguments = arguments
-    self.type = type
-  }
+    public init(
+        _ expression: Expression,
+        _ labels: [String?],
+        _ arguments: [Expression],
+        _ type: Type
+    ) {
+        self.expression = expression
+        self.labels = labels
+        self.arguments = arguments
+        self.type = type
+    }
 }
 
 /// Tree that represents a closure expression.
@@ -922,29 +923,29 @@ public class Call: Expression {
 ///       TupleType(
 ///         []))
 public class Closure: Expression {
-  public let parameters: [Parameter]
+    public let parameters: [Parameter]
 
-  public var result: Type {
-    switch type {
-    case let type as FunctionType:
-      return type.result
-    default:
-      return UnknownTree()
+    public var result: Type {
+        switch type {
+        case let type as FunctionType:
+            return type.result
+        default:
+            return UnknownTree()
+        }
     }
-  }
 
-  public let body: [Statement]
-  public let type: Type
+    public let body: [Statement]
+    public let type: Type
 
-  public init(
-    _ parameters: [Parameter],
-    _ body: [Statement],
-    _ type: Type
-  ) {
-    self.parameters = parameters
-    self.body = body
-    self.type = type
-  }
+    public init(
+        _ parameters: [Parameter],
+        _ body: [Statement],
+        _ type: Type
+    ) {
+        self.parameters = parameters
+        self.body = body
+        self.type = type
+    }
 }
 
 /// Tree that represents one of the variety of implicit conversions applied by the Swift compiler.
@@ -954,25 +955,25 @@ public class Closure: Expression {
 ///
 /// See `LValueType` for an example.
 public class Conversion: Expression {
-  public let expression: Expression
-  public let type: Type
+    public let expression: Expression
+    public let type: Type
 
-  public init(_ expression: Expression, _ type: Type) {
-    self.expression = expression
-    self.type = type
-  }
+    public init(_ expression: Expression, _ type: Type) {
+        self.expression = expression
+        self.type = type
+    }
 }
 
 /// Tree that represents a synthetic argument inserted into a call with a default parameter.
 /// See `Call` for an example.
 public class Default: Expression {
-  public let symbol: String
-  public let type: Type
+    public let symbol: String
+    public let type: Type
 
-  public init(_ symbol: String, _ type: Type) {
-    self.symbol = symbol
-    self.type = type
-  }
+    public init(_ symbol: String, _ type: Type) {
+        self.symbol = symbol
+        self.type = type
+    }
 }
 
 /// Tree that represents a dictionary literal [...: ..., ...].
@@ -996,13 +997,13 @@ public class Default: Expression {
 ///         TypeName("Int", "s:Si"),
 ///         TypeName("Int", "s:Si")))
 public class DictionaryLiteral: Expression {
-  public let expressions: [Expression]
-  public let type: Type
+    public let expressions: [Expression]
+    public let type: Type
 
-  public init(_ expressions: [Expression], _ type: Type) {
-    self.expressions = expressions
-    self.type = type
-  }
+    public init(_ expressions: [Expression], _ type: Type) {
+        self.expressions = expressions
+        self.type = type
+    }
 }
 
 /// Tree that represents a floating-point literal.
@@ -1013,13 +1014,13 @@ public class DictionaryLiteral: Expression {
 ///       42.0,
 ///       TypeName("Double", "s:Sd"))
 public class FloatLiteral: Expression {
-  public let value: Float
-  public let type: Type
+    public let value: Float
+    public let type: Type
 
-  public init(_ value: Float, _ type: Type) {
-    self.value = value
-    self.type = type
-  }
+    public init(_ value: Float, _ type: Type) {
+        self.value = value
+        self.type = type
+    }
 }
 
 /// Tree that represents a ! expression.
@@ -1035,13 +1036,13 @@ public class FloatLiteral: Expression {
 ///           [])),
 ///       TypeName("Int", "s:Si"))
 public class Force: Expression {
-  public let expression: Expression
-  public let type: Type
+    public let expression: Expression
+    public let type: Type
 
-  public init(_ expression: Expression, _ type: Type) {
-    self.expression = expression
-    self.type = type
-  }
+    public init(_ expression: Expression, _ type: Type) {
+        self.expression = expression
+        self.type = type
+    }
 }
 
 /// Tree that represents an as! expression.
@@ -1057,13 +1058,13 @@ public class Force: Expression {
 ///           [])),
 ///       TypeName("Int", "s:Si"))
 public class ForceAs: Expression {
-  public let expression: Expression
-  public let type: Type
+    public let expression: Expression
+    public let type: Type
 
-  public init(_ expression: Expression, _ type: Type) {
-    self.expression = expression
-    self.type = type
-  }
+    public init(_ expression: Expression, _ type: Type) {
+        self.expression = expression
+        self.type = type
+    }
 }
 
 /// Tree that represents a try! expression.
@@ -1075,13 +1076,13 @@ public class ForceAs: Expression {
 ///         42,
 ///         TypeName("Int", "s:Si")))
 public class ForceTry: Expression {
-  public let expression: Expression
-  public let type: Type
+    public let expression: Expression
+    public let type: Type
 
-  public init(_ expression: Expression, _ type: Type) {
-    self.expression = expression
-    self.type = type
-  }
+    public init(_ expression: Expression, _ type: Type) {
+        self.expression = expression
+        self.type = type
+    }
 }
 
 /// Tree that represents an in-out expression.
@@ -1110,13 +1111,13 @@ public class ForceTry: Expression {
 ///       TupleType(
 ///         []))
 public class Inout: Expression {
-  public let expression: Expression
-  public let type: Type
+    public let expression: Expression
+    public let type: Type
 
-  public init(_ expression: Expression, _ type: Type) {
-    self.expression = expression
-    self.type = type
-  }
+    public init(_ expression: Expression, _ type: Type) {
+        self.expression = expression
+        self.type = type
+    }
 }
 
 /// Tree that represents an integer literal.
@@ -1127,13 +1128,13 @@ public class Inout: Expression {
 ///       42,
 ///       TypeName("Int", "s:Si"))
 public class IntegerLiteral: Expression {
-  public let value: Int
-  public let type: Type
+    public let value: Int
+    public let type: Type
 
-  public init(_ value: Int, _ type: Type) {
-    self.value = value
-    self.type = type
-  }
+    public init(_ value: Int, _ type: Type) {
+        self.value = value
+        self.type = type
+    }
 }
 
 /// Tree that represents an as expression.
@@ -1150,15 +1151,15 @@ public class IntegerLiteral: Expression {
 ///       TypeName("Int", "s:Si"),
 ///       TypeName("Bool", "s:Sb"))
 public class Is: Expression {
-  public let expression: Expression
-  public let targetType: Type
-  public let type: Type
+    public let expression: Expression
+    public let targetType: Type
+    public let type: Type
 
-  public init(_ expression: Expression, _ targetType: Type, _ type: Type) {
-    self.expression = expression
-    self.targetType = targetType
-    self.type = type
-  }
+    public init(_ expression: Expression, _ targetType: Type, _ type: Type) {
+        self.expression = expression
+        self.targetType = targetType
+        self.type = type
+    }
 }
 
 /// Tree that represents a magic literal, i.e. #file, #line, #column, #function or #dsohandle.
@@ -1169,13 +1170,13 @@ public class Is: Expression {
 ///       "file",
 ///       TypeName("String", "s:SS"))
 public class MagicLiteral: Expression {
-  public let kind: String
-  public let type: Type
+    public let kind: String
+    public let type: Type
 
-  public init(_ kind: String, _ type: Type) {
-    self.kind = kind
-    self.type = type
-  }
+    public init(_ kind: String, _ type: Type) {
+        self.kind = kind
+        self.type = type
+    }
 }
 
 /// Tree that represents member selection.
@@ -1237,17 +1238,17 @@ public class MagicLiteral: Expression {
 ///
 /// Selection from a tuple is modelled as `TupleElement`.
 public class Member: Expression {
-  public let expression: Expression
-  public let value: String
-  public let symbol: String
-  public let type: Type
+    public let expression: Expression
+    public let value: String
+    public let symbol: String
+    public let type: Type
 
-  public init(_ expression: Expression, _ value: String, _ symbol: String, _ type: Type) {
-    self.expression = expression
-    self.value = value
-    self.symbol = symbol
-    self.type = type
-  }
+    public init(_ expression: Expression, _ value: String, _ symbol: String, _ type: Type) {
+        self.expression = expression
+        self.value = value
+        self.symbol = symbol
+        self.type = type
+    }
 }
 
 /// Tree that represents a #quote(...) expression.
@@ -1262,13 +1263,13 @@ public class Member: Expression {
 ///         TypeName("Quote", "s:5QuoteAAC"),
 ///         [TypeName("Int", "s:Si")]))
 public class Meta: Expression {
-  public let expression: Expression
-  public let type: Type
+    public let expression: Expression
+    public let type: Type
 
-  public init(_ expression: Expression, _ type: Type) {
-    self.expression = expression
-    self.type = type
-  }
+    public init(_ expression: Expression, _ type: Type) {
+        self.expression = expression
+        self.type = type
+    }
 }
 
 /// Tree that represents a reference to a value, func, etc.
@@ -1281,15 +1282,15 @@ public class Meta: Expression {
 ///       "s:4main1xSivp",
 ///       TypeName("Int", "s:Si"))
 public class Name: Expression {
-  public let value: String
-  public let symbol: String
-  public let type: Type
+    public let value: String
+    public let symbol: String
+    public let type: Type
 
-  public init(_ value: String, _ symbol: String, _ type: Type) {
-    self.value = value
-    self.symbol = symbol
-    self.type = type
-  }
+    public init(_ value: String, _ symbol: String, _ type: Type) {
+        self.value = value
+        self.symbol = symbol
+        self.type = type
+    }
 }
 
 /// Tree that represents a nil literal.
@@ -1303,11 +1304,11 @@ public class Name: Expression {
 ///       OptionalType(
 ///         TypeName("Int", "s:Si")))
 public class NilLiteral: Expression {
-  public let type: Type
+    public let type: Type
 
-  public init(_ type: Type) {
-    self.type = type
-  }
+    public init(_ type: Type) {
+        self.type = type
+    }
 }
 
 /// Tree that represents an as? expression.
@@ -1325,15 +1326,15 @@ public class NilLiteral: Expression {
 ///       OptionalType(
 ///         TypeName("Int", "s:Si")))
 public class OptionalAs: Expression {
-  public let expression: Expression
-  public let targetType: Type
-  public let type: Type
+    public let expression: Expression
+    public let targetType: Type
+    public let type: Type
 
-  public init(_ expression: Expression, _ targetType: Type, _ type: Type) {
-    self.expression = expression
-    self.targetType = targetType
-    self.type = type
-  }
+    public init(_ expression: Expression, _ targetType: Type, _ type: Type) {
+        self.expression = expression
+        self.targetType = targetType
+        self.type = type
+    }
 }
 
 /// Tree that represents a try? expression.
@@ -1348,26 +1349,26 @@ public class OptionalAs: Expression {
 ///         OptionalType(
 ///           TypeName("Int", "s:Si"))))
 public class OptionalTry: Expression {
-  public let expression: Expression
-  public let type: Type
+    public let expression: Expression
+    public let type: Type
 
-  public init(_ expression: Expression, _ type: Type) {
-    self.expression = expression
-    self.type = type
-  }
+    public init(_ expression: Expression, _ type: Type) {
+        self.expression = expression
+        self.type = type
+    }
 }
 
 /// Tree that represents a postfix operator expression.
 public class Postfix: Expression {
-  public let expression: Expression
-  public let name: Name
-  public let type: Type
+    public let expression: Expression
+    public let name: Name
+    public let type: Type
 
-  public init(_ expression: Expression, _ name: Name, _ type: Type) {
-    self.expression = expression
-    self.name = name
-    self.type = type
-  }
+    public init(_ expression: Expression, _ name: Name, _ type: Type) {
+        self.expression = expression
+        self.name = name
+        self.type = type
+    }
 }
 
 /// Tree that represents a postfix self expression expr.self or T.self.
@@ -1387,13 +1388,13 @@ public class Postfix: Expression {
 ///       MetaType(
 ///         TypeName("Int", "s:Si")))
 public class PostfixSelf: Expression {
-  public let tree: Tree
-  public let type: Type
+    public let tree: Tree
+    public let type: Type
 
-  public init(_ tree: Tree, _ type: Type) {
-    self.tree = tree
-    self.type = type
-  }
+    public init(_ tree: Tree, _ type: Type) {
+        self.tree = tree
+        self.type = type
+    }
 }
 
 /// Tree that represents a prefix operator expression.
@@ -1413,15 +1414,15 @@ public class PostfixSelf: Expression {
 ///         TypeName("Int", "s:Si")),
 ///       TypeName("Int", "s:Si"))
 public class Prefix: Expression {
-  public let name: Name
-  public let expression: Expression
-  public let type: Type
+    public let name: Name
+    public let expression: Expression
+    public let type: Type
 
-  public init(_ name: Name, _ expression: Expression, _ type: Type) {
-    self.name = name
-    self.expression = expression
-    self.type = type
-  }
+    public init(_ name: Name, _ expression: Expression, _ type: Type) {
+        self.name = name
+        self.expression = expression
+        self.type = type
+    }
 }
 
 /// Tree that provides an incomplete representation of a string interpolation expression.
@@ -1433,11 +1434,11 @@ public class Prefix: Expression {
 ///     StringInterpolation(
 ///       TypeName("String", "s:SS"))
 public class StringInterpolation: Expression {
-  public let type: Type
+    public let type: Type
 
-  public init(_ type: Type) {
-    self.type = type
-  }
+    public init(_ type: Type) {
+        self.type = type
+    }
 }
 
 /// Tree that represents a string literal.
@@ -1448,13 +1449,13 @@ public class StringInterpolation: Expression {
 ///       "42",
 ///       TypeName("Int", "s:SS"))
 public class StringLiteral: Expression {
-  public let value: String
-  public let type: Type
+    public let value: String
+    public let type: Type
 
-  public init(_ value: String, _ type: Type) {
-    self.value = value
-    self.type = type
-  }
+    public init(_ value: String, _ type: Type) {
+        self.value = value
+        self.type = type
+    }
 }
 
 /// Tree that represents a subscript expression.
@@ -1475,25 +1476,25 @@ public class StringLiteral: Expression {
 ///         TypeName("Int", "s:Si"))],
 ///       TypeName("Int", "s:Si"))
 public class Subscript: Expression {
-  public let expression: Expression
-  public let symbol: String
-  public let labels: [String?]
-  public let arguments: [Expression]
-  public let type: Type
+    public let expression: Expression
+    public let symbol: String
+    public let labels: [String?]
+    public let arguments: [Expression]
+    public let type: Type
 
-  public init(
-    _ expression: Expression,
-    _ symbol: String,
-    _ labels: [String?],
-    _ arguments: [Expression],
-    _ type: Type
-  ) {
-    self.expression = expression
-    self.symbol = symbol
-    self.labels = labels
-    self.arguments = arguments
-    self.type = type
-  }
+    public init(
+        _ expression: Expression,
+        _ symbol: String,
+        _ labels: [String?],
+        _ arguments: [Expression],
+        _ type: Type
+    ) {
+        self.expression = expression
+        self.symbol = symbol
+        self.labels = labels
+        self.arguments = arguments
+        self.type = type
+    }
 }
 
 /// Tree that represents a super expression.
@@ -1524,11 +1525,11 @@ public class Subscript: Expression {
 ///       TupleType(
 ///         []))
 public class Super: Expression {
-  public let type: Type
+    public let type: Type
 
-  public init(_ type: Type) {
-    self.type = type
-  }
+    public init(_ type: Type) {
+        self.type = type
+    }
 }
 
 /// Tree that represents a ternary operator expression.
@@ -1547,22 +1548,22 @@ public class Super: Expression {
 ///         TypeName("Int", "s:Si")),
 ///       TypeName("Int", "s:Si"))
 public class Ternary: Expression {
-  public let condition: Expression
-  public let thenBranch: Expression
-  public let elseBranch: Expression
-  public let type: Type
+    public let condition: Expression
+    public let thenBranch: Expression
+    public let elseBranch: Expression
+    public let type: Type
 
-  public init(
-    _ condition: Expression,
-    _ thenBranch: Expression,
-    _ elseBranch: Expression,
-    _ type: Type
-  ) {
-    self.condition = condition
-    self.thenBranch = thenBranch
-    self.elseBranch = elseBranch
-    self.type = type
-  }
+    public init(
+        _ condition: Expression,
+        _ thenBranch: Expression,
+        _ elseBranch: Expression,
+        _ type: Type
+    ) {
+        self.condition = condition
+        self.thenBranch = thenBranch
+        self.elseBranch = elseBranch
+        self.type = type
+    }
 }
 
 /// Tree that represents a try expression.
@@ -1574,13 +1575,13 @@ public class Ternary: Expression {
 ///         42,
 ///         TypeName("Int", "s:Si")))
 public class Try: Expression {
-  public let expression: Expression
-  public let type: Type
+    public let expression: Expression
+    public let type: Type
 
-  public init(_ expression: Expression, _ type: Type) {
-    self.expression = expression
-    self.type = type
-  }
+    public init(_ expression: Expression, _ type: Type) {
+        self.expression = expression
+        self.type = type
+    }
 }
 
 /// Tree that represents a tuple expression.
@@ -1603,19 +1604,19 @@ public class Try: Expression {
 ///         TypeName("String", "s:SS"),
 ///         TypeName("Int", "s:Si")]))
 public class Tuple: Expression {
-  public let labels: [String?]
-  public let arguments: [Expression]
-  public let type: Type
+    public let labels: [String?]
+    public let arguments: [Expression]
+    public let type: Type
 
-  public init(
-    _ labels: [String?],
-    _ arguments: [Expression],
-    _ type: Type
-  ) {
-    self.labels = labels
-    self.arguments = arguments
-    self.type = type
-  }
+    public init(
+        _ labels: [String?],
+        _ arguments: [Expression],
+        _ type: Type
+    ) {
+        self.labels = labels
+        self.arguments = arguments
+        self.type = type
+    }
 }
 
 /// Tree that represents selection of a tuple element.
@@ -1636,15 +1637,15 @@ public class Tuple: Expression {
 ///       1,
 ///       TypeName("Int", "s:Si"))
 public class TupleElement: Expression {
-  public let expression: Expression
-  public let field: Int
-  public let type: Type
+    public let expression: Expression
+    public let field: Int
+    public let type: Type
 
-  public init(_ expression: Expression, _ field: Int, _ type: Type) {
-    self.expression = expression
-    self.field = field
-    self.type = type
-  }
+    public init(_ expression: Expression, _ field: Int, _ type: Type) {
+        self.expression = expression
+        self.field = field
+        self.type = type
+    }
 }
 
 /// Tree that represents the #unquote(...) expression.
@@ -1678,31 +1679,31 @@ public class TupleElement: Expression {
 ///         TypeName("Int", "s:Si")),
 ///       TypeName("Int", "s:Si"))
 public class Unquote: Expression {
-  public let expression: Expression
-  public let value: () -> Tree
-  public let type: Type
+    public let expression: Expression
+    public let value: () -> Tree
+    public let type: Type
 
-  public init(
-    _ expression: Expression,
-    _ value: @autoclosure @escaping () -> Tree,
-    _ type: Type
-  ) {
-    self.expression = expression
-    self.value = value
-    self.type = type
-  }
+    public init(
+        _ expression: Expression,
+        _ value: @autoclosure @escaping () -> Tree,
+        _ type: Type
+    ) {
+        self.expression = expression
+        self.value = value
+        self.type = type
+    }
 }
 
 /// Tree that represents a synthetic argument inserted into a call with a vararg parameter.
 /// See `Call` for an example.
 public class Varargs: Expression {
-  public let expressions: [Expression]
-  public let type: Type
+    public let expressions: [Expression]
+    public let type: Type
 
-  public init(_ expressions: [Expression], _ type: Type) {
-    self.expressions = expressions
-    self.type = type
-  }
+    public init(_ expressions: [Expression], _ type: Type) {
+        self.expressions = expressions
+        self.type = type
+    }
 }
 
 /// Tree that represents a wildcard, i.e. `_`.
@@ -1717,12 +1718,12 @@ public class Varargs: Expression {
 ///       TupleType(
 ///         []))
 public class Wildcard: Expression {
-  public var type: Type {
-    return UnknownTree()
-  }
+    public var type: Type {
+        return UnknownTree()
+    }
 
-  public init() {
-  }
+    public init() {
+    }
 }
 
 // MARK: Declarations
@@ -1756,29 +1757,29 @@ public protocol Declaration: Statement {
 ///         [TypeName("Int", "s:Si"),
 ///         TypeName("Int", "s:Si")]))
 public class Function: Declaration {
-  public let name: Name
-  public let parameters: [Parameter]
+    public let name: Name
+    public let parameters: [Parameter]
 
-  public var result: Type {
-    switch name.type {
-    case let type as FunctionType:
-      return type.result
-    default:
-      return UnknownTree()
+    public var result: Type {
+        switch name.type {
+        case let type as FunctionType:
+            return type.result
+        default:
+            return UnknownTree()
+        }
     }
-  }
 
-  public let body: [Statement]
+    public let body: [Statement]
 
-  public init(
-    _ name: Name,
-    _ parameters: [Parameter],
-    _ body: [Statement]
-  ) {
-    self.name = name
-    self.parameters = parameters
-    self.body = body
-  }
+    public init(
+        _ name: Name,
+        _ parameters: [Parameter],
+        _ body: [Statement]
+    ) {
+        self.name = name
+        self.parameters = parameters
+        self.body = body
+    }
 }
 
 /// Tree that represents a `let` declaration.
@@ -1802,27 +1803,27 @@ public class Function: Declaration {
 ///         TupleType(
 ///           [])))
 public class Let: Declaration {
-  public let name: Name
-  public var type: Type { return name.type }
-  public let rhs: Expression
+    public let name: Name
+    public var type: Type { return name.type }
+    public let rhs: Expression
 
-  public init(_ name: Name, _ rhs: Expression) {
-    self.name = name
-    self.rhs = rhs
-  }
+    public init(_ name: Name, _ rhs: Expression) {
+        self.name = name
+        self.rhs = rhs
+    }
 }
 
 /// Tree that represents a parameter declaration.
 /// See `Closure` for an example.
 public class Parameter: Tree {
-  public let label: String?
-  public let name: Name
-  public var type: Type { return name.type }
+    public let label: String?
+    public let name: Name
+    public var type: Type { return name.type }
 
-  public init(_ label: String?, _ name: Name) {
-    self.label = label
-    self.name = name
-  }
+    public init(_ label: String?, _ name: Name) {
+        self.label = label
+        self.name = name
+    }
 }
 
 /// Tree that represents a `var` declaration.
@@ -1846,12 +1847,12 @@ public class Parameter: Tree {
 ///         TupleType(
 ///           [])))
 public class Var: Declaration {
-  public let name: Name
-  public var type: Type { return name.type }
-  public let rhs: Expression
+    public let name: Name
+    public var type: Type { return name.type }
+    public let rhs: Expression
 
-  public init(_ name: Name, _ rhs: Expression) {
-    self.name = name
-    self.rhs = rhs
-  }
+    public init(_ name: Name, _ rhs: Expression) {
+        self.name = name
+        self.rhs = rhs
+    }
 }

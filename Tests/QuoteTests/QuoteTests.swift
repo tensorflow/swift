@@ -3,19 +3,19 @@ import XCTest
 
 @quoted
 func foo(_ x: Float) -> Float {
-  return 1 * x
+    return 1 * x
 }
 
 class Bar {
-  @quoted
-  func instanceBar(_ x: Float) -> Float {
-    return 2 * x
-  }
+    @quoted
+    func instanceBar(_ x: Float) -> Float {
+        return 2 * x
+    }
 
-  @quoted
-  func staticBar(_ x: Float) -> Float {
-    return 3 * x
-  }
+    @quoted
+    func staticBar(_ x: Float) -> Float {
+        return 3 * x
+    }
 }
 
 // NOTE: This is a test of whether this thing successfully compiles.
@@ -24,62 +24,62 @@ func noReturnType() {
 }
 
 public final class QuoteTests: XCTestCase {
-  public func testClosureWithExpr() {
-    let q = #quote{ (x: Int, y: Int) in
-      x + y
-    }
-    let _ = { q(40, 2) }
-    assertDescription(
-      q,
-      """
+    public func testClosureWithExpr() {
+        let q = #quote{ (x: Int, y: Int) in
+            x + y
+        }
+        let _ = { q(40, 2) }
+        assertDescription(
+            q,
+            """
       { (x: Int, y: Int) -> Int in
         return (x + y)
       }
       """)
-    assertDescription(q.type, "(Int, Int) -> Int")
-  }
-
-  public func testClosureWithStmts() {
-    let q = #quote{
-      let n = 42;
-      print(n)
+        assertDescription(q.type, "(Int, Int) -> Int")
     }
-    let _ = { q() }
-    assertDescription(
-      q,
-      """
+
+    public func testClosureWithStmts() {
+        let q = #quote{
+            let n = 42;
+            print(n)
+        }
+        let _ = { q() }
+        assertDescription(
+            q,
+            """
       { () -> () in
         let n: Int = 42
         print(n)
       }
       """)
-    assertDescription(q.type, "() -> ()")
-  }
+        assertDescription(q.type, "() -> ()")
+    }
 
-  public func testUnquoteManual() {
-    let u = #quote{ (x: Int, y: Int) in
-      x + y
-    }
-    let _ = { u(40, 2) }
-    let q = #quote{ (x: Int) in
-      #unquote(u)(x, x)
-    }
-    let _ = { q(42) }
-    assertDescription(
-      q,
-      """
+    public func testUnquoteManual() {
+        let u = #quote{ (x: Int, y: Int) in
+            x + y
+        }
+        let _ = { u(40, 2) }
+        let q = #quote{ (x: Int) in
+            #unquote(u)(x, x)
+        }
+        let _ = { q(42) }
+        assertDescription(
+            q,
+            """
       { (x: Int) -> Int in
         return #unquote(u)(x, x)
       }
       """)
-    assertDescription(q.type, "(Int) -> Int")
-  }
+        assertDescription(q.type, "(Int) -> Int")
+    }
 
-  public func testUnquoteAutomatic() {
-    let t1 = _quotedFoo()
-    assertStructure(
-      t1,
-      """
+    public func testUnquoteAutomatic() {
+        let t1 = _quotedFoo()
+        assertStructure(
+            t1,
+            """
       Function(
         Name(
           "foo",
@@ -113,12 +113,12 @@ public final class QuoteTests: XCTestCase {
               TypeName("Float", "s:Sf")),
             TypeName("Float", "s:Sf")))])
       """
-    )
+        )
 
-    let q1 = #quote(foo)
-    assertStructure(
-      q1,
-      """
+        let q1 = #quote(foo)
+        assertStructure(
+            q1,
+            """
       Unquote(
         Name(
           "foo",
@@ -135,12 +135,12 @@ public final class QuoteTests: XCTestCase {
           [TypeName("Float", "s:Sf"),
           TypeName("Float", "s:Sf")]))
       """
-    )
+        )
 
-    let t2 = Bar._quotedInstanceBar()
-    assertStructure(
-      t2,
-      """
+        let t2 = Bar._quotedInstanceBar()
+        assertStructure(
+            t2,
+            """
       Function(
         Name(
           "instanceBar",
@@ -174,14 +174,14 @@ public final class QuoteTests: XCTestCase {
               TypeName("Float", "s:Sf")),
             TypeName("Float", "s:Sf")))])
       """
-    )
+        )
 
-    let bar = Bar()
-    blackHole(bar)
-    let q2 = #quote(bar.instanceBar)
-    assertStructure(
-      q2,
-      """
+        let bar = Bar()
+        blackHole(bar)
+        let q2 = #quote(bar.instanceBar)
+        assertStructure(
+            q2,
+            """
       Unquote(
         Member(
           Name(
@@ -202,12 +202,12 @@ public final class QuoteTests: XCTestCase {
           [TypeName("Float", "s:Sf"),
           TypeName("Float", "s:Sf")]))
       """
-    )
+        )
 
-    let t3 = Bar._quotedStaticBar()
-    assertStructure(
-      t3,
-      """
+        let t3 = Bar._quotedStaticBar()
+        assertStructure(
+            t3,
+            """
       Function(
         Name(
           "staticBar",
@@ -241,12 +241,12 @@ public final class QuoteTests: XCTestCase {
               TypeName("Float", "s:Sf")),
             TypeName("Float", "s:Sf")))])
       """
-    )
+        )
 
-    let q3 = #quote(Bar.staticBar)
-    assertStructure(
-      q3,
-      """
+        let q3 = #quote(Bar.staticBar)
+        assertStructure(
+            q3,
+            """
       Unquote(
         Name(
           "staticBar",
@@ -263,38 +263,38 @@ public final class QuoteTests: XCTestCase {
           [TypeName("Float", "s:Sf"),
           TypeName("Float", "s:Sf")]))
       """
-    )
-  }
-
-  public func testAvgPool1D() {
-    func threadIndex() -> Int { return 0 }
-    func threadCount() -> Int { return 1 }
-    let avgPool1D = #quote{
-        (out: inout [Float], input: [Float], windowSize: Int, windowStride: Int) -> Void in
-        let n = input.count
-        let outSize = (n - windowSize) / windowStride + 1
-        let outStart = threadIndex()
-        let outStride = threadCount()
-        for outIndex in stride(from: outStart, to: outSize, by: outStride) {
-          out[outIndex] = 0.0
-          let beginWindow = outIndex * windowStride
-          let endWindow = outIndex * windowStride + windowSize
-          for inputIndex in beginWindow..<endWindow {
-            out[outIndex] += input[inputIndex]
-          }
-          out[outIndex] /= Float(windowSize)
-        }
-      }
-    let _ = {
-      let x: [Float] = [1, 2, 3, 4, 5, 6]
-      var out: [Float] = [Float](repeating: 0, count: x.count)
-      let windowSize = 2
-      let windowStride = 2
-      avgPool1D(&out, x, windowSize, windowStride)
+        )
     }
-    assertDescription(
-      avgPool1D,
-      """
+
+    public func testAvgPool1D() {
+        func threadIndex() -> Int { return 0 }
+        func threadCount() -> Int { return 1 }
+        let avgPool1D = #quote{
+                (out: inout [Float], input: [Float], windowSize: Int, windowStride: Int) -> Void in
+                let n = input.count
+                let outSize = (n - windowSize) / windowStride + 1
+                let outStart = threadIndex()
+                let outStride = threadCount()
+                for outIndex in stride(from: outStart, to: outSize, by: outStride) {
+                    out[outIndex] = 0.0
+                    let beginWindow = outIndex * windowStride
+                    let endWindow = outIndex * windowStride + windowSize
+                    for inputIndex in beginWindow..<endWindow {
+                        out[outIndex] += input[inputIndex]
+                    }
+                    out[outIndex] /= Float(windowSize)
+                }
+            }
+        let _ = {
+            let x: [Float] = [1, 2, 3, 4, 5, 6]
+            var out: [Float] = [Float](repeating: 0, count: x.count)
+            let windowSize = 2
+            let windowStride = 2
+            avgPool1D(&out, x, windowSize, windowStride)
+        }
+        assertDescription(
+            avgPool1D,
+            """
       { (out: inout [Float], input: [Float], windowSize: Int, windowStride: Int) -> Void in
         let n: Int = input.count
         let outSize: Int = (((n - windowSize) / windowStride) + 1)
@@ -311,31 +311,31 @@ public final class QuoteTests: XCTestCase {
         }
       }
       """
-    )
-    assertDescription(avgPool1D.type, "(inout [Float], [Float], Int, Int) -> Void")
-  }
+        )
+        assertDescription(avgPool1D.type, "(inout [Float], [Float], Int, Int) -> Void")
+    }
 
-  public func test31() {
-    print(#quote(42))
-  }
+    public func test31() {
+        print(#quote(42))
+    }
 
-  public func test32() {
-    print(#quote(print(42)))
-  }
+    public func test32() {
+        print(#quote(print(42)))
+    }
 
-  private func blackHole(_ x: Any) {
-    // This method exists to silence unused variable warnings.
-    // TODO(TF-728): Get rid of this method.
-  }
+    private func blackHole(_ x: Any) {
+        // This method exists to silence unused variable warnings.
+        // TODO(TF-728): Get rid of this method.
+    }
 
-  public static let allTests = [
-    ("testClosureWithExpr", testClosureWithExpr),
-    ("testClosureWithStmts", testClosureWithStmts),
-    ("testUnquoteManual", testUnquoteManual),
-    ("testUnquoteAutomatic", testUnquoteAutomatic),
-    ("testAvgPool1D", testAvgPool1D),
-    // NOTE: This is intentionally not run - we just need to check that the test compiles.
-    // ("test31", test31),
-    // ("test32", test32),
-  ]
+    public static let allTests = [
+        ("testClosureWithExpr", testClosureWithExpr),
+        ("testClosureWithStmts", testClosureWithStmts),
+        ("testUnquoteManual", testUnquoteManual),
+        ("testUnquoteAutomatic", testUnquoteAutomatic),
+        ("testAvgPool1D", testAvgPool1D),
+        // NOTE: This is intentionally not run - we just need to check that the test compiles.
+        // ("test31", test31),
+        // ("test32", test32),
+    ]
 }

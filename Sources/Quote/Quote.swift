@@ -1,12 +1,12 @@
 /// Statically-typed wrapper for an expression.
 /// The phantom type `T` is a compile-type representation of `type`.
 public class Quote<T>: CustomStringConvertible {
-  public let expression: Expression
-  public var type: Type { return expression.type }
+    public let expression: Expression
+    public var type: Type { return expression.type }
 
-  public init(_ expression: Expression) {
-    self.expression = expression
-  }
+    public init(_ expression: Expression) {
+        self.expression = expression
+    }
 }
 
 /// Specialized version of Quote that wraps closures with zero parameters.
