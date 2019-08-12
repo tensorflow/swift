@@ -3,92 +3,92 @@
 // 1. We don't try to reinterpret arrays as strings
 // 2. We don't report abbreviation id used to encode a record
 class BitcodePrinter: Printer {
-  func print(_ bits: Bits) {
-    if bits.count <= 32 {
-      print(bits.asUInt32())
-    } else {
-      print("...")
+    func print(_ bits: Bits) {
+        if bits.count <= 32 {
+            print(bits.asUInt32())
+        } else {
+            print("...")
+        }
     }
-  }
 
-  private func printBlockName(_ block: BitcodeBlock) {
-    if let name = block.info.name {
-      print(name)
-    } else {
-      print("blockid=")
-      print(block.info.id)
+    private func printBlockName(_ block: BitcodeBlock) {
+        if let name = block.info.name {
+            print(name)
+        } else {
+            print("blockid=")
+            print(block.info.id)
+        }
     }
-  }
 
-  private func printOperand(_ op: BitcodeOperand, _ i: inout Int) {
-    switch (op) {
-    case let .bits(value):
-      print(" op")
-      print(i)
-      print("=")
-      print(value)
-      i += 1
-    case let .array(values):
-      for v in values {
-        printOperand(v, &i)
-      }
-    default:
-      break
+    private func printOperand(_ op: BitcodeOperand, _ i: inout Int) {
+        switch (op) {
+        case let .bits(value):
+            print(" op")
+            print(i)
+            print("=")
+            print(value)
+            i += 1
+        case let .array(values):
+            for v in values {
+                printOperand(v, &i)
+            }
+        default:
+            break
+        }
     }
-  }
 
-  func print(_ record: BitcodeRecord, in block: BitcodeBlock) {
-    print("<")
-    if let name = block.info.recordNames[record.code] {
-      print(name)
-    } else {
-      print("code=")
-      print(record.code)
+    func print(_ record: BitcodeRecord, in block: BitcodeBlock) {
+        print("<")
+        if let name = block.info.recordNames[record.code] {
+            print(name)
+        } else {
+            print("code=")
+            print(record.code)
+        }
+        var i: Int = 0
+        for op in record.ops {
+            printOperand(op, &i)
+        }
+        print("/>")
+        if case let .some(.blob(value)) = record.ops.last {
+            print(" blob data = ")
+            if let asString = value.asString() {
+                print("'")
+                print(asString)
+                print("'")
+            } else {
+                print("unprintable, ")
+                print((value.count + 7) / 8)
+                print(" bytes.")
+            }
+        }
+        print("\n")
     }
-    var i: Int = 0
-    for op in record.ops {
-      printOperand(op, &i)
-    }
-    print("/>")
-    if case let .some(.blob(value)) = record.ops.last {
-      print(" blob data = ")
-      if let asString = value.asString() {
-        print("'")
-        print(asString)
-        print("'")
-      } else {
-        print("unprintable, ")
-        print((value.count + 7) / 8)
-        print(" bytes.")
-      }
-    }
-    print("\n")
-  }
 
-  func print(_ block: BitcodeBlock) {
-    // ID 0 is normally reserved for the info block, but we don't parse it
-    // as a block anyway, and we use the 0 ID for the main outer block instead
-    if block.info.id != 0 {
-      print("<")
-      printBlockName(block)
-      print(" NumWords=")
-      print(block.blockLen32)
-      print(" BlockCodeSize=")
-      print(block.abbrLen)
-      print(">\n")
-      indent()
+    func print(_ block: BitcodeBlock) {
+        // ID 0 is normally reserved for the info block, but we don't parse it
+        // as a block anyway, and we use the 0 ID for the main outer block instead
+        if block.info.id != 0 {
+            print("<")
+            printBlockName(block)
+            print(" NumWords=")
+            print(block.blockLen32)
+            print(" BlockCodeSize=")
+            print(block.abbrLen)
+            print(">\n")
+            indent()
+        }
+        for record in block.records {
+            print(record, in: block)
+        }
+        for subblock in block.subblocks {
+            print(subblock)
+        }
+        if block.info.id != 0 {
+            unindent()
+            print("</")
+            printBlockName(block)
+            print(">\n")
+        }
     }
-    for record in block.records {
-      print(record, in: block)
-    }
-    for subblock in block.subblocks {
-      print(subblock)
-    }
-    if block.info.id != 0 {
-      unindent()
-      print("</")
-      printBlockName(block)
-      print(">\n")
-    }
-  }
 }

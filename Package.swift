@@ -3,21 +3,21 @@
 import PackageDescription
 
 let package = Package(
-  name: "SIL",
-  products: [
-    .library(
-      name: "SIL",
-      type: .dynamic,
-      targets: ["SIL"]),
-  ],
-  dependencies: [],
-  targets: [
-    .target(
-      name: "SIL",
-      dependencies: []),
-    .testTarget(
-      name: "SILTests",
-      dependencies: ["SIL"],
-      path: "Tests/SILTests")
-  ]
+    name: "SIL",
+    products: [
+        .library(
+            name: "SIL",
+            type: .dynamic,
+            targets: ["SIL"]),
+    ],
+    dependencies: [],
+    targets: [
+        .target(
+            name: "SIL",
+            dependencies: []),
+        .testTarget(
+            name: "SILTests",
+            dependencies: ["SIL"],
+            path: "Tests/SILTests")
+    ]
 )
