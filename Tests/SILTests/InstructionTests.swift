@@ -1,3 +1,7 @@
+// TODO(TF-764): Make sure that libSIL tests run on Linux.
+// At the moment, InstructionTests use a macOS-only trick to dynamically generate test cases.
+// That not just doesn't work on Linux but also doesn't compile.
+#if os(macOS)
 import XCTest
 @testable import SIL
 
@@ -83,3 +87,4 @@ final class InstructionTests: XCTestCase {
         return testSuite
     }
 }
+#endif
