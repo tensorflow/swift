@@ -1,3 +1,5 @@
+// TODO(TF-764): Make sure that libSIL tests run on Linux.
+#if os(macOS)
 import XCTest
 @testable import SIL
 
@@ -83,3 +85,4 @@ final class InstructionTests: XCTestCase {
         return testSuite
     }
 }
+#endif
