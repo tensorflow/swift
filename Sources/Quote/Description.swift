@@ -11,7 +11,7 @@ extension Tree {
 
 extension Quote {
     /// Returns Swift-like syntax of the underlying tree.
-    public var description: String {
+    public var decription: String {
         return expression.description
     }
 }
