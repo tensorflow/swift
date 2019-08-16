@@ -1016,18 +1016,19 @@ public final class StructureTests: XCTestCase {
     }
 
     public func testOptionalTry() {
-        let q = #quote(try? 42)
-        assertStructure(
-            q,
-            """
-      OptionalTry(
-        IntegerLiteral(
-          42,
-          TypeName("Int", "s:Si")),
-        OptionalType(
-          TypeName("Int", "s:Si")))
-      """
-        )
+        //   let q = #quote(try? 42)
+        //   assertStructure(
+        //       q,
+        //       """
+        // OptionalTry(
+        //   IntegerLiteral(
+        //     42,
+        //     TypeName("Int", "s:Si")),
+        //   OptionalType(
+        //     TypeName("Int", "s:Si")))
+        // """
+        //   )
+        // TODO(TF-763): Unflake this test.
     }
 
     public func testPostfix() {
