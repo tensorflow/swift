@@ -140,40 +140,19 @@ This was a simple demonstration of Swift for TensorFlow. To see example models w
 
 ## (Mac-only) Xcode
 
-To use Swift for TensorFlow with Xcode, you must have installed a toolchain from [this page](Installation.md).
+Swift for TensorFlow provides an Xcode toolchain. Begin by installing it from [this page](Installation.md).
 
-1. Open Xcode’s `Preferences`, navigate to `Components > Toolchains`, and select the installed Swift for TensorFlow toolchain. The name of the toolchain should start with "Swift for TensorFlow".
+Next, switch to the new toolchain. Open Xcode’s `Preferences`, navigate to `Components > Toolchains`, and select the installed Swift for TensorFlow toolchain. The name of the toolchain should start with "Swift for TensorFlow".
 
 <p align="center">
   <img src="docs/images/Installation-XcodePreferences.png?raw=true" alt="Select toolchain in Xcode preferences."/>
 </p>
 
-2. In the menu bar, select `File > New > Playground...`.
-
-3. Then, select `macOS` and `Blank` and hit `Next`.
-
-4. Choose a location for the Playground file and hit `Create`. Xcode should open your new Playground.
-
-5. In the Playground, let’s try importing TensorFlow! Paste the following code:
-
-```swift
-import TensorFlow
-
-let x = Tensor<Float>([[1, 2], [3, 4]])
-print(x)
-```
-
-6. After a moment, the Playground should finish running and print the result in the display at the bottom.
-
-<p align="center">
-  <img src="docs/images/Usage-Playground.png?raw=true" alt="Playground running Swift for TensorFlow."/>
-</p>
-
-**Note:** Xcode Playgrounds are a great interactive environment for prototyping code, but they often hang or crash. If that happens, try restarting Xcode. There are some documented bugs regarding Swift for TensorFlow and Playgrounds. If you discover a new bug, please file an issue.
+Swift for TensorFlow does not officially support Xcode Playgrounds, and related bugs are tracked by [TF-500](https://bugs.swift.org/browse/TF-500).
 
 To build an executable with Xcode 10 or 11, you must change some project settings from their default values:
 
- 1. In the menu bar, select `File > Project Settings` if you are working inside a project or `Playground Settings` if you are using a playground.
+ 1. In the menu bar, select `File > Project Settings`.
 
  2. Then, select `Legacy Build System` for Build Settings and click `Done`.
 
