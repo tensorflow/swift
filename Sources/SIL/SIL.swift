@@ -241,7 +241,7 @@ public enum Case {
 }
 
 // https://github.com/apple/swift/blob/master/docs/SIL.rst#calling-convention
-public enum Convention {
+public enum Convention: Equatable {
     case c
     case method
     case thin
@@ -368,7 +368,7 @@ public enum TupleElements {
 }
 
 // Reverse-engineered from -emit-sil
-public indirect enum Type {
+public indirect enum Type: Equatable {
     case addressType(_ type: Type)
     case attributedType(_ attributes: [TypeAttribute], _ type: Type)
     case functionType(_ parameters: [Type], _ result: Type)
@@ -381,7 +381,7 @@ public indirect enum Type {
 }
 
 // https://github.com/apple/swift/blob/master/docs/SIL.rst#properties-of-types
-public enum TypeAttribute {
+public enum TypeAttribute: Equatable {
     case calleeGuaranteed
     case convention(_ convention: Convention)
     case guaranteed
@@ -398,7 +398,7 @@ public enum TypeAttribute {
 }
 
 // Reverse-engineered from -emit-sil
-public enum TypeRequirement {
+public enum TypeRequirement: Equatable {
     case conformance(_ lhs: Type, _ rhs: Type)
     case equality(_ lhs: Type, _ rhs: Type)
 }
