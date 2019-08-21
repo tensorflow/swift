@@ -10,6 +10,11 @@ public class Module {
         let parser = try SILParser(forPath: silPath)
         return try parser.parseModule()
     }
+
+    public static func parse(fromString silString: String) throws -> Module {
+        let parser = SILParser(forString: silString)
+        return try parser.parseModule()
+    }
 }
 
 // https://github.com/apple/swift/blob/master/docs/SIL.rst#functions
