@@ -7,6 +7,7 @@ struct Bits: Equatable, Hashable, ExpressibleByIntegerLiteral, CustomStringConve
     private var bits: [Bool]
     var description: String { String(bits.reversed().map { $0 ? "1" : "0" }) }
     var count: Int { bits.lastIndex(of: true).map { $0 + 1 } ?? 0 }
+    var isZero: Bool { bits.allSatisfy { !$0 } }
 
     init(integerLiteral lit: Int) {
         self.init(lit)
@@ -43,15 +44,6 @@ struct Bits: Equatable, Hashable, ExpressibleByIntegerLiteral, CustomStringConve
             "Casting a bit sequence of length " + String(bits.count) + " to an integer of width "
                 + String(Int.bitWidth - 1))
         return Int(asUInt32())
-    }
-
-    func asString() -> String? {
-        var bytes: [UInt8] = []
-        for start in stride(from: 0, to: bits.count, by: 8) {
-            let byteSlice = Array(bits[start..<(start + 8)])
-            bytes.append(Bits(leastFirst: byteSlice).asUInt8())
-        }
-        return String(bytes: bytes, encoding: .utf8)
     }
 
     static func join(_ arr: [Bits]) -> Bits {
