@@ -312,6 +312,8 @@ class SILPrinter: Printer {
             print("[dynamically_replacable]")
         case .noInline:
             print("[noinline]")
+        case .readonly:
+            print("[readonly]")
         case let .semantics(value):
             print("[_semantics ")
             literal(value)
@@ -445,6 +447,8 @@ class SILPrinter: Printer {
             print("@in")
         case .inout:
             print("@inout")
+        case .noescape:
+            print("@noescape")
         case .out:
             print("@out")
         case .owned:

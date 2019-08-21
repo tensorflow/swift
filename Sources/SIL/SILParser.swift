@@ -337,6 +337,7 @@ class SILParser: Parser {
         guard !peek("[differentiable") else { return try parseDifferentiable() }
         guard !skip("[dynamically_replacable]") else { return .dynamicallyReplacable }
         guard !skip("[noinline]") else { return .noInline }
+        guard !skip("[readonly]") else { return .readonly }
         guard !peek("[_semantics") else { return try parseSemantics() }
         guard !skip("[serialized]") else { return .serialized }
         guard !skip("[thunk]") else { return .thunk }
@@ -543,6 +544,7 @@ class SILParser: Parser {
         // Must appear before "in" to parse correctly.
         guard !skip("@inout") else { return .inout }
         guard !skip("@in") else { return .in }
+        guard !skip("@noescape") else { return .noescape }
         guard !skip("@thick") else { return .thick }
         guard !skip("@out") else { return .out }
         guard !skip("@owned") else { return .owned }

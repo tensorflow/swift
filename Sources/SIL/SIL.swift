@@ -292,6 +292,7 @@ public enum FunctionAttribute {
     case differentiable(_ spec: String)
     case dynamicallyReplacable
     case noInline
+    case readonly
     case semantics(_ value: String)
     case serialized
     case thunk
@@ -382,6 +383,7 @@ public enum TypeAttribute {
     case inGuaranteed
     case `in`
     case `inout`
+    case noescape
     case out
     case owned
     case thick
