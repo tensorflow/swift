@@ -10,6 +10,11 @@ public class Module {
         let parser = try SILParser(forPath: silPath)
         return try parser.parseModule()
     }
+
+    public static func parse(fromString silString: String) throws -> Module {
+        let parser = SILParser(forString: silString)
+        return try parser.parseModule()
+    }
 }
 
 // https://github.com/apple/swift/blob/master/docs/SIL.rst#functions
@@ -236,7 +241,7 @@ public enum Case {
 }
 
 // https://github.com/apple/swift/blob/master/docs/SIL.rst#calling-convention
-public enum Convention {
+public enum Convention: Equatable {
     case c
     case method
     case thin
@@ -290,7 +295,9 @@ public enum Enforcement {
 public enum FunctionAttribute {
     case alwaysInline
     case differentiable(_ spec: String)
+    case dynamicallyReplacable
     case noInline
+    case readonly
     case semantics(_ value: String)
     case serialized
     case thunk
@@ -299,8 +306,14 @@ public enum FunctionAttribute {
 
 // https://github.com/apple/swift/blob/master/docs/SIL.rst#linkage
 public enum Linkage {
+    case hidden
+    case hiddenExternal
+    case `private`
+    case privateExternal
     case `public`
     case publicExternal
+    case publicNonABI
+    case shared
     case sharedExternal
 }
 
@@ -355,7 +368,7 @@ public enum TupleElements {
 }
 
 // Reverse-engineered from -emit-sil
-public indirect enum Type {
+public indirect enum Type: Equatable {
     case addressType(_ type: Type)
     case attributedType(_ attributes: [TypeAttribute], _ type: Type)
     case functionType(_ parameters: [Type], _ result: Type)
@@ -368,13 +381,14 @@ public indirect enum Type {
 }
 
 // https://github.com/apple/swift/blob/master/docs/SIL.rst#properties-of-types
-public enum TypeAttribute {
+public enum TypeAttribute: Equatable {
     case calleeGuaranteed
     case convention(_ convention: Convention)
     case guaranteed
     case inGuaranteed
     case `in`
     case `inout`
+    case noescape
     case out
     case owned
     case thick
@@ -384,7 +398,7 @@ public enum TypeAttribute {
 }
 
 // Reverse-engineered from -emit-sil
-public enum TypeRequirement {
+public enum TypeRequirement: Equatable {
     case conformance(_ lhs: Type, _ rhs: Type)
     case equality(_ lhs: Type, _ rhs: Type)
 }

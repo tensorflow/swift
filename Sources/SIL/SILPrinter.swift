@@ -308,8 +308,12 @@ class SILPrinter: Printer {
             print("[differentiable ")
             print(spec)
             print("]")
+        case .dynamicallyReplacable:
+            print("[dynamically_replacable]")
         case .noInline:
             print("[noinline]")
+        case .readonly:
+            print("[readonly]")
         case let .semantics(value):
             print("[_semantics ")
             literal(value)
@@ -325,10 +329,22 @@ class SILPrinter: Printer {
 
     func print(_ linkage: Linkage) {
         switch linkage {
+        case .hidden:
+            print("hidden ")
+        case .hiddenExternal:
+            print("hidden_external ")
+        case .private:
+            print("private ")
+        case .privateExternal:
+            print("private_external ")
         case .public:
             print("")
         case .publicExternal:
             print("public_external ")
+        case .publicNonABI:
+            print("non_abi ")
+        case .shared:
+            print("shared ")
         case .sharedExternal:
             print("shared_external ")
         }
@@ -431,6 +447,8 @@ class SILPrinter: Printer {
             print("@in")
         case .inout:
             print("@inout")
+        case .noescape:
+            print("@noescape")
         case .out:
             print("@out")
         case .owned:
