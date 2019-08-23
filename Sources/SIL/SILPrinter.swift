@@ -66,7 +66,7 @@ class SILPrinter: Printer {
         case let .br(label, operands):
             print("br ")
             print(label)
-            print(whenEmpty: false, " (", operands, ", ", ")") { print($0) }
+            print(whenEmpty: false, "(", operands, ", ", ")") { print($0) }
         case let .builtin(name, operands, type):
             print("builtin ")
             literal(name)
@@ -78,10 +78,10 @@ class SILPrinter: Printer {
             print(cond)
             print(", ")
             print(trueLabel)
-            print(whenEmpty: false, " (", trueOperands, ", ", ")") { print($0) }
+            print(whenEmpty: false, "(", trueOperands, ", ", ")") { print($0) }
             print(", ")
             print(falseLabel)
-            print(whenEmpty: false, " (", falseOperands, ", ", ")") { print($0) }
+            print(whenEmpty: false, "(", falseOperands, ", ", ")") { print($0) }
         case let .condFail(operand, message):
             print("cond_fail ")
             print(operand)
