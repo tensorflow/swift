@@ -4,29 +4,22 @@ import SIL
 
 public final class ModuleTests: XCTestCase {
     public func testAvgPool1D() {
-        testRoundtrip("Tests/SILTests/Resources/AvgPool1D.swift")
+        testRoundtrip("Tests/SILTests/Resources/AvgPool1D.sil")
     }
 
-    private func testRoundtrip(_ swiftPath: String) {
-        withTemporaryFile { tempURL in
-            let silPath = tempURL.path
-            guard shelloutOrFail("swiftc", "-emit-sil", "-o", silPath, swiftPath) else { return }
-            do {
-                let expected = stripUnsupportedSILSyntax(silPath)
-                let module = try Module.parse(fromSILPath: silPath)
-                let actual = module.description + "\n"
-                if (expected != actual) {
-                    let expectedPath = FileManager.default.makeTemporaryFile()!.path
-                    try! FileManager.default.removeItem(atPath: expectedPath)
-                    try! FileManager.default.copyItem(atPath: silPath, toPath: expectedPath)
-                    let actualPath = FileManager.default.makeTemporaryFile()!.path
-                    FileManager.default.createFile(atPath: actualPath, contents: Data(actual.utf8))
-                    XCTFail("Roundtrip failed: expected \(expectedPath), actual: \(actualPath)")
-                    let _ = try? shellout("colordiff", "-u", expectedPath, actualPath)
-                }
-            } catch {
-                XCTFail(String(describing: error))
+    private func testRoundtrip(_ silPath: String) {
+        do {
+            let expected = stripUnsupportedSILSyntax(silPath)
+            let module = try Module.parse(fromSILPath: silPath)
+            let actual = module.description + "\n"
+            if (expected != actual) {
+                let actualPath = FileManager.default.makeTemporaryFile()!.path
+                FileManager.default.createFile(atPath: actualPath, contents: Data(actual.utf8))
+                XCTFail("Roundtrip failed: expected \(silPath), actual: \(actualPath)")
+                let _ = try? shellout("colordiff", "-u", silPath, actualPath)
             }
+        } catch {
+            XCTFail(String(describing: error))
         }
     }
 
