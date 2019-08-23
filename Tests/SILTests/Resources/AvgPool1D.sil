@@ -1,0 +1,848 @@
+sil @main : $@convention(c) (Int32, UnsafeMutablePointer<Optional<UnsafeMutablePointer<Int8>>>) -> Int32 {
+bb0(%0 : $Int32, %1 : $UnsafeMutablePointer<Optional<UnsafeMutablePointer<Int8>>>):
+  %2 = integer_literal $Builtin.Int32, 0
+  %3 = struct $Int32 (%2 : $Builtin.Int32)
+  return %3 : $Int32
+}
+
+sil @$s4test9avgPool1DyySaySfGz_ACS2iSftF : $@convention(thin) (@inout Array<Float>, @guaranteed Array<Float>, Int, Int, Float) -> () {
+bb0(%0 : $*Array<Float>, %1 : $Array<Float>, %2 : $Int, %3 : $Int, %4 : $Float):
+  debug_value_addr %0 : $*Array<Float>, var, name "out", argno 1
+  debug_value %1 : $Array<Float>, let, name "input", argno 2
+  debug_value %2 : $Int, let, name "windowSize", argno 3
+  debug_value %3 : $Int, let, name "windowStride", argno 4
+  debug_value %4 : $Float, let, name "outScale", argno 5
+  %10 = function_ref @$sSa5countSivgSf_Tg5 : $@convention(method) (@guaranteed Array<Float>) -> Int
+  %11 = apply %10(%1) : $@convention(method) (@guaranteed Array<Float>) -> Int
+  debug_value %11 : $Int, let, name "n"
+  %13 = struct_extract %11 : $Int, #Int._value
+  %14 = struct_extract %2 : $Int, #Int._value
+  %15 = integer_literal $Builtin.Int1, -1
+  %16 = builtin "ssub_with_overflow_Int64"(%13 : $Builtin.Int64, %14 : $Builtin.Int64, %15 : $Builtin.Int1) : $(Builtin.Int64, Builtin.Int1)
+  %17 = tuple_extract %16 : $(Builtin.Int64, Builtin.Int1), 0
+  %18 = tuple_extract %16 : $(Builtin.Int64, Builtin.Int1), 1
+  cond_fail %18 : $Builtin.Int1, "arithmetic overflow"
+  %20 = tuple ()
+  %21 = integer_literal $Builtin.Int64, 0
+  %22 = struct_extract %3 : $Int, #Int._value
+  %23 = builtin "cmp_eq_Int64"(%22 : $Builtin.Int64, %21 : $Builtin.Int64) : $Builtin.Int1
+  %24 = integer_literal $Builtin.Int1, 0
+  %25 = builtin "int_expect_Int1"(%23 : $Builtin.Int1, %24 : $Builtin.Int1) : $Builtin.Int1
+  cond_br %25, bb1, bb2
+
+bb1:
+  %27 = string_literal utf8 "Division by zero"
+  %28 = integer_literal $Builtin.Word, 16
+  %29 = builtin "ptrtoint_Word"(%27 : $Builtin.RawPointer) : $Builtin.Word
+  %30 = integer_literal $Builtin.Int8, 2
+  %31 = struct $StaticString (%29 : $Builtin.Word, %28 : $Builtin.Word, %30 : $Builtin.Int8)
+  %32 = string_literal utf8 "/Users/buildnode/jenkins/workspace/oss-swift-package-osx/build/buildbot_osx/swift-macosx-x86_64/stdlib/public/core/8/IntegerTypes.swift"
+  %33 = integer_literal $Builtin.Word, 135
+  %34 = builtin "ptrtoint_Word"(%32 : $Builtin.RawPointer) : $Builtin.Word
+  %35 = integer_literal $Builtin.Int8, 2
+  %36 = struct $StaticString (%34 : $Builtin.Word, %33 : $Builtin.Word, %35 : $Builtin.Int8)
+  %37 = integer_literal $Builtin.Int64, 13083
+  %38 = struct $UInt (%37 : $Builtin.Int64)
+  br bb3
+
+bb2:
+  %40 = metatype $@thin Int.Type
+  %41 = tuple ()
+  %42 = tuple ()
+  %43 = tuple ()
+  %44 = metatype $@thin UInt.Type
+  %45 = tuple ()
+  %46 = tuple ()
+  %47 = tuple ()
+  %48 = tuple ()
+  %49 = integer_literal $Builtin.Int64, -9223372036854775808
+  %50 = tuple ()
+  %51 = tuple ()
+  %52 = tuple ()
+  %53 = builtin "cmp_eq_Int64"(%17 : $Builtin.Int64, %49 : $Builtin.Int64) : $Builtin.Int1
+  cond_br %53, bb6, bb7
+
+bb3:
+  %55 = string_literal utf8 "Fatal error"
+  %56 = integer_literal $Builtin.Word, 11
+  %57 = builtin "ptrtoint_Word"(%55 : $Builtin.RawPointer) : $Builtin.Word
+  %58 = integer_literal $Builtin.Int8, 2
+  %59 = struct $StaticString (%57 : $Builtin.Word, %56 : $Builtin.Word, %58 : $Builtin.Int8)
+  br bb4
+
+bb4:
+  %61 = integer_literal $Builtin.Int32, 1
+  %62 = struct $UInt32 (%61 : $Builtin.Int32)
+  br bb5
+
+bb5:
+  %64 = function_ref @$ss17_assertionFailure__4file4line5flagss5NeverOs12StaticStringV_A2HSus6UInt32VtF : $@convention(thin) (StaticString, StaticString, StaticString, UInt, UInt32) -> Never
+  %65 = apply %64(%59, %31, %36, %38, %62) : $@convention(thin) (StaticString, StaticString, StaticString, UInt, UInt32) -> Never
+  unreachable
+
+bb6:
+  %67 = integer_literal $Builtin.Int64, -1
+  %68 = struct_extract %3 : $Int, #Int._value
+  %69 = builtin "cmp_eq_Int64"(%68 : $Builtin.Int64, %67 : $Builtin.Int64) : $Builtin.Int1
+  %70 = struct $Bool (%69 : $Builtin.Int1)
+  br bb8(%70 : $Bool)
+
+bb7:
+  %72 = integer_literal $Builtin.Int1, 0
+  %73 = struct $Bool (%72 : $Builtin.Int1)
+  br bb8(%73 : $Bool)
+
+bb8(%75 : $Bool):
+  %76 = struct_extract %75 : $Bool, #Bool._value
+  %77 = integer_literal $Builtin.Int1, 0
+  %78 = builtin "int_expect_Int1"(%76 : $Builtin.Int1, %77 : $Builtin.Int1) : $Builtin.Int1
+  cond_br %78, bb9, bb10
+
+bb9:
+  %80 = string_literal utf8 "Division results in an overflow"
+  %81 = integer_literal $Builtin.Word, 31
+  %82 = builtin "ptrtoint_Word"(%80 : $Builtin.RawPointer) : $Builtin.Word
+  %83 = integer_literal $Builtin.Int8, 2
+  %84 = struct $StaticString (%82 : $Builtin.Word, %81 : $Builtin.Word, %83 : $Builtin.Int8)
+  %85 = string_literal utf8 "/Users/buildnode/jenkins/workspace/oss-swift-package-osx/build/buildbot_osx/swift-macosx-x86_64/stdlib/public/core/8/IntegerTypes.swift"
+  %86 = integer_literal $Builtin.Word, 135
+  %87 = builtin "ptrtoint_Word"(%85 : $Builtin.RawPointer) : $Builtin.Word
+  %88 = integer_literal $Builtin.Int8, 2
+  %89 = struct $StaticString (%87 : $Builtin.Word, %86 : $Builtin.Word, %88 : $Builtin.Int8)
+  %90 = integer_literal $Builtin.Int64, 13090
+  %91 = struct $UInt (%90 : $Builtin.Int64)
+  br bb11
+
+bb10:
+  %93 = struct_extract %3 : $Int, #Int._value
+  %94 = builtin "sdiv_Int64"(%17 : $Builtin.Int64, %93 : $Builtin.Int64) : $Builtin.Int64
+  %95 = tuple ()
+  %96 = integer_literal $Builtin.Int64, 1
+  %97 = integer_literal $Builtin.Int1, -1
+  %98 = builtin "sadd_with_overflow_Int64"(%94 : $Builtin.Int64, %96 : $Builtin.Int64, %97 : $Builtin.Int1) : $(Builtin.Int64, Builtin.Int1)
+  %99 = tuple_extract %98 : $(Builtin.Int64, Builtin.Int1), 0
+  %100 = tuple_extract %98 : $(Builtin.Int64, Builtin.Int1), 1
+  cond_fail %100 : $Builtin.Int1, "arithmetic overflow"
+  %102 = struct $Int (%99 : $Builtin.Int64)
+  %103 = tuple ()
+  debug_value %102 : $Int, let, name "outSize"
+  %105 = function_ref @$s4test11threadIndexSiyF : $@convention(thin) () -> Int
+  %106 = apply %105() : $@convention(thin) () -> Int
+  debug_value %106 : $Int, let, name "outStart"
+  %108 = function_ref @$s4test11threadCountSiyF : $@convention(thin) () -> Int
+  %109 = apply %108() : $@convention(thin) () -> Int
+  debug_value %109 : $Int, let, name "outStride"
+  %111 = alloc_stack $StrideToIterator<Int>, var, name "$outIndex$generator"
+  %112 = alloc_stack $StrideTo<Int>
+  %113 = alloc_stack $Int
+  store %106 to %113 : $*Int
+  %115 = alloc_stack $Int
+  store %102 to %115 : $*Int
+  %117 = alloc_stack $Int
+  store %109 to %117 : $*Int
+  %119 = function_ref @$ss6stride4from2to2bys8StrideToVyxGx_x0E0QztSxRzlF : $@convention(thin) <τ_0_0 where τ_0_0 : Strideable> (@in_guaranteed τ_0_0, @in_guaranteed τ_0_0, @in_guaranteed τ_0_0.Stride) -> @out StrideTo<τ_0_0>
+  %120 = apply %119<Int>(%112, %113, %115, %117) : $@convention(thin) <τ_0_0 where τ_0_0 : Strideable> (@in_guaranteed τ_0_0, @in_guaranteed τ_0_0, @in_guaranteed τ_0_0.Stride) -> @out StrideTo<τ_0_0>
+  dealloc_stack %117 : $*Int
+  dealloc_stack %115 : $*Int
+  dealloc_stack %113 : $*Int
+  %124 = load %112 : $*StrideTo<Int>
+  %125 = alloc_stack $StrideTo<Int>
+  store %124 to %125 : $*StrideTo<Int>
+  %127 = function_ref @$ss8StrideToV12makeIterators0abD0VyxGyF : $@convention(method) <τ_0_0 where τ_0_0 : Strideable> (@in StrideTo<τ_0_0>) -> @out StrideToIterator<τ_0_0>
+  %128 = apply %127<Int>(%111, %125) : $@convention(method) <τ_0_0 where τ_0_0 : Strideable> (@in StrideTo<τ_0_0>) -> @out StrideToIterator<τ_0_0>
+  dealloc_stack %125 : $*StrideTo<Int>
+  dealloc_stack %112 : $*StrideTo<Int>
+  br bb14
+
+bb11:
+  %132 = string_literal utf8 "Fatal error"
+  %133 = integer_literal $Builtin.Word, 11
+  %134 = builtin "ptrtoint_Word"(%132 : $Builtin.RawPointer) : $Builtin.Word
+  %135 = integer_literal $Builtin.Int8, 2
+  %136 = struct $StaticString (%134 : $Builtin.Word, %133 : $Builtin.Word, %135 : $Builtin.Int8)
+  br bb12
+
+bb12:
+  %138 = integer_literal $Builtin.Int32, 1
+  %139 = struct $UInt32 (%138 : $Builtin.Int32)
+  br bb13
+
+bb13:
+  %141 = function_ref @$ss17_assertionFailure__4file4line5flagss5NeverOs12StaticStringV_A2HSus6UInt32VtF : $@convention(thin) (StaticString, StaticString, StaticString, UInt, UInt32) -> Never
+  %142 = apply %141(%136, %84, %89, %91, %139) : $@convention(thin) (StaticString, StaticString, StaticString, UInt, UInt32) -> Never
+  unreachable
+
+bb14:
+  %144 = alloc_stack $Optional<Int>
+  %145 = begin_access [modify] [static] %111 : $*StrideToIterator<Int>
+  %146 = function_ref @$ss16StrideToIteratorV4nextxSgyF : $@convention(method) <τ_0_0 where τ_0_0 : Strideable> (@inout StrideToIterator<τ_0_0>) -> @out Optional<τ_0_0>
+  %147 = apply %146<Int>(%144, %145) : $@convention(method) <τ_0_0 where τ_0_0 : Strideable> (@inout StrideToIterator<τ_0_0>) -> @out Optional<τ_0_0>
+  end_access %145 : $*StrideToIterator<Int>
+  %149 = load %144 : $*Optional<Int>
+  dealloc_stack %144 : $*Optional<Int>
+  switch_enum %149 : $Optional<Int>, case #Optional.some!enumelt.1: bb15, case #Optional.none!enumelt: bb25
+
+bb15(%152 : $Int):
+  debug_value %152 : $Int, let, name "outIndex"
+  %154 = float_literal $Builtin.FPIEEE32, 0x0
+  %155 = struct $Float (%154 : $Builtin.FPIEEE32)
+  %156 = begin_access [modify] [static] %0 : $*Array<Float>
+  %157 = function_ref @$sSayxSiciMSf_Tg5 : $@yield_once @convention(method) (Int, @inout Array<Float>) -> @yields @inout Float
+  (%158, %159) = begin_apply %157(%152, %156) : $@yield_once @convention(method) (Int, @inout Array<Float>) -> @yields @inout Float
+  store %155 to %158 : $*Float
+  end_apply %159
+  end_access %156 : $*Array<Float>
+  %163 = struct_extract %152 : $Int, #Int._value
+  %164 = struct_extract %3 : $Int, #Int._value
+  %165 = integer_literal $Builtin.Int1, -1
+  %166 = builtin "smul_with_overflow_Int64"(%163 : $Builtin.Int64, %164 : $Builtin.Int64, %165 : $Builtin.Int1) : $(Builtin.Int64, Builtin.Int1)
+  %167 = tuple_extract %166 : $(Builtin.Int64, Builtin.Int1), 0
+  %168 = tuple_extract %166 : $(Builtin.Int64, Builtin.Int1), 1
+  cond_fail %168 : $Builtin.Int1, "arithmetic overflow"
+  %170 = struct $Int (%167 : $Builtin.Int64)
+  %171 = tuple ()
+  debug_value %170 : $Int, let, name "beginWindow"
+  %173 = struct_extract %152 : $Int, #Int._value
+  %174 = struct_extract %3 : $Int, #Int._value
+  %175 = integer_literal $Builtin.Int1, -1
+  %176 = builtin "smul_with_overflow_Int64"(%173 : $Builtin.Int64, %174 : $Builtin.Int64, %175 : $Builtin.Int1) : $(Builtin.Int64, Builtin.Int1)
+  %177 = tuple_extract %176 : $(Builtin.Int64, Builtin.Int1), 0
+  %178 = tuple_extract %176 : $(Builtin.Int64, Builtin.Int1), 1
+  cond_fail %178 : $Builtin.Int1, "arithmetic overflow"
+  %180 = tuple ()
+  %181 = struct_extract %2 : $Int, #Int._value
+  %182 = integer_literal $Builtin.Int1, -1
+  %183 = builtin "sadd_with_overflow_Int64"(%177 : $Builtin.Int64, %181 : $Builtin.Int64, %182 : $Builtin.Int1) : $(Builtin.Int64, Builtin.Int1)
+  %184 = tuple_extract %183 : $(Builtin.Int64, Builtin.Int1), 0
+  %185 = tuple_extract %183 : $(Builtin.Int64, Builtin.Int1), 1
+  cond_fail %185 : $Builtin.Int1, "arithmetic overflow"
+  %187 = struct $Int (%184 : $Builtin.Int64)
+  %188 = tuple ()
+  debug_value %187 : $Int, let, name "endWindow"
+  %190 = alloc_stack $IndexingIterator<Range<Int>>, var, name "$inputIndex$generator"
+  %191 = alloc_stack $Range<Int>
+  %192 = metatype $@thin Int.Type
+  %193 = string_literal utf8 "Can't form Range with upperBound < lowerBound"
+  %194 = integer_literal $Builtin.Word, 45
+  %195 = builtin "ptrtoint_Word"(%193 : $Builtin.RawPointer) : $Builtin.Word
+  %196 = integer_literal $Builtin.Int8, 2
+  %197 = struct $StaticString (%195 : $Builtin.Word, %194 : $Builtin.Word, %196 : $Builtin.Int8)
+  %198 = string_literal utf8 "/Users/buildnode/jenkins/workspace/oss-swift-package-osx/swift/stdlib/public/core/Range.swift"
+  %199 = integer_literal $Builtin.Word, 93
+  %200 = builtin "ptrtoint_Word"(%198 : $Builtin.RawPointer) : $Builtin.Word
+  %201 = integer_literal $Builtin.Int8, 2
+  %202 = struct $StaticString (%200 : $Builtin.Word, %199 : $Builtin.Word, %201 : $Builtin.Int8)
+  %203 = integer_literal $Builtin.Int64, 709
+  %204 = struct $UInt (%203 : $Builtin.Int64)
+  br bb16
+
+bb16:
+  %206 = builtin "cmp_slt_Int64"(%184 : $Builtin.Int64, %167 : $Builtin.Int64) : $Builtin.Int1
+  %207 = integer_literal $Builtin.Int1, -1
+  %208 = builtin "xor_Int1"(%206 : $Builtin.Int1, %207 : $Builtin.Int1) : $Builtin.Int1
+  %209 = integer_literal $Builtin.Int1, -1
+  %210 = builtin "int_expect_Int1"(%208 : $Builtin.Int1, %209 : $Builtin.Int1) : $Builtin.Int1
+  %211 = integer_literal $Builtin.Int1, -1
+  %212 = builtin "xor_Int1"(%210 : $Builtin.Int1, %211 : $Builtin.Int1) : $Builtin.Int1
+  cond_br %212, bb17, bb18
+
+bb17:
+  %214 = string_literal utf8 "Fatal error"
+  %215 = integer_literal $Builtin.Word, 11
+  %216 = builtin "ptrtoint_Word"(%214 : $Builtin.RawPointer) : $Builtin.Word
+  %217 = integer_literal $Builtin.Int8, 2
+  %218 = struct $StaticString (%216 : $Builtin.Word, %215 : $Builtin.Word, %217 : $Builtin.Int8)
+  br bb19
+
+bb18:
+  br bb21
+
+bb19:
+  %221 = integer_literal $Builtin.Int32, 1
+  %222 = struct $UInt32 (%221 : $Builtin.Int32)
+  br bb20
+
+bb20:
+  %224 = function_ref @$ss17_assertionFailure__4file4line5flagss5NeverOs12StaticStringV_A2HSus6UInt32VtF : $@convention(thin) (StaticString, StaticString, StaticString, UInt, UInt32) -> Never
+  %225 = apply %224(%218, %197, %202, %204, %222) : $@convention(thin) (StaticString, StaticString, StaticString, UInt, UInt32) -> Never
+  unreachable
+
+bb21:
+  %227 = tuple ()
+  %228 = metatype $@thin Range<Int>.Type
+  %229 = alloc_stack $Int
+  store %170 to %229 : $*Int
+  %231 = alloc_stack $Int
+  store %187 to %231 : $*Int
+  %233 = function_ref @$sSn15uncheckedBoundsSnyxGx5lower_x5uppert_tcfCSi_Tg5 : $@convention(method) (Int, Int, @thin Range<Int>.Type) -> Range<Int>
+  %234 = load %229 : $*Int
+  %235 = load %231 : $*Int
+  %236 = apply %233(%234, %235, %228) : $@convention(method) (Int, Int, @thin Range<Int>.Type) -> Range<Int>
+  store %236 to %191 : $*Range<Int>
+  dealloc_stack %231 : $*Int
+  dealloc_stack %229 : $*Int
+  %240 = tuple ()
+  %241 = load %191 : $*Range<Int>
+  %242 = alloc_stack $Range<Int>
+  store %241 to %242 : $*Range<Int>
+  %244 = function_ref @$sSlss16IndexingIteratorVyxG0B0RtzrlE04makeB0ACyFSnySiG_Tg5 : $@convention(method) (Range<Int>) -> IndexingIterator<Range<Int>>
+  %245 = load %242 : $*Range<Int>
+  %246 = apply %244(%245) : $@convention(method) (Range<Int>) -> IndexingIterator<Range<Int>>
+  store %246 to %190 : $*IndexingIterator<Range<Int>>
+  dealloc_stack %242 : $*Range<Int>
+  dealloc_stack %191 : $*Range<Int>
+  br bb22
+
+bb22:
+  %251 = alloc_stack $Optional<Int>
+  %252 = begin_access [modify] [static] %190 : $*IndexingIterator<Range<Int>>
+  %253 = function_ref @$ss16IndexingIteratorV4next7ElementQzSgyFSnySiG_Tg5 : $@convention(method) (@inout IndexingIterator<Range<Int>>) -> Optional<Int>
+  %254 = apply %253(%252) : $@convention(method) (@inout IndexingIterator<Range<Int>>) -> Optional<Int>
+  store %254 to %251 : $*Optional<Int>
+  end_access %252 : $*IndexingIterator<Range<Int>>
+  %257 = load %251 : $*Optional<Int>
+  dealloc_stack %251 : $*Optional<Int>
+  switch_enum %257 : $Optional<Int>, case #Optional.some!enumelt.1: bb23, case #Optional.none!enumelt: bb24
+
+bb23(%260 : $Int):
+  debug_value %260 : $Int, let, name "inputIndex"
+  %262 = alloc_stack $Float
+  %263 = function_ref @$sSayxSicigSf_Tg5 : $@convention(method) (Int, @guaranteed Array<Float>) -> Float
+  %264 = apply %263(%260, %1) : $@convention(method) (Int, @guaranteed Array<Float>) -> Float
+  store %264 to %262 : $*Float
+  %266 = load %262 : $*Float
+  %267 = begin_access [modify] [static] %0 : $*Array<Float>
+  %268 = function_ref @$sSayxSiciMSf_Tg5 : $@yield_once @convention(method) (Int, @inout Array<Float>) -> @yields @inout Float
+  (%269, %270) = begin_apply %268(%152, %267) : $@yield_once @convention(method) (Int, @inout Array<Float>) -> @yields @inout Float
+  %271 = struct_element_addr %269 : $*Float, #Float._value
+  %272 = load %271 : $*Builtin.FPIEEE32
+  %273 = struct_extract %266 : $Float, #Float._value
+  %274 = builtin "fadd_FPIEEE32"(%272 : $Builtin.FPIEEE32, %273 : $Builtin.FPIEEE32) : $Builtin.FPIEEE32
+  %275 = struct_element_addr %269 : $*Float, #Float._value
+  store %274 to %275 : $*Builtin.FPIEEE32
+  %277 = tuple ()
+  end_apply %270
+  end_access %267 : $*Array<Float>
+  dealloc_stack %262 : $*Float
+  br bb22
+
+bb24:
+  dealloc_stack %190 : $*IndexingIterator<Range<Int>>
+  %283 = struct_extract %2 : $Int, #Int._value
+  %284 = builtin "sitofp_Int64_FPIEEE32"(%283 : $Builtin.Int64) : $Builtin.FPIEEE32
+  %285 = begin_access [modify] [static] %0 : $*Array<Float>
+  %286 = function_ref @$sSayxSiciMSf_Tg5 : $@yield_once @convention(method) (Int, @inout Array<Float>) -> @yields @inout Float
+  (%287, %288) = begin_apply %286(%152, %285) : $@yield_once @convention(method) (Int, @inout Array<Float>) -> @yields @inout Float
+  %289 = struct_element_addr %287 : $*Float, #Float._value
+  %290 = load %289 : $*Builtin.FPIEEE32
+  %291 = builtin "fdiv_FPIEEE32"(%290 : $Builtin.FPIEEE32, %284 : $Builtin.FPIEEE32) : $Builtin.FPIEEE32
+  %292 = struct_element_addr %287 : $*Float, #Float._value
+  store %291 to %292 : $*Builtin.FPIEEE32
+  %294 = tuple ()
+  end_apply %288
+  end_access %285 : $*Array<Float>
+  %297 = begin_access [modify] [static] %0 : $*Array<Float>
+  %298 = function_ref @$sSayxSiciMSf_Tg5 : $@yield_once @convention(method) (Int, @inout Array<Float>) -> @yields @inout Float
+  (%299, %300) = begin_apply %298(%152, %297) : $@yield_once @convention(method) (Int, @inout Array<Float>) -> @yields @inout Float
+  %301 = struct_element_addr %299 : $*Float, #Float._value
+  %302 = load %301 : $*Builtin.FPIEEE32
+  %303 = struct_extract %4 : $Float, #Float._value
+  %304 = builtin "fmul_FPIEEE32"(%302 : $Builtin.FPIEEE32, %303 : $Builtin.FPIEEE32) : $Builtin.FPIEEE32
+  %305 = struct_element_addr %299 : $*Float, #Float._value
+  store %304 to %305 : $*Builtin.FPIEEE32
+  %307 = tuple ()
+  end_apply %300
+  end_access %297 : $*Array<Float>
+  br bb14
+
+bb25:
+  dealloc_stack %111 : $*StrideToIterator<Int>
+  %312 = tuple ()
+  return %312 : $()
+}
+
+sil [serialized] @$sSa5countSivg : $@convention(method) <τ_0_0> (@guaranteed Array<τ_0_0>) -> Int
+
+sil public_external [transparent] [serialized] @$sSi1soiyS2i_SitFZ : $@convention(method) (Int, Int, @thin Int.Type) -> Int {
+bb0(%0 : $Int, %1 : $Int, %2 : $@thin Int.Type):
+  %3 = struct_extract %0 : $Int, #Int._value
+  %4 = struct_extract %1 : $Int, #Int._value
+  %5 = integer_literal $Builtin.Int1, -1
+  %6 = builtin "ssub_with_overflow_Int64"(%3 : $Builtin.Int64, %4 : $Builtin.Int64, %5 : $Builtin.Int1) : $(Builtin.Int64, Builtin.Int1)
+  %7 = tuple_extract %6 : $(Builtin.Int64, Builtin.Int1), 0
+  %8 = tuple_extract %6 : $(Builtin.Int64, Builtin.Int1), 1
+  br bb1
+
+bb1:
+  br bb2
+
+bb2:
+  cond_fail %8 : $Builtin.Int1, "arithmetic overflow"
+  %12 = struct $Int (%7 : $Builtin.Int64)
+  %13 = tuple ()
+  return %12 : $Int
+}
+
+sil public_external [transparent] [serialized] @$sSi1doiyS2i_SitFZ : $@convention(method) (Int, Int, @thin Int.Type) -> Int {
+bb0(%0 : $Int, %1 : $Int, %2 : $@thin Int.Type):
+  %3 = struct_extract %0 : $Int, #Int._value
+  %4 = integer_literal $Builtin.Int64, 0
+  %5 = struct_extract %1 : $Int, #Int._value
+  %6 = builtin "cmp_eq_Int64"(%5 : $Builtin.Int64, %4 : $Builtin.Int64) : $Builtin.Int1
+  %7 = integer_literal $Builtin.Int1, 0
+  %8 = builtin "int_expect_Int1"(%6 : $Builtin.Int1, %7 : $Builtin.Int1) : $Builtin.Int1
+  cond_br %8, bb19, bb1
+
+bb1:
+  %10 = metatype $@thin Int.Type
+  %11 = tuple ()
+  %12 = tuple ()
+  %13 = tuple ()
+  %14 = metatype $@thin UInt.Type
+  %15 = tuple ()
+  %16 = tuple ()
+  %17 = tuple ()
+  %18 = tuple ()
+  %19 = integer_literal $Builtin.Int64, -9223372036854775808
+  %20 = tuple ()
+  %21 = tuple ()
+  %22 = tuple ()
+  %23 = struct_extract %0 : $Int, #Int._value
+  %24 = builtin "cmp_eq_Int64"(%23 : $Builtin.Int64, %19 : $Builtin.Int64) : $Builtin.Int1
+  cond_br %24, bb3, bb2
+
+bb2:
+  %26 = integer_literal $Builtin.Int1, 0
+  %27 = struct $Bool (%26 : $Builtin.Int1)
+  br bb4(%27 : $Bool)
+
+bb3:
+  %29 = integer_literal $Builtin.Int64, -1
+  %30 = struct_extract %1 : $Int, #Int._value
+  %31 = builtin "cmp_eq_Int64"(%30 : $Builtin.Int64, %29 : $Builtin.Int64) : $Builtin.Int1
+  %32 = struct $Bool (%31 : $Builtin.Int1)
+  br bb4(%32 : $Bool)
+
+bb4(%34 : $Bool):
+  %35 = struct_extract %34 : $Bool, #Bool._value
+  %36 = integer_literal $Builtin.Int1, 0
+  %37 = builtin "int_expect_Int1"(%35 : $Builtin.Int1, %36 : $Builtin.Int1) : $Builtin.Int1
+  cond_br %37, bb8, bb5
+
+bb5:
+  %39 = struct_extract %1 : $Int, #Int._value
+  %40 = builtin "sdiv_Int64"(%3 : $Builtin.Int64, %39 : $Builtin.Int64) : $Builtin.Int64
+  br bb6
+
+bb6:
+  br bb7
+
+bb7:
+  %43 = struct $Int (%40 : $Builtin.Int64)
+  %44 = tuple ()
+  return %43 : $Int
+
+bb8:
+  %46 = string_literal utf8 "Division results in an overflow"
+  %47 = integer_literal $Builtin.Word, 31
+  %48 = builtin "ptrtoint_Word"(%46 : $Builtin.RawPointer) : $Builtin.Word
+  br bb9
+
+bb9:
+  %50 = integer_literal $Builtin.Int8, 2
+  br bb10
+
+bb10:
+  %52 = struct $StaticString (%48 : $Builtin.Word, %47 : $Builtin.Word, %50 : $Builtin.Int8)
+  %53 = string_literal utf8 "/Users/buildnode/jenkins/workspace/oss-swift-package-osx/build/buildbot_osx/swift-macosx-x86_64/stdlib/public/core/8/IntegerTypes.swift"
+  %54 = integer_literal $Builtin.Word, 135
+  %55 = builtin "ptrtoint_Word"(%53 : $Builtin.RawPointer) : $Builtin.Word
+  br bb11
+
+bb11:
+  %57 = integer_literal $Builtin.Int8, 2
+  br bb12
+
+bb12:
+  %59 = struct $StaticString (%55 : $Builtin.Word, %54 : $Builtin.Word, %57 : $Builtin.Int8)
+  %60 = integer_literal $Builtin.Int64, 13090
+  %61 = struct $UInt (%60 : $Builtin.Int64)
+  br bb13
+
+bb13:
+  br bb14
+
+bb14:
+  %64 = string_literal utf8 "Fatal error"
+  %65 = integer_literal $Builtin.Word, 11
+  %66 = builtin "ptrtoint_Word"(%64 : $Builtin.RawPointer) : $Builtin.Word
+  br bb15
+
+bb15:
+  %68 = integer_literal $Builtin.Int8, 2
+  br bb16
+
+bb16:
+  %70 = struct $StaticString (%66 : $Builtin.Word, %65 : $Builtin.Word, %68 : $Builtin.Int8)
+  br bb17
+
+bb17:
+  %72 = integer_literal $Builtin.Int32, 1
+  %73 = struct $UInt32 (%72 : $Builtin.Int32)
+  br bb18
+
+bb18:
+  %75 = function_ref @$ss17_assertionFailure__4file4line5flagss5NeverOs12StaticStringV_A2HSus6UInt32VtF : $@convention(thin) (StaticString, StaticString, StaticString, UInt, UInt32) -> Never
+  %76 = apply %75(%70, %52, %59, %61, %73) : $@convention(thin) (StaticString, StaticString, StaticString, UInt, UInt32) -> Never
+  unreachable
+
+bb19:
+  %78 = string_literal utf8 "Division by zero"
+  %79 = integer_literal $Builtin.Word, 16
+  %80 = builtin "ptrtoint_Word"(%78 : $Builtin.RawPointer) : $Builtin.Word
+  br bb20
+
+bb20:
+  %82 = integer_literal $Builtin.Int8, 2
+  br bb21
+
+bb21:
+  %84 = struct $StaticString (%80 : $Builtin.Word, %79 : $Builtin.Word, %82 : $Builtin.Int8)
+  %85 = string_literal utf8 "/Users/buildnode/jenkins/workspace/oss-swift-package-osx/build/buildbot_osx/swift-macosx-x86_64/stdlib/public/core/8/IntegerTypes.swift"
+  %86 = integer_literal $Builtin.Word, 135
+  %87 = builtin "ptrtoint_Word"(%85 : $Builtin.RawPointer) : $Builtin.Word
+  br bb22
+
+bb22:
+  %89 = integer_literal $Builtin.Int8, 2
+  br bb23
+
+bb23:
+  %91 = struct $StaticString (%87 : $Builtin.Word, %86 : $Builtin.Word, %89 : $Builtin.Int8)
+  %92 = integer_literal $Builtin.Int64, 13083
+  %93 = struct $UInt (%92 : $Builtin.Int64)
+  br bb24
+
+bb24:
+  br bb25
+
+bb25:
+  %96 = string_literal utf8 "Fatal error"
+  %97 = integer_literal $Builtin.Word, 11
+  %98 = builtin "ptrtoint_Word"(%96 : $Builtin.RawPointer) : $Builtin.Word
+  br bb26
+
+bb26:
+  %100 = integer_literal $Builtin.Int8, 2
+  br bb27
+
+bb27:
+  %102 = struct $StaticString (%98 : $Builtin.Word, %97 : $Builtin.Word, %100 : $Builtin.Int8)
+  br bb28
+
+bb28:
+  %104 = integer_literal $Builtin.Int32, 1
+  %105 = struct $UInt32 (%104 : $Builtin.Int32)
+  br bb29
+
+bb29:
+  %107 = function_ref @$ss17_assertionFailure__4file4line5flagss5NeverOs12StaticStringV_A2HSus6UInt32VtF : $@convention(thin) (StaticString, StaticString, StaticString, UInt, UInt32) -> Never
+  %108 = apply %107(%102, %84, %91, %93, %105) : $@convention(thin) (StaticString, StaticString, StaticString, UInt, UInt32) -> Never
+  unreachable
+}
+
+sil public_external [transparent] [serialized] @$sSi22_builtinIntegerLiteralSiBI_tcfC : $@convention(method) (Builtin.IntLiteral, @thin Int.Type) -> Int {
+bb0(%0 : $Builtin.IntLiteral, %1 : $@thin Int.Type):
+  %2 = builtin "s_to_s_checked_trunc_IntLiteral_Int64"(%0 : $Builtin.IntLiteral) : $(Builtin.Int64, Builtin.Int1)
+  %3 = tuple_extract %2 : $(Builtin.Int64, Builtin.Int1), 0
+  %4 = struct $Int (%3 : $Builtin.Int64)
+  return %4 : $Int
+}
+
+sil public_external [transparent] [serialized] @$sSi1poiyS2i_SitFZ : $@convention(method) (Int, Int, @thin Int.Type) -> Int {
+bb0(%0 : $Int, %1 : $Int, %2 : $@thin Int.Type):
+  %3 = struct_extract %0 : $Int, #Int._value
+  %4 = struct_extract %1 : $Int, #Int._value
+  %5 = integer_literal $Builtin.Int1, -1
+  %6 = builtin "sadd_with_overflow_Int64"(%3 : $Builtin.Int64, %4 : $Builtin.Int64, %5 : $Builtin.Int1) : $(Builtin.Int64, Builtin.Int1)
+  %7 = tuple_extract %6 : $(Builtin.Int64, Builtin.Int1), 0
+  %8 = tuple_extract %6 : $(Builtin.Int64, Builtin.Int1), 1
+  br bb1
+
+bb1:
+  br bb2
+
+bb2:
+  cond_fail %8 : $Builtin.Int1, "arithmetic overflow"
+  %12 = struct $Int (%7 : $Builtin.Int64)
+  %13 = tuple ()
+  return %12 : $Int
+}
+
+sil @$s4test11threadIndexSiyF : $@convention(thin) () -> Int {
+bb0:
+  %0 = integer_literal $Builtin.Int64, 0
+  %1 = struct $Int (%0 : $Builtin.Int64)
+  return %1 : $Int
+}
+
+sil @$s4test11threadCountSiyF : $@convention(thin) () -> Int {
+bb0:
+  %0 = integer_literal $Builtin.Int64, 1
+  %1 = struct $Int (%0 : $Builtin.Int64)
+  return %1 : $Int
+}
+
+sil [serialized] @$ss6stride4from2to2bys8StrideToVyxGx_x0E0QztSxRzlF : $@convention(thin) <τ_0_0 where τ_0_0 : Strideable> (@in_guaranteed τ_0_0, @in_guaranteed τ_0_0, @in_guaranteed τ_0_0.Stride) -> @out StrideTo<τ_0_0>
+
+sil [serialized] @$ss8StrideToV12makeIterators0abD0VyxGyF : $@convention(method) <τ_0_0 where τ_0_0 : Strideable> (@in StrideTo<τ_0_0>) -> @out StrideToIterator<τ_0_0>
+
+sil [serialized] @$ss16StrideToIteratorV4nextxSgyF : $@convention(method) <τ_0_0 where τ_0_0 : Strideable> (@inout StrideToIterator<τ_0_0>) -> @out Optional<τ_0_0>
+
+sil public_external [transparent] [serialized] @$sSf20_builtinFloatLiteralSfBf80__tcfC : $@convention(method) (Builtin.FPIEEE80, @thin Float.Type) -> Float {
+bb0(%0 : $Builtin.FPIEEE80, %1 : $@thin Float.Type):
+  %2 = builtin "fptrunc_FPIEEE80_FPIEEE32"(%0 : $Builtin.FPIEEE80) : $Builtin.FPIEEE32
+  %3 = struct $Float (%2 : $Builtin.FPIEEE32)
+  return %3 : $Float
+}
+
+sil [serialized] @$sSayxSiciM : $@yield_once @convention(method) <τ_0_0> (Int, @inout Array<τ_0_0>) -> @yields @inout τ_0_0
+
+sil public_external [transparent] [serialized] @$sSi1moiyS2i_SitFZ : $@convention(method) (Int, Int, @thin Int.Type) -> Int {
+bb0(%0 : $Int, %1 : $Int, %2 : $@thin Int.Type):
+  %3 = struct_extract %0 : $Int, #Int._value
+  %4 = struct_extract %1 : $Int, #Int._value
+  %5 = integer_literal $Builtin.Int1, -1
+  %6 = builtin "smul_with_overflow_Int64"(%3 : $Builtin.Int64, %4 : $Builtin.Int64, %5 : $Builtin.Int1) : $(Builtin.Int64, Builtin.Int1)
+  %7 = tuple_extract %6 : $(Builtin.Int64, Builtin.Int1), 0
+  %8 = tuple_extract %6 : $(Builtin.Int64, Builtin.Int1), 1
+  br bb1
+
+bb1:
+  br bb2
+
+bb2:
+  cond_fail %8 : $Builtin.Int1, "arithmetic overflow"
+  %12 = struct $Int (%7 : $Builtin.Int64)
+  %13 = tuple ()
+  return %12 : $Int
+}
+
+sil public_external [transparent] [serialized] @$sSLsE3zzloiySnyxGx_xtFZ : $@convention(method) <Self where Self : Comparable> (@in_guaranteed Self, @in_guaranteed Self, @thick Self.Type) -> @out Range<Self> {
+bb0(%0 : $*Range<Self>, %1 : $*Self, %2 : $*Self, %3 : $@thick Self.Type):
+  %4 = string_literal utf8 "Can't form Range with upperBound < lowerBound"
+  %5 = integer_literal $Builtin.Word, 45
+  %6 = builtin "ptrtoint_Word"(%4 : $Builtin.RawPointer) : $Builtin.Word
+  br bb1
+
+bb1:
+  %8 = integer_literal $Builtin.Int8, 2
+  br bb2
+
+bb2:
+  %10 = struct $StaticString (%6 : $Builtin.Word, %5 : $Builtin.Word, %8 : $Builtin.Int8)
+  %11 = string_literal utf8 "/Users/buildnode/jenkins/workspace/oss-swift-package-osx/swift/stdlib/public/core/Range.swift"
+  %12 = integer_literal $Builtin.Word, 93
+  %13 = builtin "ptrtoint_Word"(%11 : $Builtin.RawPointer) : $Builtin.Word
+  br bb3
+
+bb3:
+  %15 = integer_literal $Builtin.Int8, 2
+  br bb4
+
+bb4:
+  %17 = struct $StaticString (%13 : $Builtin.Word, %12 : $Builtin.Word, %15 : $Builtin.Int8)
+  %18 = integer_literal $Builtin.Int64, 709
+  %19 = struct $UInt (%18 : $Builtin.Int64)
+  br bb5
+
+bb5:
+  %21 = metatype $@thick Self.Type
+  %22 = witness_method $Self, #Comparable."<="!1 : <Self where Self : Comparable> (Self.Type) -> (Self, Self) -> Bool : $@convention(witness_method: Comparable) <τ_0_0 where τ_0_0 : Comparable> (@in_guaranteed τ_0_0, @in_guaranteed τ_0_0, @thick τ_0_0.Type) -> Bool
+  %23 = apply %22<Self>(%1, %2, %21) : $@convention(witness_method: Comparable) <τ_0_0 where τ_0_0 : Comparable> (@in_guaranteed τ_0_0, @in_guaranteed τ_0_0, @thick τ_0_0.Type) -> Bool
+  %24 = struct_extract %23 : $Bool, #Bool._value
+  %25 = integer_literal $Builtin.Int1, -1
+  %26 = builtin "int_expect_Int1"(%24 : $Builtin.Int1, %25 : $Builtin.Int1) : $Builtin.Int1
+  %27 = integer_literal $Builtin.Int1, -1
+  %28 = builtin "xor_Int1"(%26 : $Builtin.Int1, %27 : $Builtin.Int1) : $Builtin.Int1
+  cond_br %28, bb8, bb6
+
+bb6:
+  br bb7
+
+bb7:
+  %31 = tuple ()
+  %32 = metatype $@thin Range<Self>.Type
+  %33 = alloc_stack $Self
+  copy_addr %1 to [initialization] %33 : $*Self
+  %35 = alloc_stack $Self
+  copy_addr %2 to [initialization] %35 : $*Self
+  %37 = function_ref @$sSn15uncheckedBoundsSnyxGx5lower_x5uppert_tcfC : $@convention(method) <τ_0_0 where τ_0_0 : Comparable> (@in τ_0_0, @in τ_0_0, @thin Range<τ_0_0>.Type) -> @out Range<τ_0_0>
+  %38 = apply %37<Self>(%0, %33, %35, %32) : $@convention(method) <τ_0_0 where τ_0_0 : Comparable> (@in τ_0_0, @in τ_0_0, @thin Range<τ_0_0>.Type) -> @out Range<τ_0_0>
+  dealloc_stack %35 : $*Self
+  dealloc_stack %33 : $*Self
+  %41 = tuple ()
+  return %41 : $()
+
+bb8:
+  %43 = string_literal utf8 "Fatal error"
+  %44 = integer_literal $Builtin.Word, 11
+  %45 = builtin "ptrtoint_Word"(%43 : $Builtin.RawPointer) : $Builtin.Word
+  br bb9
+
+bb9:
+  %47 = integer_literal $Builtin.Int8, 2
+  br bb10
+
+bb10:
+  %49 = struct $StaticString (%45 : $Builtin.Word, %44 : $Builtin.Word, %47 : $Builtin.Int8)
+  br bb11
+
+bb11:
+  %51 = integer_literal $Builtin.Int32, 1
+  %52 = struct $UInt32 (%51 : $Builtin.Int32)
+  br bb12
+
+bb12:
+  %54 = function_ref @$ss17_assertionFailure__4file4line5flagss5NeverOs12StaticStringV_A2HSus6UInt32VtF : $@convention(thin) (StaticString, StaticString, StaticString, UInt, UInt32) -> Never
+  %55 = apply %54(%49, %10, %17, %19, %52) : $@convention(thin) (StaticString, StaticString, StaticString, UInt, UInt32) -> Never
+  unreachable
+}
+
+sil [serialized] [always_inline] @$sSlss16IndexingIteratorVyxG0B0RtzrlE04makeB0ACyF : $@convention(method) <τ_0_0 where τ_0_0 : Collection, τ_0_0.Iterator == IndexingIterator<τ_0_0>> (@in τ_0_0) -> @out IndexingIterator<τ_0_0>
+
+sil [serialized] [always_inline] @$ss16IndexingIteratorV4next7ElementQzSgyF : $@convention(method) <τ_0_0 where τ_0_0 : Collection> (@inout IndexingIterator<τ_0_0>) -> @out Optional<τ_0_0.Element>
+
+sil [serialized] @$sSayxSicig : $@convention(method) <τ_0_0> (Int, @guaranteed Array<τ_0_0>) -> @out τ_0_0
+
+sil public_external [transparent] [serialized] @$sSf2peoiyySfz_SftFZ : $@convention(method) (@inout Float, Float, @thin Float.Type) -> () {
+bb0(%0 : $*Float, %1 : $Float, %2 : $@thin Float.Type):
+  %3 = struct_element_addr %0 : $*Float, #Float._value
+  %4 = load %3 : $*Builtin.FPIEEE32
+  %5 = struct_extract %1 : $Float, #Float._value
+  %6 = builtin "fadd_FPIEEE32"(%4 : $Builtin.FPIEEE32, %5 : $Builtin.FPIEEE32) : $Builtin.FPIEEE32
+  %7 = struct_element_addr %0 : $*Float, #Float._value
+  store %6 to %7 : $*Builtin.FPIEEE32
+  %9 = tuple ()
+  return %9 : $()
+}
+
+sil public_external [transparent] [serialized] @$sSfySfSicfC : $@convention(method) (Int, @thin Float.Type) -> Float {
+bb0(%0 : $Int, %1 : $@thin Float.Type):
+  %2 = struct_extract %0 : $Int, #Int._value
+  %3 = builtin "sitofp_Int64_FPIEEE32"(%2 : $Builtin.Int64) : $Builtin.FPIEEE32
+  %4 = struct $Float (%3 : $Builtin.FPIEEE32)
+  return %4 : $Float
+}
+
+sil public_external [transparent] [serialized] @$sSf2deoiyySfz_SftFZ : $@convention(method) (@inout Float, Float, @thin Float.Type) -> () {
+bb0(%0 : $*Float, %1 : $Float, %2 : $@thin Float.Type):
+  %3 = struct_element_addr %0 : $*Float, #Float._value
+  %4 = load %3 : $*Builtin.FPIEEE32
+  %5 = struct_extract %1 : $Float, #Float._value
+  %6 = builtin "fdiv_FPIEEE32"(%4 : $Builtin.FPIEEE32, %5 : $Builtin.FPIEEE32) : $Builtin.FPIEEE32
+  %7 = struct_element_addr %0 : $*Float, #Float._value
+  store %6 to %7 : $*Builtin.FPIEEE32
+  %9 = tuple ()
+  return %9 : $()
+}
+
+sil public_external [transparent] [serialized] @$sSf2meoiyySfz_SftFZ : $@convention(method) (@inout Float, Float, @thin Float.Type) -> () {
+bb0(%0 : $*Float, %1 : $Float, %2 : $@thin Float.Type):
+  %3 = struct_element_addr %0 : $*Float, #Float._value
+  %4 = load %3 : $*Builtin.FPIEEE32
+  %5 = struct_extract %1 : $Float, #Float._value
+  %6 = builtin "fmul_FPIEEE32"(%4 : $Builtin.FPIEEE32, %5 : $Builtin.FPIEEE32) : $Builtin.FPIEEE32
+  %7 = struct_element_addr %0 : $*Float, #Float._value
+  store %6 to %7 : $*Builtin.FPIEEE32
+  %9 = tuple ()
+  return %9 : $()
+}
+
+sil [serialized] @$sSn15uncheckedBoundsSnyxGx5lower_x5uppert_tcfC : $@convention(method) <τ_0_0 where τ_0_0 : Comparable> (@in τ_0_0, @in τ_0_0, @thin Range<τ_0_0>.Type) -> @out Range<τ_0_0>
+
+sil [noinline] [_semantics "programtermination_point"] @$ss17_assertionFailure__4file4line5flagss5NeverOs12StaticStringV_A2HSus6UInt32VtF : $@convention(thin) (StaticString, StaticString, StaticString, UInt, UInt32) -> Never
+
+sil shared_external [transparent] [serialized] [thunk] @$sSiSLsSL1loiySbx_xtFZTW : $@convention(witness_method: Comparable) (@in_guaranteed Int, @in_guaranteed Int, @thick Int.Type) -> Bool {
+bb0(%0 : $*Int, %1 : $*Int, %2 : $@thick Int.Type):
+  %3 = load %0 : $*Int
+  %4 = load %1 : $*Int
+  %5 = struct_extract %3 : $Int, #Int._value
+  %6 = struct_extract %4 : $Int, #Int._value
+  %7 = builtin "cmp_slt_Int64"(%5 : $Builtin.Int64, %6 : $Builtin.Int64) : $Builtin.Int1
+  %8 = struct $Bool (%7 : $Builtin.Int1)
+  br bb1
+
+bb1:
+  br bb2
+
+bb2:
+  return %8 : $Bool
+}
+
+sil shared_external [transparent] [serialized] [thunk] @$sSiSLsSL2leoiySbx_xtFZTW : $@convention(witness_method: Comparable) (@in_guaranteed Int, @in_guaranteed Int, @thick Int.Type) -> Bool {
+bb0(%0 : $*Int, %1 : $*Int, %2 : $@thick Int.Type):
+  %3 = load %0 : $*Int
+  %4 = load %1 : $*Int
+  %5 = struct_extract %4 : $Int, #Int._value
+  %6 = struct_extract %3 : $Int, #Int._value
+  %7 = builtin "cmp_slt_Int64"(%5 : $Builtin.Int64, %6 : $Builtin.Int64) : $Builtin.Int1
+  br bb1
+
+bb1:
+  br bb2
+
+bb2:
+  %10 = integer_literal $Builtin.Int1, -1
+  br bb3
+
+bb3:
+  %12 = builtin "xor_Int1"(%7 : $Builtin.Int1, %10 : $Builtin.Int1) : $Builtin.Int1
+  %13 = struct $Bool (%12 : $Builtin.Int1)
+  br bb4
+
+bb4:
+  br bb5
+
+bb5:
+  br bb6
+
+bb6:
+  return %13 : $Bool
+}
+
+sil shared_external [transparent] [serialized] [thunk] @$sSiSLsSL2geoiySbx_xtFZTW : $@convention(witness_method: Comparable) (@in_guaranteed Int, @in_guaranteed Int, @thick Int.Type) -> Bool {
+bb0(%0 : $*Int, %1 : $*Int, %2 : $@thick Int.Type):
+  %3 = load %0 : $*Int
+  %4 = load %1 : $*Int
+  %5 = struct_extract %3 : $Int, #Int._value
+  %6 = struct_extract %4 : $Int, #Int._value
+  %7 = builtin "cmp_slt_Int64"(%5 : $Builtin.Int64, %6 : $Builtin.Int64) : $Builtin.Int1
+  %8 = integer_literal $Builtin.Int1, -1
+  %9 = builtin "xor_Int1"(%7 : $Builtin.Int1, %8 : $Builtin.Int1) : $Builtin.Int1
+  %10 = struct $Bool (%9 : $Builtin.Int1)
+  return %10 : $Bool
+}
+
+sil shared_external [transparent] [serialized] [thunk] @$sSiSLsSL1goiySbx_xtFZTW : $@convention(witness_method: Comparable) (@in_guaranteed Int, @in_guaranteed Int, @thick Int.Type) -> Bool {
+bb0(%0 : $*Int, %1 : $*Int, %2 : $@thick Int.Type):
+  %3 = load %0 : $*Int
+  %4 = load %1 : $*Int
+  %5 = struct_extract %4 : $Int, #Int._value
+  %6 = struct_extract %3 : $Int, #Int._value
+  %7 = builtin "cmp_slt_Int64"(%5 : $Builtin.Int64, %6 : $Builtin.Int64) : $Builtin.Int1
+  %8 = struct $Bool (%7 : $Builtin.Int1)
+  return %8 : $Bool
+}
+
+sil @$sSa5countSivgSf_Tg5 : $@convention(method) (@guaranteed Array<Float>) -> Int
+
+sil @$sSayxSiciMSf_Tg5 : $@yield_once @convention(method) (Int, @inout Array<Float>) -> @yields @inout Float
+
+sil @$sSn15uncheckedBoundsSnyxGx5lower_x5uppert_tcfCSi_Tg5 : $@convention(method) (Int, Int, @thin Range<Int>.Type) -> Range<Int>
+
+sil [always_inline] @$sSlss16IndexingIteratorVyxG0B0RtzrlE04makeB0ACyFSnySiG_Tg5 : $@convention(method) (Range<Int>) -> IndexingIterator<Range<Int>>
+
+sil [always_inline] @$ss16IndexingIteratorV4next7ElementQzSgyFSnySiG_Tg5 : $@convention(method) (@inout IndexingIterator<Range<Int>>) -> Optional<Int>
+
+sil @$sSayxSicigSf_Tg5 : $@convention(method) (Int, @guaranteed Array<Float>) -> Float
