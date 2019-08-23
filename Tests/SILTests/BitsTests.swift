@@ -25,7 +25,7 @@ public final class BitsTests: XCTestCase {
         }
     }
 
-    private func checkEqualityClasses() {
+    public func testEqualityClasses() {
         let equalityClasses = [
             [
                 Bits(3),
@@ -73,6 +73,7 @@ extension BitsTests {
     public static let allTests = [
         ("testIntConstructor", testIntConstructor),
         ("testJoin", testJoin),
+        ("testEqualityClasses", testEqualityClasses),
         ("testEqualityWithExtraSignificantZeros", testEqualityWithExtraSignificantZeros),
     ]
 }
