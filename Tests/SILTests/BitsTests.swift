@@ -7,10 +7,6 @@ public final class BitsTests: XCTestCase {
         return (1...Int.random(in: length)).map { _ in Bool.random() }
     }
 
-    func randomBits(length: ClosedRange<Int>) -> Bits {
-        return Bits(leastFirst: randomSequence(length: length))
-    }
-
     public func testIntConstructor() {
         let cases = Array(0...100) + (1...100).map { _ in Int.random(in: 0...Int.max) }
         for c in cases {
