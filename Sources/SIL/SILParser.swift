@@ -222,7 +222,7 @@ class SILParser: Parser {
     // https://github.com/apple/swift/blob/master/docs/SIL.rst#begin-access
     func parseAccess() throws -> Access {
         guard !skip("deinit") else { return .deinit }
-        guard !skip("init") else { return .init }
+        guard !skip("init") else { return .`init` }
         guard !skip("modify") else { return .modify }
         guard !skip("read") else { return .read }
         throw parseError("unknown access")
