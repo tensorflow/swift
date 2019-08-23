@@ -1,8 +1,7 @@
-import QuoteTests
-import SILTests
 import XCTest
 
 #if !SKIP_QUOTE_TESTS
+import QuoteTests
 let quoteTests = [
     testCase(CompilationTests.allTests),
     testCase(QuoteTests.DescriptionTests.allTests),
@@ -13,6 +12,7 @@ let quoteTests = [XCTestCaseEntry]()
 #endif
 
 #if !SKIP_SIL_TESTS
+import SILTests
 let silTests = [
     testCase(BitcodeTests.allTests),
     testCase(BitsTests.allTests),
