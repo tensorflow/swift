@@ -1,7 +1,7 @@
 import XCTest
 import SIL
 
-final class DescriptionTests: XCTestCase {
+public final class DescriptionTests: XCTestCase {
     public func testIdentity() {
         let block = Block(
             "bb0",
@@ -115,4 +115,11 @@ final class DescriptionTests: XCTestCase {
       """
         )
     }
+}
+
+extension DescriptionTests {
+    public static let allTests = [
+        ("testIdentity", testIdentity),
+        ("testAdd", testAdd),
+    ]
 }

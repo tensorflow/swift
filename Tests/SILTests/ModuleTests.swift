@@ -2,7 +2,7 @@ import Foundation
 import XCTest
 import SIL
 
-final class ModuleTests: XCTestCase {
+public final class ModuleTests: XCTestCase {
     public func testAvgPool1D() {
         testRoundtrip("Tests/SILTests/Resources/AvgPool1D.swift")
     }
@@ -52,4 +52,10 @@ final class ModuleTests: XCTestCase {
         try! strippedContents.write(to: silURL, atomically: true, encoding: .utf8)
         return strippedContents
     }
+}
+
+extension ModuleTests {
+    public static let allTests = [
+        ("testAvgPool1D", testAvgPool1D),
+    ]
 }

@@ -1,7 +1,7 @@
 import XCTest
 @testable import SIL
 
-final class PrinterTests: XCTestCase {
+public final class PrinterTests: XCTestCase {
     public func testIndent() {
         let p = Printer()
         p.print("line")
@@ -29,4 +29,10 @@ final class PrinterTests: XCTestCase {
       """
         )
     }
+}
+
+extension PrinterTests {
+    public static let allTests = [
+        ("testIndent", testIndent),
+    ]
 }

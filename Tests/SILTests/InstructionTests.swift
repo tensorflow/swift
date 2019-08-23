@@ -5,7 +5,7 @@
 import XCTest
 @testable import SIL
 
-final class InstructionTests: XCTestCase {
+public final class InstructionTests: XCTestCase {
     private static var instructionDefs = [
         "%103 = builtin \"ptrtoint_Word\"(%101 : $Builtin.RawPointer) : $Builtin.Word",
         "%139 = builtin \"smul_with_overflow_Int64\"(%136 : $Builtin.Int64, %137 : $Builtin.Int64, %138 : $Builtin.Int1) : $(Builtin.Int64, Builtin.Int1)",

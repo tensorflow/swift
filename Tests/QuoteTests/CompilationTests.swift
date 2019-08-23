@@ -23,7 +23,7 @@ class Bar {
 func noReturnType() {
 }
 
-public final class QuoteTests: XCTestCase {
+public final class CompilationTests: XCTestCase {
     public func testClosureWithExpr() {
         let q = #quote{ (x: Int, y: Int) in
             x + y

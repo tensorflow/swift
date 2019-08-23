@@ -1,7 +1,7 @@
 import XCTest
 @testable import SIL
 
-final class BitcodeTests: XCTestCase {
+public final class BitcodeTests: XCTestCase {
     public func withSIB(forFile: String, _ f: (URL) -> ()) {
         withTemporaryFile { tempFile in
             guard shelloutOrFail("swiftc", "-emit-sib", "-o", tempFile.path, forFile) else {
@@ -48,5 +48,10 @@ final class BitcodeTests: XCTestCase {
             )
         }
     }
+}
 
+extension BitcodeTests {
+    public static let allTests = [
+        ("testLoadingSIB", testLoadingSIB),
+    ]
 }
