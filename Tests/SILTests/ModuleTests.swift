@@ -13,10 +13,14 @@ public final class ModuleTests: XCTestCase {
             let module = try Module.parse(fromSILPath: silPath)
             let actual = module.description + "\n"
             if (expected != actual) {
-                let actualPath = FileManager.default.makeTemporaryFile()!.path
-                FileManager.default.createFile(atPath: actualPath, contents: Data(actual.utf8))
-                XCTFail("Roundtrip failed: expected \(silPath), actual: \(actualPath)")
-                let _ = try? shellout("colordiff", "-u", silPath, actualPath)
+                if let actualFile = FileManager.default.makeTemporaryFile() {
+                    let actualPath = actualFile.path
+                    FileManager.default.createFile(atPath: actualPath, contents: Data(actual.utf8))
+                    XCTFail("Roundtrip failed: expected \(silPath), actual: \(actualPath)")
+                    let _ = try? shellout("colordiff", "-u", silPath, actualPath)
+                } else {
+                    XCTFail("Roundtrip failed")
+                }
             }
         } catch {
             XCTFail(String(describing: error))
