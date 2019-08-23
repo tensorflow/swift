@@ -2,11 +2,6 @@ import XCTest
 @testable import SIL
 
 public final class BitsTests: XCTestCase {
-
-    func randomSequence(length: ClosedRange<Int>) -> [Bool] {
-        return (1...Int.random(in: length)).map { _ in Bool.random() }
-    }
-
     public func testIntConstructor() {
         let cases = Array(0...100) + (1...100).map { _ in Int.random(in: 0...Int.max) }
         for c in cases {
@@ -23,6 +18,10 @@ public final class BitsTests: XCTestCase {
                 Bits.join(sequences.map { Bits(leastFirst: $0) }),
                 Bits(leastFirst: Array(sequences.joined())))
         }
+    }
+
+    private func randomSequence(length: ClosedRange<Int>) -> [Bool] {
+        return (1...Int.random(in: length)).map { _ in Bool.random() }
     }
 
     public func testEqualityClasses() {
