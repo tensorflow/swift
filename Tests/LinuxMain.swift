@@ -12,6 +12,7 @@ let tests = [
     testCase(BitsTests.allTests),
     testCase(BitstreamTests.allTests),
     testCase(SILTests.DescriptionTests.allTests),
+    testCase(InstructionTests.allTests),
     testCase(ModuleTests.allTests),
     testCase(PrinterTests.allTests),
 ]
