@@ -56,12 +56,12 @@ class BitcodeParser {
         case let .vbr(w):
             return try .bits(read(vbr: w))
         case let .array(elDesc):
-            let length = try read(vbr: 6).asInt()
+            let length = try read(vbr: 6).int
             return try .array((0..<length).map { _ in try read(desc: elDesc) })
         case .char6:
             fatalError("Char6 not supported")
         case .blob:
-            let length = try read(vbr: 6).asInt()
+            let length = try read(vbr: 6).int
             stream.align(toMultipleOf: 32)
             let result = try stream.next(bytes: length)
             stream.align(toMultipleOf: 32)
@@ -74,7 +74,7 @@ class BitcodeParser {
         let code = try read(vbr: 6)
         let numOps = try read(vbr: 6)
         var ops: [BitcodeOperand] = []
-        for _ in 1...numOps.asUInt32() {
+        for _ in 1...numOps.uint8 {
             ops.append(try .bits(read(vbr: 6)))
         }
         return BitcodeRecord(code: code, ops: ops)
@@ -87,11 +87,11 @@ class BitcodeParser {
         }
         let encoding = try read(fixed: 3)
         let result: OperandKind
-        switch (encoding.asUInt8()) {
+        switch encoding.uint8 {
         case 1:
-            result = .fixed(try read(vbr: 5).asInt())
+            result = .fixed(try read(vbr: 5).int)
         case 2:
-            result = .vbr(try read(vbr: 5).asInt())
+            result = .vbr(try read(vbr: 5).int)
         case 3:
             let (result:elementType, complexity:c) = try parseFieldType()
             return (result: .array(elementType), complexity: c + 1)
@@ -100,13 +100,13 @@ class BitcodeParser {
         case 5:
             result = .blob
         default:
-            throw Error.parseError("Unknown record field encoding: " + String(encoding.asUInt8()))
+            throw Error.parseError("Unknown record field encoding: " + String(encoding.uint8))
         }
         return (result: result, complexity: 1)
     }
 
     func parseAbbrevStructure() throws -> Structure {
-        let numOps = try read(vbr: 5).asUInt32()
+        let numOps = try read(vbr: 5).uint32
         var result: Structure = []
         var i = 0
         while i < numOps {
@@ -137,7 +137,7 @@ class BitcodeParser {
                     }
                     currentInfo = blockInfoTemplates[blockId]
                 case blockName:
-                    let nameBytes = ops.map { $0.asUInt8() }
+                    let nameBytes = ops.map { $0.uint8 }
                     guard let name = String(bytes: nameBytes, encoding: .utf8) else {
                         // The name was incorrect, so we skip it.
                         continue
@@ -146,7 +146,7 @@ class BitcodeParser {
                     break
                 case setRecordName:
                     let recordId = ops[0]
-                    let nameBytes = ops.suffix(from: 1).map { $0.asUInt8() }
+                    let nameBytes = ops.suffix(from: 1).map { $0.uint8 }
                     guard let name = String(bytes: nameBytes, encoding: .utf8) else {
                         // The name was incorrect, so we skip it.
                         continue
@@ -199,9 +199,9 @@ class BitcodeParser {
             let blockId = try read(vbr: 8)
             let newAbbrevLenBits = try read(vbr: 4)
             stream.align(toMultipleOf: 32)
-            let blockLen32 = try Int(stream.next(bits: 32).asUInt32())
+            let blockLen32 = try Int(stream.next(bits: 32).uint32)
 
-            let newAbbrevLen = newAbbrevLenBits.asInt()
+            let newAbbrevLen = newAbbrevLenBits.int
             // BLOCKINFO block is a bit special and we'll reparse it
             // into blockInfoTemplates instead of having it as a subblock
             if (blockId == blockInfoId) {
