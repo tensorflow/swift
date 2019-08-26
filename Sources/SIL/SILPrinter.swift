@@ -260,6 +260,24 @@ class SILPrinter: Printer {
         switch declKind {
         case .enumElement:
             print("enumelt")
+        case .getter:
+            print("getter")
+        case .setter:
+            print("setter")
+        case .allocator:
+            print("allocator")
+        case .initializer:
+            print("initializer")
+        case .destroyer:
+            print("destroyer")
+        case .deallocator:
+            print("deallocator")
+        case .globalAccessor:
+            print("globalaccessor")
+        case .ivarDestroyer:
+            print("ivardestroyer")
+        case .ivarInitializer:
+            print("ivarinitializer")
         }
     }
 

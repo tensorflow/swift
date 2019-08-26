@@ -260,6 +260,15 @@ public enum DebugAttribute {
 // https://github.com/apple/swift/blob/master/docs/SIL.rst#declaration-references
 public enum DeclKind {
     case enumElement
+    case getter
+    case setter
+    case allocator
+    case initializer
+    case destroyer
+    case deallocator
+    case globalAccessor
+    case ivarDestroyer
+    case ivarInitializer
 }
 
 // https://github.com/apple/swift/blob/master/include/swift/SIL/SILDeclRef.h
