@@ -283,7 +283,16 @@ class SILParser: Parser {
     }
 
     func parseDeclKind() throws -> DeclKind? {
+        guard !skip("allocator") else { return .allocator }
+        guard !skip("deallocator") else { return .deallocator }
+        guard !skip("destroyer") else { return .destroyer }
         guard !skip("enumelt") else { return .enumElement }
+        guard !skip("getter") else { return .getter }
+        guard !skip("globalaccessor") else { return .globalAccessor }
+        guard !skip("initializer") else { return .initializer }
+        guard !skip("ivardestroyer") else { return .ivarDestroyer }
+        guard !skip("ivarinitializer") else { return .ivarInitializer }
+        guard !skip("setter") else { return .setter }
         return nil
     }
 

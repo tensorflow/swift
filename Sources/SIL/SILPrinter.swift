@@ -258,8 +258,26 @@ class SILPrinter: Printer {
 
     func print(_ declKind: DeclKind) {
         switch declKind {
+        case .allocator:
+            print("allocator")
+        case .deallocator:
+            print("deallocator")
+        case .destroyer:
+            print("destroyer")
         case .enumElement:
             print("enumelt")
+        case .getter:
+            print("getter")
+        case .globalAccessor:
+            print("globalaccessor")
+        case .initializer:
+            print("initializer")
+        case .ivarDestroyer:
+            print("ivardestroyer")
+        case .ivarInitializer:
+            print("ivarinitializer")
+        case .setter:
+            print("setter")
         }
     }
 
