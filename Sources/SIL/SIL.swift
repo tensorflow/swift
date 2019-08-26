@@ -133,6 +133,10 @@ public enum Instruction {
     // debug_value_addr %0 : $*Array<Float>, var, name "out", argno 1
     case debugValueAddr(_ operand: Operand, _ attributes: [DebugAttribute])
 
+    // https://github.com/apple/swift/blob/master/docs/SIL.rst#destructure-tuple
+    // destructure_tuple %2 : $(Array<Int>, Builtin.RawPointer)
+    case destructureTuple(_ operand: Operand)
+
     // https://github.com/apple/swift/blob/master/docs/SIL.rst#end-access
     // end_access %265 : $*Array<Float>
     // end_access [abort] %42 : $T
@@ -151,6 +155,10 @@ public enum Instruction {
     // function_ref @$s4main11threadCountSiyF : $@convention(thin) () -> Int
     case functionRef(_ name: String, _ type: Type)
 
+    // https://github.com/apple/swift/blob/master/docs/SIL.rst#index-addr
+    // index_addr %5 : $*Int, %11 : $Builtin.Word
+    case indexAddr(_ addr: Operand, _ index: Operand)
+
     // https://github.com/apple/swift/blob/master/docs/SIL.rst#integer-literal
     // integer_literal $Builtin.Int1, -1
     case integerLiteral(_ type: Type, _ value: Int)
@@ -162,6 +170,10 @@ public enum Instruction {
     // https://github.com/apple/swift/blob/master/docs/SIL.rst#metatype
     // metatype $@thin Int.Type
     case metatype(_ type: Type)
+
+    // https://github.com/apple/swift/blob/master/docs/SIL.rst#pointer-to-address
+    // pointer_to_address %4 : $Builtin.RawPointer to [strict] $*Int
+    case pointerToAddress(_ operand: Operand, _ strict: Bool, _ type: Type)
 
     // https://github.com/apple/swift/blob/master/docs/SIL.rst#return
     // return %11 : $Int

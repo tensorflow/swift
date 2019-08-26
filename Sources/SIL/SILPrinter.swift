@@ -105,6 +105,9 @@ class SILPrinter: Printer {
             print("debug_value_addr ")
             print(operand)
             print(whenEmpty: false, ", ", attributes, ", ", "") { print($0) }
+        case let .destructureTuple(operand):
+            print("destructure_tuple ")
+            print(operand)
         case let .endAccess(abort, operand):
             print("end_access ")
             print(when: abort, "[abort] ")
@@ -123,6 +126,11 @@ class SILPrinter: Printer {
             print(name)
             print(" : ")
             print(type)
+        case let .indexAddr(addr, index):
+            print("index_addr ")
+            print(addr)
+            print(", ")
+            print(index)
         case let .integerLiteral(type, value):
             print("integer_literal ")
             print(type)
@@ -133,6 +141,14 @@ class SILPrinter: Printer {
             print(operand)
         case let .metatype(type):
             print("metatype ")
+            print(type)
+        case let .pointerToAddress(operand, strict, type):
+            print("pointer_to_address ")
+            print(operand)
+            print(" to ")
+            if strict {
+              print("[strict] ")
+            }
             print(type)
         case let .return(operand):
             print("return ")
