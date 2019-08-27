@@ -91,6 +91,9 @@ class SILParser: Parser {
             try take(":")
             let type = try parseType()
             return .beginApply(nothrow, value, substitutions, arguments, type)
+        case "begin_borrow":
+            let operand = try parseOperand()
+            return .beginBorrow(operand)
         case "br":
             let label = try parseIdentifier()
             let operands = try parseNilOrMany("(", ",", ")") { try parseOperand() } ?? []
@@ -122,6 +125,9 @@ class SILParser: Parser {
             let initialization = skip("[initialization]")
             let operand = try parseOperand()
             return .copyAddr(take, value, initialization, operand)
+        case "copy_value":
+            let operand = try parseOperand()
+            return .copyValue(operand)
         case "dealloc_stack":
             let operand = try parseOperand()
             return .deallocStack(operand)
@@ -133,6 +139,9 @@ class SILParser: Parser {
             let operand = try parseOperand()
             let attributes = try parseNilOrMany(", ") { try parseDebugAttribute() } ?? []
             return .debugValueAddr(operand, attributes)
+        case "destroy_value":
+            let operand = try parseOperand()
+            return .destroyValue(operand)
         case "destructure_tuple":
             let operand = try parseOperand()
             return .destructureTuple(operand)
@@ -143,6 +152,9 @@ class SILParser: Parser {
         case "end_apply":
             let value = try parseValue()
             return .endApply(value)
+        case "end_borrow":
+            let operand = try parseOperand()
+            return .endBorrow(operand)
         case "float_literal":
             let type = try parseType()
             try take(",")
@@ -181,6 +193,7 @@ class SILParser: Parser {
         case "store":
             let value = try parseValue()
             try take("to")
+            let _ = skip("[trivial]") // Used in ownership SSA
             let operand = try parseOperand()
             return .store(value, operand)
         case "string_literal":
@@ -360,6 +373,7 @@ class SILParser: Parser {
         guard !peek("[differentiable") else { return try parseDifferentiable() }
         guard !skip("[dynamically_replacable]") else { return .dynamicallyReplacable }
         guard !skip("[noinline]") else { return .noInline }
+        guard !skip("[ossa]") else { return .noncanonical(.ownershipSSA) }
         guard !skip("[readonly]") else { return .readonly }
         guard !peek("[_semantics") else { return try parseSemantics() }
         guard !skip("[serialized]") else { return .serialized }
@@ -555,7 +569,16 @@ class SILParser: Parser {
 
     // https://github.com/apple/swift/blob/master/docs/SIL.rst#sil-types
     func parseType() throws -> Type {
-        try take("$")
+        // NB: Ownership SSA has a surprising convention of printing the
+        //     ownership type before the actual type, so we first try to
+        //     parse the type attribute.
+        if (try? take("$")) == nil {
+          let attr = try? parseTypeAttribute()
+          // Take the $ for real even if the attribute was not there, because
+          // that's the error message we want to show anyway.
+          try take("$")
+          return .withOwnership(attr!, try parseNakedType())
+        }
         return try parseNakedType()
     }
 

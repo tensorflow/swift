@@ -63,6 +63,9 @@ class SILPrinter: Printer {
             print("(", arguments, ", ", ")") { print($0) }
             print(" : ")
             print(type)
+        case let .beginBorrow(operand):
+            print("begin_borrow ")
+            print(operand)
         case let .br(label, operands):
             print("br ")
             print(label)
@@ -94,6 +97,9 @@ class SILPrinter: Printer {
             print(" to ")
             print(when: initialization, "[initialization] ")
             print(operand)
+        case let .copyValue(operand):
+            print("copy_value ")
+            print(operand)
         case let .deallocStack(operand):
             print("dealloc_stack ")
             print(operand)
@@ -105,6 +111,9 @@ class SILPrinter: Printer {
             print("debug_value_addr ")
             print(operand)
             print(whenEmpty: false, ", ", attributes, ", ", "") { print($0) }
+        case let .destroyValue(operand):
+            print("destroy_value ")
+            print(operand)
         case let .destructureTuple(operand):
             print("destructure_tuple ")
             print(operand)
@@ -114,6 +123,9 @@ class SILPrinter: Printer {
             print(operand)
         case let .endApply(value):
             print("end_apply ")
+            print(value)
+        case let .endBorrow(value):
+            print("end_borrow ")
             print(value)
         case let .floatLiteral(type, value):
             print("float_literal ")
@@ -346,6 +358,8 @@ class SILPrinter: Printer {
             print("[dynamically_replacable]")
         case .noInline:
             print("[noinline]")
+        case .noncanonical(.ownershipSSA):
+            print("[ossa]")
         case .readonly:
             print("[readonly]")
         case let .semantics(value):
@@ -423,8 +437,14 @@ class SILPrinter: Printer {
     }
 
     func print(_ type: Type) {
-        print("$")
-        naked(type)
+        if case let .withOwnership(attr, subtype) = type {
+          print(attr)
+          print(" ")
+          print(subtype)
+        } else {
+          print("$")
+          naked(type)
+        }
     }
 
     func naked(_ type: Type) {
@@ -463,6 +483,8 @@ class SILPrinter: Printer {
             print("<", args, ", ", ">") { naked($0) }
         case let .tupleType(params):
             print("(", params, ", ", ")") { naked($0) }
+        case .withOwnership(_, _):
+            fatalError("Types with ownership should be printed before naked type print!")
         }
     }
 
