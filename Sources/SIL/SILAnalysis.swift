@@ -1,4 +1,5 @@
-public func registersRead(by instr: Instruction) -> [String]? {
+extension Instruction {
+    var operandNames: [String]? {
     func unwrap(_ operands: [Operand]) -> [String] {
         return operands.map { $0.value }
     }
