@@ -93,6 +93,10 @@ public enum Instruction {
         _ substitutions: [Type], _ arguments: [String], _ type: Type
     )
 
+    // Only used in Ownership SSA
+    // begin_borrow %16 : $TensorShape
+    case beginBorrow(_ operand: Operand)
+
     // https://github.com/apple/swift/blob/master/docs/SIL.rst#br
     // br bb9
     // br label (%0 : $A, %1 : $B)
@@ -120,6 +124,10 @@ public enum Instruction {
     // copy_addr %1 to [initialization] %33 : $*Self
     case copyAddr(_ take: Bool, _ value: String, _ initialization: Bool, _ operand: Operand)
 
+    // Only used in Ownership SSA
+    // copy_value %53 : $Tensor<Float>
+    case copyValue(_ operand: Operand)
+
     // https://github.com/apple/swift/blob/master/docs/SIL.rst#dealloc-stack
     // dealloc_stack %162 : $*IndexingIterator<Range<Int>>
     case deallocStack(_ operand: Operand)
@@ -137,6 +145,10 @@ public enum Instruction {
     // destructure_tuple %2 : $(Array<Int>, Builtin.RawPointer)
     case destructureTuple(_ operand: Operand)
 
+    // Only used in Ownership SSA
+    // destroy_value %30 : $TensorShape
+    case destroyValue(_ operand: Operand)
+
     // https://github.com/apple/swift/blob/master/docs/SIL.rst#end-access
     // end_access %265 : $*Array<Float>
     // end_access [abort] %42 : $T
@@ -145,6 +157,10 @@ public enum Instruction {
     // https://github.com/apple/swift/blob/master/docs/SIL.rst#end-apply
     // end_apply %268
     case endApply(_ value: String)
+
+    // Only used in Ownership SSA
+    // end_borrow %35 : $TensorShape
+    case endBorrow(_ operand: Operand)
 
     // https://github.com/apple/swift/blob/master/docs/SIL.rst#float-literal
     // float_literal $Builtin.FPIEEE32, 0x0
@@ -323,6 +339,11 @@ public enum FunctionAttribute {
     case serialized
     case thunk
     case transparent
+    case noncanonical(NoncanonicalFunctionAttribute)
+}
+
+public enum NoncanonicalFunctionAttribute {
+    case ownershipSSA
 }
 
 // https://github.com/apple/swift/blob/master/docs/SIL.rst#linkage
@@ -399,6 +420,7 @@ public indirect enum Type: Equatable {
     case selfType
     case specializedType(_ type: Type, _ arguments: [Type])
     case tupleType(_ parameters: [Type])
+    case withOwnership(_ attribute: TypeAttribute, _ type: Type) // Only used in ownership SSA
 }
 
 // https://github.com/apple/swift/blob/master/docs/SIL.rst#properties-of-types
