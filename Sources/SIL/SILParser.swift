@@ -133,6 +133,9 @@ class SILParser: Parser {
             let operand = try parseOperand()
             let attributes = try parseNilOrMany(", ") { try parseDebugAttribute() } ?? []
             return .debugValueAddr(operand, attributes)
+        case "destructure_tuple":
+            let operand = try parseOperand()
+            return .destructureTuple(operand)
         case "end_access":
             let abort = skip("[abort]")
             let operand = try parseOperand()
@@ -150,6 +153,11 @@ class SILParser: Parser {
             try take(":")
             let type = try parseType()
             return .functionRef(name, type)
+        case "index_addr":
+            let addr = try parseOperand()
+            try take(",")
+            let index = try parseOperand()
+            return .indexAddr(addr, index)
         case "integer_literal":
             let type = try parseType()
             try take(",")
@@ -161,6 +169,12 @@ class SILParser: Parser {
         case "metatype":
             let type = try parseType()
             return .metatype(type)
+        case "pointer_to_address":
+            let operand = try parseOperand()
+            try take("to")
+            let strict = skip("[strict]")
+            let type = try parseType()
+            return .pointerToAddress(operand, strict, type)
         case "return":
             let operand = try parseOperand()
             return .return(operand)
