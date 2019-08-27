@@ -162,6 +162,10 @@ public enum Instruction {
     // end_borrow %35 : $TensorShape
     case endBorrow(_ operand: Operand)
 
+    // https://github.com/apple/swift/blob/master/docs/SIL.rst#enum
+    // enum $Padding, #Padding.valid!enumelt
+    case `enum`(_ type: Type, _ declRef: DeclRef, _ operand: Operand?)
+
     // https://github.com/apple/swift/blob/master/docs/SIL.rst#float-literal
     // float_literal $Builtin.FPIEEE32, 0x0
     // float_literal $Builtin.FPIEEE64, 0x3F800000

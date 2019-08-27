@@ -35,6 +35,7 @@ let instructionDefs = [
     "end_access %265 : $*Array<Float>",
     "end_access [abort] %42 : $T",
     "end_apply %268",
+    "%170 = enum $Padding, #Padding.valid!enumelt",
     "float_literal $Builtin.FPIEEE32, 0x0",
     "float_literal $Builtin.FPIEEE64, 0x3F800000",
     "function_ref @$s4main11threadCountSiyF : $@convention(thin) () -> Int",

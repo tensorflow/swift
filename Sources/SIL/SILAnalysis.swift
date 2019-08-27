@@ -24,6 +24,7 @@ extension Instruction {
         case let .endAccess(_, operand): return [operand.value]
         case let .endApply(value): return [value]
         case let .endBorrow(operand): return [operand.value]
+        case let .enum(_, _, maybeOperand): return maybeOperand.map{ [$0.value] } ?? []
         case .floatLiteral(_, _): return []
         case .functionRef(_, _): return []
         case let .indexAddr(addr, index): return [addr.value, index.value]
