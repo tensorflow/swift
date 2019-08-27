@@ -47,5 +47,6 @@ extension Instruction {
         case .unknown(_): return nil
         case .unreachable: return []
         case .witnessMethod(_, _, _, _): return []
+        }
     }
 }
