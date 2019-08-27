@@ -141,13 +141,13 @@ public enum Instruction {
     // debug_value_addr %0 : $*Array<Float>, var, name "out", argno 1
     case debugValueAddr(_ operand: Operand, _ attributes: [DebugAttribute])
 
-    // https://github.com/apple/swift/blob/master/docs/SIL.rst#destructure-tuple
-    // destructure_tuple %2 : $(Array<Int>, Builtin.RawPointer)
-    case destructureTuple(_ operand: Operand)
-
     // Only used in Ownership SSA
     // destroy_value %30 : $TensorShape
     case destroyValue(_ operand: Operand)
+
+    // https://github.com/apple/swift/blob/master/docs/SIL.rst#destructure-tuple
+    // destructure_tuple %2 : $(Array<Int>, Builtin.RawPointer)
+    case destructureTuple(_ operand: Operand)
 
     // https://github.com/apple/swift/blob/master/docs/SIL.rst#end-access
     // end_access %265 : $*Array<Float>

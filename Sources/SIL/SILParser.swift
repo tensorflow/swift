@@ -139,12 +139,12 @@ class SILParser: Parser {
             let operand = try parseOperand()
             let attributes = try parseNilOrMany(", ") { try parseDebugAttribute() } ?? []
             return .debugValueAddr(operand, attributes)
-        case "destructure_tuple":
-            let operand = try parseOperand()
-            return .destructureTuple(operand)
         case "destroy_value":
             let operand = try parseOperand()
             return .destroyValue(operand)
+        case "destructure_tuple":
+            let operand = try parseOperand()
+            return .destructureTuple(operand)
         case "end_access":
             let abort = skip("[abort]")
             let operand = try parseOperand()

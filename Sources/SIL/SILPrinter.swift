@@ -111,11 +111,11 @@ class SILPrinter: Printer {
             print("debug_value_addr ")
             print(operand)
             print(whenEmpty: false, ", ", attributes, ", ", "") { print($0) }
-        case let .destructureTuple(operand):
-            print("destructure_tuple ")
-            print(operand)
         case let .destroyValue(operand):
             print("destroy_value ")
+            print(operand)
+        case let .destructureTuple(operand):
+            print("destructure_tuple ")
             print(operand)
         case let .endAccess(abort, operand):
             print("end_access ")
