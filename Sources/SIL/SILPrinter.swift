@@ -127,6 +127,15 @@ class SILPrinter: Printer {
         case let .endBorrow(value):
             print("end_borrow ")
             print(value)
+        case let .enum(type, declRef, maybeOperand):
+            print("enum ")
+            print(type)
+            print(", ")
+            print(declRef)
+            if let operand = maybeOperand {
+              print(", ")
+              print(operand)
+            }
         case let .floatLiteral(type, value):
             print("float_literal ")
             print(type)
@@ -158,9 +167,7 @@ class SILPrinter: Printer {
             print("pointer_to_address ")
             print(operand)
             print(" to ")
-            if strict {
-              print("[strict] ")
-            }
+            print(when: strict, "[strict] ")
             print(type)
         case let .return(operand):
             print("return ")

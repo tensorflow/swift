@@ -155,6 +155,12 @@ class SILParser: Parser {
         case "end_borrow":
             let operand = try parseOperand()
             return .endBorrow(operand)
+        case "enum":
+            let type = try parseType()
+            try take(",")
+            let declRef = try parseDeclRef()
+            let operand = skip(",") ? try parseOperand() : nil
+            return .enum(type, declRef, operand)
         case "float_literal":
             let type = try parseType()
             try take(",")
