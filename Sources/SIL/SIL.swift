@@ -164,6 +164,7 @@ public enum Instruction {
 
     // https://github.com/apple/swift/blob/master/docs/SIL.rst#enum
     // enum $Padding, #Padding.valid!enumelt
+    // enum $U, #U.DataCase!enumelt.1, %0 : $T
     case `enum`(_ type: Type, _ declRef: DeclRef, _ operand: Operand?)
 
     // https://github.com/apple/swift/blob/master/docs/SIL.rst#float-literal
