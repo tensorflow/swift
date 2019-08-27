@@ -1,5 +1,5 @@
 extension Instruction {
-    var operandNames: [String]? {
+    public var operandNames: [String]? {
         func unwrap(_ operands: [Operand]) -> [String] {
             return operands.map { $0.value }
         }
