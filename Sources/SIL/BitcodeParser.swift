@@ -89,9 +89,9 @@ class BitcodeParser {
         let result: OperandKind
         switch encoding.uint8 {
         case 1:
-            result = .fixed(try read(vbr: 5).int)
+            result = .fixed(width: try read(vbr: 5).int)
         case 2:
-            result = .vbr(try read(vbr: 5).int)
+            result = .vbr(width: try read(vbr: 5).int)
         case 3:
             let (result:elementType, complexity:c) = try parseFieldType()
             return (result: .array(elementType), complexity: c + 1)

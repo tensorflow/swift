@@ -5,8 +5,8 @@ struct BitcodeRecord {
 
 indirect enum OperandKind {
     case literal(Bits)
-    case fixed(Int)
-    case vbr(Int)
+    case fixed(width: Int)
+    case vbr(width: Int)
     case array(OperandKind)
     case char6
     case blob
