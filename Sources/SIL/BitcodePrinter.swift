@@ -5,7 +5,7 @@
 class BitcodePrinter: Printer {
     func print(_ bits: Bits) {
         if bits.count <= 32 {
-            print(bits.asUInt32())
+            print(bits.uint32)
         } else {
             print("...")
         }

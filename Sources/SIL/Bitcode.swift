@@ -4,18 +4,18 @@ struct BitcodeRecord {
 }
 
 indirect enum OperandKind {
-    case literal(_ value: Bits)
-    case fixed(_ width: Int)
-    case vbr(_ width: Int)
-    case array(_ element: OperandKind)
+    case literal(Bits)
+    case fixed(width: Int)
+    case vbr(width: Int)
+    case array(OperandKind)
     case char6
     case blob
 }
 
 indirect enum BitcodeOperand {
-    case bits(_ value: Bits)
-    case blob(_ value: [UInt8])
-    case array(_ values: [BitcodeOperand])
+    case bits(Bits)
+    case blob([UInt8])
+    case array([BitcodeOperand])
 
     var bits: Bits? {
         guard case let .bits(value) = self else { return nil }

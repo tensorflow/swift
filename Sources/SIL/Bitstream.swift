@@ -7,7 +7,19 @@ struct Bits: Equatable, Hashable, ExpressibleByIntegerLiteral, CustomStringConve
     private var bits: [Bool]
     var description: String { String(bits.reversed().map { $0 ? "1" : "0" }) }
     var count: Int { bits.lastIndex(of: true).map { $0 + 1 } ?? 0 }
-    var isZero: Bool { bits.allSatisfy { !$0 } }
+    var isZero: Bool { bits.allSatisfy(!) }
+
+    // TODO(#30): Going through strings might be a bit slow, and in those cases
+    //            we can utilize bitwise shifts, or use a more efficient representation
+    var uint8: UInt8 { return cast() }
+    var uint32: UInt32 { return cast() }
+    var int: Int {
+        assert(
+            count <= Int.bitWidth - 1,
+            "Casting a bit sequence of length " + String(bits.count) + " to an integer of width "
+                + String(Int.bitWidth - 1))
+        return Int(uint32)
+    }
 
     init(integerLiteral lit: Int) {
         self.init(lit)
@@ -32,18 +44,6 @@ struct Bits: Equatable, Hashable, ExpressibleByIntegerLiteral, CustomStringConve
             "Casting a bit sequence of length " + String(bits.count) + " to an integer of width "
                 + String(T.bitWidth))
         return T.init(count == 0 ? "0" : description, radix: 2)!
-    }
-
-    // TODO(#30): Going through strings might be a bit slow, and in those cases
-    //            we can utilize bitwise shifts, or use a more efficient representation
-    func asUInt8() -> UInt8 { return cast() }
-    func asUInt32() -> UInt32 { return cast() }
-    func asInt() -> Int {
-        assert(
-            count <= Int.bitWidth - 1,
-            "Casting a bit sequence of length " + String(bits.count) + " to an integer of width "
-                + String(Int.bitWidth - 1))
-        return Int(asUInt32())
     }
 
     static func join(_ arr: [Bits]) -> Bits {
@@ -92,7 +92,7 @@ struct Bitstream {
             offset += 8
             return result
         } else {
-            return try next(bits: 8).asUInt8()
+            return try next(bits: 8).uint8
         }
     }
 
