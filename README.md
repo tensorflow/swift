@@ -49,6 +49,7 @@ The Swift for TensorFlow project is currently focusing on 2 kinds of users:
 Tutorial | Last Updated |
 -------- | ------------ |
 [A Swift Tour](https://colab.research.google.com/github/tensorflow/swift/blob/master/docs/site/tutorials/a_swift_tour.ipynb) | March 2019
+[Protocol-Oriented Programming & Generics](https://colab.research.google.com/github/tensorflow/swift/blob/master/docs/site/tutorials/protocol_oriented_generics.ipynb) | August 2019
 [Python Interoperability](https://colab.research.google.com/github/tensorflow/swift/blob/master/docs/site/tutorials/python_interoperability.ipynb) | March 2019
 [Custom Differentiation](https://colab.research.google.com/github/tensorflow/swift/blob/master/docs/site/tutorials/custom_differentiation.ipynb) | March 2019
 [Model Training Walkthrough](https://colab.research.google.com/github/tensorflow/swift/blob/master/docs/site/tutorials/model_training_walkthrough.ipynb) | March 2019
@@ -103,7 +104,7 @@ let (𝛁model, 𝛁input) = model.gradient(at: 2.0) { model, input in
     model.applied(to: input)
 }
 
-print(𝛁model) // Model.AllDifferentiableVariables(w: 2.0, b: 1.0)
+print(𝛁model) // Model.TangentVector(w: 2.0, b: 1.0)
 print(𝛁input) // 4.0
 ```
 
@@ -125,8 +126,8 @@ import Python
 
 let np = Python.import("numpy")
 
-let array = np.arange([10, 10])  // Create a 10x10 numpy array.
-let tensor = Tensor(numpy: array)  // Seamless integration!
+let array = np.arange(100).reshape(10, 10)  // Create a 10x10 numpy array.
+let tensor = Tensor<Float>(numpy: array)  // Seamless integration!
 ```
 
 ## Documentation
@@ -149,8 +150,10 @@ out the following documentation.
 
 Document | Last Updated | Status |
 -------- | ------------ | ------ |
-[Differentiable Types](docs/DifferentiableTypes.md) | March 2019 | Current
-[Differentiable Functions and Differentiation APIs](docs/DifferentiableFunctions.md) | March 2019 | Current
+[Swift Differentiable Programming Design Overview](https://docs.google.com/document/d/1bPepWLfRQa6CtXqKA8CDQ87uZHixNav-TFjLSisuKag/edit?usp=sharing) | June 2019 | Current
+[Swift Differentiable Programming Implementation Overview](https://docs.google.com/document/d/1tgxHh7dxbpkQ8Y-LSs2IXAuMWPd8RrtJLkxA80qBRYc/edit?usp=sharing) | August 2019 | Current
+[Differentiable Types](docs/DifferentiableTypes.md) | March 2019 | Outdated
+[Differentiable Functions and Differentiation APIs](docs/DifferentiableFunctions.md) | March 2019 | Outdated
 [Dynamic Property Iteration using Key Paths](docs/DynamicPropertyIteration.md) | March 2019 | Current
 [Hierarchical Parameter Iteration and Optimization](docs/ParameterOptimization.md) | March 2019 | Current
 [First-Class Automatic Differentiation in Swift: A Manifesto](https://gist.github.com/rxwei/30ba75ce092ab3b0dce4bde1fc2c9f1d) | October 2018 | Outdated

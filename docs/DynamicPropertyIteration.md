@@ -12,7 +12,7 @@ Last updated: March 2019
 > [Swift for TensorFlow toolchains](https://github.com/tensorflow/swift#getting-started),
 > which you can play with. The authors will propose this feature through
 > [Swift Evolution](https://forums.swift.org/c/evolution) in 2019. Updates will be posted
-> on the [intial pitch thread](https://forums.swift.org/t/storedpropertyiterable/19218).
+> on the [initial pitch thread](https://forums.swift.org/t/storedpropertyiterable/19218).
 
 ## Background and motivation
 

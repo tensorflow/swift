@@ -1,4 +1,4 @@
-# Graph Program Extraction
+# Graph Program Extraction (deprecated)
 
 * Date: April 2018
 * Resources: [Tech talk at 2018 LLVM Developers' Meeting](https://www.youtube.com/watch?v=HSneJdPkaKk)

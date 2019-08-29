@@ -22,7 +22,7 @@ For examples of what you can do, visit [this tutorial](https://colab.research.go
 
 ### Getting newer Swift builds
 
-The default Swift build running in Colab is typically 2-3 business days behind the head of the [swift/tensorflow branch](https://github.com/apple/swift/tree/tensorflow). To install a newer Swift build (which is typically 2-8 hours behind the head of the swift/tensorflow branch), follow these instructions:
+We typically upgrade the Swift version in Colab to the [latest numbered release](https://github.com/tensorflow/swift/blob/master/Installation.md#releases) 2-3 business days after the release. To install a newer Swift build (which is typically 2-8 hours behind the head of the [swift/tensorflow branch](https://github.com/apple/swift/tree/tensorflow)), follow these instructions:
 
 1. Close all Colab tabs in your browser.
 2. Open [this Swift installation notebook](https://colab.research.google.com/github/tensorflow/swift/blob/master/notebooks/install_latest_swift.ipynb).
@@ -74,7 +74,7 @@ With the Swift interpreter, you can use Swift like a scripting language. Create 
 import TensorFlow
 
 struct MLPClassifier {
-    var w1 = Tensor<Float>(shape: [2, 4], repeating: 0.1)
+    var w1 = Tensor<Float>(repeating: 0.1, shape: [2, 4])
     var w2 = Tensor<Float>(shape: [4, 1], scalars: [0.4, -0.5, -0.5, 0.4])
     var b1 = Tensor<Float>([0.2, -0.3, -0.3, 0.2])
     var b2 = Tensor<Float>([[0.4]])
@@ -140,45 +140,44 @@ This was a simple demonstration of Swift for TensorFlow. To see example models w
 
 ## (Mac-only) Xcode
 
-To use Swift for TensorFlow with Xcode, you must have installed a toolchain from [this page](Installation.md).
+Swift for TensorFlow provides an Xcode toolchain. Begin by installing it from [this page](Installation.md).
 
-1. Open Xcode’s `Preferences`, navigate to `Components > Toolchains`, and select the installed Swift for TensorFlow toolchain. The name of the toolchain should start with "Swift for TensorFlow Development Snapshot".
+Next, switch to the new toolchain. Open Xcode’s `Preferences`, navigate to `Components > Toolchains`, and select the installed Swift for TensorFlow toolchain. The name of the toolchain should start with "Swift for TensorFlow".
 
 <p align="center">
   <img src="docs/images/Installation-XcodePreferences.png?raw=true" alt="Select toolchain in Xcode preferences."/>
 </p>
 
-2. In the menu bar, select `File > New > Playground...`.
+Swift for TensorFlow does not officially support Xcode Playgrounds, and related bugs are tracked by [TF-500](https://bugs.swift.org/browse/TF-500).
 
-3. Then, select `macOS` and `Blank` and hit `Next`.
+To build an executable with Xcode 10 or 11, you must change some project settings from their default values:
 
-4. Choose a location for the Playground file and hit `Create`. Xcode should open your new Playground.
-
-5. In the Playground, let’s try importing TensorFlow! Paste the following code:
-
-```swift
-import TensorFlow
-
-let x = Tensor<Float>([[1, 2], [3, 4]])
-print(x)
-```
-
-6. After a moment, the Playground should finish running and print the result in the display at the bottom.
-
-<p align="center">
-  <img src="docs/images/Usage-Playground.png?raw=true" alt="Playground running Swift for TensorFlow."/>
-</p>
-
-**Note:** Xcode Playgrounds are a great interactive environment for prototyping code, but they often hang or crash. If that happens, try restarting Xcode. There are some documented bugs regarding Swift for TensorFlow and Playgrounds. If you discover a new bug, please file an issue.
-
-To build an executable with Xcode 10, you must change some project settings from their default values:
-
- 1. In the menu bar, select `File > Project Settings...`.
+ 1. In the menu bar, select `File > Project Settings`.
 
  2. Then, select `Legacy Build System` for Build Settings and click `Done`.
 
  3. In your target's Build Settings:
-   * Go to `Swift Compiler > Code Generation > Optimization Level` and select `Optimize for Speed [-O]`.
-   * Add `libtensorflow.so` and `libtensorflow_framework.so` to `Linked Frameworks and Libraries` and change `Runtime Search Paths`.
-     See [this comment](https://github.com/tensorflow/swift/issues/10#issuecomment-385167803) for specific instructions with screenshots.
-   * Go to `Linking > Other Linker Flags` and add `-lpython` to the list of flags.
+   * Go to `Apple Clang - Code Generation > Optimization Level` and select `Fast [-O, O1]`. This isn't strictly necessary for debugging, but building without optimization will lead to much slower execution.
+   * Change `Runpath Search Paths` to `$(TOOLCHAIN_DIR)`.
+
+## Visual Studio Code setup for Swift (only tested on Linux)
+
+1. Install the [LLDB extension](https://marketplace.visualstudio.com/items?itemName=vadimcn.vscode-lldb).
+2. Install the [Swift extension](https://marketplace.visualstudio.com/items?itemName=vknabel.vscode-swift-development-environment).
+3. Build [SourceKit-LSP](https://github.com/apple/sourcekit-lsp#building-on-linux) from sources.
+4. Search for swift-lsp-dev from the VS Code extensions view and install it.
+
+Steps 3 and 4 are only required for code outline and navigation, first two steps are sufficient for debugging with LLDB. There are two significant caveats:
+
+* Navigation doesn't work across multiple files. In other words, jumping to a definition in another file than the current one isn't possible.
+* Debugging sometimes stops spuriously while stepping through the code. Also, watch doesn't work with expressions.
+
+Debugging and outline workflows match the usual VS Code experience:
+
+<p align="center">
+  <img src="docs/images/VSCodeSwiftDebug.png?raw=true" alt="Debugging Swift with VS Code."/>
+</p>
+
+<p align="center">
+  <img src="docs/images/VSCodeSwiftOutline.png?raw=true" alt="Debugging Swift with VS Code."/>
+</p>
