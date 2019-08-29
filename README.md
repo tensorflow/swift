@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="images/logo.png">
+  <img src="images/logo.png" height="150px">
 </p>
 
 # Swift for TensorFlow
