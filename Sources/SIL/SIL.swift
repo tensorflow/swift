@@ -170,7 +170,7 @@ public enum Instruction {
     // https://github.com/apple/swift/blob/master/docs/SIL.rst#float-literal
     // float_literal $Builtin.FPIEEE32, 0x0
     // float_literal $Builtin.FPIEEE64, 0x3F800000
-    case floatLiteral(_ type: Type, _ value: Int)
+    case floatLiteral(_ type: Type, _ value: String)
 
     // https://github.com/apple/swift/blob/master/docs/SIL.rst#function-ref
     // function_ref @$s4main11threadCountSiyF : $@convention(thin) () -> Int

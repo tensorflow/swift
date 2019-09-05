@@ -164,7 +164,8 @@ class SILParser: Parser {
         case "float_literal":
             let type = try parseType()
             try take(",")
-            let value = try parseInt()
+            try take("0x")
+            let value = take(while: { $0.isHexDigit })
             return .floatLiteral(type, value)
         case "function_ref":
             let name = try parseFunctionName()

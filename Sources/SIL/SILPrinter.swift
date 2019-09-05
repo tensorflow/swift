@@ -139,8 +139,8 @@ class SILPrinter: Printer {
         case let .floatLiteral(type, value):
             print("float_literal ")
             print(type)
-            print(", ")
-            hex(value)
+            print(", 0x")
+            print(value)
         case let .functionRef(name, type):
             print("function_ref ")
             print("@")
