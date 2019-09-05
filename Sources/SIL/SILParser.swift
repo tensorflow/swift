@@ -51,14 +51,22 @@ class SILParser: Parser {
     // https://github.com/apple/swift/blob/master/docs/SIL.rst#basic-blocks
     func parseInstructionDef() throws -> InstructionDef {
         let result = try parseResult()
-        let instruction = try parseInstruction()
+        let instruction = parseInstruction()
         let sourceInfo = try parseSourceInfo()
         return InstructionDef(result, instruction, sourceInfo)
     }
 
     // https://github.com/apple/swift/blob/master/docs/SIL.rst#instruction-set
-    func parseInstruction() throws -> Instruction {
+    func parseInstruction() -> Instruction {
         let instructionName = take(while: { $0.isLetter || $0 == "_" })
+        do {
+            return try parseInstructionBody(instructionName)
+        } catch {
+            return .unknown(instructionName)
+        }
+    }
+
+    func parseInstructionBody(_ instructionName: String) throws -> Instruction {
         switch instructionName {
         case "alloc_stack":
             let type = try parseType()
