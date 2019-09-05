@@ -90,6 +90,13 @@ class SILPrinter: Printer {
             print(operand)
             print(", ")
             literal(message)
+        case let .convertEscapeToNoescape(notGuaranteed, escaped, operand, type):
+            print("convert_escape_to_noescape ")
+            print(when: notGuaranteed, "[not_guaranteed] ")
+            print(when: escaped, "[escaped] ")
+            print(operand)
+            print(" to ")
+            print(type)
         case let .copyAddr(take, value, initialization, operand):
             print("copy_addr ")
             print(when: take, "[take] ")
@@ -162,6 +169,15 @@ class SILPrinter: Printer {
             print(operand)
         case let .metatype(type):
             print("metatype ")
+            print(type)
+        case let .partialApply(calleeGuaranteed, onStack, value, substitutions, arguments, type):
+            print("partial_apply ")
+            print(when: calleeGuaranteed, "[callee_guaranteed] ")
+            print(when: onStack, "[on_stack] ")
+            print(value)
+            print(whenEmpty: false, "<", substitutions, ", ", ">") { naked($0) }
+            print("(", arguments, ", ", ")") { print($0) }
+            print(" : ")
             print(type)
         case let .pointerToAddress(operand, strict, type):
             print("pointer_to_address ")
