@@ -643,7 +643,7 @@ class SILParser: Parser {
     func parseTypeName() throws -> String {
         let start = position
         // TODO(#14): Make name parsing more thorough.
-        let name = take(while: { $0.isLetter || $0.isNumber || "_".contains($0) })
+        let name = take(while: { $0.isLetter || $0.isNumber || $0 == "_" })
         if !name.isEmpty {
             return name
         }
