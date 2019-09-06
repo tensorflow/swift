@@ -426,6 +426,11 @@ public indirect enum Type: Equatable {
     case specializedType(_ type: Type, _ arguments: [Type])
     case tupleType(_ parameters: [Type])
     case withOwnership(_ attribute: TypeAttribute, _ type: Type) // Only used in ownership SSA
+
+    public static func parse(fromString silString: String) throws -> Type {
+        let parser = SILParser(forString: silString)
+        return try parser.parseType()
+    }
 }
 
 // https://github.com/apple/swift/blob/master/docs/SIL.rst#properties-of-types
