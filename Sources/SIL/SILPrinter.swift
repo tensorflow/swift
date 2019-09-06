@@ -164,8 +164,12 @@ class SILPrinter: Printer {
             print(type)
             print(", ")
             literal(value)
-        case let .load(operand):
+        case let .load(maybeOwnership, operand):
             print("load ")
+            if let ownership = maybeOwnership {
+                print(ownership)
+                print(" ")
+            }
             print(operand)
         case let .metatype(type):
             print("metatype ")
@@ -188,10 +192,14 @@ class SILPrinter: Printer {
         case let .return(operand):
             print("return ")
             print(operand)
-        case let .store(value, operand):
+        case let .store(value, maybeOwnership, operand):
             print("store ")
             print(value)
             print(" to ")
+            if let ownership = maybeOwnership {
+                print(ownership)
+                print(" ")
+            }
             print(operand)
         case let .stringLiteral(encoding, value):
             print("string_literal ")
@@ -553,6 +561,21 @@ class SILPrinter: Printer {
             naked(lhs)
             print(" == ")
             naked(rhs)
+        }
+    }
+
+    func print(_ ownership: LoadOwnership) {
+        switch ownership {
+        case .copy: print("[copy]")
+        case .take: print("[take]")
+        case .trivial: print("[trivial]")
+        }
+    }
+
+    func print(_ ownership: StoreOwnership) {
+        switch ownership {
+        case .`init`: print("[init]")
+        case .trivial: print("[trivial]")
         }
     }
 }

@@ -30,12 +30,12 @@ extension Instruction {
         case .functionRef(_, _): return []
         case let .indexAddr(addr, index): return [addr.value, index.value]
         case .integerLiteral(_, _): return []
-        case let .load(operand): return [operand.value]
+        case let .load(_, operand): return [operand.value]
         case .metatype(_): return []
         case let .partialApply(_, _, value, _, arguments, _): return [value] + arguments
         case let .pointerToAddress(operand, _, _): return [operand.value]
         case let .return(operand): return [operand.value]
-        case let .store(value, operand): return [value, operand.value]
+        case let .store(value, _, operand): return [value, operand.value]
         case .stringLiteral(_, _): return []
         case let .struct(_, operands): return unwrap(operands)
         case let .structElementAddr(operand, _): return [operand.value]

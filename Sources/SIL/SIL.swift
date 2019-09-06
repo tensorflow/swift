@@ -190,7 +190,7 @@ public enum Instruction {
 
     // https://github.com/apple/swift/blob/master/docs/SIL.rst#load
     // load %117 : $*Optional<Int>
-    case load(_ operand: Operand)
+    case load(_ kind: LoadOwnership?, _ operand: Operand)
 
     // https://github.com/apple/swift/blob/master/docs/SIL.rst#metatype
     // metatype $@thin Int.Type
@@ -213,7 +213,7 @@ public enum Instruction {
 
     // https://github.com/apple/swift/blob/master/docs/SIL.rst#store
     // store %88 to %89 : $*StrideTo<Int>
-    case store(_ value: String, _ operand: Operand)
+    case store(_ value: String, _ kind: StoreOwnership?, _ operand: Operand)
 
     // https://github.com/apple/swift/blob/master/docs/SIL.rst#string-literal
     // string_literal utf8 "Fatal error"
@@ -460,4 +460,17 @@ public enum TypeAttribute: Equatable {
 public enum TypeRequirement: Equatable {
     case conformance(_ lhs: Type, _ rhs: Type)
     case equality(_ lhs: Type, _ rhs: Type)
+}
+
+// Reverse-engineered from -emit-silgen
+public enum LoadOwnership {
+    case copy
+    case take
+    case trivial
+}
+
+// Reverse-engineered from -emit-silgen
+public enum StoreOwnership {
+    case `init`
+    case trivial
 }

@@ -189,11 +189,16 @@ class SILParser: Parser {
             let value = try parseInt()
             return .integerLiteral(type, value)
         case "load":
-            let _ = skip("[copy]")
-            let _ = skip("[take]")
-            let _ = skip("[trivial]")
+            var ownership: LoadOwnership?
+            if skip("[copy]") {
+                ownership = .copy
+            } else if skip("[take]") {
+                ownership = .take
+            } else if skip("[trivial]") {
+                ownership = .trivial
+            }
             let operand = try parseOperand()
-            return .load(operand)
+            return .load(ownership, operand)
         case "metatype":
             let type = try parseType()
             return .metatype(type)
@@ -218,10 +223,14 @@ class SILParser: Parser {
         case "store":
             let value = try parseValue()
             try take("to")
-            let _ = skip("[init]") // Used in ownership SSA
-            let _ = skip("[trivial]") // Used in ownership SSA
+            var ownership: StoreOwnership?
+            if skip("[init]") {
+                ownership = .init
+            } else if skip("[trivial]") {
+                ownership = .trivial
+            }
             let operand = try parseOperand()
-            return .store(value, operand)
+            return .store(value, ownership, operand)
         case "string_literal":
             let encoding = try parseEncoding()
             let value = try parseString()
@@ -504,6 +513,10 @@ class SILParser: Parser {
         } else if skip("*") {
             let type = try parseNakedType()
             return .addressType(type)
+        } else if skip("[") {
+            let subtype = try parseNakedType()
+            try take("]")
+            return .specializedType(.namedType("Array"), [subtype])
         } else if peek("(") {
             let types = try parseMany("(", ",", ")") { try parseNakedType() }
             if skip("->") {
@@ -630,7 +643,7 @@ class SILParser: Parser {
     func parseTypeName() throws -> String {
         let start = position
         // TODO(#14): Make name parsing more thorough.
-        let name = take(while: { $0.isLetter || $0.isNumber || "_[]".contains($0) })
+        let name = take(while: { $0.isLetter || $0.isNumber || "_".contains($0) })
         if !name.isEmpty {
             return name
         }
