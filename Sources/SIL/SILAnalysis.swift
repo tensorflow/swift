@@ -5,15 +5,16 @@ extension Instruction {
         }
         switch self {
         case .allocStack(_, _): return []
-        case let .apply(_, value, _, arguments, _): return arguments + [value]
+        case let .apply(_, value, _, arguments, _): return [value] + arguments
         case .beginAccess(_, _, _, _, _): return []
-        case let .beginApply(_, value, _, arguments, _): return arguments + [value]
+        case let .beginApply(_, value, _, arguments, _): return [value] + arguments
         case let .beginBorrow(operand): return [operand.value]
         case let .br(_, operands): return unwrap(operands)
         case let .builtin(_, operands, _): return unwrap(operands)
         case let .condBr(cond, _, trueOperands, _, falseOperands):
             return unwrap(trueOperands) + unwrap(falseOperands) + [cond]
         case let .condFail(operand, _): return [operand.value]
+        case let .convertEscapeToNoescape(_, _, operand, _): return [operand.value]
         case let .copyAddr(_, value, _, operand): return [value, operand.value]
         case let .copyValue(operand): return [operand.value]
         case let .deallocStack(operand): return [operand.value]
@@ -29,11 +30,12 @@ extension Instruction {
         case .functionRef(_, _): return []
         case let .indexAddr(addr, index): return [addr.value, index.value]
         case .integerLiteral(_, _): return []
-        case let .load(operand): return [operand.value]
+        case let .load(_, operand): return [operand.value]
         case .metatype(_): return []
+        case let .partialApply(_, _, value, _, arguments, _): return [value] + arguments
         case let .pointerToAddress(operand, _, _): return [operand.value]
         case let .return(operand): return [operand.value]
-        case let .store(value, operand): return [value, operand.value]
+        case let .store(value, _, operand): return [value, operand.value]
         case .stringLiteral(_, _): return []
         case let .struct(_, operands): return unwrap(operands)
         case let .structElementAddr(operand, _): return [operand.value]

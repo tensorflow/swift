@@ -120,6 +120,10 @@ public enum Instruction {
     // cond_fail %9 : $Builtin.Int1, "arithmetic overflow"
     case condFail(_ operand: Operand, _ message: String)
 
+    // https://github.com/apple/swift/blob/master/docs/SIL.rst#convert-escape-to-noescape
+    // convert_escape_to_noescape [not_guaranteed] %29 : $@callee_guaranteed () -> Bool to $@noescape @callee_guaranteed () -> Bool
+    case convertEscapeToNoescape(_ notGuaranteed: Bool, _ escaped: Bool, _ operand: Operand, _ type: Type)
+
     // https://github.com/apple/swift/blob/master/docs/SIL.rst#copy-addr
     // copy_addr %1 to [initialization] %33 : $*Self
     case copyAddr(_ take: Bool, _ value: String, _ initialization: Bool, _ operand: Operand)
@@ -186,11 +190,18 @@ public enum Instruction {
 
     // https://github.com/apple/swift/blob/master/docs/SIL.rst#load
     // load %117 : $*Optional<Int>
-    case load(_ operand: Operand)
+    case load(_ kind: LoadOwnership?, _ operand: Operand)
 
     // https://github.com/apple/swift/blob/master/docs/SIL.rst#metatype
     // metatype $@thin Int.Type
     case metatype(_ type: Type)
+
+    // https://github.com/apple/swift/blob/master/docs/SIL.rst#partial-apply
+    // partial_apply [callee_guaranteed] [on_stack] %27(%28) : $@convention(thin) (@guaranteed Int) -> Bool
+    case partialApply(
+        _ calleeGuaranteed: Bool, _ onStack: Bool, _ value: String,
+        _ substitutions: [Type], _ arguments: [String], _ type: Type
+    )
 
     // https://github.com/apple/swift/blob/master/docs/SIL.rst#pointer-to-address
     // pointer_to_address %4 : $Builtin.RawPointer to [strict] $*Int
@@ -202,7 +213,7 @@ public enum Instruction {
 
     // https://github.com/apple/swift/blob/master/docs/SIL.rst#store
     // store %88 to %89 : $*StrideTo<Int>
-    case store(_ value: String, _ operand: Operand)
+    case store(_ value: String, _ kind: StoreOwnership?, _ operand: Operand)
 
     // https://github.com/apple/swift/blob/master/docs/SIL.rst#string-literal
     // string_literal utf8 "Fatal error"
@@ -449,4 +460,17 @@ public enum TypeAttribute: Equatable {
 public enum TypeRequirement: Equatable {
     case conformance(_ lhs: Type, _ rhs: Type)
     case equality(_ lhs: Type, _ rhs: Type)
+}
+
+// Reverse-engineered from -emit-silgen
+public enum LoadOwnership {
+    case copy
+    case take
+    case trivial
+}
+
+// Reverse-engineered from -emit-silgen
+public enum StoreOwnership {
+    case `init`
+    case trivial
 }

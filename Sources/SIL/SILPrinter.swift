@@ -90,6 +90,13 @@ class SILPrinter: Printer {
             print(operand)
             print(", ")
             literal(message)
+        case let .convertEscapeToNoescape(notGuaranteed, escaped, operand, type):
+            print("convert_escape_to_noescape ")
+            print(when: notGuaranteed, "[not_guaranteed] ")
+            print(when: escaped, "[escaped] ")
+            print(operand)
+            print(" to ")
+            print(type)
         case let .copyAddr(take, value, initialization, operand):
             print("copy_addr ")
             print(when: take, "[take] ")
@@ -157,11 +164,24 @@ class SILPrinter: Printer {
             print(type)
             print(", ")
             literal(value)
-        case let .load(operand):
+        case let .load(maybeOwnership, operand):
             print("load ")
+            if let ownership = maybeOwnership {
+                print(ownership)
+                print(" ")
+            }
             print(operand)
         case let .metatype(type):
             print("metatype ")
+            print(type)
+        case let .partialApply(calleeGuaranteed, onStack, value, substitutions, arguments, type):
+            print("partial_apply ")
+            print(when: calleeGuaranteed, "[callee_guaranteed] ")
+            print(when: onStack, "[on_stack] ")
+            print(value)
+            print(whenEmpty: false, "<", substitutions, ", ", ">") { naked($0) }
+            print("(", arguments, ", ", ")") { print($0) }
+            print(" : ")
             print(type)
         case let .pointerToAddress(operand, strict, type):
             print("pointer_to_address ")
@@ -172,10 +192,14 @@ class SILPrinter: Printer {
         case let .return(operand):
             print("return ")
             print(operand)
-        case let .store(value, operand):
+        case let .store(value, maybeOwnership, operand):
             print("store ")
             print(value)
             print(" to ")
+            if let ownership = maybeOwnership {
+                print(ownership)
+                print(" ")
+            }
             print(operand)
         case let .stringLiteral(encoding, value):
             print("string_literal ")
@@ -537,6 +561,21 @@ class SILPrinter: Printer {
             naked(lhs)
             print(" == ")
             naked(rhs)
+        }
+    }
+
+    func print(_ ownership: LoadOwnership) {
+        switch ownership {
+        case .copy: print("[copy]")
+        case .take: print("[take]")
+        case .trivial: print("[trivial]")
+        }
+    }
+
+    func print(_ ownership: StoreOwnership) {
+        switch ownership {
+        case .`init`: print("[init]")
+        case .trivial: print("[trivial]")
         }
     }
 }

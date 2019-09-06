@@ -118,6 +118,13 @@ class SILParser: Parser {
             try take(",")
             let message = try parseString()
             return .condFail(operand, message)
+        case "convert_escape_to_noescape":
+            let notGuaranteed = skip("[not_guaranteed]")
+            let escaped = skip("[escaped]")
+            let operand = try parseOperand()
+            try take("to")
+            let type = try parseType()
+            return .convertEscapeToNoescape(notGuaranteed, escaped, operand, type)
         case "copy_addr":
             let take = skip("[take]")
             let value = try parseValue()
@@ -183,11 +190,28 @@ class SILParser: Parser {
             let value = try parseInt()
             return .integerLiteral(type, value)
         case "load":
+            var ownership: LoadOwnership?
+            if skip("[copy]") {
+                ownership = .copy
+            } else if skip("[take]") {
+                ownership = .take
+            } else if skip("[trivial]") {
+                ownership = .trivial
+            }
             let operand = try parseOperand()
-            return .load(operand)
+            return .load(ownership, operand)
         case "metatype":
             let type = try parseType()
             return .metatype(type)
+        case "partial_apply":
+            let calleeGuaranteed = skip("[callee_guaranteed]")
+            let onStack = skip("[on_stack]")
+            let value = try parseValue()
+            let substitutions = try parseNilOrMany("<", ",", ">") { try parseNakedType() } ?? []
+            let arguments = try parseMany("(", ",", ")") { try parseValue() }
+            try take(":")
+            let type = try parseType()
+            return .partialApply(calleeGuaranteed, onStack, value, substitutions, arguments, type)
         case "pointer_to_address":
             let operand = try parseOperand()
             try take("to")
@@ -200,9 +224,14 @@ class SILParser: Parser {
         case "store":
             let value = try parseValue()
             try take("to")
-            let _ = skip("[trivial]") // Used in ownership SSA
+            var ownership: StoreOwnership?
+            if skip("[init]") {
+                ownership = .init
+            } else if skip("[trivial]") {
+                ownership = .trivial
+            }
             let operand = try parseOperand()
-            return .store(value, operand)
+            return .store(value, ownership, operand)
         case "string_literal":
             let encoding = try parseEncoding()
             let value = try parseString()
@@ -485,6 +514,10 @@ class SILParser: Parser {
         } else if skip("*") {
             let type = try parseNakedType()
             return .addressType(type)
+        } else if skip("[") {
+            let subtype = try parseNakedType()
+            try take("]")
+            return .specializedType(.namedType("Array"), [subtype])
         } else if peek("(") {
             let types = try parseMany("(", ",", ")") { try parseNakedType() }
             if skip("->") {
