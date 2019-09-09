@@ -13,6 +13,19 @@ public final class SILParserTests: XCTestCase {
             XCTFail("Failed to parse the instruction def: \(error)")
         }
     }
+
+    public func testInstructionParseError() {
+        let instr = "%122 = apply garbage..."
+        let parser = SILParser(forString: instr)
+        do {
+            let def = try parser.parseInstructionDef()
+            guard case .unknown("apply") = def.instruction else {
+                return XCTFail("Expected .unknown(apply), got \(def.instruction)")
+            }
+        } catch {
+            XCTFail("Failed to parse the instruction def: \(error)")
+        }
+    }
 }
 
 extension SILParserTests {
