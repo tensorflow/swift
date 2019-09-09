@@ -48,6 +48,17 @@ class Parser {
         return chars.suffix(from: cursor).starts(with: Array(query))
     }
 
+    // Applies the function, but restores the cursor from before the call if it returns nil.
+    func tryParse<T>(_ f: () throws -> T?) rethrows -> T? {
+      let savedCursor = cursor
+      if let result = try f() {
+        return result
+      } else {
+        cursor = savedCursor
+        return nil
+      }
+    }
+
     /// If chars[cursor..] starts with a given string, consume string and skip trivia afterwards.
     /// Otherwise, raise a parse error.
     func take(_ query: String) throws {
@@ -139,6 +150,14 @@ class Parser {
     func parseNilOrMany<T>(_ pre: String, _ parseOne: () throws -> T) throws -> [T]? {
         guard peek(pre) else { return nil }
         return try parseMany(pre, parseOne)
+    }
+
+    func parseUntilNil<T>(_ parseOne: () throws -> T?) rethrows -> [T] {
+      var result = [T]()
+      while let element = try parseOne() {
+        result.append(element)
+      }
+      return result
     }
 
     /// Run a given parser multiple times as follows:

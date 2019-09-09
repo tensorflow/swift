@@ -70,7 +70,7 @@ class SILParser: Parser {
         switch instructionName {
         case "alloc_stack":
             let type = try parseType()
-            let attributes = try parseNilOrMany(", ") { try parseDebugAttribute() } ?? []
+            let attributes = try parseUntilNil { try parseDebugAttribute() }
             return .allocStack(type, attributes)
         case "apply":
             let nothrow = skip("[nothrow]")
@@ -148,11 +148,11 @@ class SILParser: Parser {
             return .deallocStack(operand)
         case "debug_value":
             let operand = try parseOperand()
-            let attributes = try parseNilOrMany(", ") { try parseDebugAttribute() } ?? []
+            let attributes = try parseUntilNil { try parseDebugAttribute() }
             return .debugValue(operand, attributes)
         case "debug_value_addr":
             let operand = try parseOperand()
-            let attributes = try parseNilOrMany(", ") { try parseDebugAttribute() } ?? []
+            let attributes = try parseUntilNil { try parseDebugAttribute() }
             return .debugValueAddr(operand, attributes)
         case "destroy_value":
             let operand = try parseOperand()
@@ -260,7 +260,7 @@ class SILParser: Parser {
             return .structExtract(operand, declRef)
         case "switch_enum":
             let operand = try parseOperand()
-            let cases = try parseNilOrMany(", ") { try parseCase() } ?? []
+            let cases = try parseUntilNil { try parseCase() }
             return .switchEnum(operand, cases)
         case "tuple":
             let elements = try parseTupleElements()
@@ -308,18 +308,20 @@ class SILParser: Parser {
     }
 
     // https://github.com/apple/swift/blob/master/docs/SIL.rst#switch-enum
-    func parseCase() throws -> Case {
-        try take(",")
-        if skip("case") {
-            let declRef = try parseDeclRef()
-            try take(":")
-            let identifier = try parseIdentifier()
-            return .case(declRef, identifier)
-        } else if skip("default") {
-            let identifier = try parseIdentifier()
-            return .default(identifier)
-        } else {
-            throw parseError("unknown case")
+    func parseCase() throws -> Case? {
+        return try tryParse {
+            guard skip(",") else { return nil }
+            if skip("case") {
+                let declRef = try parseDeclRef()
+                try take(":")
+                let identifier = try parseIdentifier()
+                return .case(declRef, identifier)
+            } else if skip("default") {
+                let identifier = try parseIdentifier()
+                return .default(identifier)
+            } else {
+                return nil
+            }
         }
     }
 
@@ -344,13 +346,15 @@ class SILParser: Parser {
     }
 
     // https://github.com/apple/swift/blob/master/docs/SIL.rst#debug-value
-    func parseDebugAttribute() throws -> DebugAttribute {
-        try take(",")
-        guard !skip("argno") else { return .argno(try parseInt()) }
-        guard !skip("name") else { return .name(try parseString()) }
-        guard !skip("let") else { return .let }
-        guard !skip("var") else { return .var }
-        throw parseError("unknown debug attribute")
+    func parseDebugAttribute() throws -> DebugAttribute? {
+        return try tryParse {
+            guard skip(",") else { return nil }
+            guard !skip("argno") else { return .argno(try parseInt()) }
+            guard !skip("name") else { return .name(try parseString()) }
+            guard !skip("let") else { return .let }
+            guard !skip("var") else { return .var }
+            return nil
+        }
     }
 
     func parseDeclKind() throws -> DeclKind? {
@@ -483,7 +487,6 @@ class SILParser: Parser {
 
     // https://github.com/apple/swift/blob/master/docs/SIL.rst#debug-information
     func parseLoc() throws -> Loc? {
-        guard skip(",") else { return nil }
         guard skip("loc") else { return nil }
         let path = try parseString()
         try take(":")
@@ -580,18 +583,24 @@ class SILParser: Parser {
     }
 
     // https://github.com/apple/swift/blob/master/docs/SIL.rst#debug-information
-    func parseScopeRef() throws -> String? {
-        guard skip(",") else { return nil }
+    func parseScopeRef() throws -> Int? {
         guard skip("scope") else { return nil }
-        let ref = try parseInt()
-        return "scope " + String(ref)
+        return try parseInt()
     }
 
     // https://github.com/apple/swift/blob/master/docs/SIL.rst#basic-blocks
     func parseSourceInfo() throws -> SourceInfo? {
-        let scopeRef = try parseScopeRef()
+        // NB: The SIL docs say that scope refs precede locations, but this is
+        //     not true once you look at the compiler outputs or its source code.
+        guard skip(",") else { return nil }
         let loc = try parseLoc()
-        guard scopeRef != nil || loc != nil else { return nil }
+        // NB: No skipping if we failed to parse the location.
+        let scopeRef = loc == nil || skip(",") ? try parseScopeRef() : nil
+        // We've skipped the comma, so failing to parse any of those two
+        // components is an error.
+        guard scopeRef != nil || loc != nil else {
+            throw parseError("Failed to parse debug location")
+        }
         return SourceInfo(scopeRef, loc)
     }
 

@@ -432,9 +432,9 @@ class SILPrinter: Printer {
     func print(_ loc: Loc) {
         print("loc ")
         literal(loc.path)
-        print(" : ")
+        print(":")
         literal(loc.line)
-        print(" : ")
+        print(":")
         literal(loc.column)
     }
 
@@ -453,8 +453,10 @@ class SILPrinter: Printer {
     }
 
     func print(_ sourceInfo: SourceInfo) {
-        print(", ", sourceInfo.scopeRef) { print($0) }
+        // NB: The SIL docs say that scope refs precede locations, but this is
+        //     not true once you look at the compiler outputs or its source code.
         print(", ", sourceInfo.loc) { print($0) }
+        print(", scope ", sourceInfo.scopeRef) { print($0) }
     }
 
     func print(_ elements: TupleElements) {
