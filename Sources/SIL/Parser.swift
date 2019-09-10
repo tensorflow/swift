@@ -48,17 +48,6 @@ class Parser {
         return chars.suffix(from: cursor).starts(with: Array(query))
     }
 
-    // Applies the function, but restores the cursor from before the call if it returns nil.
-    func tryParse<T>(_ f: () throws -> T?) rethrows -> T? {
-      let savedCursor = cursor
-      if let result = try f() {
-        return result
-      } else {
-        cursor = savedCursor
-        return nil
-      }
-    }
-
     /// If chars[cursor..] starts with a given string, consume string and skip trivia afterwards.
     /// Otherwise, raise a parse error.
     func take(_ query: String) throws {
@@ -109,6 +98,17 @@ class Parser {
     }
 
     // MARK: Tree-level APIs
+
+    // Applies the function, but restores the cursor from before the call if it returns nil.
+    func maybeParse<T>(_ f: () throws -> T?) rethrows -> T? {
+      let savedCursor = cursor
+      if let result = try f() {
+        return result
+      } else {
+        cursor = savedCursor
+        return nil
+      }
+    }
 
     /// Same as `parseMany` but returning `nil` if the cursor isn't pointing at `pre`.
     /// This is necessary to e.g. accommodate a situation when not having a parameter list is

@@ -309,7 +309,7 @@ class SILParser: Parser {
 
     // https://github.com/apple/swift/blob/master/docs/SIL.rst#switch-enum
     func parseCase() throws -> Case? {
-        return try tryParse {
+        return try maybeParse {
             guard skip(",") else { return nil }
             if skip("case") {
                 let declRef = try parseDeclRef()
@@ -347,7 +347,7 @@ class SILParser: Parser {
 
     // https://github.com/apple/swift/blob/master/docs/SIL.rst#debug-value
     func parseDebugAttribute() throws -> DebugAttribute? {
-        return try tryParse {
+        return try maybeParse {
             guard skip(",") else { return nil }
             guard !skip("argno") else { return .argno(try parseInt()) }
             guard !skip("name") else { return .name(try parseString()) }
@@ -599,7 +599,7 @@ class SILParser: Parser {
         // We've skipped the comma, so failing to parse any of those two
         // components is an error.
         guard scopeRef != nil || loc != nil else {
-            throw parseError("Failed to parse debug location")
+            throw parseError("Failed to parse source info")
         }
         return SourceInfo(scopeRef, loc)
     }

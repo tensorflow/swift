@@ -66,6 +66,7 @@ let instructionDefs = [
     // "string_literal utf8 \"\\n\"",
     "struct_element_addr %235 : $*Float, #Float._value",
     "switch_enum %122 : $Optional<Int>, case #Optional.some!enumelt.1: bb11, case #Optional.none!enumelt: bb18",
+    "switch_enum %84 : $Optional<(Int, Int)>, case #Optional.some!enumelt.1: bb5, case #Optional.none!enumelt: bb6, loc \"Examples/cnn.swift\":16:3, scope 6",
     "tuple ()",
     "tuple (%a : $A, %b : $B)",
     // TODO(#23): Parse tuple types with argument labels
