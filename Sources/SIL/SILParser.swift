@@ -62,6 +62,10 @@ class SILParser: Parser {
         do {
             return try parseInstructionBody(instructionName)
         } catch {
+            // Try to recover to a point where resuming the parsing is sensible
+            // by skipping until the end of this line. This is only a heuristic:
+            // I don't think that the SIL specification guarantees that.
+            let _ = skip(while: { $0 != "\n" })
             return .unknown(instructionName)
         }
     }
