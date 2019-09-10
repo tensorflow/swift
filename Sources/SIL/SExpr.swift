@@ -31,7 +31,7 @@ class SExprParser: Parser {
                 } else {
                     if case let .symbol(exprValue) = expr {
                         guard !exprValue.isEmpty else {
-                            throw parseError("An empty property?")
+                            throw parseError("Malformed expression")
                         }
                     }
                     properties.append(.value(expr))
@@ -64,23 +64,21 @@ class SExprParser: Parser {
     func parseSymbol() throws -> SExpr {
         // NB: This is more complicated than it ever should be because swiftc
         //     likes to print badly formed symbols that look like Module.(file).Type
-        var result = ""
-        while true {
-            let c = peek()
-            if !c.isWhitespace && !"()=".contains(c) {
-                let cs = String(c)
-                try take(cs, keepingTrivia: true)
-                result += cs
-                continue
+        var balance = 0
+        func shouldTake(_ c: Character) -> Bool {
+            if c == "(" {
+                balance += 1
+                return true
             }
-            if c == "(", skip("(file)") {
-                result += "(file)"
-                continue
+            if balance > 0 {
+                if c == ")" {
+                    balance -= 1
+                }
+                return true
             }
-            break
+            return !c.isWhitespace && !")=".contains(c)
         }
-        skipTrivia()
-        return .symbol(result)
+        return .symbol(take(while: shouldTake))
     }
 }
 

@@ -48,18 +48,12 @@ class Parser {
         return chars.suffix(from: cursor).starts(with: Array(query))
     }
 
-    func peek() -> Character {
-      return chars[cursor]
-    }
-
     /// If chars[cursor..] starts with a given string, consume string and skip trivia afterwards.
     /// Otherwise, raise a parse error.
-    func take(_ query: String, keepingTrivia: Bool = false) throws {
+    func take(_ query: String) throws {
         guard peek(query) else { throw parseError("\(query) expected") }
         cursor += query.count
-        if !keepingTrivia {
-          skipTrivia()
-        }
+        skipTrivia()
     }
 
     /// If chars[cursor..-1] starts with a given string, consume string, skip trivia and return true.
@@ -90,7 +84,7 @@ class Parser {
 
     /// If cursor points to whitespace or comment, consume until it doesn't.
     /// This provides a cheap way to make whitespace and comments insignificant.
-    func skipTrivia() {
+    private func skipTrivia() {
         guard cursor < chars.count else { return }
         if chars[cursor].isWhitespace {
             cursor += 1

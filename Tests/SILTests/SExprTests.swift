@@ -17,9 +17,7 @@ public final class SExprTests: XCTestCase {
             }
             let sexpr = try SExpr.parse(fromPath: sourcePath)
             let actual = sexpr.description + "\n"
-            print(normalize(expected))
-            print(actual)
-            if (normalize(expected) != actual) {
+            if normalize(expected) != actual {
                 if let actualFile = FileManager.default.makeTemporaryFile() {
                     let actualPath = actualFile.path
                     FileManager.default.createFile(atPath: actualPath, contents: Data(actual.utf8))
