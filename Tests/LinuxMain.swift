@@ -22,6 +22,7 @@ let silTests = [
     testCase(InstructionTests.allTests),
     testCase(ModuleTests.allTests),
     testCase(PrinterTests.allTests),
+    testCase(SExprTests.allTests),
 ]
 #else
 let silTests = [XCTestCaseEntry]()
