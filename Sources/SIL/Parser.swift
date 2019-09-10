@@ -99,6 +99,17 @@ class Parser {
 
     // MARK: Tree-level APIs
 
+    // Applies the function, but restores the cursor from before the call if it returns nil.
+    func maybeParse<T>(_ f: () throws -> T?) rethrows -> T? {
+      let savedCursor = cursor
+      if let result = try f() {
+        return result
+      } else {
+        cursor = savedCursor
+        return nil
+      }
+    }
+
     /// Same as `parseMany` but returning `nil` if the cursor isn't pointing at `pre`.
     /// This is necessary to e.g. accommodate a situation when not having a parameter list is
     /// as valid as having an empty parameter list.
@@ -139,6 +150,14 @@ class Parser {
     func parseNilOrMany<T>(_ pre: String, _ parseOne: () throws -> T) throws -> [T]? {
         guard peek(pre) else { return nil }
         return try parseMany(pre, parseOne)
+    }
+
+    func parseUntilNil<T>(_ parseOne: () throws -> T?) rethrows -> [T] {
+      var result = [T]()
+      while let element = try parseOne() {
+        result.append(element)
+      }
+      return result
     }
 
     /// Run a given parser multiple times as follows:

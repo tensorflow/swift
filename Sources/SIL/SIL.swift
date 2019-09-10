@@ -410,10 +410,10 @@ public class Result {
 
 // https://github.com/apple/swift/blob/master/docs/SIL.rst#basic-blocks
 public class SourceInfo {
-    public let scopeRef: String?
+    public let scopeRef: Int?
     public let loc: Loc?
 
-    public init(_ scopeRef: String?, _ loc: Loc?) {
+    public init(_ scopeRef: Int?, _ loc: Loc?) {
         self.scopeRef = scopeRef
         self.loc = loc
     }
