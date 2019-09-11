@@ -124,6 +124,10 @@ public enum Instruction {
     // convert_escape_to_noescape [not_guaranteed] %29 : $@callee_guaranteed () -> Bool to $@noescape @callee_guaranteed () -> Bool
     case convertEscapeToNoescape(_ notGuaranteed: Bool, _ escaped: Bool, _ operand: Operand, _ type: Type)
 
+    // https://github.com/apple/swift/blob/master/docs/SIL.rst#convert-function
+    // convert_function %0 : $@convention(thin) () -> Bool to $@convention(thin) @noescape () -> Bool
+    case convertFunction(_ operand: Operand, _ withoutActuallyEscaping: Bool, _ type: Type)
+
     // https://github.com/apple/swift/blob/master/docs/SIL.rst#copy-addr
     // copy_addr %1 to [initialization] %33 : $*Self
     case copyAddr(_ take: Bool, _ value: String, _ initialization: Bool, _ operand: Operand)
@@ -180,6 +184,10 @@ public enum Instruction {
     // function_ref @$s4main11threadCountSiyF : $@convention(thin) () -> Int
     case functionRef(_ name: String, _ type: Type)
 
+    // https://github.com/apple/swift/blob/master/docs/SIL.rst#global-addr
+    // global_addr @$s5small4____Sivp : $*Int
+    case globalAddr(_ name: String, _ type: Type)
+
     // https://github.com/apple/swift/blob/master/docs/SIL.rst#index-addr
     // index_addr %5 : $*Int, %11 : $Builtin.Word
     case indexAddr(_ addr: Operand, _ index: Operand)
@@ -234,6 +242,10 @@ public enum Instruction {
     // https://github.com/apple/swift/blob/master/docs/SIL.rst#switch-enum
     // switch_enum %122 : $Optional<Int>, case #Optional.some!enumelt.1: bb11, case #Optional.none!enumelt: bb18
     case switchEnum(_ operand: Operand, _ cases: [Case])
+
+    // https://github.com/apple/swift/blob/master/docs/SIL.rst#thin-to-thick-function
+    // %2 = thin_to_thick_function %1 : $@convention(thin) @noescape () -> Bool to $@noescape @callee_guaranteed () -> Bool
+    case thinToThickFunction(_ operand: Operand, _ type: Type)
 
     // https://github.com/apple/swift/blob/master/docs/SIL.rst#tuple
     // tuple (%a : $A, %b : $B, ...)

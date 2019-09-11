@@ -30,6 +30,7 @@ let instructionDefs = [
     "cond_br %11, bb3, bb2",
     "cond_br %12, label(%0 : $A), label(%1 : $B)",
     "%94 = convert_escape_to_noescape [not_guaranteed] %93 : $@callee_guaranteed () -> Bool to $@noescape @callee_guaranteed () -> Bool",
+    "%1 = convert_function %0 : $@convention(thin) () -> Bool to [without_actually_escaping] $@convention(thin) @noescape () -> Bool",
     "copy_addr %1 to [initialization] %33 : $*Self",
     "dealloc_stack %162 : $*IndexingIterator<Range<Int>>",
     "debug_value %1 : $Array<Float>, let, name \"input\", argno 2",
@@ -47,6 +48,7 @@ let instructionDefs = [
     "function_ref @$ss6stride4from2to2bys8StrideToVyxGx_x0E0QztSxRzlF : $@convention(thin) <τ_0_0 where τ_0_0 : Strideable> (@in_guaranteed τ_0_0, @in_guaranteed τ_0_0, @in_guaranteed τ_0_0.Stride) -> @out StrideTo<τ_0_0>",
     "function_ref @$s4main1CV3fooyyqd___qd_0_tSayqd__GRszSxRd_0_r0_lF : $@convention(method) <τ_0_0><τ_1_0, τ_1_1 where τ_0_0 == Array<τ_1_0>, τ_1_1 : Strideable> (@in_guaranteed τ_1_0, @in_guaranteed τ_1_1, C<Array<τ_1_0>>) -> ()",
     "function_ref @$ss8StrideToV12makeIterators0abD0VyxGyF : $@convention(method) <τ_0_0 where τ_0_0 : Strideable> (@in StrideTo<τ_0_0>) -> @out StrideToIterator<τ_0_0>",
+    "%0 = global_addr @$s5small4____Sivp : $*Int",
     "(%5, %6) = destructure_tuple %2 : $(Array<Int>, Builtin.RawPointer)",
     "%42 = index_addr %35 : $*Int, %41 : $Builtin.Word",
     "%7 = pointer_to_address %6 : $Builtin.RawPointer to [strict] $*Int",
@@ -71,6 +73,7 @@ let instructionDefs = [
     "tuple (%a : $A, %b : $B)",
     // TODO(#23): Parse tuple types with argument labels
     // "tuple $(a:A, b:B) (%a, %b)",
+    "%2 = thin_to_thick_function %1 : $@convention(thin) @noescape () -> Bool to $@noescape @callee_guaranteed () -> Bool",
     "unreachable",
     "witness_method $Self, #Comparable.\"<=\"!1 : <Self where Self : Comparable> (Self.Type) -> (Self, Self) -> Bool : $@convention(witness_method: Comparable) <τ_0_0 where τ_0_0 : Comparable> (@in_guaranteed τ_0_0, @in_guaranteed τ_0_0, @thick τ_0_0.Type) -> Bool"
 ]

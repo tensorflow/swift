@@ -22,7 +22,7 @@ class SILParser: Parser {
         try take("sil")
         let linkage = try parseLinkage()
         let attributes = try parseNilOrMany("[") { try parseFunctionAttribute() } ?? []
-        let name = try parseFunctionName()
+        let name = try parseGlobalName()
         try take(":")
         let type = try parseType()
         let blocks = try parseNilOrMany("{", "", "}") { try parseBlock() } ?? []
@@ -137,6 +137,12 @@ class SILParser: Parser {
             try take("to")
             let type = try parseType()
             return .convertEscapeToNoescape(notGuaranteed, escaped, operand, type)
+        case "convert_function":
+            let operand = try parseOperand()
+            try take("to")
+            let withoutActuallyEscaping = skip("[without_actually_escaping]")
+            let type = try parseType()
+            return .convertFunction(operand, withoutActuallyEscaping, type)
         case "copy_addr":
             let take = skip("[take]")
             let value = try parseValue()
@@ -187,10 +193,15 @@ class SILParser: Parser {
             let value = take(while: { $0.isHexDigit })
             return .floatLiteral(type, value)
         case "function_ref":
-            let name = try parseFunctionName()
+            let name = try parseGlobalName()
             try take(":")
             let type = try parseType()
             return .functionRef(name, type)
+        case "global_addr":
+            let name = try parseGlobalName()
+            try take(":")
+            let type = try parseType()
+            return .globalAddr(name, type)
         case "index_addr":
             let addr = try parseOperand()
             try take(",")
@@ -266,6 +277,11 @@ class SILParser: Parser {
             let operand = try parseOperand()
             let cases = try parseUntilNil { try parseCase() }
             return .switchEnum(operand, cases)
+        case "thin_to_thick_function":
+            let operand = try parseOperand()
+            try take("to")
+            let type = try parseType()
+            return .thinToThickFunction(operand, type)
         case "tuple":
             let elements = try parseTupleElements()
             return .tuple(elements)
@@ -435,7 +451,7 @@ class SILParser: Parser {
     }
 
     // https://github.com/apple/swift/blob/master/docs/SIL.rst#functions
-    func parseFunctionName() throws -> String {
+    func parseGlobalName() throws -> String {
         let start = position
         if skip("@") {
             // TODO(#14): Make name parsing more thorough.

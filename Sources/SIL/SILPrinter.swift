@@ -97,6 +97,12 @@ class SILPrinter: Printer {
             print(operand)
             print(" to ")
             print(type)
+        case let .convertFunction(operand, withoutActuallyEscaping, type):
+            print("convert_function ")
+            print(operand)
+            print(" to ")
+            print(when: withoutActuallyEscaping, "[without_actually_escaping] ")
+            print(type)
         case let .copyAddr(take, value, initialization, operand):
             print("copy_addr ")
             print(when: take, "[take] ")
@@ -150,6 +156,12 @@ class SILPrinter: Printer {
             print(value)
         case let .functionRef(name, type):
             print("function_ref ")
+            print("@")
+            print(name)
+            print(" : ")
+            print(type)
+        case let .globalAddr(name, type):
+            print("global_addr ")
             print("@")
             print(name)
             print(" : ")
@@ -224,6 +236,11 @@ class SILPrinter: Printer {
             print("switch_enum ")
             print(operand)
             print(whenEmpty: false, "", cases, "", "") { print($0) }
+        case let .thinToThickFunction(operand, type):
+            print("thin_to_thick_function ")
+            print(operand)
+            print(" to ")
+            print(type)
         case let .tuple(elements):
             print("tuple ")
             print(elements)
