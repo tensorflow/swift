@@ -33,12 +33,17 @@ extension Instruction {
         case let .indexAddr(addr, index): return [addr.value, index.value]
         case .integerLiteral(_, _): return []
         case let .load(_, operand): return [operand.value]
+        case let .markDependence(operand, on): return [operand.value, on.value]
         case .metatype(_): return []
         case let .partialApply(_, _, value, _, arguments, _): return [value] + arguments
         case let .pointerToAddress(operand, _, _): return [operand.value]
         case let .return(operand): return [operand.value]
+        case let .releaseValue(operand): return [operand.value]
+        case let .retainValue(operand): return [operand.value]
         case let .store(value, _, operand): return [value, operand.value]
         case .stringLiteral(_, _): return []
+        case let .strongRelease(operand): return [operand.value]
+        case let .strongRetain(operand): return [operand.value]
         case let .struct(_, operands): return unwrap(operands)
         case let .structElementAddr(operand, _): return [operand.value]
         case let .structExtract(operand, _): return [operand.value]

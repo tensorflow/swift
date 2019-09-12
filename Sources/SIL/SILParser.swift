@@ -226,6 +226,11 @@ class SILParser: Parser {
         case "metatype":
             let type = try parseType()
             return .metatype(type)
+        case "mark_dependence":
+            let operand = try parseOperand()
+            try take("on")
+            let on = try parseOperand()
+            return .markDependence(operand, on)
         case "partial_apply":
             let calleeGuaranteed = skip("[callee_guaranteed]")
             let onStack = skip("[on_stack]")
@@ -244,6 +249,12 @@ class SILParser: Parser {
         case "return":
             let operand = try parseOperand()
             return .return(operand)
+        case "release_value":
+            let operand = try parseOperand()
+            return .releaseValue(operand)
+        case "retain_value":
+            let operand = try parseOperand()
+            return .retainValue(operand)
         case "store":
             let value = try parseValue()
             try take("to")
@@ -259,6 +270,12 @@ class SILParser: Parser {
             let encoding = try parseEncoding()
             let value = try parseString()
             return .stringLiteral(encoding, value)
+        case "strong_release":
+            let operand = try parseOperand()
+            return .strongRelease(operand)
+        case "strong_retain":
+            let operand = try parseOperand()
+            return .strongRetain(operand)
         case "struct":
             let type = try parseType()
             let operands = try parseMany("(", ",", ")") { try parseOperand() }
