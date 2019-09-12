@@ -200,6 +200,10 @@ public enum Instruction {
     // load %117 : $*Optional<Int>
     case load(_ kind: LoadOwnership?, _ operand: Operand)
 
+    // https://github.com/apple/swift/blob/master/docs/SIL.rst#mark-dependence
+    // mark_dependence %11 : $@noescape @callee_guaranteed () -> Bool on %1 : $TensorShape
+    case markDependence(_ operand: Operand, _ on: Operand)
+
     // https://github.com/apple/swift/blob/master/docs/SIL.rst#metatype
     // metatype $@thin Int.Type
     case metatype(_ type: Type)
@@ -215,6 +219,14 @@ public enum Instruction {
     // pointer_to_address %4 : $Builtin.RawPointer to [strict] $*Int
     case pointerToAddress(_ operand: Operand, _ strict: Bool, _ type: Type)
 
+    // https://github.com/apple/swift/blob/master/docs/SIL.rst#release-value
+    // release_value %21 : $TensorShape
+    case releaseValue(_ operand: Operand)
+
+    // https://github.com/apple/swift/blob/master/docs/SIL.rst#retain-value
+    // retain_value %124 : $TensorShape
+    case retainValue(_ operand: Operand)
+
     // https://github.com/apple/swift/blob/master/docs/SIL.rst#return
     // return %11 : $Int
     case `return`(_ operand: Operand)
@@ -226,6 +238,14 @@ public enum Instruction {
     // https://github.com/apple/swift/blob/master/docs/SIL.rst#string-literal
     // string_literal utf8 "Fatal error"
     case stringLiteral(_ encoding: Encoding, _ value: String)
+
+    // https://github.com/apple/swift/blob/master/docs/SIL.rst#strong-release
+    // strong_release %99 : $@callee_guaranteed () -> @owned String
+    case strongRelease(_ operand: Operand)
+
+    // https://github.com/apple/swift/blob/master/docs/SIL.rst#strong-retain
+    // strong_retain %22 : $@callee_guaranteed () -> @owned String
+    case strongRetain(_ operand: Operand)
 
     // https://github.com/apple/swift/blob/master/docs/SIL.rst#struct
     // struct $Int (%8 : $Builtin.Int64)

@@ -183,6 +183,11 @@ class SILPrinter: Printer {
                 print(" ")
             }
             print(operand)
+        case let .markDependence(operand, on):
+            print("mark_dependence ")
+            print(operand)
+            print(" on ")
+            print(on)
         case let .metatype(type):
             print("metatype ")
             print(type)
@@ -204,6 +209,12 @@ class SILPrinter: Printer {
         case let .return(operand):
             print("return ")
             print(operand)
+        case let .releaseValue(operand):
+            print("release_value ")
+            print(operand)
+        case let .retainValue(operand):
+            print("retain_value ")
+            print(operand)
         case let .store(value, maybeOwnership, operand):
             print("store ")
             print(value)
@@ -218,6 +229,12 @@ class SILPrinter: Printer {
             print(encoding)
             print(" ")
             literal(value)
+        case let .strongRelease(operand):
+            print("strong_release ")
+            print(operand)
+        case let .strongRetain(operand):
+            print("strong_retain ")
+            print(operand)
         case let .struct(type, operands):
             print("struct ")
             print(type)
