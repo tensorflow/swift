@@ -42,12 +42,14 @@ public class Block {
     public let identifier: String
     public let arguments: [Argument]
     public let instructionDefs: [InstructionDef]
+    public let terminatorDef: TerminatorDef
 
-    public init(_ identifier: String, _ arguments: [Argument], _ instructionDefs: [InstructionDef])
+    public init(_ identifier: String, _ arguments: [Argument], _ instructionDefs: [InstructionDef], _ terminatorDef: TerminatorDef)
     {
         self.identifier = identifier
         self.arguments = arguments
         self.instructionDefs = instructionDefs
+        self.terminatorDef = terminatorDef
     }
 }
 
@@ -60,6 +62,17 @@ public class InstructionDef {
     public init(_ result: Result?, _ instruction: Instruction, _ sourceInfo: SourceInfo?) {
         self.result = result
         self.instruction = instruction
+        self.sourceInfo = sourceInfo
+    }
+}
+
+// https://github.com/apple/swift/blob/master/docs/SIL.rst#basic-blocks
+public class TerminatorDef {
+    public let terminator: Terminator
+    public let sourceInfo: SourceInfo?
+
+    public init(_ terminator: Terminator, _ sourceInfo: SourceInfo?) {
+        self.terminator = terminator
         self.sourceInfo = sourceInfo
     }
 }
@@ -97,24 +110,9 @@ public enum Instruction {
     // begin_borrow %16 : $TensorShape
     case beginBorrow(_ operand: Operand)
 
-    // https://github.com/apple/swift/blob/master/docs/SIL.rst#br
-    // br bb9
-    // br label (%0 : $A, %1 : $B)
-    case br(_ label: String, _ operands: [Operand])
-
     // https://github.com/apple/swift/blob/master/docs/SIL.rst#builtin
     // builtin "sadd_with_overflow_Int64"(%4 : $Builtin.Int64, %5 : $Builtin.Int64, %6 : $Builtin.Int1) : $(Builtin.Int64, Builtin.Int1)
     case builtin(_ name: String, _ operands: [Operand], _ type: Type)
-
-    // https://github.com/apple/swift/blob/master/docs/SIL.rst#cond-br
-    // cond_br %11, bb3, bb2
-    // cond_br %12, label (%0 : $A), label (%1 : $B)
-    // TODO(#25): Figure out cond_br.
-    case condBr(
-        _ cond: String,
-        _ trueLabel: String, _ trueOperands: [Operand],
-        _ falseLabel: String, _ falseOperands: [Operand]
-    )
 
     // https://github.com/apple/swift/blob/master/docs/SIL.rst#cond-fail
     // cond_fail %9 : $Builtin.Int1, "arithmetic overflow"
@@ -227,10 +225,6 @@ public enum Instruction {
     // retain_value %124 : $TensorShape
     case retainValue(_ operand: Operand)
 
-    // https://github.com/apple/swift/blob/master/docs/SIL.rst#return
-    // return %11 : $Int
-    case `return`(_ operand: Operand)
-
     // https://github.com/apple/swift/blob/master/docs/SIL.rst#store
     // store %88 to %89 : $*StrideTo<Int>
     case store(_ value: String, _ kind: StoreOwnership?, _ operand: Operand)
@@ -259,10 +253,6 @@ public enum Instruction {
     // struct_extract %0 : $Int, #Int._value
     case structExtract(_ operand: Operand, _ declRef: DeclRef)
 
-    // https://github.com/apple/swift/blob/master/docs/SIL.rst#switch-enum
-    // switch_enum %122 : $Optional<Int>, case #Optional.some!enumelt.1: bb11, case #Optional.none!enumelt: bb18
-    case switchEnum(_ operand: Operand, _ cases: [Case])
-
     // https://github.com/apple/swift/blob/master/docs/SIL.rst#thin-to-thick-function
     // %2 = thin_to_thick_function %1 : $@convention(thin) @noescape () -> Bool to $@noescape @callee_guaranteed () -> Bool
     case thinToThickFunction(_ operand: Operand, _ type: Type)
@@ -279,14 +269,43 @@ public enum Instruction {
     // Used as a temporary workaround in parser
     case unknown(_ name: String)
 
-    // https://github.com/apple/swift/blob/master/docs/SIL.rst#unreachable
-    // unreachable
-    case unreachable
-
     // https://github.com/apple/swift/blob/master/docs/SIL.rst#witness-method
     // witness_method $Self, #Comparable."<="!1 : <Self where Self : Comparable> (Self.Type) -> (Self, Self) -> Bool : $@convention(witness_method: Comparable) <τ_0_0 where τ_0_0 : Comparable> (@in_guaranteed τ_0_0, @in_guaranteed τ_0_0, @thick τ_0_0.Type) -> Bool
     // TODO(#28): Figure out witness_method.
     case witnessMethod(_ archeType: Type, _ declRef: DeclRef, _ declType: Type, _ type: Type)
+}
+
+// https://github.com/apple/swift/blob/master/docs/SIL.rst#terminators
+public enum Terminator {
+    // https://github.com/apple/swift/blob/master/docs/SIL.rst#br
+    // br bb9
+    // br label (%0 : $A, %1 : $B)
+    case br(_ label: String, _ operands: [Operand])
+
+    // https://github.com/apple/swift/blob/master/docs/SIL.rst#cond-br
+    // cond_br %11, bb3, bb2
+    // cond_br %12, label (%0 : $A), label (%1 : $B)
+    // TODO(#25): Figure out cond_br.
+    case condBr(
+        _ cond: String,
+        _ trueLabel: String, _ trueOperands: [Operand],
+        _ falseLabel: String, _ falseOperands: [Operand]
+    )
+
+    // https://github.com/apple/swift/blob/master/docs/SIL.rst#return
+    // return %11 : $Int
+    case `return`(_ operand: Operand)
+
+    // https://github.com/apple/swift/blob/master/docs/SIL.rst#switch-enum
+    // switch_enum %122 : $Optional<Int>, case #Optional.some!enumelt.1: bb11, case #Optional.none!enumelt: bb18
+    case switchEnum(_ operand: Operand, _ cases: [Case])
+
+    // Used in case of parse failures and unsupported terminators
+    case unknown(_ name: String)
+
+    // https://github.com/apple/swift/blob/master/docs/SIL.rst#unreachable
+    // unreachable
+    case unreachable
 }
 
 // MARK: Auxiliary data structures

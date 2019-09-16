@@ -17,9 +17,11 @@ class SILPrinter: Printer {
     func print(_ block: Block) {
         print(block.identifier)
         print(whenEmpty: false, "(", block.arguments, ", ", ")") { print($0) }
-        print(":\n")
+        print(":")
         indent()
-        print(block.instructionDefs, "\n") { print($0) }
+        print(block.instructionDefs) { print("\n"); print($0) }
+        print("\n")
+        print(block.terminatorDef)
         print("\n")
         unindent()
     }
@@ -28,6 +30,11 @@ class SILPrinter: Printer {
         print(instructionDef.result, " = ") { print($0) }
         print(instructionDef.instruction)
         print(instructionDef.sourceInfo) { print($0) }
+    }
+
+    func print(_ terminatorDef: TerminatorDef) {
+        print(terminatorDef.terminator)
+        print(terminatorDef.sourceInfo) { print($0) }
     }
 
     func print(_ instruction: Instruction) {
@@ -66,25 +73,12 @@ class SILPrinter: Printer {
         case let .beginBorrow(operand):
             print("begin_borrow ")
             print(operand)
-        case let .br(label, operands):
-            print("br ")
-            print(label)
-            print(whenEmpty: false, "(", operands, ", ", ")") { print($0) }
         case let .builtin(name, operands, type):
             print("builtin ")
             literal(name)
             print("(", operands, ", ", ")") { print($0) }
             print(" : ")
             print(type)
-        case let .condBr(cond, trueLabel, trueOperands, falseLabel, falseOperands):
-            print("cond_br ")
-            print(cond)
-            print(", ")
-            print(trueLabel)
-            print(whenEmpty: false, "(", trueOperands, ", ", ")") { print($0) }
-            print(", ")
-            print(falseLabel)
-            print(whenEmpty: false, "(", falseOperands, ", ", ")") { print($0) }
         case let .condFail(operand, message):
             print("cond_fail ")
             print(operand)
@@ -206,9 +200,6 @@ class SILPrinter: Printer {
             print(" to ")
             print(when: strict, "[strict] ")
             print(type)
-        case let .return(operand):
-            print("return ")
-            print(operand)
         case let .releaseValue(operand):
             print("release_value ")
             print(operand)
@@ -249,10 +240,6 @@ class SILPrinter: Printer {
             print(operand)
             print(", ")
             print(declRef)
-        case let .switchEnum(operand, cases):
-            print("switch_enum ")
-            print(operand)
-            print(whenEmpty: false, "", cases, "", "") { print($0) }
         case let .thinToThickFunction(operand, type):
             print("thin_to_thick_function ")
             print(operand)
@@ -269,8 +256,6 @@ class SILPrinter: Printer {
         case let .unknown(name):
             print(name)
             print(" <?>")
-        case .unreachable:
-            print("unreachable")
         case let .witnessMethod(archeType, declRef, declType, type):
             print("witness_method ")
             print(archeType)
@@ -281,6 +266,36 @@ class SILPrinter: Printer {
             print(" : ")
             print(type)
         }
+    }
+
+    func print(_ terminator: Terminator) {
+      switch terminator {
+        case let .br(label, operands):
+            print("br ")
+            print(label)
+            print(whenEmpty: false, "(", operands, ", ", ")") { print($0) }
+        case let .condBr(cond, trueLabel, trueOperands, falseLabel, falseOperands):
+            print("cond_br ")
+            print(cond)
+            print(", ")
+            print(trueLabel)
+            print(whenEmpty: false, "(", trueOperands, ", ", ")") { print($0) }
+            print(", ")
+            print(falseLabel)
+            print(whenEmpty: false, "(", falseOperands, ", ", ")") { print($0) }
+        case let .return(operand):
+            print("return ")
+            print(operand)
+        case let .switchEnum(operand, cases):
+            print("switch_enum ")
+            print(operand)
+            print(whenEmpty: false, "", cases, "", "") { print($0) }
+        case let .unknown(name):
+            print(name)
+            print(" <?>")
+        case .unreachable:
+            print("unreachable")
+      }
     }
 
     // MARK: Auxiliary data structures
@@ -641,6 +656,14 @@ extension Block: CustomStringConvertible {
 }
 
 extension InstructionDef: CustomStringConvertible {
+    public var description: String {
+        let p = SILPrinter()
+        p.print(self)
+        return p.description
+    }
+}
+
+extension TerminatorDef: CustomStringConvertible {
     public var description: String {
         let p = SILPrinter()
         p.print(self)

@@ -9,10 +9,7 @@ extension Instruction {
         case .beginAccess(_, _, _, _, _): return []
         case let .beginApply(_, value, _, arguments, _): return [value] + arguments
         case let .beginBorrow(operand): return [operand.value]
-        case let .br(_, operands): return unwrap(operands)
         case let .builtin(_, operands, _): return unwrap(operands)
-        case let .condBr(cond, _, trueOperands, _, falseOperands):
-            return unwrap(trueOperands) + unwrap(falseOperands) + [cond]
         case let .condFail(operand, _): return [operand.value]
         case let .convertEscapeToNoescape(_, _, operand, _): return [operand.value]
         case let .convertFunction(operand, _, _): return [operand.value]
@@ -37,7 +34,6 @@ extension Instruction {
         case .metatype(_): return []
         case let .partialApply(_, _, value, _, arguments, _): return [value] + arguments
         case let .pointerToAddress(operand, _, _): return [operand.value]
-        case let .return(operand): return [operand.value]
         case let .releaseValue(operand): return [operand.value]
         case let .retainValue(operand): return [operand.value]
         case let .store(value, _, operand): return [value, operand.value]
@@ -47,7 +43,6 @@ extension Instruction {
         case let .struct(_, operands): return unwrap(operands)
         case let .structElementAddr(operand, _): return [operand.value]
         case let .structExtract(operand, _): return [operand.value]
-        case let .switchEnum(operand, _): return [operand.value]
         case let .thinToThickFunction(operand, _): return [operand.value]
         case let .tuple(elements):
             switch elements {
@@ -56,7 +51,6 @@ extension Instruction {
             }
         case let .tupleExtract(operand, _): return [operand.value]
         case .unknown(_): return nil
-        case .unreachable: return []
         case .witnessMethod(_, _, _, _): return []
         }
     }

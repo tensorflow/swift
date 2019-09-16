@@ -6,7 +6,8 @@ public final class DescriptionTests: XCTestCase {
         let block = Block(
             "bb0",
             [Argument("%0", .namedType("Int"))],
-            [InstructionDef(nil, .return(Operand("%0", .namedType("Int"))), nil)]
+            [],
+            TerminatorDef(.return(Operand("%0", .namedType("Int"))), nil)
         )
         let identity = Function(
             .public,
@@ -82,11 +83,8 @@ public final class DescriptionTests: XCTestCase {
                     Result(["%11"]),
                     .struct(.namedType("Int"), [Operand("%8", .namedType("Builtin.Int64"))]),
                     nil),
-                InstructionDef(
-                    nil,
-                    .return(Operand("%11", .namedType("Int"))),
-                    nil)
-            ]
+            ],
+            TerminatorDef(.return(Operand("%11", .namedType("Int"))), nil)
         )
         let add = Function(
             .public,
