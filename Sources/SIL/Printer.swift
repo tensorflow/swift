@@ -50,6 +50,12 @@ class Printer: CustomStringConvertible {
         print(suf)
     }
 
+    func print<S: Collection>(_ xs: S, _ fn: (S.Element) -> Void) {
+      for x in xs {
+        fn(x)
+      }
+    }
+
     func print<S: Collection>(_ xs: S, _ sep: String, _ fn: (S.Element) -> Void) {
         var needSep = false
         for x in xs {
