@@ -19,17 +19,17 @@ class SILPrinter: Printer {
         print(whenEmpty: false, "(", block.arguments, ", ", ")") { print($0) }
         print(":")
         indent()
-        print(block.instructionDefs) { print("\n"); print($0) }
+        print(block.operatorDefs) { print("\n"); print($0) }
         print("\n")
         print(block.terminatorDef)
         print("\n")
         unindent()
     }
 
-    func print(_ instructionDef: InstructionDef) {
-        print(instructionDef.result, " = ") { print($0) }
-        print(instructionDef.instruction)
-        print(instructionDef.sourceInfo) { print($0) }
+    func print(_ operatorDef: OperatorDef) {
+        print(operatorDef.result, " = ") { print($0) }
+        print(operatorDef.operator)
+        print(operatorDef.sourceInfo) { print($0) }
     }
 
     func print(_ terminatorDef: TerminatorDef) {
@@ -37,8 +37,8 @@ class SILPrinter: Printer {
         print(terminatorDef.sourceInfo) { print($0) }
     }
 
-    func print(_ instruction: Instruction) {
-        switch instruction {
+    func print(_ op: Operator) {
+        switch op {
         case let .allocStack(type, attributes):
             print("alloc_stack ")
             print(type)
@@ -655,7 +655,7 @@ extension Block: CustomStringConvertible {
     }
 }
 
-extension InstructionDef: CustomStringConvertible {
+extension OperatorDef: CustomStringConvertible {
     public var description: String {
         let p = SILPrinter()
         p.print(self)
@@ -671,10 +671,37 @@ extension TerminatorDef: CustomStringConvertible {
     }
 }
 
-extension Instruction: CustomStringConvertible {
+extension InstructionDef: CustomStringConvertible {
+    public var description: String {
+        switch self {
+        case let .operator(def): return def.description
+        case let .terminator(def): return def.description
+        }
+    }
+}
+
+extension Operator: CustomStringConvertible {
     public var description: String {
         let p = SILPrinter()
         p.print(self)
         return p.description
     }
 }
+
+extension Terminator: CustomStringConvertible {
+    public var description: String {
+        let p = SILPrinter()
+        p.print(self)
+        return p.description
+    }
+}
+
+extension Instruction: CustomStringConvertible {
+    public var description: String {
+        switch self {
+        case let .operator(def): return def.description
+        case let .terminator(def): return def.description
+        }
+    }
+}
+

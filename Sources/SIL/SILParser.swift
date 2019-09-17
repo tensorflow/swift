@@ -1,21 +1,4 @@
 class SILParser: Parser {
-    enum InstructionOrTerminator {
-      case instruction(Instruction)
-      case terminator(Terminator)
-    }
-
-    enum InstructionOrTerminatorDef: CustomStringConvertible {
-      case instruction(InstructionDef)
-      case terminator(TerminatorDef)
-
-      var description: String {
-        switch self {
-        case let .instruction(instructionDef): return instructionDef.description
-        case let .terminator(terminatorDef): return terminatorDef.description
-        }
-      }
-    }
-
     // https://github.com/apple/swift/blob/master/docs/SIL.rst#syntax
     func parseModule() throws -> Module {
         var functions = [Function]()
@@ -51,37 +34,37 @@ class SILParser: Parser {
         let identifier = try parseIdentifier()
         let arguments = try parseNilOrMany("(", ",", ")") { try parseArgument() } ?? []
         try take(":")
-        let (instructionDefs, terminatorDef) = try parseInstructionDefs()
-        return Block(identifier, arguments, instructionDefs, terminatorDef)
+        let (operatorDefs, terminatorDef) = try parseInstructionDefs()
+        return Block(identifier, arguments, operatorDefs, terminatorDef)
     }
 
     // https://github.com/apple/swift/blob/master/docs/SIL.rst#basic-blocks
-    func parseInstructionDefs() throws -> ([InstructionDef], TerminatorDef) {
-        var instructionDefs = [InstructionDef]()
+    func parseInstructionDefs() throws -> ([OperatorDef], TerminatorDef) {
+        var operatorDefs = [OperatorDef]()
         while true {
             switch try parseInstructionDef() {
-            case let .instruction(instructionDef):
-                instructionDefs.append(instructionDef)
+            case let .operator(operatorDef):
+                operatorDefs.append(operatorDef)
             case let .terminator(terminatorDef):
-                return (instructionDefs, terminatorDef)
+                return (operatorDefs, terminatorDef)
             }
             if peek("bb") || peek("}") {
-                guard case let .unknown(instructionName) = instructionDefs.popLast()?.instruction else {
+                guard case let .unknown(instructionName) = operatorDefs.popLast()?.operator else {
                     throw parseError("block is missing a terminator")
                 }
-                return (instructionDefs, TerminatorDef(.unknown(instructionName), nil))
+                return (operatorDefs, TerminatorDef(.unknown(instructionName), nil))
             }
         }
     }
 
     // https://github.com/apple/swift/blob/master/docs/SIL.rst#basic-blocks
-    func parseInstructionDef() throws -> InstructionOrTerminatorDef {
+    func parseInstructionDef() throws -> InstructionDef {
         let result = try parseResult()
         let body = parseInstruction()
         let sourceInfo = try parseSourceInfo()
         switch body {
-        case let .instruction(instruction):
-            return .instruction(InstructionDef(result, instruction, sourceInfo))
+        case let .operator(op):
+            return .operator(OperatorDef(result, op, sourceInfo))
         case let .terminator(terminator):
             guard result == nil else {
               throw parseError("terminator instruction shouldn't have any results")
@@ -91,7 +74,7 @@ class SILParser: Parser {
     }
 
     // https://github.com/apple/swift/blob/master/docs/SIL.rst#instruction-set
-    func parseInstruction() -> InstructionOrTerminator {
+    func parseInstruction() -> Instruction {
         let instructionName = take(while: { $0.isLetter || $0 == "_" })
         do {
             return try parseInstructionBody(instructionName)
@@ -100,16 +83,16 @@ class SILParser: Parser {
             // by skipping until the end of this line. This is only a heuristic:
             // I don't think that the SIL specification guarantees that.
             let _ = skip(while: { $0 != "\n" })
-            return .instruction(.unknown(instructionName))
+            return .operator(.unknown(instructionName))
         }
     }
 
-    func parseInstructionBody(_ instructionName: String) throws -> InstructionOrTerminator {
+    func parseInstructionBody(_ instructionName: String) throws -> Instruction {
         switch instructionName {
         case "alloc_stack":
             let type = try parseType()
             let attributes = try parseUntilNil { try parseDebugAttribute() }
-            return .instruction(.allocStack(type, attributes))
+            return .operator(.allocStack(type, attributes))
         case "apply":
             let nothrow = skip("[nothrow]")
             let value = try parseValue()
@@ -117,7 +100,7 @@ class SILParser: Parser {
             let arguments = try parseMany("(", ",", ")") { try parseValue() }
             try take(":")
             let type = try parseType()
-            return .instruction(.apply(nothrow, value, substitutions, arguments, type))
+            return .operator(.apply(nothrow, value, substitutions, arguments, type))
         case "begin_access":
             try take("[")
             let access = try parseAccess()
@@ -128,7 +111,7 @@ class SILParser: Parser {
             let noNestedConflict = skip("[no_nested_conflict]")
             let builtin = skip("[builtin]")
             let operand = try parseOperand()
-            return .instruction(.beginAccess(access, enforcement, noNestedConflict, builtin, operand))
+            return .operator(.beginAccess(access, enforcement, noNestedConflict, builtin, operand))
         case "begin_apply":
             let nothrow = skip("[nothrow]")
             let value = try parseValue()
@@ -136,10 +119,10 @@ class SILParser: Parser {
             let arguments = try parseMany("(", ",", ")") { try parseValue() }
             try take(":")
             let type = try parseType()
-            return .instruction(.beginApply(nothrow, value, substitutions, arguments, type))
+            return .operator(.beginApply(nothrow, value, substitutions, arguments, type))
         case "begin_borrow":
             let operand = try parseOperand()
-            return .instruction(.beginBorrow(operand))
+            return .operator(.beginBorrow(operand))
         case "br":
             let label = try parseIdentifier()
             let operands = try parseNilOrMany("(", ",", ")") { try parseOperand() } ?? []
@@ -149,7 +132,7 @@ class SILParser: Parser {
             let operands = try parseMany("(", ",", ")") { try parseOperand() }
             try take(":")
             let type = try parseType()
-            return .instruction(.builtin(name, operands, type))
+            return .operator(.builtin(name, operands, type))
         case "cond_br":
             let cond = try parseValueName()
             try take(",")
@@ -163,89 +146,89 @@ class SILParser: Parser {
             let operand = try parseOperand()
             try take(",")
             let message = try parseString()
-            return .instruction(.condFail(operand, message))
+            return .operator(.condFail(operand, message))
         case "convert_escape_to_noescape":
             let notGuaranteed = skip("[not_guaranteed]")
             let escaped = skip("[escaped]")
             let operand = try parseOperand()
             try take("to")
             let type = try parseType()
-            return .instruction(.convertEscapeToNoescape(notGuaranteed, escaped, operand, type))
+            return .operator(.convertEscapeToNoescape(notGuaranteed, escaped, operand, type))
         case "convert_function":
             let operand = try parseOperand()
             try take("to")
             let withoutActuallyEscaping = skip("[without_actually_escaping]")
             let type = try parseType()
-            return .instruction(.convertFunction(operand, withoutActuallyEscaping, type))
+            return .operator(.convertFunction(operand, withoutActuallyEscaping, type))
         case "copy_addr":
             let take = skip("[take]")
             let value = try parseValue()
             try self.take("to")
             let initialization = skip("[initialization]")
             let operand = try parseOperand()
-            return .instruction(.copyAddr(take, value, initialization, operand))
+            return .operator(.copyAddr(take, value, initialization, operand))
         case "copy_value":
             let operand = try parseOperand()
-            return .instruction(.copyValue(operand))
+            return .operator(.copyValue(operand))
         case "dealloc_stack":
             let operand = try parseOperand()
-            return .instruction(.deallocStack(operand))
+            return .operator(.deallocStack(operand))
         case "debug_value":
             let operand = try parseOperand()
             let attributes = try parseUntilNil { try parseDebugAttribute() }
-            return .instruction(.debugValue(operand, attributes))
+            return .operator(.debugValue(operand, attributes))
         case "debug_value_addr":
             let operand = try parseOperand()
             let attributes = try parseUntilNil { try parseDebugAttribute() }
-            return .instruction(.debugValueAddr(operand, attributes))
+            return .operator(.debugValueAddr(operand, attributes))
         case "destroy_value":
             let operand = try parseOperand()
-            return .instruction(.destroyValue(operand))
+            return .operator(.destroyValue(operand))
         case "destructure_tuple":
             let operand = try parseOperand()
-            return .instruction(.destructureTuple(operand))
+            return .operator(.destructureTuple(operand))
         case "end_access":
             let abort = skip("[abort]")
             let operand = try parseOperand()
-            return .instruction(.endAccess(abort, operand))
+            return .operator(.endAccess(abort, operand))
         case "end_apply":
             let value = try parseValue()
-            return .instruction(.endApply(value))
+            return .operator(.endApply(value))
         case "end_borrow":
             let operand = try parseOperand()
-            return .instruction(.endBorrow(operand))
+            return .operator(.endBorrow(operand))
         case "enum":
             let type = try parseType()
             try take(",")
             let declRef = try parseDeclRef()
             let operand = skip(",") ? try parseOperand() : nil
-            return .instruction(.enum(type, declRef, operand))
+            return .operator(.enum(type, declRef, operand))
         case "float_literal":
             let type = try parseType()
             try take(",")
             try take("0x")
             let value = take(while: { $0.isHexDigit })
-            return .instruction(.floatLiteral(type, value))
+            return .operator(.floatLiteral(type, value))
         case "function_ref":
             let name = try parseGlobalName()
             try take(":")
             let type = try parseType()
-            return .instruction(.functionRef(name, type))
+            return .operator(.functionRef(name, type))
         case "global_addr":
             let name = try parseGlobalName()
             try take(":")
             let type = try parseType()
-            return .instruction(.globalAddr(name, type))
+            return .operator(.globalAddr(name, type))
         case "index_addr":
             let addr = try parseOperand()
             try take(",")
             let index = try parseOperand()
-            return .instruction(.indexAddr(addr, index))
+            return .operator(.indexAddr(addr, index))
         case "integer_literal":
             let type = try parseType()
             try take(",")
             let value = try parseInt()
-            return .instruction(.integerLiteral(type, value))
+            return .operator(.integerLiteral(type, value))
         case "load":
             var ownership: LoadOwnership?
             if skip("[copy]") {
@@ -256,15 +239,15 @@ class SILParser: Parser {
                 ownership = .trivial
             }
             let operand = try parseOperand()
-            return .instruction(.load(ownership, operand))
+            return .operator(.load(ownership, operand))
         case "metatype":
             let type = try parseType()
-            return .instruction(.metatype(type))
+            return .operator(.metatype(type))
         case "mark_dependence":
             let operand = try parseOperand()
             try take("on")
             let on = try parseOperand()
-            return .instruction(.markDependence(operand, on))
+            return .operator(.markDependence(operand, on))
         case "partial_apply":
             let calleeGuaranteed = skip("[callee_guaranteed]")
             let onStack = skip("[on_stack]")
@@ -273,22 +256,22 @@ class SILParser: Parser {
             let arguments = try parseMany("(", ",", ")") { try parseValue() }
             try take(":")
             let type = try parseType()
-            return .instruction(.partialApply(calleeGuaranteed, onStack, value, substitutions, arguments, type))
+            return .operator(.partialApply(calleeGuaranteed, onStack, value, substitutions, arguments, type))
         case "pointer_to_address":
             let operand = try parseOperand()
             try take("to")
             let strict = skip("[strict]")
             let type = try parseType()
-            return .instruction(.pointerToAddress(operand, strict, type))
+            return .operator(.pointerToAddress(operand, strict, type))
         case "return":
             let operand = try parseOperand()
             return .terminator(.return(operand))
         case "release_value":
             let operand = try parseOperand()
-            return .instruction(.releaseValue(operand))
+            return .operator(.releaseValue(operand))
         case "retain_value":
             let operand = try parseOperand()
-            return .instruction(.retainValue(operand))
+            return .operator(.retainValue(operand))
         case "store":
             let value = try parseValue()
             try take("to")
@@ -299,31 +282,31 @@ class SILParser: Parser {
                 ownership = .trivial
             }
             let operand = try parseOperand()
-            return .instruction(.store(value, ownership, operand))
+            return .operator(.store(value, ownership, operand))
         case "string_literal":
             let encoding = try parseEncoding()
             let value = try parseString()
-            return .instruction(.stringLiteral(encoding, value))
+            return .operator(.stringLiteral(encoding, value))
         case "strong_release":
             let operand = try parseOperand()
-            return .instruction(.strongRelease(operand))
+            return .operator(.strongRelease(operand))
         case "strong_retain":
             let operand = try parseOperand()
-            return .instruction(.strongRetain(operand))
+            return .operator(.strongRetain(operand))
         case "struct":
             let type = try parseType()
             let operands = try parseMany("(", ",", ")") { try parseOperand() }
-            return .instruction(.struct(type, operands))
+            return .operator(.struct(type, operands))
         case "struct_element_addr":
             let operand = try parseOperand()
             try take(",")
             let declRef = try parseDeclRef()
-            return .instruction(.structElementAddr(operand, declRef))
+            return .operator(.structElementAddr(operand, declRef))
         case "struct_extract":
             let operand = try parseOperand()
             try take(",")
             let declRef = try parseDeclRef()
-            return .instruction(.structExtract(operand, declRef))
+            return .operator(.structExtract(operand, declRef))
         case "switch_enum":
             let operand = try parseOperand()
             let cases = try parseUntilNil { try parseCase() }
@@ -332,15 +315,15 @@ class SILParser: Parser {
             let operand = try parseOperand()
             try take("to")
             let type = try parseType()
-            return .instruction(.thinToThickFunction(operand, type))
+            return .operator(.thinToThickFunction(operand, type))
         case "tuple":
             let elements = try parseTupleElements()
-            return .instruction(.tuple(elements))
+            return .operator(.tuple(elements))
         case "tuple_extract":
             let operand = try parseOperand()
             try take(",")
             let declRef = try parseInt()
-            return .instruction(.tupleExtract(operand, declRef))
+            return .operator(.tupleExtract(operand, declRef))
         case "unreachable":
             return .terminator(.unreachable)
         case "witness_method":
@@ -351,11 +334,11 @@ class SILParser: Parser {
             let declType = try parseNakedType()
             try take(":")
             let type = try parseType()
-            return .instruction(.witnessMethod(archeType, declRef, declType, type))
+            return .operator(.witnessMethod(archeType, declRef, declType, type))
         default:
             // TODO(#8): Actually parse this instruction.
             let _ = skip(while: { $0 != "\n" })
-            return .instruction(.unknown(instructionName))
+            return .operator(.unknown(instructionName))
         }
     }
 

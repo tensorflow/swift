@@ -1,4 +1,4 @@
-extension Instruction {
+extension Operator {
     public var operandNames: [String]? {
         func unwrap(_ operands: [Operand]) -> [String] {
             return operands.map { $0.value }

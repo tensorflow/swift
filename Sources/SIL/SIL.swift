@@ -41,27 +41,27 @@ public class Function {
 public class Block {
     public let identifier: String
     public let arguments: [Argument]
-    public let instructionDefs: [InstructionDef]
+    public let operatorDefs: [OperatorDef]
     public let terminatorDef: TerminatorDef
 
-    public init(_ identifier: String, _ arguments: [Argument], _ instructionDefs: [InstructionDef], _ terminatorDef: TerminatorDef)
+    public init(_ identifier: String, _ arguments: [Argument], _ operatorDefs: [OperatorDef], _ terminatorDef: TerminatorDef)
     {
         self.identifier = identifier
         self.arguments = arguments
-        self.instructionDefs = instructionDefs
+        self.operatorDefs = operatorDefs
         self.terminatorDef = terminatorDef
     }
 }
 
 // https://github.com/apple/swift/blob/master/docs/SIL.rst#basic-blocks
-public class InstructionDef {
+public class OperatorDef {
     public let result: Result?
-    public let instruction: Instruction
+    public let `operator`: Operator
     public let sourceInfo: SourceInfo?
 
-    public init(_ result: Result?, _ instruction: Instruction, _ sourceInfo: SourceInfo?) {
+    public init(_ result: Result?, _ `operator`: Operator, _ sourceInfo: SourceInfo?) {
         self.result = result
-        self.instruction = instruction
+        self.operator = `operator`
         self.sourceInfo = sourceInfo
     }
 }
@@ -77,9 +77,15 @@ public class TerminatorDef {
     }
 }
 
+public enum InstructionDef {
+    case `operator`(OperatorDef)
+    case terminator(TerminatorDef)
+}
+
+
 // https://github.com/apple/swift/blob/master/docs/SIL.rst#instruction-set
 // https://github.com/apple/swift/blob/master/include/swift/SIL/SILInstruction.h
-public enum Instruction {
+public enum Operator {
     // https://github.com/apple/swift/blob/master/docs/SIL.rst#alloc-stack
     // alloc_stack $Float
     // alloc_stack $IndexingIterator<Range<Int>>, var, name "$inputIndex$generator"
@@ -307,6 +313,12 @@ public enum Terminator {
     // unreachable
     case unreachable
 }
+
+public enum Instruction {
+    case `operator`(Operator)
+    case terminator(Terminator)
+}
+
 
 // MARK: Auxiliary data structures
 
