@@ -1,5 +1,5 @@
 // https://github.com/apple/swift/blob/master/docs/SIL.rst
-public class Module {
+public final class Module {
     public var functions: [Function]
 
     public init(_ functions: [Function]) {
@@ -18,7 +18,7 @@ public class Module {
 }
 
 // https://github.com/apple/swift/blob/master/docs/SIL.rst#functions
-public class Function {
+public final class Function {
     public var linkage: Linkage
     public var attributes: [FunctionAttribute]
     public var name: String
@@ -38,7 +38,7 @@ public class Function {
 }
 
 // https://github.com/apple/swift/blob/master/docs/SIL.rst#basic-blocks
-public class Block: Equatable {
+public final class Block: Equatable {
     public var identifier: String
     public var arguments: [Argument]
     public var operatorDefs: [OperatorDef]
