@@ -38,7 +38,7 @@ public class Function {
 }
 
 // https://github.com/apple/swift/blob/master/docs/SIL.rst#basic-blocks
-public class Block {
+public class Block: Equatable {
     public let identifier: String
     public let arguments: [Argument]
     public let operatorDefs: [OperatorDef]
@@ -51,10 +51,14 @@ public class Block {
         self.operatorDefs = operatorDefs
         self.terminatorDef = terminatorDef
     }
+
+    public static func ==(_ a: Block, _ b: Block) -> Bool {
+        return (a.identifier, a.arguments, a.operatorDefs, a.terminatorDef) == (b.identifier, b.arguments, b.operatorDefs, b.terminatorDef)
+    }
 }
 
 // https://github.com/apple/swift/blob/master/docs/SIL.rst#basic-blocks
-public class OperatorDef {
+public struct OperatorDef: Equatable {
     public let result: Result?
     public let `operator`: Operator
     public let sourceInfo: SourceInfo?
@@ -67,7 +71,7 @@ public class OperatorDef {
 }
 
 // https://github.com/apple/swift/blob/master/docs/SIL.rst#basic-blocks
-public class TerminatorDef {
+public struct TerminatorDef: Equatable {
     public let terminator: Terminator
     public let sourceInfo: SourceInfo?
 
@@ -77,7 +81,7 @@ public class TerminatorDef {
     }
 }
 
-public enum InstructionDef {
+public enum InstructionDef: Equatable {
     case `operator`(OperatorDef)
     case terminator(TerminatorDef)
 }
@@ -85,7 +89,7 @@ public enum InstructionDef {
 
 // https://github.com/apple/swift/blob/master/docs/SIL.rst#instruction-set
 // https://github.com/apple/swift/blob/master/include/swift/SIL/SILInstruction.h
-public enum Operator {
+public enum Operator: Equatable {
     // https://github.com/apple/swift/blob/master/docs/SIL.rst#alloc-stack
     // alloc_stack $Float
     // alloc_stack $IndexingIterator<Range<Int>>, var, name "$inputIndex$generator"
@@ -282,7 +286,7 @@ public enum Operator {
 }
 
 // https://github.com/apple/swift/blob/master/docs/SIL.rst#terminators
-public enum Terminator {
+public enum Terminator: Equatable {
     // https://github.com/apple/swift/blob/master/docs/SIL.rst#br
     // br bb9
     // br label (%0 : $A, %1 : $B)
@@ -314,16 +318,15 @@ public enum Terminator {
     case unreachable
 }
 
-public enum Instruction {
+public enum Instruction: Equatable {
     case `operator`(Operator)
     case terminator(Terminator)
 }
 
-
 // MARK: Auxiliary data structures
 
 // https://github.com/apple/swift/blob/master/docs/SIL.rst#begin-access
-public enum Access {
+public enum Access: Equatable {
     case `deinit`
     case `init`
     case modify
@@ -331,7 +334,7 @@ public enum Access {
 }
 
 // https://github.com/apple/swift/blob/master/docs/SIL.rst#basic-blocks
-public class Argument {
+public struct Argument: Equatable {
     public let valueName: String
     public let type: Type
 
@@ -342,7 +345,7 @@ public class Argument {
 }
 
 // https://github.com/apple/swift/blob/master/docs/SIL.rst#switch-enum
-public enum Case {
+public enum Case: Equatable {
     case `case`(_ declRef: DeclRef, _ identifier: String)
     case `default`(_ identifier: String)
 }
@@ -356,7 +359,7 @@ public enum Convention: Equatable {
 }
 
 // https://github.com/apple/swift/blob/master/docs/SIL.rst#debug-value
-public enum DebugAttribute {
+public enum DebugAttribute: Equatable {
     case argno(_ index: Int)
     case name(_ name: String)
     case `let`
@@ -365,7 +368,7 @@ public enum DebugAttribute {
 
 // https://github.com/apple/swift/blob/master/include/swift/SIL/SILDeclRef.h
 // https://github.com/apple/swift/blob/master/docs/SIL.rst#declaration-references
-public enum DeclKind {
+public enum DeclKind: Equatable {
     case allocator
     case deallocator
     case destroyer
@@ -380,7 +383,7 @@ public enum DeclKind {
 
 // https://github.com/apple/swift/blob/master/include/swift/SIL/SILDeclRef.h
 // https://github.com/apple/swift/blob/master/docs/SIL.rst#declaration-references
-public class DeclRef {
+public struct DeclRef: Equatable {
     public let name: [String]
     public let kind: DeclKind?
     public let level: Int?
@@ -393,14 +396,14 @@ public class DeclRef {
 }
 
 // https://github.com/apple/swift/blob/master/docs/SIL.rst#string-literal
-public enum Encoding {
+public enum Encoding: Equatable {
     case objcSelector
     case utf8
     case utf16
 }
 
 // https://github.com/apple/swift/blob/master/docs/SIL.rst#begin-access
-public enum Enforcement {
+public enum Enforcement: Equatable {
     case dynamic
     case `static`
     case unknown
@@ -408,7 +411,7 @@ public enum Enforcement {
 }
 
 // Reverse-engineered from -emit-sil
-public enum FunctionAttribute {
+public enum FunctionAttribute: Equatable {
     case alwaysInline
     case differentiable(_ spec: String)
     case dynamicallyReplacable
@@ -421,12 +424,12 @@ public enum FunctionAttribute {
     case noncanonical(NoncanonicalFunctionAttribute)
 }
 
-public enum NoncanonicalFunctionAttribute {
+public enum NoncanonicalFunctionAttribute: Equatable {
     case ownershipSSA
 }
 
 // https://github.com/apple/swift/blob/master/docs/SIL.rst#linkage
-public enum Linkage {
+public enum Linkage: Equatable {
     case hidden
     case hiddenExternal
     case `private`
@@ -439,7 +442,7 @@ public enum Linkage {
 }
 
 // https://github.com/apple/swift/blob/master/docs/SIL.rst#debug-information
-public class Loc {
+public struct Loc: Equatable {
     public let path: String
     public let line: Int
     public let column: Int
@@ -452,7 +455,7 @@ public class Loc {
 }
 
 // https://github.com/apple/swift/blob/master/docs/SIL.rst#values-and-operands
-public class Operand {
+public struct Operand: Equatable {
     public let value: String
     public let type: Type
 
@@ -463,7 +466,7 @@ public class Operand {
 }
 
 // https://github.com/apple/swift/blob/master/docs/SIL.rst#basic-blocks
-public class Result {
+public struct Result: Equatable {
     public let valueNames: [String]
 
     public init(_ valueNames: [String]) {
@@ -472,7 +475,7 @@ public class Result {
 }
 
 // https://github.com/apple/swift/blob/master/docs/SIL.rst#basic-blocks
-public class SourceInfo {
+public struct SourceInfo: Equatable {
     public let scopeRef: Int?
     public let loc: Loc?
 
@@ -483,7 +486,7 @@ public class SourceInfo {
 }
 
 // https://github.com/apple/swift/blob/master/docs/SIL.rst#tuple
-public enum TupleElements {
+public enum TupleElements: Equatable {
     case labeled(_ type: Type, _ values: [String])
     case unlabeled(_ operands: [Operand])
 }
@@ -531,14 +534,14 @@ public enum TypeRequirement: Equatable {
 }
 
 // Reverse-engineered from -emit-silgen
-public enum LoadOwnership {
+public enum LoadOwnership: Equatable {
     case copy
     case take
     case trivial
 }
 
 // Reverse-engineered from -emit-silgen
-public enum StoreOwnership {
+public enum StoreOwnership: Equatable {
     case `init`
     case trivial
 }
