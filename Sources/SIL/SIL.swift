@@ -1,6 +1,6 @@
 // https://github.com/apple/swift/blob/master/docs/SIL.rst
 public class Module {
-    public let functions: [Function]
+    public var functions: [Function]
 
     public init(_ functions: [Function]) {
         self.functions = functions
@@ -19,11 +19,11 @@ public class Module {
 
 // https://github.com/apple/swift/blob/master/docs/SIL.rst#functions
 public class Function {
-    public let linkage: Linkage
-    public let attributes: [FunctionAttribute]
-    public let name: String
-    public let type: Type
-    public let blocks: [Block]
+    public var linkage: Linkage
+    public var attributes: [FunctionAttribute]
+    public var name: String
+    public var type: Type
+    public var blocks: [Block]
 
     public init(
         _ linkage: Linkage, _ attributes: [FunctionAttribute],
@@ -39,10 +39,10 @@ public class Function {
 
 // https://github.com/apple/swift/blob/master/docs/SIL.rst#basic-blocks
 public class Block: Equatable {
-    public let identifier: String
-    public let arguments: [Argument]
-    public let operatorDefs: [OperatorDef]
-    public let terminatorDef: TerminatorDef
+    public var identifier: String
+    public var arguments: [Argument]
+    public var operatorDefs: [OperatorDef]
+    public var terminatorDef: TerminatorDef
 
     public init(_ identifier: String, _ arguments: [Argument], _ operatorDefs: [OperatorDef], _ terminatorDef: TerminatorDef)
     {
