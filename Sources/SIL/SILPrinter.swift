@@ -537,6 +537,8 @@ class SILPrinter: Printer {
         case let .attributedType(attrs, type):
             print("", attrs, " ", " ") { print($0) }
             naked(type)
+        case .coroutineTokenType:
+            print("!CoroutineTokenType!")
         case let .functionType(params, result):
             print("(", params, ", ", ")") { naked($0) }
             print(" -> ")
