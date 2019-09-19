@@ -30,13 +30,23 @@ extension TerminatorDef: CanSubstituteValueNames {
     }
 }
 
+extension InstructionDef: CanSubstituteValueNames {
+    public func substituted(using s: ValueNameSubstitution) -> InstructionDef {
+        switch self {
+        case let .operator(o): return .operator(o.substituted(using: s))
+        case let .terminator(t): return .terminator(t.substituted(using: s))
+        }
+    }
+}
+
 extension Operator: CanSubstituteValueNames {
     public func substituted(using s: ValueNameSubstitution) -> Operator {
         switch self {
         case .allocStack(_, _): return self
         case let .apply(nothrow, value, substitutions, arguments, type):
             return .apply(nothrow, s(value), substitutions, arguments.map(s), type)
-        case .beginAccess(_, _, _, _, _): return self
+        case let .beginAccess(access, enforcement, noNestedConflict, builtin, operand):
+            return .beginAccess(access, enforcement, noNestedConflict, builtin, operand.substituted(using: s))
         case let .beginApply(nothrow, value, substitutions, arguments, type):
             return .beginApply(nothrow, s(value), substitutions, arguments.map(s), type)
         case let .beginBorrow(operand):
@@ -133,6 +143,15 @@ extension Terminator: CanSubstituteValueNames {
             return .switchEnum(operand.substituted(using: s), cases)
         case .unknown(_): return self
         case .unreachable: return self
+        }
+    }
+}
+
+extension Instruction: CanSubstituteValueNames {
+    public func substituted(using s: ValueNameSubstitution) -> Instruction {
+        switch self {
+        case let .operator(o): return .operator(o.substituted(using: s))
+        case let .terminator(t): return .terminator(t.substituted(using: s))
         }
     }
 }
