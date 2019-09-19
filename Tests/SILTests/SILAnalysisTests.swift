@@ -15,7 +15,7 @@ public final class SILAnalysisTests: XCTestCase {
         }
     }
 
-    // Only allows %0 as the value name
+    // Only allows %TEST_NAME as the value name
     func checkValueNames(_ i: InstructionDef) {
       var readingValueName = false
       var name = ""
