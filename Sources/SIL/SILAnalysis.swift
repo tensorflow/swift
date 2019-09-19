@@ -1,197 +1,197 @@
 public typealias ValueNameSubstitution = (String) -> String
 
-public protocol CanSubstituteValueNames {
-    func substituted(using: ValueNameSubstitution) -> Self
+public protocol AlphaConvertible {
+    func alphaConverted(using: ValueNameSubstitution) -> Self
 }
 
-extension Block: CanSubstituteValueNames {
-    public func substituted(using s: ValueNameSubstitution) -> Block {
+extension Block: AlphaConvertible {
+    public func alphaConverted(using s: ValueNameSubstitution) -> Block {
         return Block(
             identifier,
-            arguments.substituted(using: s),
-            operatorDefs.substituted(using: s),
-            terminatorDef.substituted(using: s))
+            arguments.alphaConverted(using: s),
+            operatorDefs.alphaConverted(using: s),
+            terminatorDef.alphaConverted(using: s))
 
     }
 }
 
-extension OperatorDef: CanSubstituteValueNames {
-    public func substituted(using s: ValueNameSubstitution) -> OperatorDef {
+extension OperatorDef: AlphaConvertible {
+    public func alphaConverted(using s: ValueNameSubstitution) -> OperatorDef {
         return OperatorDef(
-            result.substituted(using: s),
-            `operator`.substituted(using: s),
+            result.alphaConverted(using: s),
+            `operator`.alphaConverted(using: s),
             sourceInfo)
     }
 }
 
-extension TerminatorDef: CanSubstituteValueNames {
-    public func substituted(using s: ValueNameSubstitution) -> TerminatorDef {
-        return TerminatorDef(terminator.substituted(using: s), sourceInfo)
+extension TerminatorDef: AlphaConvertible {
+    public func alphaConverted(using s: ValueNameSubstitution) -> TerminatorDef {
+        return TerminatorDef(terminator.alphaConverted(using: s), sourceInfo)
     }
 }
 
-extension InstructionDef: CanSubstituteValueNames {
-    public func substituted(using s: ValueNameSubstitution) -> InstructionDef {
+extension InstructionDef: AlphaConvertible {
+    public func alphaConverted(using s: ValueNameSubstitution) -> InstructionDef {
         switch self {
-        case let .operator(o): return .operator(o.substituted(using: s))
-        case let .terminator(t): return .terminator(t.substituted(using: s))
+        case let .operator(o): return .operator(o.alphaConverted(using: s))
+        case let .terminator(t): return .terminator(t.alphaConverted(using: s))
         }
     }
 }
 
-extension Operator: CanSubstituteValueNames {
-    public func substituted(using s: ValueNameSubstitution) -> Operator {
+extension Operator: AlphaConvertible {
+    public func alphaConverted(using s: ValueNameSubstitution) -> Operator {
         switch self {
         case .allocStack(_, _): return self
         case let .apply(nothrow, value, substitutions, arguments, type):
             return .apply(nothrow, s(value), substitutions, arguments.map(s), type)
         case let .beginAccess(access, enforcement, noNestedConflict, builtin, operand):
-            return .beginAccess(access, enforcement, noNestedConflict, builtin, operand.substituted(using: s))
+            return .beginAccess(access, enforcement, noNestedConflict, builtin, operand.alphaConverted(using: s))
         case let .beginApply(nothrow, value, substitutions, arguments, type):
             return .beginApply(nothrow, s(value), substitutions, arguments.map(s), type)
         case let .beginBorrow(operand):
-            return .beginBorrow(operand.substituted(using: s))
+            return .beginBorrow(operand.alphaConverted(using: s))
         case let .builtin(name, operands, type):
-            return .builtin(name, operands.substituted(using: s), type)
+            return .builtin(name, operands.alphaConverted(using: s), type)
         case let .condFail(operand, message):
-            return .condFail(operand.substituted(using: s), message)
+            return .condFail(operand.alphaConverted(using: s), message)
         case let .convertEscapeToNoescape(notGuaranteed, escaped, operand, type):
             return .convertEscapeToNoescape(
-                notGuaranteed, escaped, operand.substituted(using: s), type)
+                notGuaranteed, escaped, operand.alphaConverted(using: s), type)
         case let .convertFunction(operand, withoutActuallyEscaping, type):
-            return .convertFunction(operand.substituted(using: s), withoutActuallyEscaping, type)
+            return .convertFunction(operand.alphaConverted(using: s), withoutActuallyEscaping, type)
         case let .copyAddr(take, value, initialization, operand):
-            return .copyAddr(take, s(value), initialization, operand.substituted(using: s))
+            return .copyAddr(take, s(value), initialization, operand.alphaConverted(using: s))
         case let .copyValue(operand):
-            return .copyValue(operand.substituted(using: s))
+            return .copyValue(operand.alphaConverted(using: s))
         case let .deallocStack(operand):
-            return .deallocStack(operand.substituted(using: s))
+            return .deallocStack(operand.alphaConverted(using: s))
         case let .debugValue(operand, attributes):
-            return .debugValue(operand.substituted(using: s), attributes)
+            return .debugValue(operand.alphaConverted(using: s), attributes)
         case let .debugValueAddr(operand, attributes):
-            return .debugValueAddr(operand.substituted(using: s), attributes)
+            return .debugValueAddr(operand.alphaConverted(using: s), attributes)
         case let .destroyValue(operand):
-            return .destroyValue(operand.substituted(using: s))
+            return .destroyValue(operand.alphaConverted(using: s))
         case let .destructureTuple(operand):
-            return .destructureTuple(operand.substituted(using: s))
+            return .destructureTuple(operand.alphaConverted(using: s))
         case let .endAccess(abort, operand):
-            return .endAccess(abort, operand.substituted(using: s))
+            return .endAccess(abort, operand.alphaConverted(using: s))
         case let .endApply(value):
             return .endApply(s(value))
         case let .endBorrow(operand):
-            return .endBorrow(operand.substituted(using: s))
+            return .endBorrow(operand.alphaConverted(using: s))
         case let .enum(type, declRef, operand):
-            return .enum(type, declRef, operand.substituted(using: s))
+            return .enum(type, declRef, operand.alphaConverted(using: s))
         case .floatLiteral(_, _): return self
         case .functionRef(_, _): return self
         case .globalAddr(_, _): return self
         case let .indexAddr(addr, index):
-            return .indexAddr(addr.substituted(using: s), index.substituted(using: s))
+            return .indexAddr(addr.alphaConverted(using: s), index.alphaConverted(using: s))
         case .integerLiteral(_, _): return self
         case let .load(ownership, operand):
-            return .load(ownership, operand.substituted(using: s))
+            return .load(ownership, operand.alphaConverted(using: s))
         case let .markDependence(operand, on):
-            return .markDependence(operand.substituted(using: s), on.substituted(using: s))
+            return .markDependence(operand.alphaConverted(using: s), on.alphaConverted(using: s))
         case .metatype(_): return self
         case let .partialApply(calleeGuaranteed, onStack, value, substitutions, arguments, type):
             return .partialApply(
                 calleeGuaranteed, onStack, s(value), substitutions, arguments.map(s), type)
         case let .pointerToAddress(operand, strict, type):
-            return .pointerToAddress(operand.substituted(using: s), strict, type)
+            return .pointerToAddress(operand.alphaConverted(using: s), strict, type)
         case let .releaseValue(operand):
-            return .releaseValue(operand.substituted(using: s))
+            return .releaseValue(operand.alphaConverted(using: s))
         case let .retainValue(operand):
-            return .retainValue(operand.substituted(using: s))
+            return .retainValue(operand.alphaConverted(using: s))
         case let .store(value, kind, operand):
-            return .store(s(value), kind, operand.substituted(using: s))
+            return .store(s(value), kind, operand.alphaConverted(using: s))
         case .stringLiteral(_, _): return self
         case let .strongRelease(operand):
-            return .strongRelease(operand.substituted(using: s))
+            return .strongRelease(operand.alphaConverted(using: s))
         case let .strongRetain(operand):
-            return .strongRetain(operand.substituted(using: s))
+            return .strongRetain(operand.alphaConverted(using: s))
         case let .struct(type, operands):
-            return .struct(type, operands.substituted(using: s))
+            return .struct(type, operands.alphaConverted(using: s))
         case let .structElementAddr(operand, declRef):
-            return .structElementAddr(operand.substituted(using: s), declRef)
+            return .structElementAddr(operand.alphaConverted(using: s), declRef)
         case let .structExtract(operand, declRef):
-            return .structExtract(operand.substituted(using: s), declRef)
+            return .structExtract(operand.alphaConverted(using: s), declRef)
         case let .thinToThickFunction(operand, type):
-            return .thinToThickFunction(operand.substituted(using: s), type)
+            return .thinToThickFunction(operand.alphaConverted(using: s), type)
         case let .tuple(elements):
-            return .tuple(elements.substituted(using: s))
+            return .tuple(elements.alphaConverted(using: s))
         case let .tupleExtract(operand, declRef):
-            return .tupleExtract(operand.substituted(using: s), declRef)
+            return .tupleExtract(operand.alphaConverted(using: s), declRef)
         case .unknown(_): return self
         case .witnessMethod(_, _, _, _): return self
         }
     }
 }
 
-extension Terminator: CanSubstituteValueNames {
-    public func substituted(using s: ValueNameSubstitution) -> Terminator {
+extension Terminator: AlphaConvertible {
+    public func alphaConverted(using s: ValueNameSubstitution) -> Terminator {
         switch self {
         case let .br(label, operands):
-            return .br(label, operands.substituted(using: s))
+            return .br(label, operands.alphaConverted(using: s))
         case let .condBr(cond, trueLabel, trueOperands, falseLabel, falseOperands):
             return .condBr(
                 s(cond),
-                trueLabel, trueOperands.substituted(using: s),
-                falseLabel, falseOperands.substituted(using: s))
+                trueLabel, trueOperands.alphaConverted(using: s),
+                falseLabel, falseOperands.alphaConverted(using: s))
         case let .return(operand):
-            return .return(operand.substituted(using: s))
+            return .return(operand.alphaConverted(using: s))
         case let .switchEnum(operand, cases):
-            return .switchEnum(operand.substituted(using: s), cases)
+            return .switchEnum(operand.alphaConverted(using: s), cases)
         case .unknown(_): return self
         case .unreachable: return self
         }
     }
 }
 
-extension Instruction: CanSubstituteValueNames {
-    public func substituted(using s: ValueNameSubstitution) -> Instruction {
+extension Instruction: AlphaConvertible {
+    public func alphaConverted(using s: ValueNameSubstitution) -> Instruction {
         switch self {
-        case let .operator(o): return .operator(o.substituted(using: s))
-        case let .terminator(t): return .terminator(t.substituted(using: s))
+        case let .operator(o): return .operator(o.alphaConverted(using: s))
+        case let .terminator(t): return .terminator(t.alphaConverted(using: s))
         }
     }
 }
 
-extension Argument: CanSubstituteValueNames {
-    public func substituted(using s: ValueNameSubstitution) -> Argument {
+extension Argument: AlphaConvertible {
+    public func alphaConverted(using s: ValueNameSubstitution) -> Argument {
         return Argument(s(valueName), type)
     }
 }
 
-extension Operand: CanSubstituteValueNames {
-    public func substituted(using s: ValueNameSubstitution) -> Operand {
+extension Operand: AlphaConvertible {
+    public func alphaConverted(using s: ValueNameSubstitution) -> Operand {
         return Operand(s(value), type)
     }
 }
 
-extension Result: CanSubstituteValueNames {
-    public func substituted(using s: ValueNameSubstitution) -> Result {
+extension Result: AlphaConvertible {
+    public func alphaConverted(using s: ValueNameSubstitution) -> Result {
         return Result(valueNames.map(s))
     }
 }
 
-extension TupleElements: CanSubstituteValueNames {
-    public func substituted(using s: ValueNameSubstitution) -> TupleElements {
+extension TupleElements: AlphaConvertible {
+    public func alphaConverted(using s: ValueNameSubstitution) -> TupleElements {
         switch self {
         case let .labeled(type, values): return .labeled(type, values.map(s))
-        case let .unlabeled(operands): return .unlabeled(operands.substituted(using: s))
+        case let .unlabeled(operands): return .unlabeled(operands.alphaConverted(using: s))
         }
     }
 }
 
-extension Optional: CanSubstituteValueNames where Wrapped: CanSubstituteValueNames {
-    public func substituted(using s: ValueNameSubstitution) -> Optional<Wrapped> {
-        return map { $0.substituted(using: s) }
+extension Optional: AlphaConvertible where Wrapped: AlphaConvertible {
+    public func alphaConverted(using s: ValueNameSubstitution) -> Optional<Wrapped> {
+        return map { $0.alphaConverted(using: s) }
     }
 }
 
-extension Array: CanSubstituteValueNames where Element: CanSubstituteValueNames {
-    public func substituted(using s: ValueNameSubstitution) -> [Element] {
-        return map { $0.substituted(using: s) }
+extension Array: AlphaConvertible where Element: AlphaConvertible {
+    public func alphaConverted(using s: ValueNameSubstitution) -> [Element] {
+        return map { $0.alphaConverted(using: s) }
     }
 }
 
@@ -199,7 +199,7 @@ extension Operator {
     public var operandNames: [String]? {
         if case .unknown(_) = self { return nil }
         var names: [String] = []
-        let _ = substituted(using: { names.append($0);return $0 })
+        let _ = alphaConverted(using: { names.append($0);return $0 })
         return names
     }
 }

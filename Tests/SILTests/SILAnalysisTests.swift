@@ -8,7 +8,7 @@ public final class SILAnalysisTests: XCTestCase {
             do {
                 let p = SILParser(forString: instructionDef)
                 let i = try p.parseInstructionDef()
-                checkValueNames(i.substituted(using: { _ in "%TEST_NAME" }))
+                checkValueNames(i.alphaConverted(using: { _ in "%TEST_NAME" }))
             } catch {
                 XCTFail(String(describing: error) + "\n" + instructionDef)
             }
