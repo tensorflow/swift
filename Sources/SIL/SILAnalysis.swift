@@ -228,56 +228,56 @@ extension Type {
             return .withOwnership(attribute, subtype.substituted(using: s))
         }
     }
-}
 
-func specialize(_ type: Type, to arguments: [Type]) -> Type {
-    switch type {
-    case let .addressType(subtype):
-        return .addressType(specialize(subtype, to: arguments))
-    case let .attributedType(attributes, subtype):
-        return .attributedType(attributes, specialize(subtype, to: arguments))
-    case let .genericType(parameters, _, subtype):
-        guard parameters.count == arguments.count else {
-            fatalError(
-                "Specializing a generic type with \(parameters.count) parameters using \(arguments.count) arguments"
-            )
+    func specialized(to arguments: [Type]) -> Type {
+        switch self {
+        case let .addressType(subtype):
+            return .addressType(subtype.specialized(to: arguments))
+        case let .attributedType(attributes, subtype):
+            return .attributedType(attributes, subtype.specialized(to: arguments))
+        case let .genericType(parameters, _, subtype):
+            guard parameters.count == arguments.count else {
+                fatalError(
+                    "Specializing a generic type with \(parameters.count) parameters using \(arguments.count) arguments"
+                )
+            }
+            let valuation = [String: Type](
+                zip(parameters, arguments),
+                uniquingKeysWith: { _, _ in fatalError("Duplicate parameter names in generic type") })
+            return subtype.substituted(using: { valuation[$0] ?? .namedType($0) })
+        case let .selectType(subtype, name):
+            return .selectType(subtype.specialized(to: arguments), name)
+        case let .withOwnership(attribute, subtype):
+            return .withOwnership(attribute, subtype.specialized(to: arguments))
+        case .coroutineTokenType: fallthrough
+        case .functionType(_, _): fallthrough
+        case .namedType(_): fallthrough
+        case .selfType: fallthrough
+        case .specializedType(_, _): fallthrough
+        case .tupleType(_):
+            fatalError("Specializing a type that is not generic")
         }
-        let valuation = [String: Type](
-            zip(parameters, arguments),
-            uniquingKeysWith: { _, _ in fatalError("Duplicate parameter names in generic type") })
-        return subtype.substituted(using: { valuation[$0] ?? .namedType($0) })
-    case let .selectType(subtype, name):
-        return .selectType(specialize(subtype, to: arguments), name)
-    case let .withOwnership(attribute, subtype):
-        return .withOwnership(attribute, specialize(subtype, to: arguments))
-    case .coroutineTokenType: fallthrough
-    case .functionType(_, _): fallthrough
-    case .namedType(_): fallthrough
-    case .selfType: fallthrough
-    case .specializedType(_, _): fallthrough
-    case .tupleType(_):
-        fatalError("Specializing a type that is not generic")
     }
-}
 
-func destructFunctionType(_ type: Type) -> (arguments: [Type], result: Type) {
-    switch type {
-    case let .attributedType(_, subtype):
-        return destructFunctionType(subtype)
-    case let .functionType(arguments, result):
-        return (arguments, result)
-    case let .genericType(_, _, subtype):
-        return destructFunctionType(subtype)
-    case let .withOwnership(_, subtype):
-        return destructFunctionType(subtype)
-    case .addressType(_): fallthrough
-    case .coroutineTokenType: fallthrough
-    case .namedType(_): fallthrough
-    case .selectType(_, _): fallthrough
-    case .selfType: fallthrough
-    case .specializedType(_, _): fallthrough
-    case .tupleType(_):
-        fatalError("Expected a function type")
+    var functionSignature: (arguments: [Type], result: Type) {
+        switch self {
+        case let .attributedType(_, subtype):
+            return subtype.functionSignature
+        case let .functionType(arguments, result):
+            return (arguments, result)
+        case let .genericType(_, _, subtype):
+            return subtype.functionSignature
+        case let .withOwnership(_, subtype):
+            return subtype.functionSignature
+        case .addressType(_): fallthrough
+        case .coroutineTokenType: fallthrough
+        case .namedType(_): fallthrough
+        case .selectType(_, _): fallthrough
+        case .selfType: fallthrough
+        case .specializedType(_, _): fallthrough
+        case .tupleType(_):
+            fatalError("Expected a function type")
+        }
     }
 }
 
@@ -287,8 +287,8 @@ extension Operator {
         case .allocStack(_, _): return []
         case let .apply(_, function, substitutions, arguments, type): fallthrough
         case let .beginApply(_, function, substitutions, arguments, type):
-            let specializedType = substitutions.isEmpty ? type : specialize(type, to: substitutions)
-            let (arguments:argumentTypes, result:_) = destructFunctionType(specializedType)
+            let specializedType = substitutions.isEmpty ? type : type.specialized(to: substitutions)
+            let (arguments:argumentTypes, result:_) = specializedType.functionSignature
             return [Operand(function, type)] + zip(arguments, argumentTypes).map {
                 Operand($0.0, $0.1)
             }
@@ -318,8 +318,8 @@ extension Operator {
         case let .markDependence(operand, on): return [operand, on]
         case .metatype(_): return []
         case let .partialApply(_, _, function, substitutions, arguments, type):
-            let specializedType = substitutions.isEmpty ? type : specialize(type, to: substitutions)
-            let (arguments:allArgumentTypes, result:_) = destructFunctionType(specializedType)
+            let specializedType = substitutions.isEmpty ? type : type.specialized(to: substitutions)
+            let (arguments:allArgumentTypes, result:_) = specializedType.functionSignature
             let argumentTypes = allArgumentTypes.suffix(arguments.count)
             assert(arguments.count == argumentTypes.count)
             return [Operand(function, type)] + zip(arguments, argumentTypes).map {
