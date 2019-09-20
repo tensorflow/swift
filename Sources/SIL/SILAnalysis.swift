@@ -196,35 +196,37 @@ extension Array: AlphaConvertible where Element: AlphaConvertible {
     }
 }
 
-func substitute(_ type: Type, using s: (String) -> Type) -> Type {
-    switch type {
-    case let .addressType(subtype):
-        return .addressType(substitute(subtype, using: s))
-    case let .attributedType(attributes, subtype):
-        return .attributedType(attributes, substitute(subtype, using: s))
-    case .coroutineTokenType:
-        return .coroutineTokenType
-    case let .functionType(parameters, result):
-        return .functionType(
-            parameters.map { substitute($0, using: s) }, substitute(result, using: s))
-    case let .genericType(parameters, requirements, subtype):
-        return .genericType(
-            parameters,
-            requirements,
-            substitute(subtype, using: { parameters.contains($0) ? .namedType($0) : s($0) }))
-    case let .namedType(name):
-        return s(name)
-    case let .selectType(subtype, name):
-        return .selectType(substitute(subtype, using: s), name)
-    case .selfType:
-        return .selfType
-    case let .specializedType(genericType, arguments):
-        return .specializedType(
-            substitute(genericType, using: s), arguments.map { substitute($0, using: s) })
-    case let .tupleType(elementTypes):
-        return .tupleType(elementTypes.map { substitute($0, using: s) })
-    case let .withOwnership(attribute, subtype):
-        return .withOwnership(attribute, substitute(subtype, using: s))
+extension Type {
+    func substituted(using s: (String) -> Type) -> Type {
+        switch self {
+        case let .addressType(subtype):
+            return .addressType(subtype.substituted(using: s))
+        case let .attributedType(attributes, subtype):
+            return .attributedType(attributes, subtype.substituted(using: s))
+        case .coroutineTokenType:
+            return .coroutineTokenType
+        case let .functionType(parameters, result):
+            return .functionType(
+                parameters.map { $0.substituted(using: s) }, result.substituted(using: s))
+        case let .genericType(parameters, requirements, subtype):
+            return .genericType(
+                parameters,
+                requirements,
+                subtype.substituted(using: { parameters.contains($0) ? .namedType($0) : s($0) }))
+        case let .namedType(name):
+            return s(name)
+        case let .selectType(subtype, name):
+            return .selectType(subtype.substituted(using: s), name)
+        case .selfType:
+            return .selfType
+        case let .specializedType(genericType, arguments):
+            return .specializedType(
+                genericType.substituted(using: s), arguments.map { $0.substituted(using: s) })
+        case let .tupleType(elementTypes):
+            return .tupleType(elementTypes.map { $0.substituted(using: s) })
+        case let .withOwnership(attribute, subtype):
+            return .withOwnership(attribute, subtype.substituted(using: s))
+        }
     }
 }
 
@@ -243,7 +245,7 @@ func specialize(_ type: Type, to arguments: [Type]) -> Type {
         let valuation = [String: Type](
             zip(parameters, arguments),
             uniquingKeysWith: { _, _ in fatalError("Duplicate parameter names in generic type") })
-        return substitute(subtype, using: { valuation[$0]! })
+        return subtype.substituted(using: { valuation[$0] ?? .namedType($0) })
     case let .selectType(subtype, name):
         return .selectType(specialize(subtype, to: arguments), name)
     case let .withOwnership(attribute, subtype):
@@ -283,32 +285,14 @@ extension Operator {
     public var operands: [Operand]? {
         switch self {
         case .allocStack(_, _): return []
-        case let .apply(_, function, substitutions, arguments, type):
+        case let .apply(_, function, substitutions, arguments, type): fallthrough
+        case let .beginApply(_, function, substitutions, arguments, type):
             let specializedType = substitutions.isEmpty ? type : specialize(type, to: substitutions)
             let (arguments:argumentTypes, result:_) = destructFunctionType(specializedType)
             return [Operand(function, type)] + zip(arguments, argumentTypes).map {
                 Operand($0.0, $0.1)
             }
         case let .beginAccess(_, _, _, _, operand): return [operand]
-        case let .beginApply(_, function, substitutions, arguments, type):
-            let specializedType = substitutions.isEmpty ? type : specialize(type, to: substitutions)
-            let (arguments:rawArgumentTypes, result:_) = destructFunctionType(specializedType)
-            let argumentTypes = rawArgumentTypes.map {
-                guard case let .attributedType(attributes, subtype) = $0,
-                    attributes.first == .yields
-                else {
-                    fatalError("Coroutine results should have @yields attributes")
-                }
-                if attributes.count == 1 {
-                    return subtype
-                } else {
-                    return .attributedType(Array(attributes.suffix(from: 1)), subtype)
-                }
-            } + [Type.coroutineTokenType]
-            assert(arguments.count == argumentTypes.count)
-            return [Operand(function, type)] + zip(arguments, argumentTypes).map {
-                Operand($0.0, $0.1)
-            }
         case let .beginBorrow(operand): return [operand]
         case let .builtin(_, operands, _): return operands
         case let .condFail(operand, _): return [operand]
@@ -383,6 +367,15 @@ extension Terminator {
         case let .switchEnum(operand, _): return [operand]
         case .unknown(_): return nil
         case .unreachable: return []
+        }
+    }
+}
+
+extension Instruction {
+    public var operands: [Operand]? {
+        switch self {
+        case let .operator(op): return op.operands
+        case let .terminator(t): return t.operands
         }
     }
 }
