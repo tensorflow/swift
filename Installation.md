@@ -18,14 +18,21 @@ To install Swift for TensorFlow, download one of the packages below and follow t
 ## Release Candidates
 | Download | Version | Date |
 |----------|---------|------|
+| [Xcode 11](https://storage.googleapis.com/swift-tensorflow-artifacts/releases/v0.5/rc1/swift-tensorflow-RELEASE-0.5-osx.pkg) | v0.5.0-rc1 | Sep 19, 2019 |
+| [Ubuntu 18.04 (CPU Only)](https://storage.googleapis.com/swift-tensorflow-artifacts/releases/v0.5/rc1/swift-tensorflow-RELEASE-0.5-ubuntu18.04.tar.gz) | v0.5.0-rc1 | Sep 19, 2019 |
+| [Ubuntu 18.04 (CUDA 10.0)](https://storage.googleapis.com/swift-tensorflow-artifacts/releases/v0.5/rc1/swift-tensorflow-RELEASE-0.5-cuda10.0-cudnn7-ubuntu18.04.tar.gz) | v0.5.0-rc1 | Sep 19, 2019 |
+| [Ubuntu 18.04 (CUDA 9.2)](https://storage.googleapis.com/swift-tensorflow-artifacts/releases/v0.5/rc1/swift-tensorflow-RELEASE-0.5-cuda9.2-cudnn7-ubuntu18.04.tar.gz) | v0.5.0-rc1 | Sep 19, 2019 |
+
+<details>
+  <summary>Older Packages</summary>
+  
+| Download | Version | Date |
+|----------|---------|------|
 | [Xcode 11 beta](https://storage.googleapis.com/swift-tensorflow-artifacts/releases/v0.5/rc0/swift-tensorflow-RELEASE-0.5-osx.pkg) | v0.5.0-rc0 | Sep 13, 2019 |
 | [Ubuntu 18.04 (CPU Only)](https://storage.googleapis.com/swift-tensorflow-artifacts/releases/v0.5/rc0/swift-tensorflow-RELEASE-0.5-ubuntu18.04.tar.gz) | v0.5.0-rc0 | Sep 6, 2019 |
 | [Ubuntu 18.04 (CUDA 10.0)](https://storage.googleapis.com/swift-tensorflow-artifacts/releases/v0.5/rc0/swift-tensorflow-RELEASE-0.5-cuda10.0-cudnn7-ubuntu18.04.tar.gz) | v0.5.0-rc0 | Sep 6, 2019 |
 | [Ubuntu 18.04 (CUDA 9.2)](https://storage.googleapis.com/swift-tensorflow-artifacts/releases/v0.5/rc0/swift-tensorflow-RELEASE-0.5-cuda9.2-cudnn7-ubuntu18.04.tar.gz) | v0.5.0-rc0 | Sep 6, 2019 |
-
-<details>
-  <summary>Older Packages</summary>
-
+  
 | Download | Version | Date |
 |----------|---------|------|
 | [Xcode 11 beta](https://storage.googleapis.com/swift-tensorflow-artifacts/releases/v0.4/rc2/swift-tensorflow-RELEASE-0.4-osx.pkg) | v0.4.0-rc2 | July 10, 2019 |
