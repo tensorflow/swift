@@ -84,6 +84,13 @@ public struct TerminatorDef: Equatable {
 public enum InstructionDef: Equatable {
     case `operator`(OperatorDef)
     case terminator(TerminatorDef)
+
+    var instruction: Instruction {
+        switch self {
+        case let .operator(def): return .operator(def.operator)
+        case let .terminator(def): return .terminator(def.terminator)
+        }
+    }
 }
 
 
@@ -495,6 +502,7 @@ public enum TupleElements: Equatable {
 public indirect enum Type: Equatable {
     case addressType(_ type: Type)
     case attributedType(_ attributes: [TypeAttribute], _ type: Type)
+    case coroutineTokenType
     case functionType(_ parameters: [Type], _ result: Type)
     case genericType(_ parameters: [String], _ requirements: [TypeRequirement], _ type: Type)
     case namedType(_ name: String)

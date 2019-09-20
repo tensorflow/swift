@@ -46,7 +46,8 @@ extension Operator: AlphaConvertible {
         case let .apply(nothrow, value, substitutions, arguments, type):
             return .apply(nothrow, s(value), substitutions, arguments.map(s), type)
         case let .beginAccess(access, enforcement, noNestedConflict, builtin, operand):
-            return .beginAccess(access, enforcement, noNestedConflict, builtin, operand.alphaConverted(using: s))
+            return .beginAccess(
+                access, enforcement, noNestedConflict, builtin, operand.alphaConverted(using: s))
         case let .beginApply(nothrow, value, substitutions, arguments, type):
             return .beginApply(nothrow, s(value), substitutions, arguments.map(s), type)
         case let .beginBorrow(operand):
@@ -195,11 +196,186 @@ extension Array: AlphaConvertible where Element: AlphaConvertible {
     }
 }
 
+extension Type {
+    func substituted(using s: (String) -> Type) -> Type {
+        switch self {
+        case let .addressType(subtype):
+            return .addressType(subtype.substituted(using: s))
+        case let .attributedType(attributes, subtype):
+            return .attributedType(attributes, subtype.substituted(using: s))
+        case .coroutineTokenType:
+            return .coroutineTokenType
+        case let .functionType(parameters, result):
+            return .functionType(
+                parameters.map { $0.substituted(using: s) }, result.substituted(using: s))
+        case let .genericType(parameters, requirements, subtype):
+            return .genericType(
+                parameters,
+                requirements,
+                subtype.substituted(using: { parameters.contains($0) ? .namedType($0) : s($0) }))
+        case let .namedType(name):
+            return s(name)
+        case let .selectType(subtype, name):
+            return .selectType(subtype.substituted(using: s), name)
+        case .selfType:
+            return .selfType
+        case let .specializedType(genericType, arguments):
+            return .specializedType(
+                genericType.substituted(using: s), arguments.map { $0.substituted(using: s) })
+        case let .tupleType(elementTypes):
+            return .tupleType(elementTypes.map { $0.substituted(using: s) })
+        case let .withOwnership(attribute, subtype):
+            return .withOwnership(attribute, subtype.substituted(using: s))
+        }
+    }
+
+    func specialized(to arguments: [Type]) -> Type {
+        switch self {
+        case let .addressType(subtype):
+            return .addressType(subtype.specialized(to: arguments))
+        case let .attributedType(attributes, subtype):
+            return .attributedType(attributes, subtype.specialized(to: arguments))
+        case let .genericType(parameters, _, subtype):
+            guard parameters.count == arguments.count else {
+                fatalError(
+                    "Specializing a generic type with \(parameters.count) parameters using \(arguments.count) arguments"
+                )
+            }
+            let valuation = [String: Type](
+                zip(parameters, arguments),
+                uniquingKeysWith: { _, _ in fatalError("Duplicate parameter names in generic type") })
+            return subtype.substituted(using: { valuation[$0] ?? .namedType($0) })
+        case let .selectType(subtype, name):
+            return .selectType(subtype.specialized(to: arguments), name)
+        case let .withOwnership(attribute, subtype):
+            return .withOwnership(attribute, subtype.specialized(to: arguments))
+        case .coroutineTokenType: fallthrough
+        case .functionType(_, _): fallthrough
+        case .namedType(_): fallthrough
+        case .selfType: fallthrough
+        case .specializedType(_, _): fallthrough
+        case .tupleType(_):
+            fatalError("Specializing a type that is not generic")
+        }
+    }
+
+    var functionSignature: (arguments: [Type], result: Type) {
+        switch self {
+        case let .attributedType(_, subtype):
+            return subtype.functionSignature
+        case let .functionType(arguments, result):
+            return (arguments, result)
+        case let .genericType(_, _, subtype):
+            return subtype.functionSignature
+        case let .withOwnership(_, subtype):
+            return subtype.functionSignature
+        case .addressType(_): fallthrough
+        case .coroutineTokenType: fallthrough
+        case .namedType(_): fallthrough
+        case .selectType(_, _): fallthrough
+        case .selfType: fallthrough
+        case .specializedType(_, _): fallthrough
+        case .tupleType(_):
+            fatalError("Expected a function type")
+        }
+    }
+}
+
 extension Operator {
-    public var operandNames: [String]? {
-        if case .unknown(_) = self { return nil }
-        var names: [String] = []
-        let _ = alphaConverted(using: { names.append($0);return $0 })
-        return names
+    public var operands: [Operand]? {
+        switch self {
+        case .allocStack(_, _): return []
+        case let .apply(_, function, substitutions, arguments, type): fallthrough
+        case let .beginApply(_, function, substitutions, arguments, type):
+            let specializedType = substitutions.isEmpty ? type : type.specialized(to: substitutions)
+            let (arguments:argumentTypes, result:_) = specializedType.functionSignature
+            return [Operand(function, type)] + zip(arguments, argumentTypes).map {
+                Operand($0.0, $0.1)
+            }
+        case let .beginAccess(_, _, _, _, operand): return [operand]
+        case let .beginBorrow(operand): return [operand]
+        case let .builtin(_, operands, _): return operands
+        case let .condFail(operand, _): return [operand]
+        case let .convertEscapeToNoescape(_, _, operand, _): return [operand]
+        case let .convertFunction(operand, _, _): return [operand]
+        case let .copyAddr(_, value, _, operand): return [Operand(value, operand.type), operand]
+        case let .copyValue(operand): return [operand]
+        case let .deallocStack(operand): return [operand]
+        case let .debugValue(operand, _): return [operand]
+        case let .debugValueAddr(operand, _): return [operand]
+        case let .destroyValue(operand): return [operand]
+        case let .destructureTuple(operand): return [operand]
+        case let .endAccess(_, operand): return [operand]
+        case let .endApply(value): return [Operand(value, .coroutineTokenType)]
+        case let .endBorrow(operand): return [operand]
+        case let .enum(_, _, maybeOperand): return maybeOperand.map { [$0] } ?? []
+        case .floatLiteral(_, _): return []
+        case .functionRef(_, _): return []
+        case .globalAddr(_, _): return []
+        case let .indexAddr(addr, index): return [addr, index]
+        case .integerLiteral(_, _): return []
+        case let .load(_, operand): return [operand]
+        case let .markDependence(operand, on): return [operand, on]
+        case .metatype(_): return []
+        case let .partialApply(_, _, function, substitutions, arguments, type):
+            let specializedType = substitutions.isEmpty ? type : type.specialized(to: substitutions)
+            let (arguments:allArgumentTypes, result:_) = specializedType.functionSignature
+            let argumentTypes = allArgumentTypes.suffix(arguments.count)
+            assert(arguments.count == argumentTypes.count)
+            return [Operand(function, type)] + zip(arguments, argumentTypes).map {
+                Operand($0.0, $0.1)
+            }
+        case let .pointerToAddress(operand, _, _): return [operand]
+        case let .releaseValue(operand): return [operand]
+        case let .retainValue(operand): return [operand]
+        case let .store(value, _, operand):
+            guard case let .addressType(valueType) = operand.type else {
+                fatalError("Store to a non-address type operand")
+            }
+            return [Operand(value, valueType), operand]
+        case .stringLiteral(_, _): return []
+        case let .strongRelease(operand): return [operand]
+        case let .strongRetain(operand): return [operand]
+        case let .struct(_, operands): return operands
+        case let .structElementAddr(operand, _): return [operand]
+        case let .structExtract(operand, _): return [operand]
+        case let .thinToThickFunction(operand, _): return [operand]
+        case let .tuple(elements):
+            switch elements {
+            case let .unlabeled(operands): return operands
+            case let .labeled(tupleType, operands):
+                guard case let .tupleType(elementTypes) = tupleType else {
+                    fatalError("Tuple of non-tuple type")
+                }
+                return zip(operands, elementTypes).map { Operand($0.0, $0.1) }
+            }
+        case let .tupleExtract(operand, _): return [operand]
+        case .unknown(_): return nil
+        case .witnessMethod(_, _, _, _): return []
+        }
+    }
+}
+
+extension Terminator {
+    public var operands: [Operand]? {
+        switch self {
+        case let .br(_, operands): return operands
+        case let .condBr(cond, _, trueOperands, _, falseOperands):
+            return [Operand(cond, .selectType(.namedType("Builtin"), "Int1"))] + trueOperands
+                + falseOperands
+        case let .return(operand): return [operand]
+        case let .switchEnum(operand, _): return [operand]
+        case .unknown(_): return nil
+        case .unreachable: return []
+        }
+    }
+}
+
+extension Instruction {
+    public var operands: [Operand]? {
+        switch self {
+        case let .operator(op): return op.operands
+        case let .terminator(t): return t.operands
+        }
     }
 }
