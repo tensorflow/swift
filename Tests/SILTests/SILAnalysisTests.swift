@@ -12,7 +12,6 @@ func parseDef(_ source: String) -> InstructionDef? {
     }
 }
 
-
 public final class SILAnalysisTests: XCTestCase {
     lazy var parsedInstructionDefs: [InstructionDef] = instructionDefs.compactMap(parseDef)
 
@@ -24,34 +23,34 @@ public final class SILAnalysisTests: XCTestCase {
 
     // Only allows %TEST_NAME as the value name
     func checkValueNames(_ i: InstructionDef) {
-      var readingValueName = false
-      var name = ""
-      for c in i.description {
-        if c == "%" {
-          name = "%"
-          assert(!readingValueName)
-          readingValueName = true
-          continue
+        var readingValueName = false
+        var name = ""
+        for c in i.description {
+            if c == "%" {
+                name = "%"
+                assert(!readingValueName)
+                readingValueName = true
+                continue
+            }
+            guard readingValueName else { continue }
+            if c.isLetter || c.isNumber || c == "_" {
+                name.append(c)
+            } else {
+                XCTAssertEqual(name, "%TEST_NAME")
+                readingValueName = false
+            }
         }
-        guard readingValueName else { continue }
-        if c.isLetter || c.isNumber || c == "_" {
-          name.append(c)
-        } else {
-          XCTAssertEqual(name, "%TEST_NAME")
-          readingValueName = false
-        }
-      }
     }
 
     public func testOperandsSeeAllValueNames() {
         for def in parsedInstructionDefs {
             var valueNames: [String] = []
-            let _ = def.instruction.alphaConverted(using: { valueNames.append($0); return $0 })
+            let _ = def.instruction.alphaConverted(using: { valueNames.append($0);return $0 })
             guard let operands = def.instruction.operands else {
                 XCTFail("Failed to retrieve operands of \(def)")
                 continue
             }
-            XCTAssertEqual(operands.map{ $0.value }, valueNames)
+            XCTAssertEqual(operands.map { $0.value }, valueNames)
         }
     }
 
@@ -77,12 +76,21 @@ public final class SILAnalysisTests: XCTestCase {
             "begin_apply %266(%125, %265) : $@yield_once @convention(method) (Int, @inout Array<Float>) -> @yields @inout Float",
             [
                 Operand("%125", .namedType("Int")),
-                Operand("%265", .attributedType([.inout], .specializedType(.namedType("Array"), [.namedType("Float")]))),
+                Operand(
+                    "%265",
+                    .attributedType(
+                        [.inout], .specializedType(.namedType("Array"), [.namedType("Float")]))),
             ]
         )
         verifyApply(
             "%4 = partial_apply [callee_guaranteed] %2<Scalar>(%3) : $@convention(thin) <τ_0_0 where τ_0_0 : TensorFlowScalar> (@guaranteed Tensor<τ_0_0>) -> Bool",
-            [Operand("%3", .attributedType([.guaranteed], .specializedType(.namedType("Tensor"), [.namedType("Scalar")])))]
+            [
+                Operand(
+                    "%3",
+                    .attributedType(
+                        [.guaranteed],
+                        .specializedType(.namedType("Tensor"), [.namedType("Scalar")])))
+            ]
         )
     }
 }
