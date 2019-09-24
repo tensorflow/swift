@@ -206,6 +206,12 @@ class SILPrinter: Printer {
         case let .retainValue(operand):
             print("retain_value ")
             print(operand)
+        case let .selectEnum(operand, cases, type):
+            print("select_enum ")
+            print(operand)
+            print(whenEmpty: false, "", cases, "", "") { print($0) }
+            print(" : ")
+            print(type)
         case let .store(value, maybeOwnership, operand):
             print("store ")
             print(value)
@@ -322,14 +328,14 @@ class SILPrinter: Printer {
     func print(_ `case`: Case) {
         print(", ")
         switch `case` {
-        case let .case(declRef, identifier):
+        case let .case(declRef, result):
             print("case ")
             print(declRef)
             print(": ")
-            print(identifier)
-        case let .default(identifier):
+            print(result)
+        case let .default(result):
             print("default ")
-            print(identifier)
+            print(result)
         }
     }
 
