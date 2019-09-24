@@ -103,6 +103,8 @@ extension Operator: AlphaConvertible {
             return .releaseValue(operand.alphaConverted(using: s))
         case let .retainValue(operand):
             return .retainValue(operand.alphaConverted(using: s))
+        case let .selectEnum(operand, cases, type):
+            return .selectEnum(operand.alphaConverted(using: s), cases.alphaConverted(using: s), type)
         case let .store(value, kind, operand):
             return .store(s(value), kind, operand.alphaConverted(using: s))
         case .stringLiteral(_, _): return self
@@ -163,6 +165,15 @@ extension Argument: AlphaConvertible {
     }
 }
 
+extension Case: AlphaConvertible where Element == String {
+    public func alphaConverted(using s: ValueNameSubstitution) -> Case {
+        switch self {
+        case let .case(declRef, result): return .case(declRef, s(result))
+        case let .default(result): return .default(s(result))
+        }
+    }
+}
+
 extension Operand: AlphaConvertible {
     public func alphaConverted(using s: ValueNameSubstitution) -> Operand {
         return Operand(s(value), type)
@@ -197,7 +208,7 @@ extension Array: AlphaConvertible where Element: AlphaConvertible {
 }
 
 extension Type {
-    func substituted(using s: (String) -> Type) -> Type {
+    public func substituted(using s: (String) -> Type) -> Type {
         switch self {
         case let .addressType(subtype):
             return .addressType(subtype.substituted(using: s))
@@ -229,7 +240,7 @@ extension Type {
         }
     }
 
-    func specialized(to arguments: [Type]) -> Type {
+    public func specialized(to arguments: [Type]) -> Type {
         switch self {
         case let .addressType(subtype):
             return .addressType(subtype.specialized(to: arguments))
@@ -259,7 +270,7 @@ extension Type {
         }
     }
 
-    var functionSignature: (arguments: [Type], result: Type) {
+    public var functionSignature: (arguments: [Type], result: Type) {
         switch self {
         case let .attributedType(_, subtype):
             return subtype.functionSignature
@@ -328,6 +339,13 @@ extension Operator {
         case let .pointerToAddress(operand, _, _): return [operand]
         case let .releaseValue(operand): return [operand]
         case let .retainValue(operand): return [operand]
+        case let .selectEnum(operand, cases, type):
+            return [operand] + cases.map {
+                switch $0 {
+                case let .case(_, value): return Operand(value, type)
+                case let .default(value): return Operand(value, type)
+                }
+            }
         case let .store(value, _, operand):
             guard case let .addressType(valueType) = operand.type else {
                 fatalError("Store to a non-address type operand")

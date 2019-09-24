@@ -63,6 +63,7 @@ let instructionDefs = [
     "metatype $@thick Self.Type",
     "metatype $@thin Int.Type",
     "%4 = partial_apply [callee_guaranteed] %2<Scalar>(%3) : $@convention(thin) <τ_0_0 where τ_0_0 : TensorFlowScalar> (@guaranteed Tensor<τ_0_0>) -> Bool",
+    "%n = select_enum %0 : $U, case #U.Case1!enumelt: %1, case #U.Case2!enumelt: %2, default %3 : $T",
     "store %88 to %89 : $*StrideTo<Int>",
     "store %88 to [trivial] %112 : $*Int",
     "store %152 to [init] %155 : $*ArraySlice<Int>",
