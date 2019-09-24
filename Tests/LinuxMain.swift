@@ -18,9 +18,12 @@ let silTests = [
     testCase(BitsTests.allTests),
     testCase(BitstreamTests.allTests),
     testCase(SILTests.DescriptionTests.allTests),
+    testCase(SILParserTests.allTests),
     testCase(InstructionTests.allTests),
     testCase(ModuleTests.allTests),
     testCase(PrinterTests.allTests),
+    testCase(SExprTests.allTests),
+    testCase(SILAnalysisTests.allTests),
 ]
 #else
 let silTests = [XCTestCaseEntry]()

@@ -6,7 +6,8 @@ public final class DescriptionTests: XCTestCase {
         let block = Block(
             "bb0",
             [Argument("%0", .namedType("Int"))],
-            [InstructionDef(nil, .return(Operand("%0", .namedType("Int"))), nil)]
+            [],
+            TerminatorDef(.return(Operand("%0", .namedType("Int"))), nil)
         )
         let identity = Function(
             .public,
@@ -33,21 +34,21 @@ public final class DescriptionTests: XCTestCase {
             "bb0",
             [Argument("%0", .namedType("Int")), Argument("%1", .namedType("Int"))],
             [
-                InstructionDef(
+                OperatorDef(
                     Result(["%4"]),
                     .structExtract(
                         Operand("%0", .namedType("Int")), DeclRef(["Int", "_value"], nil, nil)),
                     nil),
-                InstructionDef(
+                OperatorDef(
                     Result(["%5"]),
                     .structExtract(
                         Operand("%1", .namedType("Int")), DeclRef(["Int", "_value"], nil, nil)),
                     nil),
-                InstructionDef(
+                OperatorDef(
                     Result(["%6"]),
                     .integerLiteral(.namedType("Builtin.Int1"), -1),
                     nil),
-                InstructionDef(
+                OperatorDef(
                     Result(["%7"]),
                     .builtin(
                         "sadd_with_overflow_Int64",
@@ -58,7 +59,7 @@ public final class DescriptionTests: XCTestCase {
                         ],
                         .tupleType([.namedType("Builtin.Int64"), .namedType("Builtin.Int1")])),
                     nil),
-                InstructionDef(
+                OperatorDef(
                     Result(["%8"]),
                     .tupleExtract(
                         Operand(
@@ -66,7 +67,7 @@ public final class DescriptionTests: XCTestCase {
                             .tupleType([.namedType("Builtin.Int64"), .namedType("Builtin.Int1")])),
                         0),
                     nil),
-                InstructionDef(
+                OperatorDef(
                     Result(["%9"]),
                     .tupleExtract(
                         Operand(
@@ -74,19 +75,16 @@ public final class DescriptionTests: XCTestCase {
                             .tupleType([.namedType("Builtin.Int64"), .namedType("Builtin.Int1")])),
                         1),
                     nil),
-                InstructionDef(
+                OperatorDef(
                     nil,
                     .condFail(Operand("%9", .namedType("Builtin.Int1")), ""),
                     nil),
-                InstructionDef(
+                OperatorDef(
                     Result(["%11"]),
                     .struct(.namedType("Int"), [Operand("%8", .namedType("Builtin.Int64"))]),
                     nil),
-                InstructionDef(
-                    nil,
-                    .return(Operand("%11", .namedType("Int"))),
-                    nil)
-            ]
+            ],
+            TerminatorDef(.return(Operand("%11", .namedType("Int"))), nil)
         )
         let add = Function(
             .public,

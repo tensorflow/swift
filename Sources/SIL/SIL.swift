@@ -1,6 +1,6 @@
 // https://github.com/apple/swift/blob/master/docs/SIL.rst
-public class Module {
-    public let functions: [Function]
+public final class Module {
+    public var functions: [Function]
 
     public init(_ functions: [Function]) {
         self.functions = functions
@@ -18,12 +18,12 @@ public class Module {
 }
 
 // https://github.com/apple/swift/blob/master/docs/SIL.rst#functions
-public class Function {
-    public let linkage: Linkage
-    public let attributes: [FunctionAttribute]
-    public let name: String
-    public let type: Type
-    public let blocks: [Block]
+public final class Function {
+    public var linkage: Linkage
+    public var attributes: [FunctionAttribute]
+    public var name: String
+    public var type: Type
+    public var blocks: [Block]
 
     public init(
         _ linkage: Linkage, _ attributes: [FunctionAttribute],
@@ -38,35 +38,65 @@ public class Function {
 }
 
 // https://github.com/apple/swift/blob/master/docs/SIL.rst#basic-blocks
-public class Block {
-    public let identifier: String
-    public let arguments: [Argument]
-    public let instructionDefs: [InstructionDef]
+public final class Block: Equatable {
+    public var identifier: String
+    public var arguments: [Argument]
+    public var operatorDefs: [OperatorDef]
+    public var terminatorDef: TerminatorDef
 
-    public init(_ identifier: String, _ arguments: [Argument], _ instructionDefs: [InstructionDef])
+    public init(_ identifier: String, _ arguments: [Argument], _ operatorDefs: [OperatorDef], _ terminatorDef: TerminatorDef)
     {
         self.identifier = identifier
         self.arguments = arguments
-        self.instructionDefs = instructionDefs
+        self.operatorDefs = operatorDefs
+        self.terminatorDef = terminatorDef
+    }
+
+    public static func ==(_ a: Block, _ b: Block) -> Bool {
+        return (a.identifier, a.arguments, a.operatorDefs, a.terminatorDef) == (b.identifier, b.arguments, b.operatorDefs, b.terminatorDef)
     }
 }
 
 // https://github.com/apple/swift/blob/master/docs/SIL.rst#basic-blocks
-public class InstructionDef {
+public struct OperatorDef: Equatable {
     public let result: Result?
-    public let instruction: Instruction
+    public let `operator`: Operator
     public let sourceInfo: SourceInfo?
 
-    public init(_ result: Result?, _ instruction: Instruction, _ sourceInfo: SourceInfo?) {
+    public init(_ result: Result?, _ `operator`: Operator, _ sourceInfo: SourceInfo?) {
         self.result = result
-        self.instruction = instruction
+        self.operator = `operator`
         self.sourceInfo = sourceInfo
     }
 }
 
+// https://github.com/apple/swift/blob/master/docs/SIL.rst#basic-blocks
+public struct TerminatorDef: Equatable {
+    public let terminator: Terminator
+    public let sourceInfo: SourceInfo?
+
+    public init(_ terminator: Terminator, _ sourceInfo: SourceInfo?) {
+        self.terminator = terminator
+        self.sourceInfo = sourceInfo
+    }
+}
+
+public enum InstructionDef: Equatable {
+    case `operator`(OperatorDef)
+    case terminator(TerminatorDef)
+
+    public var instruction: Instruction {
+        switch self {
+        case let .operator(def): return .operator(def.operator)
+        case let .terminator(def): return .terminator(def.terminator)
+        }
+    }
+}
+
+
 // https://github.com/apple/swift/blob/master/docs/SIL.rst#instruction-set
 // https://github.com/apple/swift/blob/master/include/swift/SIL/SILInstruction.h
-public enum Instruction {
+public enum Operator: Equatable {
     // https://github.com/apple/swift/blob/master/docs/SIL.rst#alloc-stack
     // alloc_stack $Float
     // alloc_stack $IndexingIterator<Range<Int>>, var, name "$inputIndex$generator"
@@ -97,28 +127,21 @@ public enum Instruction {
     // begin_borrow %16 : $TensorShape
     case beginBorrow(_ operand: Operand)
 
-    // https://github.com/apple/swift/blob/master/docs/SIL.rst#br
-    // br bb9
-    // br label (%0 : $A, %1 : $B)
-    case br(_ label: String, _ operands: [Operand])
-
     // https://github.com/apple/swift/blob/master/docs/SIL.rst#builtin
     // builtin "sadd_with_overflow_Int64"(%4 : $Builtin.Int64, %5 : $Builtin.Int64, %6 : $Builtin.Int1) : $(Builtin.Int64, Builtin.Int1)
     case builtin(_ name: String, _ operands: [Operand], _ type: Type)
 
-    // https://github.com/apple/swift/blob/master/docs/SIL.rst#cond-br
-    // cond_br %11, bb3, bb2
-    // cond_br %12, label (%0 : $A), label (%1 : $B)
-    // TODO(#25): Figure out cond_br.
-    case condBr(
-        _ cond: String,
-        _ trueLabel: String, _ trueOperands: [Operand],
-        _ falseLabel: String, _ falseOperands: [Operand]
-    )
-
     // https://github.com/apple/swift/blob/master/docs/SIL.rst#cond-fail
     // cond_fail %9 : $Builtin.Int1, "arithmetic overflow"
     case condFail(_ operand: Operand, _ message: String)
+
+    // https://github.com/apple/swift/blob/master/docs/SIL.rst#convert-escape-to-noescape
+    // convert_escape_to_noescape [not_guaranteed] %29 : $@callee_guaranteed () -> Bool to $@noescape @callee_guaranteed () -> Bool
+    case convertEscapeToNoescape(_ notGuaranteed: Bool, _ escaped: Bool, _ operand: Operand, _ type: Type)
+
+    // https://github.com/apple/swift/blob/master/docs/SIL.rst#convert-function
+    // convert_function %0 : $@convention(thin) () -> Bool to $@convention(thin) @noescape () -> Bool
+    case convertFunction(_ operand: Operand, _ withoutActuallyEscaping: Bool, _ type: Type)
 
     // https://github.com/apple/swift/blob/master/docs/SIL.rst#copy-addr
     // copy_addr %1 to [initialization] %33 : $*Self
@@ -170,11 +193,15 @@ public enum Instruction {
     // https://github.com/apple/swift/blob/master/docs/SIL.rst#float-literal
     // float_literal $Builtin.FPIEEE32, 0x0
     // float_literal $Builtin.FPIEEE64, 0x3F800000
-    case floatLiteral(_ type: Type, _ value: Int)
+    case floatLiteral(_ type: Type, _ value: String)
 
     // https://github.com/apple/swift/blob/master/docs/SIL.rst#function-ref
     // function_ref @$s4main11threadCountSiyF : $@convention(thin) () -> Int
     case functionRef(_ name: String, _ type: Type)
+
+    // https://github.com/apple/swift/blob/master/docs/SIL.rst#global-addr
+    // global_addr @$s5small4____Sivp : $*Int
+    case globalAddr(_ name: String, _ type: Type)
 
     // https://github.com/apple/swift/blob/master/docs/SIL.rst#index-addr
     // index_addr %5 : $*Int, %11 : $Builtin.Word
@@ -186,27 +213,54 @@ public enum Instruction {
 
     // https://github.com/apple/swift/blob/master/docs/SIL.rst#load
     // load %117 : $*Optional<Int>
-    case load(_ operand: Operand)
+    case load(_ kind: LoadOwnership?, _ operand: Operand)
+
+    // https://github.com/apple/swift/blob/master/docs/SIL.rst#mark-dependence
+    // mark_dependence %11 : $@noescape @callee_guaranteed () -> Bool on %1 : $TensorShape
+    case markDependence(_ operand: Operand, _ on: Operand)
 
     // https://github.com/apple/swift/blob/master/docs/SIL.rst#metatype
     // metatype $@thin Int.Type
     case metatype(_ type: Type)
 
+    // https://github.com/apple/swift/blob/master/docs/SIL.rst#partial-apply
+    // partial_apply [callee_guaranteed] [on_stack] %27(%28) : $@convention(thin) (@guaranteed Int) -> Bool
+    case partialApply(
+        _ calleeGuaranteed: Bool, _ onStack: Bool, _ value: String,
+        _ substitutions: [Type], _ arguments: [String], _ type: Type
+    )
+
     // https://github.com/apple/swift/blob/master/docs/SIL.rst#pointer-to-address
     // pointer_to_address %4 : $Builtin.RawPointer to [strict] $*Int
     case pointerToAddress(_ operand: Operand, _ strict: Bool, _ type: Type)
 
-    // https://github.com/apple/swift/blob/master/docs/SIL.rst#return
-    // return %11 : $Int
-    case `return`(_ operand: Operand)
+    // https://github.com/apple/swift/blob/master/docs/SIL.rst#release-value
+    // release_value %21 : $TensorShape
+    case releaseValue(_ operand: Operand)
+
+    // https://github.com/apple/swift/blob/master/docs/SIL.rst#retain-value
+    // retain_value %124 : $TensorShape
+    case retainValue(_ operand: Operand)
+
+    // https://github.com/apple/swift/blob/master/docs/SIL.rst#select-enum
+    // %n = select_enum %0 : $U, case #U.Case1!enumelt: %1, case #U.Case2!enumelt: %2, default %3 : $T
+    case selectEnum(_ operand: Operand, _ cases: [Case], _ type: Type)
 
     // https://github.com/apple/swift/blob/master/docs/SIL.rst#store
     // store %88 to %89 : $*StrideTo<Int>
-    case store(_ value: String, _ operand: Operand)
+    case store(_ value: String, _ kind: StoreOwnership?, _ operand: Operand)
 
     // https://github.com/apple/swift/blob/master/docs/SIL.rst#string-literal
     // string_literal utf8 "Fatal error"
     case stringLiteral(_ encoding: Encoding, _ value: String)
+
+    // https://github.com/apple/swift/blob/master/docs/SIL.rst#strong-release
+    // strong_release %99 : $@callee_guaranteed () -> @owned String
+    case strongRelease(_ operand: Operand)
+
+    // https://github.com/apple/swift/blob/master/docs/SIL.rst#strong-retain
+    // strong_retain %22 : $@callee_guaranteed () -> @owned String
+    case strongRetain(_ operand: Operand)
 
     // https://github.com/apple/swift/blob/master/docs/SIL.rst#struct
     // struct $Int (%8 : $Builtin.Int64)
@@ -220,9 +274,9 @@ public enum Instruction {
     // struct_extract %0 : $Int, #Int._value
     case structExtract(_ operand: Operand, _ declRef: DeclRef)
 
-    // https://github.com/apple/swift/blob/master/docs/SIL.rst#switch-enum
-    // switch_enum %122 : $Optional<Int>, case #Optional.some!enumelt.1: bb11, case #Optional.none!enumelt: bb18
-    case switchEnum(_ operand: Operand, _ cases: [Case])
+    // https://github.com/apple/swift/blob/master/docs/SIL.rst#thin-to-thick-function
+    // %2 = thin_to_thick_function %1 : $@convention(thin) @noescape () -> Bool to $@noescape @callee_guaranteed () -> Bool
+    case thinToThickFunction(_ operand: Operand, _ type: Type)
 
     // https://github.com/apple/swift/blob/master/docs/SIL.rst#tuple
     // tuple (%a : $A, %b : $B, ...)
@@ -236,20 +290,54 @@ public enum Instruction {
     // Used as a temporary workaround in parser
     case unknown(_ name: String)
 
-    // https://github.com/apple/swift/blob/master/docs/SIL.rst#unreachable
-    // unreachable
-    case unreachable
-
     // https://github.com/apple/swift/blob/master/docs/SIL.rst#witness-method
     // witness_method $Self, #Comparable."<="!1 : <Self where Self : Comparable> (Self.Type) -> (Self, Self) -> Bool : $@convention(witness_method: Comparable) <τ_0_0 where τ_0_0 : Comparable> (@in_guaranteed τ_0_0, @in_guaranteed τ_0_0, @thick τ_0_0.Type) -> Bool
     // TODO(#28): Figure out witness_method.
     case witnessMethod(_ archeType: Type, _ declRef: DeclRef, _ declType: Type, _ type: Type)
 }
 
+// https://github.com/apple/swift/blob/master/docs/SIL.rst#terminators
+public enum Terminator: Equatable {
+    // https://github.com/apple/swift/blob/master/docs/SIL.rst#br
+    // br bb9
+    // br label (%0 : $A, %1 : $B)
+    case br(_ label: String, _ operands: [Operand])
+
+    // https://github.com/apple/swift/blob/master/docs/SIL.rst#cond-br
+    // cond_br %11, bb3, bb2
+    // cond_br %12, label (%0 : $A), label (%1 : $B)
+    // TODO(#25): Figure out cond_br.
+    case condBr(
+        _ cond: String,
+        _ trueLabel: String, _ trueOperands: [Operand],
+        _ falseLabel: String, _ falseOperands: [Operand]
+    )
+
+    // https://github.com/apple/swift/blob/master/docs/SIL.rst#return
+    // return %11 : $Int
+    case `return`(_ operand: Operand)
+
+    // https://github.com/apple/swift/blob/master/docs/SIL.rst#switch-enum
+    // switch_enum %122 : $Optional<Int>, case #Optional.some!enumelt.1: bb11, case #Optional.none!enumelt: bb18
+    case switchEnum(_ operand: Operand, _ cases: [Case])
+
+    // Used in case of parse failures and unsupported terminators
+    case unknown(_ name: String)
+
+    // https://github.com/apple/swift/blob/master/docs/SIL.rst#unreachable
+    // unreachable
+    case unreachable
+}
+
+public enum Instruction: Equatable {
+    case `operator`(Operator)
+    case terminator(Terminator)
+}
+
 // MARK: Auxiliary data structures
 
 // https://github.com/apple/swift/blob/master/docs/SIL.rst#begin-access
-public enum Access {
+public enum Access: Equatable {
     case `deinit`
     case `init`
     case modify
@@ -257,7 +345,7 @@ public enum Access {
 }
 
 // https://github.com/apple/swift/blob/master/docs/SIL.rst#basic-blocks
-public class Argument {
+public struct Argument: Equatable {
     public let valueName: String
     public let type: Type
 
@@ -268,9 +356,9 @@ public class Argument {
 }
 
 // https://github.com/apple/swift/blob/master/docs/SIL.rst#switch-enum
-public enum Case {
-    case `case`(_ declRef: DeclRef, _ identifier: String)
-    case `default`(_ identifier: String)
+public enum Case: Equatable {
+    case `case`(_ declRef: DeclRef, _ result: String)
+    case `default`(_ result: String)
 }
 
 // https://github.com/apple/swift/blob/master/docs/SIL.rst#calling-convention
@@ -282,7 +370,7 @@ public enum Convention: Equatable {
 }
 
 // https://github.com/apple/swift/blob/master/docs/SIL.rst#debug-value
-public enum DebugAttribute {
+public enum DebugAttribute: Equatable {
     case argno(_ index: Int)
     case name(_ name: String)
     case `let`
@@ -291,7 +379,7 @@ public enum DebugAttribute {
 
 // https://github.com/apple/swift/blob/master/include/swift/SIL/SILDeclRef.h
 // https://github.com/apple/swift/blob/master/docs/SIL.rst#declaration-references
-public enum DeclKind {
+public enum DeclKind: Equatable {
     case allocator
     case deallocator
     case destroyer
@@ -306,7 +394,7 @@ public enum DeclKind {
 
 // https://github.com/apple/swift/blob/master/include/swift/SIL/SILDeclRef.h
 // https://github.com/apple/swift/blob/master/docs/SIL.rst#declaration-references
-public class DeclRef {
+public struct DeclRef: Equatable {
     public let name: [String]
     public let kind: DeclKind?
     public let level: Int?
@@ -319,14 +407,14 @@ public class DeclRef {
 }
 
 // https://github.com/apple/swift/blob/master/docs/SIL.rst#string-literal
-public enum Encoding {
+public enum Encoding: Equatable {
     case objcSelector
     case utf8
     case utf16
 }
 
 // https://github.com/apple/swift/blob/master/docs/SIL.rst#begin-access
-public enum Enforcement {
+public enum Enforcement: Equatable {
     case dynamic
     case `static`
     case unknown
@@ -334,7 +422,7 @@ public enum Enforcement {
 }
 
 // Reverse-engineered from -emit-sil
-public enum FunctionAttribute {
+public enum FunctionAttribute: Equatable {
     case alwaysInline
     case differentiable(_ spec: String)
     case dynamicallyReplacable
@@ -347,12 +435,12 @@ public enum FunctionAttribute {
     case noncanonical(NoncanonicalFunctionAttribute)
 }
 
-public enum NoncanonicalFunctionAttribute {
+public enum NoncanonicalFunctionAttribute: Equatable {
     case ownershipSSA
 }
 
 // https://github.com/apple/swift/blob/master/docs/SIL.rst#linkage
-public enum Linkage {
+public enum Linkage: Equatable {
     case hidden
     case hiddenExternal
     case `private`
@@ -365,7 +453,7 @@ public enum Linkage {
 }
 
 // https://github.com/apple/swift/blob/master/docs/SIL.rst#debug-information
-public class Loc {
+public struct Loc: Equatable {
     public let path: String
     public let line: Int
     public let column: Int
@@ -378,7 +466,7 @@ public class Loc {
 }
 
 // https://github.com/apple/swift/blob/master/docs/SIL.rst#values-and-operands
-public class Operand {
+public struct Operand: Equatable {
     public let value: String
     public let type: Type
 
@@ -389,7 +477,7 @@ public class Operand {
 }
 
 // https://github.com/apple/swift/blob/master/docs/SIL.rst#basic-blocks
-public class Result {
+public struct Result: Equatable {
     public let valueNames: [String]
 
     public init(_ valueNames: [String]) {
@@ -398,18 +486,18 @@ public class Result {
 }
 
 // https://github.com/apple/swift/blob/master/docs/SIL.rst#basic-blocks
-public class SourceInfo {
-    public let scopeRef: String?
+public struct SourceInfo: Equatable {
+    public let scopeRef: Int?
     public let loc: Loc?
 
-    public init(_ scopeRef: String?, _ loc: Loc?) {
+    public init(_ scopeRef: Int?, _ loc: Loc?) {
         self.scopeRef = scopeRef
         self.loc = loc
     }
 }
 
 // https://github.com/apple/swift/blob/master/docs/SIL.rst#tuple
-public enum TupleElements {
+public enum TupleElements: Equatable {
     case labeled(_ type: Type, _ values: [String])
     case unlabeled(_ operands: [Operand])
 }
@@ -418,6 +506,7 @@ public enum TupleElements {
 public indirect enum Type: Equatable {
     case addressType(_ type: Type)
     case attributedType(_ attributes: [TypeAttribute], _ type: Type)
+    case coroutineTokenType
     case functionType(_ parameters: [Type], _ result: Type)
     case genericType(_ parameters: [String], _ requirements: [TypeRequirement], _ type: Type)
     case namedType(_ name: String)
@@ -426,6 +515,11 @@ public indirect enum Type: Equatable {
     case specializedType(_ type: Type, _ arguments: [Type])
     case tupleType(_ parameters: [Type])
     case withOwnership(_ attribute: TypeAttribute, _ type: Type) // Only used in ownership SSA
+
+    public static func parse(fromString silString: String) throws -> Type {
+        let parser = SILParser(forString: silString)
+        return try parser.parseType()
+    }
 }
 
 // https://github.com/apple/swift/blob/master/docs/SIL.rst#properties-of-types
@@ -449,4 +543,17 @@ public enum TypeAttribute: Equatable {
 public enum TypeRequirement: Equatable {
     case conformance(_ lhs: Type, _ rhs: Type)
     case equality(_ lhs: Type, _ rhs: Type)
+}
+
+// Reverse-engineered from -emit-silgen
+public enum LoadOwnership: Equatable {
+    case copy
+    case take
+    case trivial
+}
+
+// Reverse-engineered from -emit-silgen
+public enum StoreOwnership: Equatable {
+    case `init`
+    case trivial
 }

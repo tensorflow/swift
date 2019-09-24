@@ -1,0 +1,50 @@
+(source_file "a.sil"
+  (import_decl range=[a.sil:3:1 - line:3:8] 'Builtin')
+  (import_decl range=[a.sil:4:1 - line:4:8] 'Swift')
+  (import_decl range=[a.sil:5:1 - line:5:8] 'SwiftShims')
+  (import_decl range=[a.sil:7:1 - line:7:8] 'TensorFlow')
+  (struct_decl range=[a.sil:9:1 - line:14:1] "Conv2d" interface type='Conv2d.Type' access=internal non-resilient
+    (pattern_binding_decl range=[a.sil:10:16 - line:10:43]
+      (pattern_typed type='Tensor<Float>'
+        (pattern_named type='Tensor<Float>' 'w')
+        (type_ident
+          (component id='Tensor' bind=TensorFlow.(file).Tensor)
+          (type_ident
+            (component id='Float' bind=Swift.(file).Float)))))
+    (var_decl range=[a.sil:10:20 - line:10:20] "w" type='Tensor<Float>' interface type='Tensor<Float>' access=internal let readImpl=stored immutable
+      (accessor_decl range=[a.sil:10:39 - line:10:39] 'anonname=0x7fa061817580' interface type='(Conv2d) -> () -> Tensor<Float>' access=internal get_for=w
+        (parameter "self" interface type='Conv2d')
+        (parameter_list)))
+    (pattern_binding_decl range=[a.sil:11:16 - line:11:43]
+      (pattern_typed type='Tensor<Float>'
+        (pattern_named type='Tensor<Float>' 'b')
+        (type_ident
+          (component id='Tensor' bind=TensorFlow.(file).Tensor)
+          (type_ident
+            (component id='Float' bind=Swift.(file).Float)))))
+    (var_decl range=[a.sil:11:20 - line:11:20] "b" type='Tensor<Float>' interface type='Tensor<Float>' access=internal let readImpl=stored immutable
+      (accessor_decl range=[a.sil:11:39 - line:11:39] 'anonname=0x7fa0618178b0' interface type='(Conv2d) -> () -> Tensor<Float>' access=internal get_for=b
+        (parameter "self" interface type='Conv2d')
+        (parameter_list)))
+    (func_decl range=[a.sil:12:3 - line:12:49] "apply(_:)" interface type='(Conv2d) -> (Tensor<Float>) -> Tensor<Float>' access=internal
+      (parameter "self" interface type='Conv2d')
+      (parameter_list
+        (parameter "x" interface type='Tensor<Float>') range=[a.sil:12:13 - line:12:32])
+      (result
+        (type_ident
+          (component id='Tensor' bind=TensorFlow.(file).Tensor)
+          (type_ident
+            (component id='Float' bind=Swift.(file).Float)))))
+    (constructor_decl range=[a.sil:13:3 - line:13:42] "init(w:b:)" interface type='(Conv2d.Type) -> (Tensor<Float>, Tensor<Float>) -> Conv2d' access=internal designated
+      (parameter "self" interface type='Conv2d' inout)
+      (parameter_list
+        (parameter "w" apiName=w interface type='Tensor<Float>')
+        (parameter "b" apiName=b interface type='Tensor<Float>') range=[a.sil:13:7 - line:13:42])))
+  (func_decl range=[a.sil:16:1 - line:16:43] "f(_:)" interface type='(Tensor<Float>) -> Tensor<Float>' access=internal
+    (parameter_list
+      (parameter "x" interface type='Tensor<Float>') range=[a.sil:16:7 - line:16:26])
+    (result
+      (type_ident
+        (component id='Tensor' bind=TensorFlow.(file).Tensor)
+        (type_ident
+          (component id='Float' bind=Swift.(file).Float))))))

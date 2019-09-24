@@ -17,21 +17,28 @@ class SILPrinter: Printer {
     func print(_ block: Block) {
         print(block.identifier)
         print(whenEmpty: false, "(", block.arguments, ", ", ")") { print($0) }
-        print(":\n")
+        print(":")
         indent()
-        print(block.instructionDefs, "\n") { print($0) }
+        print(block.operatorDefs) { print("\n"); print($0) }
+        print("\n")
+        print(block.terminatorDef)
         print("\n")
         unindent()
     }
 
-    func print(_ instructionDef: InstructionDef) {
-        print(instructionDef.result, " = ") { print($0) }
-        print(instructionDef.instruction)
-        print(instructionDef.sourceInfo) { print($0) }
+    func print(_ operatorDef: OperatorDef) {
+        print(operatorDef.result, " = ") { print($0) }
+        print(operatorDef.operator)
+        print(operatorDef.sourceInfo) { print($0) }
     }
 
-    func print(_ instruction: Instruction) {
-        switch instruction {
+    func print(_ terminatorDef: TerminatorDef) {
+        print(terminatorDef.terminator)
+        print(terminatorDef.sourceInfo) { print($0) }
+    }
+
+    func print(_ op: Operator) {
+        switch op {
         case let .allocStack(type, attributes):
             print("alloc_stack ")
             print(type)
@@ -66,30 +73,30 @@ class SILPrinter: Printer {
         case let .beginBorrow(operand):
             print("begin_borrow ")
             print(operand)
-        case let .br(label, operands):
-            print("br ")
-            print(label)
-            print(whenEmpty: false, "(", operands, ", ", ")") { print($0) }
         case let .builtin(name, operands, type):
             print("builtin ")
             literal(name)
             print("(", operands, ", ", ")") { print($0) }
             print(" : ")
             print(type)
-        case let .condBr(cond, trueLabel, trueOperands, falseLabel, falseOperands):
-            print("cond_br ")
-            print(cond)
-            print(", ")
-            print(trueLabel)
-            print(whenEmpty: false, "(", trueOperands, ", ", ")") { print($0) }
-            print(", ")
-            print(falseLabel)
-            print(whenEmpty: false, "(", falseOperands, ", ", ")") { print($0) }
         case let .condFail(operand, message):
             print("cond_fail ")
             print(operand)
             print(", ")
             literal(message)
+        case let .convertEscapeToNoescape(notGuaranteed, escaped, operand, type):
+            print("convert_escape_to_noescape ")
+            print(when: notGuaranteed, "[not_guaranteed] ")
+            print(when: escaped, "[escaped] ")
+            print(operand)
+            print(" to ")
+            print(type)
+        case let .convertFunction(operand, withoutActuallyEscaping, type):
+            print("convert_function ")
+            print(operand)
+            print(" to ")
+            print(when: withoutActuallyEscaping, "[without_actually_escaping] ")
+            print(type)
         case let .copyAddr(take, value, initialization, operand):
             print("copy_addr ")
             print(when: take, "[take] ")
@@ -139,10 +146,16 @@ class SILPrinter: Printer {
         case let .floatLiteral(type, value):
             print("float_literal ")
             print(type)
-            print(", ")
-            hex(value)
+            print(", 0x")
+            print(value)
         case let .functionRef(name, type):
             print("function_ref ")
+            print("@")
+            print(name)
+            print(" : ")
+            print(type)
+        case let .globalAddr(name, type):
+            print("global_addr ")
             print("@")
             print(name)
             print(" : ")
@@ -157,11 +170,29 @@ class SILPrinter: Printer {
             print(type)
             print(", ")
             literal(value)
-        case let .load(operand):
+        case let .load(maybeOwnership, operand):
             print("load ")
+            if let ownership = maybeOwnership {
+                print(ownership)
+                print(" ")
+            }
             print(operand)
+        case let .markDependence(operand, on):
+            print("mark_dependence ")
+            print(operand)
+            print(" on ")
+            print(on)
         case let .metatype(type):
             print("metatype ")
+            print(type)
+        case let .partialApply(calleeGuaranteed, onStack, value, substitutions, arguments, type):
+            print("partial_apply ")
+            print(when: calleeGuaranteed, "[callee_guaranteed] ")
+            print(when: onStack, "[on_stack] ")
+            print(value)
+            print(whenEmpty: false, "<", substitutions, ", ", ">") { naked($0) }
+            print("(", arguments, ", ", ")") { print($0) }
+            print(" : ")
             print(type)
         case let .pointerToAddress(operand, strict, type):
             print("pointer_to_address ")
@@ -169,19 +200,38 @@ class SILPrinter: Printer {
             print(" to ")
             print(when: strict, "[strict] ")
             print(type)
-        case let .return(operand):
-            print("return ")
+        case let .releaseValue(operand):
+            print("release_value ")
             print(operand)
-        case let .store(value, operand):
+        case let .retainValue(operand):
+            print("retain_value ")
+            print(operand)
+        case let .selectEnum(operand, cases, type):
+            print("select_enum ")
+            print(operand)
+            print(whenEmpty: false, "", cases, "", "") { print($0) }
+            print(" : ")
+            print(type)
+        case let .store(value, maybeOwnership, operand):
             print("store ")
             print(value)
             print(" to ")
+            if let ownership = maybeOwnership {
+                print(ownership)
+                print(" ")
+            }
             print(operand)
         case let .stringLiteral(encoding, value):
             print("string_literal ")
             print(encoding)
             print(" ")
             literal(value)
+        case let .strongRelease(operand):
+            print("strong_release ")
+            print(operand)
+        case let .strongRetain(operand):
+            print("strong_retain ")
+            print(operand)
         case let .struct(type, operands):
             print("struct ")
             print(type)
@@ -196,10 +246,11 @@ class SILPrinter: Printer {
             print(operand)
             print(", ")
             print(declRef)
-        case let .switchEnum(operand, cases):
-            print("switch_enum ")
+        case let .thinToThickFunction(operand, type):
+            print("thin_to_thick_function ")
             print(operand)
-            print(whenEmpty: false, "", cases, "", "") { print($0) }
+            print(" to ")
+            print(type)
         case let .tuple(elements):
             print("tuple ")
             print(elements)
@@ -211,8 +262,6 @@ class SILPrinter: Printer {
         case let .unknown(name):
             print(name)
             print(" <?>")
-        case .unreachable:
-            print("unreachable")
         case let .witnessMethod(archeType, declRef, declType, type):
             print("witness_method ")
             print(archeType)
@@ -223,6 +272,36 @@ class SILPrinter: Printer {
             print(" : ")
             print(type)
         }
+    }
+
+    func print(_ terminator: Terminator) {
+      switch terminator {
+        case let .br(label, operands):
+            print("br ")
+            print(label)
+            print(whenEmpty: false, "(", operands, ", ", ")") { print($0) }
+        case let .condBr(cond, trueLabel, trueOperands, falseLabel, falseOperands):
+            print("cond_br ")
+            print(cond)
+            print(", ")
+            print(trueLabel)
+            print(whenEmpty: false, "(", trueOperands, ", ", ")") { print($0) }
+            print(", ")
+            print(falseLabel)
+            print(whenEmpty: false, "(", falseOperands, ", ", ")") { print($0) }
+        case let .return(operand):
+            print("return ")
+            print(operand)
+        case let .switchEnum(operand, cases):
+            print("switch_enum ")
+            print(operand)
+            print(whenEmpty: false, "", cases, "", "") { print($0) }
+        case let .unknown(name):
+            print(name)
+            print(" <?>")
+        case .unreachable:
+            print("unreachable")
+      }
     }
 
     // MARK: Auxiliary data structures
@@ -249,14 +328,14 @@ class SILPrinter: Printer {
     func print(_ `case`: Case) {
         print(", ")
         switch `case` {
-        case let .case(declRef, identifier):
+        case let .case(declRef, result):
             print("case ")
             print(declRef)
             print(": ")
-            print(identifier)
-        case let .default(identifier):
+            print(result)
+        case let .default(result):
             print("default ")
-            print(identifier)
+            print(result)
         }
     }
 
@@ -408,9 +487,9 @@ class SILPrinter: Printer {
     func print(_ loc: Loc) {
         print("loc ")
         literal(loc.path)
-        print(" : ")
+        print(":")
         literal(loc.line)
-        print(" : ")
+        print(":")
         literal(loc.column)
     }
 
@@ -429,8 +508,10 @@ class SILPrinter: Printer {
     }
 
     func print(_ sourceInfo: SourceInfo) {
-        print(", ", sourceInfo.scopeRef) { print($0) }
+        // NB: The SIL docs say that scope refs precede locations, but this is
+        //     not true once you look at the compiler outputs or its source code.
         print(", ", sourceInfo.loc) { print($0) }
+        print(", scope ", sourceInfo.scopeRef) { print($0) }
     }
 
     func print(_ elements: TupleElements) {
@@ -462,6 +543,8 @@ class SILPrinter: Printer {
         case let .attributedType(attrs, type):
             print("", attrs, " ", " ") { print($0) }
             naked(type)
+        case .coroutineTokenType:
+            print("!CoroutineTokenType!")
         case let .functionType(params, result):
             print("(", params, ", ", ")") { naked($0) }
             print(" -> ")
@@ -539,6 +622,21 @@ class SILPrinter: Printer {
             naked(rhs)
         }
     }
+
+    func print(_ ownership: LoadOwnership) {
+        switch ownership {
+        case .copy: print("[copy]")
+        case .take: print("[take]")
+        case .trivial: print("[trivial]")
+        }
+    }
+
+    func print(_ ownership: StoreOwnership) {
+        switch ownership {
+        case .`init`: print("[init]")
+        case .trivial: print("[trivial]")
+        }
+    }
 }
 
 extension Module: CustomStringConvertible {
@@ -565,7 +663,40 @@ extension Block: CustomStringConvertible {
     }
 }
 
+extension OperatorDef: CustomStringConvertible {
+    public var description: String {
+        let p = SILPrinter()
+        p.print(self)
+        return p.description
+    }
+}
+
+extension TerminatorDef: CustomStringConvertible {
+    public var description: String {
+        let p = SILPrinter()
+        p.print(self)
+        return p.description
+    }
+}
+
 extension InstructionDef: CustomStringConvertible {
+    public var description: String {
+        switch self {
+        case let .operator(def): return def.description
+        case let .terminator(def): return def.description
+        }
+    }
+}
+
+extension Operator: CustomStringConvertible {
+    public var description: String {
+        let p = SILPrinter()
+        p.print(self)
+        return p.description
+    }
+}
+
+extension Terminator: CustomStringConvertible {
     public var description: String {
         let p = SILPrinter()
         p.print(self)
@@ -575,8 +706,10 @@ extension InstructionDef: CustomStringConvertible {
 
 extension Instruction: CustomStringConvertible {
     public var description: String {
-        let p = SILPrinter()
-        p.print(self)
-        return p.description
+        switch self {
+        case let .operator(def): return def.description
+        case let .terminator(def): return def.description
+        }
     }
 }
+

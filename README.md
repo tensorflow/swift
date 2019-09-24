@@ -151,7 +151,7 @@ out the following documentation.
 Document | Last Updated | Status |
 -------- | ------------ | ------ |
 [Swift Differentiable Programming Design Overview](https://docs.google.com/document/d/1bPepWLfRQa6CtXqKA8CDQ87uZHixNav-TFjLSisuKag/edit?usp=sharing) | June 2019 | Current
-[Swift Differentiable Programming Implementation Overview](https://docs.google.com/document/d/1tgxHh7dxbpkQ8Y-LSs2IXAuMWPd8RrtJLkxA80qBRYc/edit?usp=sharing) | August 2019 | Current
+[Swift Differentiable Programming Implementation Overview](https://docs.google.com/document/d/1_BirmTqdotglwNTOcYAW-ib6mx_jl-gH9Dbg4WmHZh0) | August 2019 | Current
 [Differentiable Types](docs/DifferentiableTypes.md) | March 2019 | Outdated
 [Differentiable Functions and Differentiation APIs](docs/DifferentiableFunctions.md) | March 2019 | Outdated
 [Dynamic Property Iteration using Key Paths](docs/DynamicPropertyIteration.md) | March 2019 | Current
