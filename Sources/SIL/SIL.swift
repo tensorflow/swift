@@ -244,7 +244,7 @@ public enum Operator: Equatable {
 
     // https://github.com/apple/swift/blob/master/docs/SIL.rst#select-enum
     // %n = select_enum %0 : $U, case #U.Case1!enumelt: %1, case #U.Case2!enumelt: %2, default %3 : $T
-    case selectEnum(_ operand: Operand, _ cases: [Case<String>], _ type: Type)
+    case selectEnum(_ operand: Operand, _ cases: [Case], _ type: Type)
 
     // https://github.com/apple/swift/blob/master/docs/SIL.rst#store
     // store %88 to %89 : $*StrideTo<Int>
@@ -319,7 +319,7 @@ public enum Terminator: Equatable {
 
     // https://github.com/apple/swift/blob/master/docs/SIL.rst#switch-enum
     // switch_enum %122 : $Optional<Int>, case #Optional.some!enumelt.1: bb11, case #Optional.none!enumelt: bb18
-    case switchEnum(_ operand: Operand, _ cases: [Case<String>])
+    case switchEnum(_ operand: Operand, _ cases: [Case])
 
     // Used in case of parse failures and unsupported terminators
     case unknown(_ name: String)
@@ -356,9 +356,9 @@ public struct Argument: Equatable {
 }
 
 // https://github.com/apple/swift/blob/master/docs/SIL.rst#switch-enum
-public enum Case<Element: Equatable>: Equatable {
-    case `case`(_ declRef: DeclRef, _ result: Element)
-    case `default`(_ result: Element)
+public enum Case: Equatable {
+    case `case`(_ declRef: DeclRef, _ result: String)
+    case `default`(_ result: String)
 }
 
 // https://github.com/apple/swift/blob/master/docs/SIL.rst#calling-convention

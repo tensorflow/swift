@@ -209,7 +209,7 @@ class SILPrinter: Printer {
         case let .selectEnum(operand, cases, type):
             print("select_enum ")
             print(operand)
-            print(whenEmpty: false, "", cases, "", "") { print($0, { print($0) }) }
+            print(whenEmpty: false, "", cases, "", "") { print($0) }
             print(" : ")
             print(type)
         case let .store(value, maybeOwnership, operand):
@@ -295,7 +295,7 @@ class SILPrinter: Printer {
         case let .switchEnum(operand, cases):
             print("switch_enum ")
             print(operand)
-            print(whenEmpty: false, "", cases, "", "") { print($0, { print($0) }) }
+            print(whenEmpty: false, "", cases, "", "") { print($0) }
         case let .unknown(name):
             print(name)
             print(" <?>")
@@ -325,17 +325,17 @@ class SILPrinter: Printer {
         print(argument.type)
     }
 
-    func print<Element>(_ `case`: Case<Element>, _ printElement: (Element) -> ()) {
+    func print(_ `case`: Case) {
         print(", ")
         switch `case` {
-        case let .case(declRef, element):
+        case let .case(declRef, result):
             print("case ")
             print(declRef)
             print(": ")
-            printElement(element)
-        case let .default(element):
+            print(result)
+        case let .default(result):
             print("default ")
-            printElement(element)
+            print(result)
         }
     }
 

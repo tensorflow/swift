@@ -165,7 +165,7 @@ extension Argument: AlphaConvertible {
     }
 }
 
-extension Case: AlphaConvertible where Element == String {
+extension Case: AlphaConvertible {
     public func alphaConverted(using s: ValueNameSubstitution) -> Case {
         switch self {
         case let .case(declRef, result): return .case(declRef, s(result))

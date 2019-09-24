@@ -368,7 +368,7 @@ class SILParser: Parser {
     }
 
     // https://github.com/apple/swift/blob/master/docs/SIL.rst#switch-enum
-    func parseCase<Element>(_ parseElement: () throws -> Element) throws -> Case<Element>? {
+    func parseCase(_ parseElement: () throws -> String) throws -> Case? {
         return try maybeParse {
             guard skip(",") else { return nil }
             if skip("case") {
