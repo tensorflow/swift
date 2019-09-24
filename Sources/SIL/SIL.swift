@@ -85,7 +85,7 @@ public enum InstructionDef: Equatable {
     case `operator`(OperatorDef)
     case terminator(TerminatorDef)
 
-    var instruction: Instruction {
+    public var instruction: Instruction {
         switch self {
         case let .operator(def): return .operator(def.operator)
         case let .terminator(def): return .terminator(def.terminator)
@@ -242,6 +242,10 @@ public enum Operator: Equatable {
     // retain_value %124 : $TensorShape
     case retainValue(_ operand: Operand)
 
+    // https://github.com/apple/swift/blob/master/docs/SIL.rst#select-enum
+    // %n = select_enum %0 : $U, case #U.Case1!enumelt: %1, case #U.Case2!enumelt: %2, default %3 : $T
+    case selectEnum(_ operand: Operand, _ cases: [Case], _ type: Type)
+
     // https://github.com/apple/swift/blob/master/docs/SIL.rst#store
     // store %88 to %89 : $*StrideTo<Int>
     case store(_ value: String, _ kind: StoreOwnership?, _ operand: Operand)
@@ -353,8 +357,8 @@ public struct Argument: Equatable {
 
 // https://github.com/apple/swift/blob/master/docs/SIL.rst#switch-enum
 public enum Case: Equatable {
-    case `case`(_ declRef: DeclRef, _ identifier: String)
-    case `default`(_ identifier: String)
+    case `case`(_ declRef: DeclRef, _ result: String)
+    case `default`(_ result: String)
 }
 
 // https://github.com/apple/swift/blob/master/docs/SIL.rst#calling-convention

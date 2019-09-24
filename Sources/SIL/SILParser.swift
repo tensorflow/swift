@@ -272,6 +272,12 @@ class SILParser: Parser {
         case "retain_value":
             let operand = try parseOperand()
             return .operator(.retainValue(operand))
+        case "select_enum":
+            let operand = try parseOperand()
+            let cases = try parseUntilNil { try parseCase(parseValue) }
+            try take(":")
+            let type = try parseType()
+            return .operator(.selectEnum(operand, cases, type))
         case "store":
             let value = try parseValue()
             try take("to")
@@ -309,7 +315,7 @@ class SILParser: Parser {
             return .operator(.structExtract(operand, declRef))
         case "switch_enum":
             let operand = try parseOperand()
-            let cases = try parseUntilNil { try parseCase() }
+            let cases = try parseUntilNil { try parseCase(parseIdentifier) }
             return .terminator(.switchEnum(operand, cases))
         case "thin_to_thick_function":
             let operand = try parseOperand()
@@ -362,16 +368,16 @@ class SILParser: Parser {
     }
 
     // https://github.com/apple/swift/blob/master/docs/SIL.rst#switch-enum
-    func parseCase() throws -> Case? {
+    func parseCase(_ parseElement: () throws -> String) throws -> Case? {
         return try maybeParse {
             guard skip(",") else { return nil }
             if skip("case") {
                 let declRef = try parseDeclRef()
                 try take(":")
-                let identifier = try parseIdentifier()
+                let identifier = try parseElement()
                 return .case(declRef, identifier)
             } else if skip("default") {
-                let identifier = try parseIdentifier()
+                let identifier = try parseElement()
                 return .default(identifier)
             } else {
                 return nil
