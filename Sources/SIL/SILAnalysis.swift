@@ -246,7 +246,13 @@ extension Type {
             return .addressType(subtype.specialized(to: arguments))
         case let .attributedType(attributes, subtype):
             return .attributedType(attributes, subtype.specialized(to: arguments))
-        case let .genericType(parameters, _, subtype):
+        case let .genericType(startParameters, _, startSubtype):
+            var parameters = startParameters
+            var subtype = startSubtype
+            while case let .genericType(moreParameters, _, deeperSubtype) = subtype {
+                parameters += moreParameters
+                subtype = deeperSubtype
+            }
             guard parameters.count == arguments.count else {
                 fatalError(
                     "Specializing a generic type with \(parameters.count) parameters using \(arguments.count) arguments"
