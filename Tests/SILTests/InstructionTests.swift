@@ -20,6 +20,7 @@ let instructionDefs = [
     "apply %10(%1) : $@convention(method) (@guaranteed Array<Float>) -> Int",
     "apply %17<Self>(%1, %2, %16) : $@convention(witness_method: Comparable) <τ_0_0 where τ_0_0 : Comparable> (@in_guaranteed τ_0_0, @in_guaranteed τ_0_0, @thick τ_0_0.Type) -> Bool",
     "apply %8<Int, Int>(%2, %6) : $@convention(thin) <τ_0_0, τ_0_1 where τ_0_0 : Strideable, τ_0_1 : Strideable> (@in_guaranteed τ_0_0, @in_guaranteed τ_0_1) -> ()",
+    "%154 = apply %153<Array<Int>, ArraySlice<Int>>(%152, %150, %119) : $@convention(method) <τ_0_0 where τ_0_0 : RangeReplaceableCollection><τ_1_0 where τ_1_0 : Sequence, τ_0_0.Element == τ_1_0.Element> (@inout τ_0_0, @in_guaranteed τ_1_0, @thick τ_0_0.Type) -> (), loc \"example.swift\":22:10, scope 4",
     "%14 = begin_borrow %10 : $Tensor<Float>",
     "%6 = copy_value %0 : $TensorShape, loc \"Examples/cnn.swift\":10:11, scope 3",
     "%54 = copy_value %53 : $Tensor<Float>",
