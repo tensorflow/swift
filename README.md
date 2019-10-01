@@ -14,17 +14,17 @@ _pioneers_ to try in projects, give feedback, and help shape the future!
 
 The Swift for TensorFlow project is currently focusing on 2 kinds of users:
 
-1. **Advanced ML researchers** who are limited by current ML frameworks. Swift
-   for TensorFlow's advantages include a seamless integration with a modern
-   general-purpose language, allowing for more dynamic and sophisticated models.
-   Fast abstractions can be developed "in user-space" (as opposed to in C/C++
-   aka "framework-space"), resulting in modular APIs that can be easily
-   customized.
+1.  **Advanced ML researchers** who are limited by current ML frameworks. Swift
+    for TensorFlow's advantages include seamless integration with a modern
+    general-purpose language, allowing for more dynamic and sophisticated
+    models. Fast abstractions can be developed in "user-space" (as opposed to in
+    C/C++, aka "framework-space"), resulting in modular APIs that can be easily
+    customized.
 
-2. **ML learners** who are just getting started with machine learning. Thanks to
-   Swift's support for quality tooling (e.g. context-aware autocomplete), Swift
-   for TensorFlow can be one of the most productive ways to get started learning
-   the fundamentals of machine learning.
+2.  **ML learners** who are just getting started with machine learning. Thanks
+    to Swift's support for quality tooling (e.g. context-aware autocompletion),
+    Swift for TensorFlow can be one of the most productive ways to start
+    learning the fundamentals of machine learning.
 
 ## Getting started
 
