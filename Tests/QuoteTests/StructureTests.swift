@@ -322,7 +322,7 @@ public final class StructureTests: XCTestCase {
           Name(
             "i",
             "<unstable USR>",
-            TypeName("Int", "s:Si")),
+            TypeName("Element", "s:SNsSxRzSZ6StrideRpzrlE7Elementa")),
           Name(
             "range",
             "<unstable USR>",
