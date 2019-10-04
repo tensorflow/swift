@@ -14,17 +14,17 @@ _pioneers_ to try in projects, give feedback, and help shape the future!
 
 The Swift for TensorFlow project is currently focusing on 2 kinds of users:
 
-1. **Advanced ML researchers** who are limited by current ML frameworks. Swift
-   for TensorFlow's advantages include a seamless integration with a modern
-   general-purpose language, allowing for more dynamic and sophisticated models.
-   Fast abstractions can be developed "in user-space" (as opposed to in C/C++
-   aka "framework-space"), resulting in modular APIs that can be easily
-   customized.
+1.  **Advanced ML researchers** who are limited by current ML frameworks. Swift
+    for TensorFlow's advantages include seamless integration with a modern
+    general-purpose language, allowing for more dynamic and sophisticated
+    models. Fast abstractions can be developed in "user-space" (as opposed to in
+    C/C++, aka "framework-space"), resulting in modular APIs that can be easily
+    customized.
 
-2. **ML learners** who are just getting started with machine learning. Thanks to
-   Swift's support for quality tooling (e.g. context-aware autocomplete), Swift
-   for TensorFlow can be one of the most productive ways to get started learning
-   the fundamentals of machine learning.
+2.  **ML learners** who are just getting started with machine learning. Thanks
+    to Swift's support for quality tooling (e.g. context-aware autocompletion),
+    Swift for TensorFlow can be one of the most productive ways to start
+    learning the fundamentals of machine learning.
 
 ## Getting started
 
@@ -49,6 +49,7 @@ The Swift for TensorFlow project is currently focusing on 2 kinds of users:
 Tutorial | Last Updated |
 -------- | ------------ |
 [A Swift Tour](https://colab.research.google.com/github/tensorflow/swift/blob/master/docs/site/tutorials/a_swift_tour.ipynb) | March 2019
+[Protocol-Oriented Programming & Generics](https://colab.research.google.com/github/tensorflow/swift/blob/master/docs/site/tutorials/protocol_oriented_generics.ipynb) | August 2019
 [Python Interoperability](https://colab.research.google.com/github/tensorflow/swift/blob/master/docs/site/tutorials/python_interoperability.ipynb) | March 2019
 [Custom Differentiation](https://colab.research.google.com/github/tensorflow/swift/blob/master/docs/site/tutorials/custom_differentiation.ipynb) | March 2019
 [Model Training Walkthrough](https://colab.research.google.com/github/tensorflow/swift/blob/master/docs/site/tutorials/model_training_walkthrough.ipynb) | March 2019
@@ -103,7 +104,7 @@ let (𝛁model, 𝛁input) = model.gradient(at: 2.0) { model, input in
     model.applied(to: input)
 }
 
-print(𝛁model) // Model.AllDifferentiableVariables(w: 2.0, b: 1.0)
+print(𝛁model) // Model.TangentVector(w: 2.0, b: 1.0)
 print(𝛁input) // 4.0
 ```
 
@@ -150,6 +151,7 @@ out the following documentation.
 Document | Last Updated | Status |
 -------- | ------------ | ------ |
 [Swift Differentiable Programming Design Overview](https://docs.google.com/document/d/1bPepWLfRQa6CtXqKA8CDQ87uZHixNav-TFjLSisuKag/edit?usp=sharing) | June 2019 | Current
+[Swift Differentiable Programming Implementation Overview](https://docs.google.com/document/d/1_BirmTqdotglwNTOcYAW-ib6mx_jl-gH9Dbg4WmHZh0) | August 2019 | Current
 [Differentiable Types](docs/DifferentiableTypes.md) | March 2019 | Outdated
 [Differentiable Functions and Differentiation APIs](docs/DifferentiableFunctions.md) | March 2019 | Outdated
 [Dynamic Property Iteration using Key Paths](docs/DynamicPropertyIteration.md) | March 2019 | Current
