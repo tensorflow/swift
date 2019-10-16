@@ -42,8 +42,8 @@ done
 
 # Install dependencies
 DEBIAN_FRONTEND=noninteractive
-sudo apt-get update
-sudo apt-get install -y --no-install-recommends \
+apt-get update
+apt-get install -y --no-install-recommends \
   build-essential \
   ca-certificates \
   curl \
@@ -77,7 +77,7 @@ if [[ ! -z "$JUPYTER_URL" ]]; then
   tar -xf "$INSTALL_LOCATION"/swift-jupyter.tar.gz -C "$INSTALL_LOCATION"
   rm "$INSTALL_LOCATION"/swift-jupyter.tar.gz
 
-  sudo pip3 install -r "$INSTALL_LOCATION"/swift-jupyter/requirements.txt
+  python3 -m pip install -r "$INSTALL_LOCATION"/swift-jupyter/requirements.txt
 
   python3 "$INSTALL_LOCATION"/swift-jupyter/register.py --user --swift-toolchain "$INSTALL_LOCATION" --swift-python-library /usr/lib/x86_64-linux-gnu/libpython3.6m.so
 fi
