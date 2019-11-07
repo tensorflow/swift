@@ -191,3 +191,21 @@ $ export PATH=$(pwd)/usr/bin:"${PATH}"
 You can now execute the `swift` command to run the REPL or build Swift projects.
 
 **Note:** If you are using a CUDA build and you have an NVIDIA GPU with a compute capability other than 3.5 or 7.0, then you will experience a ~10 minute delay the first time you execute a TensorFlow operation, while TensorFlow compiles kernels for your GPU's compute capability. The program will not print anything out and it will appear to be frozen.
+
+# Verify the Installation
+
+Create a text file `test.swift` with the following contents:
+
+```
+import TensorFlow
+var x = Tensor<Float>([[1, 2], [3, 4]])
+print(x + x)
+```
+
+Run this command to verify the installation. If you see this output, you have successfully installed Swift for TensorFlow!
+
+```
+$ swift test.swift
+[[2.0, 4.0],
+ [6.0, 8.0]]
+```

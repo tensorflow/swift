@@ -50,6 +50,11 @@ $R1: TensorFlow.Tensor<Float> = [[8.0, 16.0], [24.0, 32.0]]
 $R2: TensorFlow.Tensor<Float> = [32.0, 48.0]
 ```
 
+**Note:** If you encounter issues with the REPL crashing,
+[verify your installation](./Installation.md#verify-the-installation) and
+consider chiming in on our
+[bug tracker](https://bugs.swift.org/browse/TF-940).
+
 ## Interpreter
 
 You must have a working toolchain for Swift for TensorFlow (`swift`, `swiftc`, etc) before proceeding with these instructions. If not, please [install Swift for TensorFlow](Installation.md) or [build from source](https://github.com/apple/swift/blob/tensorflow/README.md) before proceeding.
