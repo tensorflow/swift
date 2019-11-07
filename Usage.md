@@ -50,9 +50,20 @@ $R1: TensorFlow.Tensor<Float> = [[8.0, 16.0], [24.0, 32.0]]
 $R2: TensorFlow.Tensor<Float> = [32.0, 48.0]
 ```
 
-**Note:** There is a [known issue](https://bugs.swift.org/browse/TF-940) with
-the REPL crashing in macOS toolchains >= 0.5, so try one of the environments
-below to [verify the installation](./Installation.md#verify-the-installation).
+**Note:** using the `TensorFlow` module in the Swift REPL on macOS is known to
+be problematic since Swift for TensorFlow 0.5.
+[TF-940](https://bugs.swift.org/browse/TF-940) tracks this issue.
+
+```console
+$ swift
+Welcome to Swift version 5.1-dev (LLVM 200186e28b, Swift 1238976565).
+Type :help for assistance.
+  1> import TensorFlow
+  2> Tensor(1)
+error: Couldn't lookup symbols:
+  TensorFlow.TensorHandle.init(copyingFromCTensor: Swift.OpaquePointer) -> TensorFlow.TensorHandle<A>
+  TensorFlow.TensorHandle.init(copyingFromCTensor: Swift.OpaquePointer) -> TensorFlow.TensorHandle<A>
+```
 
 ## Interpreter
 
