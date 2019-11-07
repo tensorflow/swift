@@ -52,8 +52,7 @@ $R2: TensorFlow.Tensor<Float> = [32.0, 48.0]
 
 **Note:** If you encounter issues with the REPL crashing,
 [verify your installation](./Installation.md#verify-the-installation) and
-consider chiming in on our
-[bug tracker](https://bugs.swift.org/browse/TF-940).
+consider chiming in on our [bug tracker](https://bugs.swift.org/projects/TF).
 
 ## Interpreter
 
