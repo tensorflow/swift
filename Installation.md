@@ -196,7 +196,7 @@ You can now execute the `swift` command to run the REPL or build Swift projects.
 
 Create a text file `test.swift` with the following contents:
 
-```
+```swift
 import TensorFlow
 var x = Tensor<Float>([[1, 2], [3, 4]])
 print(x + x)
