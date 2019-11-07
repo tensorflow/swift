@@ -132,12 +132,12 @@ To install Swift for TensorFlow, download one of the packages below and follow t
 
 6. Selecting a Swift toolchain affects the Xcode IDE only. To use the Swift toolchain with command-line tools, add the Swift toolchain to your path as follows:
 
-    ```bash
+    ```console
     $ export PATH=/Library/Developer/Toolchains/swift-latest/usr/bin:"${PATH}"
     ```
 
 7. **CUDA-only**: If you downloaded a CUDA GPU version of the toolchain, add the library path(s) to CUDA and CuDNN to `$LD_LIBRARY_PATH`.
-    ```bash
+    ```console
     $ export LD_LIBRARY_PATH=/usr/local/cuda/lib:"${LD_LIBRARY_PATH}"
     ```
 
@@ -165,7 +165,7 @@ Note that nothing prevents Swift from being ported to other Linux distributions 
 
 1. Install required dependencies:
 
-```
+```console
 $ sudo apt-get install clang libpython-dev libblocksruntime-dev
 ```
 (**Note:** You _may_ also need to install other [dependencies](https://github.com/apple/swift#linux), if you are unable to run `swift` or other tools below.)
@@ -176,7 +176,7 @@ The `swift-tensorflow-<VERSION>-<PLATFORM>.tar.gz` file is the toolchain itself.
 
 3. Extract the archive with the following command:
 
-```
+```console
 $ tar xzf swift-tensorflow-<VERSION>-<PLATFORM>.tar.gz
 ```
 
@@ -184,7 +184,7 @@ This creates a `usr/` directory in the location of the archive.
 
 4. Add the Swift toolchain to your path as follows:
 
-```
+```console
 $ export PATH=$(pwd)/usr/bin:"${PATH}"
 ```
 
@@ -204,7 +204,7 @@ print(x + x)
 
 Run this command to verify the installation. If you see this output, you have successfully installed Swift for TensorFlow!
 
-```
+```console
 $ swift test.swift
 [[2.0, 4.0],
  [6.0, 8.0]]

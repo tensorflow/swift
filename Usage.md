@@ -50,9 +50,9 @@ $R1: TensorFlow.Tensor<Float> = [[8.0, 16.0], [24.0, 32.0]]
 $R2: TensorFlow.Tensor<Float> = [32.0, 48.0]
 ```
 
-**Note:** If you encounter issues with the REPL crashing,
-[verify the installation](./Installation.md#verify-the-installation) and
-consider chiming in on our [bug tracker](https://bugs.swift.org/projects/TF).
+**Note:** There is a [known issue](https://bugs.swift.org/browse/TF-940) with
+the REPL crashing in macOS toolchains >= 0.5, so try one of the environments
+below to [verify the installation](./Installation.md#verify-the-installation).
 
 ## Interpreter
 
@@ -98,8 +98,8 @@ The Swift interpreter ran your program and printed the classifier's prediction, 
 
 Next, add executable permissions to `inference.swift`:
 
-```bash
-chmod +x inference.swift
+```console
+$ chmod +x inference.swift
 ```
 
 You can now run `inference.swift` using `./inference.swift`:
