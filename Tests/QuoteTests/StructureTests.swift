@@ -441,39 +441,37 @@ public final class StructureTests: XCTestCase {
         )
     }
 
-    // TODO(marcrasi): Reenable after merge is complete.
-    // public func testThrow() {
-    //     let q = #quote{
-    //         throw X()
-    //     }
-    //     // TODO(TF-937): Fix the empty symbol in the Name's structure below.
-    //     assertStructure(
-    //         q,
-    //         """
-    //   Closure(
-    //     [],
-    //     [Throw(
-    //       Conversion(
-    //         Call(
-    //           Name(
-    //             "X",
-    //             "<unstable USR>",
-    //             FunctionType(
-    //               [],
-    //               [],
-    //               TypeName("X", "<unstable USR>"))),
-    //           [],
-    //           [],
-    //           TypeName("X", "<unstable USR>")),
-    //         TypeName("Error", "s:s5ErrorP")))],
-    //     FunctionType(
-    //       [],
-    //       [],
-    //       TupleType(
-    //         [])))
-    //   """
-    //     )
-    // }
+    public func testThrow() {
+        let q = #quote{
+            throw X()
+        }
+        assertStructure(
+            q,
+            """
+      Closure(
+        [],
+        [Throw(
+          Conversion(
+            Call(
+              Name(
+                "X",
+                "<unstable USR>",
+                FunctionType(
+                  [],
+                  [],
+                  TypeName("X", "<unstable USR>"))),
+              [],
+              [],
+              TypeName("X", "<unstable USR>")),
+            TypeName("Error", "s:s5ErrorP")))],
+        FunctionType(
+          [],
+          [],
+          TupleType(
+            [])))
+      """
+        )
+    }
 
     public func testWhile() {
         let q = #quote{
@@ -1445,8 +1443,7 @@ public final class StructureTests: XCTestCase {
         ("testIf", testIf),
         ("testRepeat", testRepeat),
         ("testReturn", testReturn),
-        // TODO(marcrasi): Reenable after merge is complete.
-        // ("testThrow", testThrow),
+        ("testThrow", testThrow),
         ("testWhile", testWhile),
         ("testArrayLiteral", testArrayLiteral),
         ("testAs", testAs),
