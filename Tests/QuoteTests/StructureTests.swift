@@ -445,7 +445,6 @@ public final class StructureTests: XCTestCase {
         let q = #quote{
             throw X()
         }
-        // TODO(TF-937): Fix the empty symbol in the Name's structure below.
         assertStructure(
             q,
             """
@@ -456,7 +455,7 @@ public final class StructureTests: XCTestCase {
             Call(
               Name(
                 "X",
-                "",
+                "<unstable USR>",
                 FunctionType(
                   [],
                   [],
