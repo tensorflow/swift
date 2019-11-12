@@ -50,6 +50,21 @@ $R1: TensorFlow.Tensor<Float> = [[8.0, 16.0], [24.0, 32.0]]
 $R2: TensorFlow.Tensor<Float> = [32.0, 48.0]
 ```
 
+**Note:** using the `TensorFlow` module in the Swift REPL on macOS is known to
+be problematic since Swift for TensorFlow 0.5.
+[TF-940](https://bugs.swift.org/browse/TF-940) tracks this issue.
+
+```console
+$ swift
+Welcome to Swift version 5.1-dev (LLVM 200186e28b, Swift 1238976565).
+Type :help for assistance.
+  1> import TensorFlow
+  2> Tensor(1)
+error: Couldn't lookup symbols:
+  TensorFlow.TensorHandle.init(copyingFromCTensor: Swift.OpaquePointer) -> TensorFlow.TensorHandle<A>
+  TensorFlow.TensorHandle.init(copyingFromCTensor: Swift.OpaquePointer) -> TensorFlow.TensorHandle<A>
+```
+
 ## Interpreter
 
 You must have a working toolchain for Swift for TensorFlow (`swift`, `swiftc`, etc) before proceeding with these instructions. If not, please [install Swift for TensorFlow](Installation.md) or [build from source](https://github.com/apple/swift/blob/tensorflow/README.md) before proceeding.
@@ -94,8 +109,8 @@ The Swift interpreter ran your program and printed the classifier's prediction, 
 
 Next, add executable permissions to `inference.swift`:
 
-```bash
-chmod +x inference.swift
+```console
+$ chmod +x inference.swift
 ```
 
 You can now run `inference.swift` using `./inference.swift`:

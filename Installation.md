@@ -134,12 +134,12 @@ To install Swift for TensorFlow, download one of the packages below and follow t
 
 6. Selecting a Swift toolchain affects the Xcode IDE only. To use the Swift toolchain with command-line tools, add the Swift toolchain to your path as follows:
 
-    ```bash
+    ```console
     $ export PATH=/Library/Developer/Toolchains/swift-latest/usr/bin:"${PATH}"
     ```
 
 7. **CUDA-only**: If you downloaded a CUDA GPU version of the toolchain, add the library path(s) to CUDA and CuDNN to `$LD_LIBRARY_PATH`.
-    ```bash
+    ```console
     $ export LD_LIBRARY_PATH=/usr/local/cuda/lib:"${LD_LIBRARY_PATH}"
     ```
 
@@ -167,7 +167,7 @@ Note that nothing prevents Swift from being ported to other Linux distributions 
 
 1. Install required dependencies:
 
-```
+```console
 $ sudo apt-get install clang libpython-dev libblocksruntime-dev
 ```
 (**Note:** You _may_ also need to install other [dependencies](https://github.com/apple/swift#linux), if you are unable to run `swift` or other tools below.)
@@ -178,7 +178,7 @@ The `swift-tensorflow-<VERSION>-<PLATFORM>.tar.gz` file is the toolchain itself.
 
 3. Extract the archive with the following command:
 
-```
+```console
 $ tar xzf swift-tensorflow-<VERSION>-<PLATFORM>.tar.gz
 ```
 
@@ -186,10 +186,28 @@ This creates a `usr/` directory in the location of the archive.
 
 4. Add the Swift toolchain to your path as follows:
 
-```
+```console
 $ export PATH=$(pwd)/usr/bin:"${PATH}"
 ```
 
 You can now execute the `swift` command to run the REPL or build Swift projects.
 
 **Note:** If you are using a CUDA build and you have an NVIDIA GPU with a compute capability other than 3.5 or 7.0, then you will experience a ~10 minute delay the first time you execute a TensorFlow operation, while TensorFlow compiles kernels for your GPU's compute capability. The program will not print anything out and it will appear to be frozen.
+
+# Verify the Installation
+
+Create a text file `test.swift` with the following contents:
+
+```swift
+import TensorFlow
+var x = Tensor<Float>([[1, 2], [3, 4]])
+print(x + x)
+```
+
+Run this command to verify the installation. If you see this output, you have successfully installed Swift for TensorFlow!
+
+```console
+$ swift test.swift
+[[2.0, 4.0],
+ [6.0, 8.0]]
+```
