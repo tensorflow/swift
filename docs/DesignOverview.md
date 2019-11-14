@@ -25,7 +25,7 @@ The development of Swift started in 2010, and aimed to bring the best practices 
 
 Swift has the audacious goal of spanning all the way from low-level systems programming to high-level scripting, with a focus on being [easy to learn and use](https://www.apple.com/swift/playgrounds/).  Because Swift needs to be easy to learn and use but also powerful, it relies on the principle of [progressive disclosure of complexity](https://www.nngroup.com/articles/progressive-disclosure/), which aggressively factors the cost of complexity onto the people who benefit from that complexity.  The "scripting language feel" combined with high performance is very useful for machine learning.
 
-A final pertinent aspect of the design of Swift is that much of the Swift language is actually implemented in its standard library.  "Builtin" types like [Int](https://developer.apple.com/documentation/swift/int) and [Bool](https://developer.apple.com/documentation/swift/bool) are actually just structs defined in the standard library that wrap magic types and operations.  As such, sometimes we joke that Swift is just "syntactic sugar for LLVM".   This capability is very important to our work because the Tensor type in the [TensorFlow module](#the-tensorflow-module) is just "syntactic sugar" for TensorFlow, and the `PyValue` type is just syntactic sugar for `PyObject*`!
+A final pertinent aspect of the design of Swift is that much of the Swift language is actually implemented in its standard library.  "Builtin" types like [Int](https://developer.apple.com/documentation/swift/int) and [Bool](https://developer.apple.com/documentation/swift/bool) are actually just structs defined in the standard library that wrap magic types and operations.  As such, sometimes we joke that Swift is just "syntactic sugar for LLVM".   This capability is very important to our work because the Tensor type in the [TensorFlow module](#the-tensorflow-module) is just "syntactic sugar" for TensorFlow, and the `PythonObject` type is just syntactic sugar for `PyObject*`!
 
 There is a lot more that is cool about Swift and a ton of content available online.  If you are interested in learning more about general Swift programming concepts, here are a few links to get started:
 
@@ -147,7 +147,7 @@ matrix[1] = ShapedArraySlice(shape: [2], scalars: [3, 4])
 // The second element in `matrix` has been mutated.
 // `matrix` now represents [[1, 2], [3, 4], [5, 6]].
 
-let zeros = ShapedArray(shape: [3, 2], repeating: 0)
+let zeros = ShapedArray(repeating: 0, shape: [3, 2])
 let subarray = matrix.prefix(2)
 // `subarray` is a `ShapedArraySlice` with shape [2, 2], representing [[1, 2], [3, 4]].
 matrix[0..<2] = zeros.prefix(2)
