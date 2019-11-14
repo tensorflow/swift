@@ -132,18 +132,14 @@ To install Swift for TensorFlow, download one of the packages below and follow t
   <img src="docs/images/Installation-XcodePreferences.png?raw=true" alt="Select toolchain in Xcode preferences."/>
 </p>
 
-6. Selecting a Swift toolchain affects the Xcode IDE only. To use the Swift toolchain with command-line tools, add the Swift toolchain to your path as follows:
+6. Selecting a Swift toolchain affects the Xcode IDE only. To use the Swift toolchain with command-line tools, use `xcrun --toolchain swift` and `xcodebuild -toolchain swift`, or add the Swift toolchain to your path as follows:
 
     ```console
-    $ export PATH=/Library/Developer/Toolchains/swift-latest/usr/bin:"${PATH}"
-    # xcode-select --install # Install Command Line Tools if you haven't already.
-    # check that /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk exists
-    $ ls /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk
-    $ export SDKROOT=/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk
-
+    $ export PATH=/Library/Developer/Toolchains/swift-latest.xctoolchain/usr/bin:"${PATH}"
     ```
 
-7. **CUDA-only**: If you downloaded a CUDA GPU version of the toolchain, add the library path(s) to CUDA and CuDNN to `$LD_LIBRARY_PATH`.
+7. **CUDA-only**: If you downloaded a CUDA GPU-enabled toolchain, add the library path(s) for CUDA and cuDNN to `$LD_LIBRARY_PATH`:
+
     ```console
     $ export LD_LIBRARY_PATH=/usr/local/cuda/lib:"${LD_LIBRARY_PATH}"
     ```
