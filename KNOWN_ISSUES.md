@@ -11,6 +11,19 @@ Legend:
 Please see the [JIRA issue tracker](https://bugs.swift.org/projects/TF/issues)
 for a full list of known issues.
 
+## Version 0.4
+
+### Automatic Differentiation
+* [ ] Marking stored properties as `@differentiable` may result in a crash.
+      ([TF-521])
+* [ ] Marking an intializer as `@differentiable` may result in a SIL
+      verification error:
+      `operand of 'apply' doesn't match function input type`. ([TF-526])
+* [ ] Defining custom derivatives for `@_alwaysEmitIntoClient` declarations
+      results in a crash. ([TF-545])
+* [ ] Differentiating struct initializers may result in a SIL verification
+      error: `substituted callee type does not match substitutions`. ([TF-546])
+
 ## Version 0.3
 
 ### TensorFlow Library
@@ -53,6 +66,8 @@ for a full list of known issues.
 ### TensorFlow Library
 
 * [ ] 🚧 **Model checkpointing and serialization APIs are missing.** ([TF-388])
+* [ ] **TensorFlow runtime errors (e.g. shape mismatch errors) do not show useful
+      source location information or useful stack traces.** ([TF-458])
 
 ### TensorFlow Runtime
 
@@ -63,8 +78,8 @@ for a full list of known issues.
       print anything out and it will appear to be frozen. ([TF-461])
 * [ ] There is a long latency when allocating a `Tensor` for the first time on
       GPUs. Subsequent allocations are normal speed. ([TF-460])
-* [ ] **TensorFlow runtime errors (e.g. shape mismatch errors) do not show useful
-      source location information or useful stack traces.** ([TF-458])
+* [ ] **TensorFlow runtime errors (e.g. shape mismatch errors) do not show
+      useful source location information or useful stack traces.** ([TF-458])
 
 ### Swift for TensorFlow Deep Learning Library
 
@@ -79,8 +94,9 @@ for a full list of known issues.
 ### Automatic Differentiation
 
 * [ ] 🚧 **Differentiation does not yet support functions with control flow.**
-      ([TF-356])
-* [ ] 🚧 **Higher-order differentiation is not yet supported.** ([TF-459])
+      ([TF-354])
+    * Conditionals are supported since 0.4 ([apple/swift#25057]).
+* [ ] 🚧 **Higher-order differentiation is not yet supported.**
 * [ ] Differentiating functions with respect to an `inout` parameter is not yet
       supported. ([TF-357])
 * [ ] The compiler will only synthesize conformance requirements for
@@ -91,7 +107,7 @@ for a full list of known issues.
 * [x] ~~The `@differentiating` attribute leads to a compiler crash when the
       derivative function is defined in a generic context that is more
       constrained than the original function's generic context. ([TF-358])~~
-  * **Resolved (v0.3).** The `@differentiating` attribute can register
+  * **Resolved (0.3).** The `@differentiating` attribute can register
     derivatives with a generic context that is more constrained than the
     original function's generic context.
 * [ ] Referring to a `@differentiable` function using key paths leads to a
@@ -112,6 +128,7 @@ for a full list of known issues.
 [`Parameter`]: https://www.tensorflow.org/swift/api_docs/Classes/Parameter
 
 [swift-apis#54]: https://github.com/tensorflow/swift-apis/issues/54
+[apple/swift#25057]: https://github.com/apple/swift/pull/25057
 
 [TF-37]: https://bugs.swift.org/browse/TF-37
 [TF-123]: https://bugs.swift.org/browse/TF-123
@@ -125,9 +142,14 @@ for a full list of known issues.
 [TF-356]: https://bugs.swift.org/browse/TF-356
 [TF-357]: https://bugs.swift.org/browse/TF-357
 [TF-358]: https://bugs.swift.org/browse/TF-357
+[TF-384]: https://bugs.swift.org/browse/TF-384
 [TF-388]: https://bugs.swift.org/browse/TF-388
 [TF-449]: https://bugs.swift.org/browse/TF-449
 [TF-458]: https://bugs.swift.org/browse/TF-458
 [TF-459]: https://bugs.swift.org/browse/TF-459
 [TF-460]: https://bugs.swift.org/browse/TF-460
 [TF-461]: https://bugs.swift.org/browse/TF-461
+[TF-521]: https://bugs.swift.org/browse/TF-521
+[TF-526]: https://bugs.swift.org/browse/TF-526
+[TF-545]: https://bugs.swift.org/browse/TF-545
+[TF-546]: https://bugs.swift.org/browse/TF-546

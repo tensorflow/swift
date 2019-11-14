@@ -194,7 +194,7 @@ natural Python interoperability.
 * Switch between Python versions using
   [`PythonLibrary.useVersion(_:_:)`](https://www.tensorflow.org/swift/api_docs/Structs/PythonLibrary#/s:10TensorFlow13PythonLibraryV10useVersionyySi_SiSgtFZ).
 
-#### Acknowledgements
+### Acknowledgements
 
 This release contains contributions from many people at Google, as well as:
 
