@@ -14,18 +14,17 @@ for a full list of known issues.
 ## Version 0.4
 
 ### Automatic Differentiation
-* [ ] Can get an assertion failure when marking stored properties as
-      `@differentiable`. ([TF-521](https://bugs.swift.org/browse/TF-521))
-* [ ] Marking an intializer as `@differentiable` can lead to a
-      `SIL verification failed: operand of 'apply' doesn't match function input type`
-      error. ([TF-526](https://bugs.swift.org/browse/TF-526))
-* [ ] Cannot Define Custom VJPs on Functions marked `@_alwaysEmitIntoClient`.
-      ([TF-545](https://bugs.swift.org/browse/TF-545))
-* [ ] Differentiating initializers of structs can lead to a
-      `SIL verification failed: substituted callee type does not match substitutions` error. ([TF-546](https://bugs.swift.org/browse/TF-546))
-* [ ] When relying on the compiler to derive the VJP/JVP using another custom
-      VJP/JVP, can get a `Assertion failed: (isLoadableOrOpaque(Ty))` failure.
-      ([TF-547](https://bugs.swift.org/browse/TF-547))
+* [ ] Marking stored properties as `@differentiable` may result in a crash.
+      ([TF-521](https://bugs.swift.org/browse/TF-521))
+* [ ] Marking an intializer as `@differentiable` may result in a SIL
+      verification error:
+      `operand of 'apply' doesn't match function input type`.
+      ([TF-526](https://bugs.swift.org/browse/TF-526))
+* [ ] Defining custom derivatives for `@_alwaysEmitIntoClient` declarations
+      results in a crash. ([TF-545](https://bugs.swift.org/browse/TF-545))
+* [ ] Differentiating struct initializers may result in a SIL verification
+      error: `substituted callee type does not match substitutions`.
+      ([TF-546](https://bugs.swift.org/browse/TF-546))
 
 ## Version 0.3
 
@@ -96,7 +95,8 @@ for a full list of known issues.
 
 * [ ] 🚧 **Differentiation does not yet support functions with control flow.**
       ([TF-384](https://bugs.swift.org/browse/TF-384))
-    * Conditionals are supported since 0.4 ([PR 25057](https://github.com/apple/swift/pull/25057))
+    * Conditionals are supported since v0.4
+      ([apple/swift#25057](https://github.com/apple/swift/pull/25057)).
 * [ ] 🚧 **Higher-order differentiation is not yet supported.**
 * [ ] Differentiating functions with respect to an `inout` parameter is not yet
       supported. ([TF-357](https://bugs.swift.org/browse/TF-357))
