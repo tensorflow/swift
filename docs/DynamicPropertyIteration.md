@@ -4,6 +4,16 @@
 
 Last updated: March 2019
 
+> #### Experimental
+>
+> `KeyPathIterable` is being incubated in the
+> ['tensorflow' branch of apple/swift](https://github.com/apple/swift/tree/tensorflow)
+> and released as part of the
+> [Swift for TensorFlow toolchains](https://github.com/tensorflow/swift#getting-started),
+> which you can play with. The authors will propose this feature through
+> [Swift Evolution](https://forums.swift.org/c/evolution) in 2019. Updates will be posted
+> on the [initial pitch thread](https://forums.swift.org/t/storedpropertyiterable/19218).
+
 ## Background and motivation
 
 The ability to iterate over the properties of a type is a powerful reflection
@@ -307,4 +317,4 @@ protocol.
 [C_macro]: https://natecraun.net/articles/struct-iteration-through-abuse-of-the-c-preprocessor.html
 [Rust_macro]: https://stackoverflow.com/questions/38111486/how-do-i-iterate-over-elements-of-a-struct-in-rust
 
-[KeyPathIterable]: https://tensorflow.devsite.corp.google.com/swift/api_docs/Protocols/KeyPathIterable
+[KeyPathIterable]: https://tensorflow.org/swift/api_docs/Protocols/KeyPathIterable

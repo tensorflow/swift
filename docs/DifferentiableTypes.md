@@ -4,6 +4,15 @@
 
 Last updated: March 2019
 
+> #### Experimental
+>
+> Automatic differentiation and differentiable programming are being incubated in the
+> ['tensorflow' branch of apple/swift](https://github.com/apple/swift/tree/tensorflow)
+> and released as part of the
+> [Swift for TensorFlow toolchains](https://github.com/tensorflow/swift#getting-started),
+> which you can play with. The authors will propose this feature through
+> [Swift Evolution](https://forums.swift.org/c/evolution) in 2019.
+
 ## Preface
 
 Speaking in terms of elementary calculus, only functions are "differentiable": only functions have derivatives and can be differentiated. In this document, the terminology "differentiable types" is used as a shorthand for "types that can be used as arguments and results of differentiable functions". This notion is important because not all types are "differentiable" in this sense. For example, types representing real numbers and vector spaces are "differentiable", but strings and integers are not.
@@ -42,7 +51,7 @@ print(𝛁v)
 // Vector(x: 2.0, y: 0.0, z: 0.0)
 ```
 
-A `Differentiable`-conforming type may have stored properties that are not meant to have a derivative with respect to `self`. Use the `@noDerivative` attribute to mark those properties; they will not have a corresponding entry in the synthesized `TangentVector`, `CotangentVector`, and `AllDifferentiableVariables` struct types.
+A `Differentiable`-conforming type may have stored properties that are not meant to have a derivative with respect to `self`. Use the `@noDerivative` attribute to mark those properties; they will not have a corresponding entry in the synthesized `TangentVector` and `AllDifferentiableVariables` struct types.
 
 Here’s an example deep learning layer with some `@noDerivative` properties:
 
@@ -68,14 +77,14 @@ struct DenseLayer: Differentiable {
     // The compiler synthesizes all `Differentiable` protocol requirements, adding only properties
     // not marked with `@noDerivative` to associated tangent space types.
 
-    func applied(to input: Tensor<Float>) -> Tensor<Float> {
+    func call(_ input: Tensor<Float>) -> Tensor<Float> {
         return matmul(input, weight) + bias
     }
 }
 
 // Differential operators like `gradient(at:in:)` just work!
 let dense = DenseLayer(weight: [[1, 1], [1, 1]], bias: [0, 0])
-let 𝛁dense = gradient(at: dense) { dense in dense.applied(to: [[3, 3]]).sum() }
+let 𝛁dense = gradient(at: dense) { dense in dense([[3, 3]]).sum() }
 
 dump(𝛁dense)
 // ▿ DenseLayer.AllDifferentiableVariables
@@ -94,20 +103,12 @@ public protocol Differentiable {
     /// The tangent bundle of this differentiable manifold.
     associatedtype TangentVector: AdditiveArithmetic & Differentiable
         where TangentVector.TangentVector == TangentVector,
-              TangentVector.CotangentVector == CotangentVector,
               TangentVector.AllDifferentiableVariables == TangentVector
-
-    /// The cotangent bundle of this differentiable manifold.
-    associatedtype CotangentVector: AdditiveArithmetic & Differentiable
-        where CotangentVector.TangentVector == CotangentVector,
-              CotangentVector.CotangentVector == TangentVector,
-              CotangentVector.AllDifferentiableVariables == CotangentVector
 
     /// The type of all differentiable variables in this type.
     associatedtype AllDifferentiableVariables: Differentiable
         where AllDifferentiableVariables.AllDifferentiableVariables == AllDifferentiableVariables,
               AllDifferentiableVariables.TangentVector == TangentVector,
-              AllDifferentiableVariables.CotangentVector == CotangentVector
 
     /// All differentiable variables in this type.
     var allDifferentiableVariables: AllDifferentiableVariables { get }
@@ -115,9 +116,6 @@ public protocol Differentiable {
     /// Returns `self` moved along the value space towards the given tangent vector.
     /// In Riemannian geometry (mathematics), this represents exponential map.
     func moved(along direction: TangentVector) -> Self
-
-    /// Converts a cotangent vector to its corresponding tangent vector.
-    func tangentVector(from cotangent: CotangentVector) -> TangentVector
 }
 ```
 
@@ -132,20 +130,15 @@ Mathematically, `Differentiable` represents a [differentiable manifold]: this is
 </p>
 
 Here is a detailed explanation of the `Differentiable` protocol:
-* `associatedtype TangentVector` represents the type of directional derivatives computed via forward-mode differentiation.
-* `associatedtype CotangentVector` represents the type of gradient values computed via reverse-mode differentiation.
-  * `CotangentVector` types are used and produced by differential operators like `gradient` and `pullback`.
+* `associatedtype TangentVector` represents the type of derivatives.
 * `var allDifferentiableVariables: AllDifferentiableVariables` represents all differentiable variables in an instance of the conforming type, where `associatedtype AllDifferentiableVariables` is the type of all differentiable variables.
   * The motivation/design behind "all differentiable variables" is enabling key-path-based parameter optimization by making parameters and their gradients have the same type. Read the [synthesis rules](#compiler-synthesized-implementations) below and the [parameter optimization document][parameter-optimization] for more information.
-* `TangentVector`, `CotangentVector`, and `AllDifferentiableVariables` are closely related.
+* `TangentVector` and `AllDifferentiableVariables` are closely related.
   * All three associated types must themselves conform to `Differentiable`.
   * The `Differentiable` protocol associated types of the associated types themselves are defined to be mathematically correct.
     * `Foo.TangentVector.TangentVector` is `Foo.TangentVector` itself.
-    * `Foo.CotangentVector.TangentVector` is `Foo.CotangentVector` itself.
-    * `Foo.TangentVector.CotangentVector` is `Foo.CotangentVector`.
-    * `Foo.CotangentVector.CotangentVector` is `Foo.TangentVector`.
-    * `Foo.AllDifferentiableVariables` has the same `TangentVector` and `CotangentVector` as `Foo`.
-  * Additionally, `TangentVector` and  `CotangentVector` must conform to `AdditiveArithmetic`, so that they can be zero-initialized and accumulated via addition. These are necessary to perform the chain rule of differentiation.
+    * `Foo.AllDifferentiableVariables` has the same `TangentVector` as `Foo`.
+  * Additionally, `TangentVector` must conform to `AdditiveArithmetic`, so that they can be zero-initialized and accumulated via addition. These are necessary to perform the chain rule of differentiation.
 * Manifold operations.
   * These currently involve `tangentVector(from:)` and `moved(along:)`. These operations can be useful for implementing manifold-related algorithms, like optimization on manifolds, but are not relevant for simple differentiation use cases.
 
@@ -154,7 +147,6 @@ The standard library defines conformances to the `Differentiable` protocol for `
 ```swift
 extension Float: Differentiable {
     public typealias TangentVector = Float
-    public typealias CotangentVector = Float
     public typealias AllDifferentiableVariables = Float
 }
 // Conformances for `Double` and `Float80` are defined similarly.
@@ -162,7 +154,6 @@ extension Float: Differentiable {
 // `Tensor` is defined in the TensorFlow library and represents a multidimensional array.
 extension Tensor: Differentiable where Scalar: TensorFlowFloatingPoint {
     public typealias TangentVector = Tensor
-    public typealias CotangentVector = Tensor
     public typealias AllDifferentiableVariables = Tensor
 }
 ```
@@ -181,16 +172,16 @@ The synthesis behavior is explained below.
 
 ### Associated type synthesis
 
-Here are the synthesis rules for the three `Differentiable` associated types: `TangentVector`, `CotangentVector`, and `AllDifferentiableVariables`.
+Here are the synthesis rules for the two `Differentiable` associated types: `TangentVector` and `AllDifferentiableVariables`.
 
 Let "differentiation properties" refer to all stored properties of the conforming type that are not marked with `@noDerivative`. These stored properties are guaranteed by the synthesis condition to all conform to `Differentiable`.
 
 The synthesis rules are:
 * Set associated types to `Self`, if possible.
-  * If the conforming type conforms to `AdditiveArithmetic`, and no `@noDerivative` stored properties exist, and all stored properties satisfy `Self == Self.TangentVector == Self.CotangentVector == Self.AllDifferentiableVariables`, then all associated types can be set to typealiases of `Self`.
-* Synthesize a single `AllDifferentiableVariables` member struct. Set `TangentVector` and `CotangentVector` to `AllDifferentiableVariables` if possible; otherwise synthesize more member structs.
+  * If the conforming type conforms to `AdditiveArithmetic`, and no `@noDerivative` stored properties exist, and all stored properties satisfy `Self == Self.TangentVector == Self.AllDifferentiableVariables`, then all associated types can be set to typealiases of `Self`.
+* Synthesize a single `AllDifferentiableVariables` member struct. Set `TangentVector` to `AllDifferentiableVariables` if possible; otherwise synthesize more member structs.
   * Regarding member struct synthesis: for each "differentiation property" in the conforming type, a corresponding stored property is synthesized in the member structs, with type equal to the property’s associated type.
-  * `TangentVector` and `CotangentVector` can be set to `AllDifferentiableVariables` if all differentiation properties conform to `AdditiveArithmetic` and satisfy `Self.TangentVector == Self.CotangentVector == Self.AllDifferentiableVariables`. This is useful because it prevents redundant struct synthesis. Also, this enables [key-path-based parameter optimization][parameter-optimization] because parameters and gradients have the same type.
+  * `TangentVector` can be set to `AllDifferentiableVariables` if all differentiation properties conform to `AdditiveArithmetic` and satisfy `Self.TangentVector == Self.AllDifferentiableVariables`. This is useful because it prevents redundant struct synthesis. Also, this enables [key-path-based parameter optimization][parameter-optimization] because parameters and gradients have the same type.
 
 A memberwise initializer is synthesized for the conforming type itself, in addition to all associated structs. This is important for differentiating struct properties accesses and synthesizing manifold operation requirements.
 
@@ -220,21 +211,13 @@ Manifold operations are synthesized to forward the same operation defined on dif
 
 ```swift
 // Let `Foo` be the name of the type conforming to `Differentiable`.
-func tangentVector(from cotangent: CotangentVector) -> TangentVector {
-    return TangentVector(x: x.tangentVector(from: cotangent.x), ...)
-}
 func moved(along tangent: TangentVector) -> Foo {
-    return Foo(x: x.moved(along: tangent.x), ...)
+    Foo(x: x.moved(along: tangent.x), ...)
 }
 
-// Potential shortcuts for synthesis:
-// When `TangentVector == CotangentVector`:
-func tangentVector(from cotangent: CotangentVector) -> TangentVector {
-    return cotangent
-}
-// When `Foo == TangentVector`:
+// Potential shortcut for synthesis, when `Foo == TangentVector`:
 func moved(along tangent: TangentVector) -> Foo {
-    return tangent
+    self + tangent
 }
 ```
 
@@ -257,23 +240,14 @@ struct GenericWrapper<T: Differentiable, U: Differentiable>: Differentiable {
     //     var y: U.TangentVector
     //     ...
     // }
-    // struct CotangentVector: Differentiable, AdditiveArithmetic {
-    //     var x: T.CotangentVector
-    //     var y: U.CotangentVector
-    //     ...
-    // }
     // struct AllDifferentiableVariables: Differentiable {
     //     var x: T.AllDifferentiableVariables
     //     var y: U.AllDifferentiableVariables
     //     ...
     // }
     // var allDifferentiableVariables: AllDifferentiableVariables {
-    //     get { return AllDifferentiableVariables(weight: weight, bias: bias) }
-    //     set { weight = newValue.weight; bias = newValue.bias }
-    // }
-    // func tangentVector(from cotangent: CotangentVector) -> TangentVector {
-    //     return TangentVector(x: x.tangentVector(from: cotangent.x),
-    //                          y: y.tangentVector(from: cotangent.y))
+    //     get { return AllDifferentiableVariables(x: x, y: y) }
+    //     set { x = newValue.x; y = newValue.y }
     // }
     // func moved(along tangent: TangentVector) -> Foo {
     //     return GenericWrapper(x: x.moved(along: tangent.x)
@@ -291,5 +265,5 @@ The authors would like to thank Casey Chu, Dougal Maclaurin, Matthew Johnson, Ro
 [differentiable manifold]: https://en.wikipedia.org/wiki/Differentiable_manifold
 
 [SIMD]: https://github.com/apple/swift-evolution/blob/master/proposals/0229-simd.md
-[TensorFlow_Tensor]: https://tensorflow.devsite.corp.google.com/swift/api_docs/Extensions/Tensor
+[TensorFlow_Tensor]: https://www.tensorflow.org/swift/api_docs/Structs/Tensor
 [parameter-optimization]: https://github.com/tensorflow/swift/blob/master/docs/ParameterOptimization.md#full-fledged-optimizer-using-differentiable

@@ -34,7 +34,7 @@ let pickle = Python.import("pickle")
 // Python:
 //    file = gzip.open("mnist.pkl.gz", "rb")
 //    (images, labels) = pickle.load(file)
-//    print(images.shape) // (50000, 784)
+//    print(images.shape)  # (50000, 784)
 let file = gzip.open("mnist.pkl.gz", "rb")
 let (images, labels) = pickle.load(file).tuple2
 print(images.shape) // (50000, 784)
@@ -55,19 +55,19 @@ It is important to observe that Python *does* have existing productivity tools t
 
 ## How it works
 
-We map Python’s dynamic type system into a **single** static Swift type named `PyValue`, and allow `PyValue` to take on any dynamic Python value at runtime (similar to the approach of [Abadi et al.](https://dl.acm.org/citation.cfm?id=103138)).  `PyValue` corresponds directly to `PyObject*` used in the Python C bindings, and can do anything a Python value does in Python.   For example, this works just like you would expect in Python:
+We map Python’s dynamic type system into a **single** static Swift type named `PythonObject`, and allow `PythonObject` to take on any dynamic Python value at runtime (similar to the approach of [Abadi et al.](https://dl.acm.org/citation.cfm?id=103138)).  `PythonObject` corresponds directly to `PyObject*` used in the Python C bindings, and can do anything a Python value does in Python.   For example, this works just like you would expect in Python:
 
 ```swift
-var x: PyValue = 42  // x is an integer represented as a Python value.
+var x: PythonObject = 42  // x is an integer represented as a Python value.
 print(x + 4)         // Does a Python addition, then prints 46.
 
 x = "stringy now"    // Python values can hold strings, and dynamically change Python type!
 print("super " + x)  // Does a Python addition, then prints "super stringy now".
 ```
 
-Because we do not want to compromise the global design of Swift, we restrict all of Python behavior to expressions involving this `PyValue` type.  This ensures that the semantics of normal Swift code remains unchanged, even if it is mixing, matching, interfacing, and intermingling with Python values.
+Because we do not want to compromise the global design of Swift, we restrict all of Python behavior to expressions involving this `PythonObject` type.  This ensures that the semantics of normal Swift code remains unchanged, even if it is mixing, matching, interfacing, and intermingling with Python values.
 ### Basic interoperability
-As of Swift 4.0, a reasonable level of basic interoperability was already directly achievable through existing language features: we simply define `PyValue` as a Swift struct that wraps a private Swift `PyReference` class, allowing Swift to take over the responsibility for Python reference counting:
+As of Swift 4.0, a reasonable level of basic interoperability was already directly achievable through existing language features: we simply define `PythonObject` as a Swift struct that wraps a private Swift `PyReference` class, allowing Swift to take over the responsibility for Python reference counting:
 
 ```swift
 /// Primitive reference to a Python value.  This is always non-null and always
@@ -90,52 +90,52 @@ private final class PyReference {
 }
 
 // This is the main type users work with.
-public struct PyValue {
-  /// This is a handle to the Python object the PyValue represents.
+public struct PythonObject {
+  /// This is a handle to the Python object the PythonObject represents.
   fileprivate var state: PyReference
   ...
 }
 ```
 
-Similarly, we can implement `func +` (and the rest of the supported Python operators) on `PyValue` in terms of the existing Python runtime interface.  Our implementation looks like this:
+Similarly, we can implement `func +` (and the rest of the supported Python operators) on `PythonObject` in terms of the existing Python runtime interface.  Our implementation looks like this:
 
 ```swift
 // Implement the + operator in terms of the standard Python __add__ method.
-public static func + (lhs: PyValue, rhs: PyValue) -> PyValue {
+public static func + (lhs: PythonObject, rhs: PythonObject) -> PythonObject {
   return lhs.__add__.call(with: rhs)
 }
 // Implement the - operator in terms of the standard Python __sub__ method.
-public static func - (lhs: PyValue, rhs: PyValue) -> PyValue {
+public static func - (lhs: PythonObject, rhs: PythonObject) -> PythonObject {
   return lhs.__sub__.call(with: rhs)
 }
 // Implement += and -= in terms of + and -, as usual.
-public static func += (lhs: inout PyValue, rhs: PyValue) {
+public static func += (lhs: inout PythonObject, rhs: PythonObject) {
   lhs = lhs + rhs
 }
-public static func -= (lhs: inout PyValue, rhs: PyValue) {
+public static func -= (lhs: inout PythonObject, rhs: PythonObject) {
   lhs = lhs - rhs
 }
 // etc...
 ```
 
-We also make `PyValue` conform to `Sequence` and other protocols, allowing code like this to work:
+We also make `PythonObject` conform to `Sequence` and other protocols, allowing code like this to work:
 
 ```swift
-func printPythonCollection(_ collection: PyValue) {
+func printPythonCollection(_ collection: PythonObject) {
   for elt in collection {
     print(elt)
   }
 }
 ```
 
-Furthermore, because `PyValue` conforms to `MutableCollection`, you get full access to the [Swift APIs for Collections](https://developer.apple.com/documentation/swift/mutablecollection), including functions like `map`, `filter`, `sort`, etc.
+Furthermore, because `PythonObject` conforms to `MutableCollection`, you get full access to the [Swift APIs for Collections](https://developer.apple.com/documentation/swift/mutablecollection), including functions like `map`, `filter`, `sort`, etc.
 ### Conversions to and from Swift values
 Now that Swift can represent and operate on Python values, it becomes important to be able to convert between Swift native types like `Int` and `Array<Float>` and the Python equivalents.  This is handled by the `PythonConvertible` protocol - to which the basic Swift types like `Int` conform to, and to the Swift collection types like `Array` and `Dictionary` conditionally conform to (when their elements conform).  This makes the conversions fit naturally into the Swift model.
 
 For example, if you know you need a Swift integer or you’d like to convert a Swift integer to Python, you can use:
 
 ```swift
-let pyInt = PyValue(someSwiftInteger)     // Always succeeds.
+let pyInt = PythonObject(someSwiftInteger)     // Always succeeds.
 if let swiftInt = Int(somePythonValue) {  // Succeeds if the Python value is convertible to Int.
   print(swiftInt)
 }
@@ -177,9 +177,9 @@ As a result of this, our interoperability library is able to implement the follo
 
 ```swift
 @dynamicMemberLookup
-public struct PyValue {
+public struct PythonObject {
 ...
-  subscript(dynamicMember member: String) -> PyValue {
+  subscript(dynamicMember member: String) -> PythonObject {
     get {
       return ... PyObject_GetAttrString(...) ...
     }
@@ -212,7 +212,7 @@ While it is possible to get things done with this, it is clearly not achieving o
 
 Evaluating this problem with the [Swift community](https://forums.swift.org/t/pitch-introduce-user-defined-dynamically-callable-types/7038) [and #2](https://forums.swift.org/t/pitch-2-introduce-user-defined-dynamically-callable-types/7112), we observe that Python and Swift support both named and unnamed arguments: the named arguments are passed in as a dictionary.  At the same time, Smalltalk-derived languages add an additional wrinkle: *method* references are the atomic unit, which include the base name of the method along with any keyword arguments.  While interoperability with this style of language is not important for Python, we want to make sure that Swift isn’t painted into a corner that precluded great interop with Ruby, Squeak, and other SmallTalk-derived languages.
 
-Our current proposal, which has been discussed but not yet been implemented (and will need final approval by the Swift community), is to introduce a new [`@dynamicCallable` attribute](https://gist.github.com/lattner/a6257f425f55fe39fd6ac7a2354d693d) to indicate that a type (like `PyValue`) can handle dynamic call resolution. The `@dynamicCallable` feature has been implemented and made available in the Python interop module.
+Our current proposal, which has been discussed but not yet been implemented (and will need final approval by the Swift community), is to introduce a new [`@dynamicCallable` attribute](https://gist.github.com/lattner/a6257f425f55fe39fd6ac7a2354d693d) to indicate that a type (like `PythonObject`) can handle dynamic call resolution. The `@dynamicCallable` feature has been implemented and made available in the Python interop module.
 
 ```swift
 // Python: a = np.arange(15).reshape(3, 5)
@@ -225,7 +225,7 @@ We think that this is pretty compelling, and does close the remaining expressivi
 ### Exception handling vs error handling
 Python’s approach to exception handling is similar to C++ and many other languages, where any expression can throw an exception at any time, and callers can choose to handle them (or not) independently.  In contrast, Swift’s [error handling approach](https://github.com/apple/swift/blob/master/docs/ErrorHandling.rst) makes "throwability" an explicit part of a method’s API contract and [forces callers to handle (or at least acknowledge)](https://github.com/apple/swift/blob/master/docs/ErrorHandlingRationale.rst) that an error can be thrown.
 
-This is an inherent gap between the two languages, and we don’t want to paper over this difference with a language extension.  Our current solution to this builds on the observation that even though any function call *could* throw, most calls do not.  Furthermore, given that Swift makes error handling explicit in the language, it is reasonable for a Python-in-Swift programmer to also think about where they expect errors to be throwable and catchable.  We do this with an explicit `.throwing` projection on `PyValue`.  Here’s an example:
+This is an inherent gap between the two languages, and we don’t want to paper over this difference with a language extension.  Our current solution to this builds on the observation that even though any function call *could* throw, most calls do not.  Furthermore, given that Swift makes error handling explicit in the language, it is reasonable for a Python-in-Swift programmer to also think about where they expect errors to be throwable and catchable.  We do this with an explicit `.throwing` projection on `PythonObject`.  Here’s an example:
 
 ```swift
   // Open a file.  If this fails, the program is terminated, just like an
@@ -255,7 +255,7 @@ In practice, we have found that it works nicely for many use cases. However, a f
 
 Python slicing is more general than Swift’s slicing syntax.  Right now you can get full access to it through the `Python.slice(a, b, c)` function.  However, we should wire in the  normal `a...b` range syntax from Swift, and it might be interesting to consider implementing striding operators as an extension to that basic range syntax.
 We need to investigate and settle on the right model to use for subclassing of Python classes.
-There is currently no way to make a struct like `PyValue` work with tuple pattern matching, so we use projection properties like `.tuple2`.  If this becomes a problem in practice, we can investigate adding this to Swift, but we currently don’t think it will be enough of a problem to be worth solving in the near term.
+There is currently no way to make a struct like `PythonObject` work with tuple pattern matching, so we use projection properties like `.tuple2`.  If this becomes a problem in practice, we can investigate adding this to Swift, but we currently don’t think it will be enough of a problem to be worth solving in the near term.
 
 ## Summary and Conclusion
 
