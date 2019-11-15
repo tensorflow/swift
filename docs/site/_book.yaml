@@ -2,7 +2,7 @@ upper_tabs:
 - name: "Install"
   lower_tabs:
     guides:
-    - include: /install/toc.yaml
+    - include: /install/_toc.yaml
 
 - name: "Learn"
   path: /learn/
@@ -14,8 +14,18 @@ upper_tabs:
     other:
     - name: Tutorials
       contents:
-      - title: "Swift for TensorFlow: walkthrough"
-        path: /swift/tutorials/walkthrough
+      - title: "Model training walkthrough"
+        path: /swift/tutorials/model_training_walkthrough
+      - title: "A Swift tour"
+        path: /swift/tutorials/a_swift_tour
+      - title: "Protocol-Oriented Programming & Generics"
+        path: /swift/tutorials/protocol_oriented_generics
+      - title: "Python interoperability"
+        path: /swift/tutorials/python_interoperability
+      - title: "Custom differentiation"
+        path: /swift/tutorials/custom_differentiation
+      - title: "Using raw TensorFlow operators"
+        path: /swift/tutorials/raw_tensorflow_operators
     - name: API
       skip_translation: true
       contents:
