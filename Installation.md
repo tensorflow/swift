@@ -8,22 +8,24 @@ To install Swift for TensorFlow, download one of the packages below and follow t
 
 ## Releases
 
+[Migration Guide](https://docs.google.com/document/d/1p8daaIFswkOwbhmdwLJ7NRWzX0uY9jMZYRfRH0EymV8/edit)
+
 | Download | Version | Date |
 |----------|---------|------|
-| [Xcode 11 beta](https://storage.googleapis.com/swift-tensorflow-artifacts/releases/v0.4/rc2/swift-tensorflow-RELEASE-0.4-osx.pkg) | v0.4.0-rc2 | July 10, 2019 |
-| [Ubuntu 18.04 (CPU Only)](https://storage.googleapis.com/swift-tensorflow-artifacts/releases/v0.4/rc2/swift-tensorflow-RELEASE-0.4-ubuntu18.04.tar.gz) | v0.4.0-rc2 | July 9, 2019 |
-| [Ubuntu 18.04 (CUDA 10.0)](https://storage.googleapis.com/swift-tensorflow-artifacts/releases/v0.4/rc2/swift-tensorflow-RELEASE-0.4-cuda10.0-cudnn7-ubuntu18.04.tar.gz) | v0.4.0-rc2 | July 9, 2019 |
-| [Ubuntu 18.04 (CUDA 9.2)](https://storage.googleapis.com/swift-tensorflow-artifacts/releases/v0.4/rc2/swift-tensorflow-RELEASE-0.4-cuda9.2-cudnn7-ubuntu18.04.tar.gz) | v0.4.0-rc2 | July 9, 2019 |
+| [Xcode 11](https://storage.googleapis.com/swift-tensorflow-artifacts/releases/v0.5/rc1/swift-tensorflow-RELEASE-0.5-osx.pkg) | v0.5.0 | Sep 19, 2019 |
+| [Ubuntu 18.04 (CPU Only)](https://storage.googleapis.com/swift-tensorflow-artifacts/releases/v0.5/rc1/swift-tensorflow-RELEASE-0.5-ubuntu18.04.tar.gz) | v0.5.0 | Sep 19, 2019 |
+| [Ubuntu 18.04 (CUDA 10.0)](https://storage.googleapis.com/swift-tensorflow-artifacts/releases/v0.5/rc1/swift-tensorflow-RELEASE-0.5-cuda10.0-cudnn7-ubuntu18.04.tar.gz) | v0.5.0 | Sep 19, 2019 |
+| [Ubuntu 18.04 (CUDA 9.2)](https://storage.googleapis.com/swift-tensorflow-artifacts/releases/v0.5/rc1/swift-tensorflow-RELEASE-0.5-cuda9.2-cudnn7-ubuntu18.04.tar.gz) | v0.5.0 | Sep 19, 2019 |
 
 <details>
   <summary>Older Packages</summary>
-
+  
 | Download | Version | Date |
 |----------|---------|------|
-| [Xcode 11 beta](https://storage.googleapis.com/swift-tensorflow-artifacts/releases/v0.4/rc0/swift-tensorflow-RELEASE-0.4-osx.pkg) | v0.4.0-rc0 | June 27, 2019 |
-| [Ubuntu 18.04 (CPU Only)](https://storage.googleapis.com/swift-tensorflow-artifacts/releases/v0.4/rc0/swift-tensorflow-RELEASE-0.4-ubuntu18.04.tar.gz) | v0.4.0-rc0 | June 27, 2019 |
-| [Ubuntu 18.04 (CUDA 10.0)](https://storage.googleapis.com/swift-tensorflow-artifacts/releases/v0.4/rc0/swift-tensorflow-RELEASE-0.4-cuda10.0-cudnn7-ubuntu18.04.tar.gz) | v0.4.0-rc0 | June 27, 2019 |
-| [Ubuntu 18.04 (CUDA 9.2)](https://storage.googleapis.com/swift-tensorflow-artifacts/releases/v0.4/rc0/swift-tensorflow-RELEASE-0.4-cuda9.2-cudnn7-ubuntu18.04.tar.gz) | v0.4.0-rc0 | June 27, 2019 |
+| [Xcode 11 beta](https://storage.googleapis.com/swift-tensorflow-artifacts/releases/v0.4/rc4/swift-tensorflow-RELEASE-0.4-osx.pkg) | v0.4.0 | July 25, 2019 |
+| [Ubuntu 18.04 (CPU Only)](https://storage.googleapis.com/swift-tensorflow-artifacts/releases/v0.4/rc4/swift-tensorflow-RELEASE-0.4-ubuntu18.04.tar.gz) | v0.4.0 | July 25, 2019 |
+| [Ubuntu 18.04 (CUDA 10.0)](https://storage.googleapis.com/swift-tensorflow-artifacts/releases/v0.4/rc4/swift-tensorflow-RELEASE-0.4-cuda10.0-cudnn7-ubuntu18.04.tar.gz) | v0.4.0 | July 25, 2019 |
+| [Ubuntu 18.04 (CUDA 9.2)](https://storage.googleapis.com/swift-tensorflow-artifacts/releases/v0.4/rc4/swift-tensorflow-RELEASE-0.4-cuda9.2-cudnn7-ubuntu18.04.tar.gz) | v0.4.0 | July 25, 2019 |
 
 | Download | Version | Date |
 |----------|---------|------|
@@ -52,8 +54,9 @@ To install Swift for TensorFlow, download one of the packages below and follow t
 
 | Download | Date |
 |----------|------|
-| [Xcode 10](https://storage.googleapis.com/swift-tensorflow/mac/swift-tensorflow-DEVELOPMENT-2019-06-17-a-osx.pkg) | June 17, 2019 |
+| [Xcode 11](https://storage.googleapis.com/swift-tensorflow/mac/swift-tensorflow-DEVELOPMENT-2019-11-15-a-osx.pkg) | November 15, 2019 |
 | [Ubuntu 18.04 (CPU Only)](https://storage.googleapis.com/swift-tensorflow-artifacts/nightlies/latest/swift-tensorflow-DEVELOPMENT-ubuntu18.04.tar.gz) | Nightly |
+| [Ubuntu 18.04 (CUDA 10.1)](https://storage.googleapis.com/swift-tensorflow-artifacts/nightlies/latest/swift-tensorflow-DEVELOPMENT-cuda10.1-cudnn7-ubuntu18.04.tar.gz) | Nightly |
 | [Ubuntu 18.04 (CUDA 10.0)](https://storage.googleapis.com/swift-tensorflow-artifacts/nightlies/latest/swift-tensorflow-DEVELOPMENT-cuda10.0-cudnn7-ubuntu18.04.tar.gz) | Nightly |
 | [Ubuntu 18.04 (CUDA 9.2)](https://storage.googleapis.com/swift-tensorflow-artifacts/nightlies/latest/swift-tensorflow-DEVELOPMENT-cuda9.2-cudnn7-ubuntu18.04.tar.gz) | Nightly |
 
@@ -62,10 +65,23 @@ To install Swift for TensorFlow, download one of the packages below and follow t
 
 ### Xcode
 
+#### Xcode 11
+
+| Download |
+|----------|
+| [November 11, 2019](https://storage.googleapis.com/swift-tensorflow/mac/swift-tensorflow-DEVELOPMENT-2019-11-11-a-osx.pkg) |
+| [November 7, 2019](https://storage.googleapis.com/swift-tensorflow/mac/swift-tensorflow-DEVELOPMENT-2019-11-07-a-osx.pkg) |
+| [November 4, 2019](https://storage.googleapis.com/swift-tensorflow/mac/swift-tensorflow-DEVELOPMENT-2019-11-04-a-osx.pkg) |
+| [August 28, 2019](https://storage.googleapis.com/swift-tensorflow/mac/swift-tensorflow-DEVELOPMENT-2019-08-28-a-osx.pkg) |
+| [August 10, 2019](https://storage.googleapis.com/swift-tensorflow/mac/swift-tensorflow-DEVELOPMENT-2019-08-10-a-osx.pkg) |
+| [August 8, 2019](https://storage.googleapis.com/swift-tensorflow/mac/swift-tensorflow-DEVELOPMENT-2019-08-08-a-osx.pkg) |
+| [July 25, 2019](https://storage.googleapis.com/swift-tensorflow/mac/swift-tensorflow-DEVELOPMENT-2019-07-25-a-osx.pkg) |
+
 #### Xcode 10
 
 | Download |
 |----------|
+| [June 17, 2019](https://storage.googleapis.com/swift-tensorflow/mac/swift-tensorflow-DEVELOPMENT-2019-06-17-a-osx.pkg) |
 | [June 13, 2019](https://storage.googleapis.com/swift-tensorflow/mac/swift-tensorflow-DEVELOPMENT-2019-06-13-a-osx.pkg) |
 | [June 12, 2019](https://storage.googleapis.com/swift-tensorflow/mac/swift-tensorflow-DEVELOPMENT-2019-06-12-a-osx.pkg) |
 | [June 6, 2019](https://storage.googleapis.com/swift-tensorflow/mac/swift-tensorflow-DEVELOPMENT-2019-06-06-a-osx.pkg) |
@@ -117,14 +133,15 @@ To install Swift for TensorFlow, download one of the packages below and follow t
   <img src="docs/images/Installation-XcodePreferences.png?raw=true" alt="Select toolchain in Xcode preferences."/>
 </p>
 
-6. Selecting a Swift toolchain affects the Xcode IDE only. To use the Swift toolchain with command-line tools, add the Swift toolchain to your path as follows:
+6. Selecting a Swift toolchain affects the Xcode IDE only. To use the Swift toolchain with command-line tools, use `xcrun --toolchain swift` and `xcodebuild -toolchain swift`, or add the Swift toolchain to your path as follows:
 
-    ```bash
-    $ export PATH=/Library/Developer/Toolchains/swift-latest/usr/bin:"${PATH}"
+    ```console
+    $ export PATH=/Library/Developer/Toolchains/swift-latest.xctoolchain/usr/bin:"${PATH}"
     ```
 
-7. **CUDA-only**: If you downloaded a CUDA GPU version of the toolchain, add the library path(s) to CUDA and CuDNN to `$LD_LIBRARY_PATH`.
-    ```bash
+7. **CUDA-only**: If you downloaded a CUDA GPU-enabled toolchain, add the library path(s) for CUDA and cuDNN to `$LD_LIBRARY_PATH`:
+
+    ```console
     $ export LD_LIBRARY_PATH=/usr/local/cuda/lib:"${LD_LIBRARY_PATH}"
     ```
 
@@ -152,7 +169,7 @@ Note that nothing prevents Swift from being ported to other Linux distributions 
 
 1. Install required dependencies:
 
-```
+```console
 $ sudo apt-get install clang libpython-dev libblocksruntime-dev
 ```
 (**Note:** You _may_ also need to install other [dependencies](https://github.com/apple/swift#linux), if you are unable to run `swift` or other tools below.)
@@ -163,7 +180,7 @@ The `swift-tensorflow-<VERSION>-<PLATFORM>.tar.gz` file is the toolchain itself.
 
 3. Extract the archive with the following command:
 
-```
+```console
 $ tar xzf swift-tensorflow-<VERSION>-<PLATFORM>.tar.gz
 ```
 
@@ -171,10 +188,28 @@ This creates a `usr/` directory in the location of the archive.
 
 4. Add the Swift toolchain to your path as follows:
 
-```
+```console
 $ export PATH=$(pwd)/usr/bin:"${PATH}"
 ```
 
 You can now execute the `swift` command to run the REPL or build Swift projects.
 
 **Note:** If you are using a CUDA build and you have an NVIDIA GPU with a compute capability other than 3.5 or 7.0, then you will experience a ~10 minute delay the first time you execute a TensorFlow operation, while TensorFlow compiles kernels for your GPU's compute capability. The program will not print anything out and it will appear to be frozen.
+
+# Verify the Installation
+
+Create a text file `test.swift` with the following contents:
+
+```swift
+import TensorFlow
+var x = Tensor<Float>([[1, 2], [3, 4]])
+print(x + x)
+```
+
+Run this command to verify the installation. If you see this output, you have successfully installed Swift for TensorFlow!
+
+```console
+$ swift test.swift
+[[2.0, 4.0],
+ [6.0, 8.0]]
+```

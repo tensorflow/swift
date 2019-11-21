@@ -75,6 +75,6 @@ extension Dataset where Element == IrisBatch {
 /// TODO: Add this to Swift's stdlib.
 extension Sequence where Element == IrisBatch {
     var first: IrisBatch? {
-        return first(where: {_ in true})
+        return first(where: { _ in true })
     }
 }
