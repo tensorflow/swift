@@ -15,7 +15,7 @@ Last updated: March 2019
 
 ## Preface
 
-Speaking in terms of elementary calculus, only functions are "differentiable": only functions have derivatives and can be differentiated. In this document, the terminology "differentiable types" is used as a shorthand for "types that can be used as arguments and results of differentiable functions". This notion is important because not all types are "differentiable" in this sense. For example, types representing real numbers and vector spaces are "differentiable", but strings and integers are not.
+Speaking in terms of elementary calculus, only functions are "differentiable": only functions that have derivatives can be differentiated. In this document, the terminology "differentiable types" is used as a shorthand for "types that can be used as arguments and results of differentiable functions". This notion is important because not all types are "differentiable" in this sense. For example, types representing real numbers and vector spaces are "differentiable", but strings and integers are not.
 
 ## Introduction
 
