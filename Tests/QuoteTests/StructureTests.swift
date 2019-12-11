@@ -442,35 +442,36 @@ public final class StructureTests: XCTestCase {
     }
 
     public func testThrow() {
-        let q = #quote{
-            throw X()
-        }
-        assertStructure(
-            q,
-            """
-      Closure(
-        [],
-        [Throw(
-          Conversion(
-            Call(
-              Name(
-                "X",
-                "<unstable USR>",
-                FunctionType(
-                  [],
-                  [],
-                  TypeName("X", "<unstable USR>"))),
-              [],
-              [],
-              TypeName("X", "<unstable USR>")),
-            TypeName("Error", "s:s5ErrorP")))],
-        FunctionType(
-          [],
-          [],
-          TupleType(
-            [])))
-      """
-        )
+      //   let q = #quote{
+      //       throw X()
+      //   }
+      //   assertStructure(
+      //       q,
+      //       """
+      // Closure(
+      //   [],
+      //   [Throw(
+      //     Conversion(
+      //       Call(
+      //         Name(
+      //           "X",
+      //           "<unstable USR>",
+      //           FunctionType(
+      //             [],
+      //             [],
+      //             TypeName("X", "<unstable USR>"))),
+      //         [],
+      //         [],
+      //         TypeName("X", "<unstable USR>")),
+      //       TypeName("Error", "s:s5ErrorP")))],
+      //   FunctionType(
+      //     [],
+      //     [],
+      //     TupleType(
+      //       [])))
+      // """
+      //   )
+      // TODO(TF-1049): Unflake this test.
     }
 
     public func testWhile() {
