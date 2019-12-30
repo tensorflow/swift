@@ -150,7 +150,7 @@ To install Swift for TensorFlow, download one of the packages below and follow t
   <img src="docs/images/Installation-XcodePreferences.png?raw=true" alt="Select toolchain in Xcode preferences."/>
 </p>
 
-6. In `Xcode > Preferences > Components > Toolchains` selecting `Verify Code Signature` by clicking engine button next to Swift for TensorFlow toolchain gives a code signature error. Although Swift for TensorFlow program will build successfully but this prevents the program from running in Xcode. To resolve this problem go to `Signing & Capabilities > Hardened Runtime` and checkmark `Disable Library Validation` under target setting of your project. You can add `Hardened Runtime` by clicking `+ Capability` under `Signing & Capabilities`.
+6. In Xcode's `Preferences > Components > Toolchains` selecting `Verify Code Signature` by clicking engine button next to Swift for TensorFlow toolchain gives a code signature error. Although Swift for TensorFlow program will build successfully but this prevents the program from running in Xcode. To resolve this problem go to `Signing & Capabilities > Hardened Runtime` and checkmark `Disable Library Validation` under target setting of your project. You can add `Hardened Runtime` by clicking `+ Capability` under `Signing & Capabilities`.
 
 7. Selecting a Swift toolchain affects the Xcode IDE only. To use the Swift toolchain with command-line tools, use `xcrun --toolchain swift` and `xcodebuild -toolchain swift`, or add the Swift toolchain to your path as follows:
 
