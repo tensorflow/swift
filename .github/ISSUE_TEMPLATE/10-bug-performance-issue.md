@@ -3,7 +3,7 @@ name: Bug/Performance Issue
 about: Use this template for reporting a bug or a performance issue.
 ---
 
-<em>Please make sure that this is a bug. As per our [GitHub Policy](https://github.com/tensorflow/swift/blob/master/KNOWN_ISSUES.md), we only address code/doc bugs, performance issues, feature requests and build/installation issues on GitHub.
+<em>Please make sure that this is a bug. As per our [GitHub Policy](https://github.com/tensorflow/swift/blob/master/KNOWN_ISSUES.md), we only address code/doc bugs, performance issues, feature requests and build/installation issues on GitHub.</em>
 
 **System information**
 
