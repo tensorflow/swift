@@ -10,7 +10,7 @@ policy, we only address code/doc bugs, performance issues, feature requests, and
 build/installation issues on GitHub.
 
 The TensorFlow docs are open source! To get involved, read the documentation
-contributor guide: https://github.com/boronhub/swift/blob/master/Contributing.md
+contributor guide: https://github.com/tensorflow/swift/blob/master/Contributing.md
 
 ## URL(s) with the issue:
 
