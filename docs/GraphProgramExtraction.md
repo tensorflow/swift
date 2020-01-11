@@ -62,7 +62,7 @@ Overall, these approaches provide a hybrid model that provide much of the perfor
 
 ### Lightweight Modular Staging (LMS)
 
-[Lightweight Modular Staging](https://dl.acm.org/citation.cfm?id=1868314) is a runtime code generation approach that allows expression of the generated code directly in the language.  This approach is not widely used in the machine learning community, but newer research systems like [DLVM](http://dlvm.org/) are pioneering applications of LMS techniques to machine learning frameworks in Swift.
+[Lightweight Modular Staging](https://dl.acm.org/citation.cfm?id=1868314) is a runtime code generation approach that allows expression of the generated code directly in the language.  This approach is not widely used in the machine learning community, but newer research systems like [DLVM](https://dlvm-team.github.io) are pioneering applications of LMS techniques to machine learning frameworks in Swift.
 
 LMS allows direct expression of imperative tensor code within the source language, implicitly builds a graph at runtime, and requires no compiler or programming language extensions.  On the other hand, while LMS techniques can be applied within many different languages, natural staging of control flow requires exotic features that are only supported by a few languages (e.g. [scala-virtualized](https://github.com/tiarkrompf/scala-virtualized/wiki)) because static analysis over the program structure is required.  Furthermore, LMS is a user-visible part of the programming model - even in Scala, users are required to explicitly wrap the [Rep](https://scala-lms.github.io/) type around data types.
 
