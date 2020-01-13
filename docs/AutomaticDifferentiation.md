@@ -75,13 +75,14 @@ the deep learning era such as
 [Stalin∇](https://github.com/Functional-AutoDiff/STALINGRAD). Both tools parse a
 Python subset into ASTs and transform a function to its derivatives either in
 AST or in a functional IR. These two projects fall into a category in deep
-learning tools that was previously underexplored: ahead-of-time
-differentiation + "model as code", as shown in the following diagram (cite:
+learning tools that was previously underexplored: "ahead-of-time
+differentiation" and "model as code", as shown in the following diagram (cite:
 [Tangent](https://github.com/google/tangent)). While these tools are pushing the
-boundaries of Python, other research projects like [DLVM](http://dlvm.org/)
-experimented with SCT AD directly on a compiler IR that's analogous to the
-[Swift Intermediate
-Language](https://github.com/apple/swift/blob/master/docs/SIL.rst) (SIL).
+boundaries of Python, other research projects like
+[DLVM](https://dlvm-team.github.io) experimented with SCT AD directly on a
+compiler IR that's analogous to the
+[Swift Intermediate Language](https://github.com/apple/swift/blob/master/docs/SIL.rst)
+(SIL).
 
 <p align="center">
   <img src="images/AutomaticDifferentiation-Approaches.png?raw=true"
