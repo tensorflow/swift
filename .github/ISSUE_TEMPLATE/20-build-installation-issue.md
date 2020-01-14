@@ -9,9 +9,9 @@ about: Use this template for build/installation issues
 **System information**
 - Have I written custom code (as opposed to using a stock example script provided in Swift for TensorFlow):
 - OS Platform and Distribution (e.g., Linux Ubuntu 16.04):
-- Swift for Tensorflow  installed from (source or binary):
-- Swift for Tensorflow  version (use command below):
-- Swift for Tensorflow version:
+- Swift for TensorFlow  installed from (source or binary):
+- Swift for TensorFlow  version (use command below):
+- Swift for TensorFlow version:
 - Bazel version (if compiling from source):
 - GCC/Compiler version (if compiling from source):
 - CUDA/cuDNN version:
