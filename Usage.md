@@ -153,16 +153,6 @@ For macOS Catalina, selecting `Verify Code Signature` by clicking engine button 
 
 Swift for TensorFlow does not officially support Xcode Playgrounds, and related bugs are tracked by [TF-500](https://bugs.swift.org/browse/TF-500).
 
-To build an executable with Xcode 10 or 11, you must change some project settings from their default values:
-
- 1. In the menu bar, select `File > Project Settings`.
-
- 2. Then, select `Legacy Build System` for Build Settings and click `Done`.
-
- 3. In your target's Build Settings:
-   * Go to `Apple Clang - Code Generation > Optimization Level` and select `Fast [-O, O1]`. This isn't strictly necessary for debugging, but building without optimization will lead to much slower execution.
-   * Change `Runpath Search Paths` to `$(TOOLCHAIN_DIR)`.
-
 ## Visual Studio Code setup for Swift (only tested on Linux)
 
 1. Install the [LLDB extension](https://marketplace.visualstudio.com/items?itemName=vadimcn.vscode-lldb).
