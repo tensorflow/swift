@@ -98,9 +98,10 @@ struct Model: Differentiable {
     }
 }
 
-// Differentiate using `Differentiable.gradient(at:in:)`.
-let model = Model(w: 4.0, b: 3.0)
-let (𝛁model, 𝛁input) = model.gradient(at: 2.0) { model, input in
+// Differentiate using `gradient(at:_:in:)`.
+let model = Model(w: 4, b: 3)
+let input: Float = 2
+let (𝛁model, 𝛁input) = gradient(at: model, input) { model, input in
     model.applied(to: input)
 }
 
