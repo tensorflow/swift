@@ -145,10 +145,14 @@ Swift for TensorFlow provides an Xcode toolchain. Begin by installing it from [t
 
 Next, switch to the new toolchain. Open Xcode’s `Preferences`, navigate to `Components > Toolchains`, and select the installed Swift for TensorFlow toolchain. The name of the toolchain should start with "Swift for TensorFlow".
 
-For macOS Catalina, selecting `Verify Code Signature` by clicking engine button next to Swift for TensorFlow toolchain gives a code signature error. Although Swift for TensorFlow program will build successfully but this prevents the program from running in Xcode. To resolve this problem go to `Signing & Capabilities > Hardened Runtime` and checkmark `Disable Library Validation` under target setting of your project. You can add `Hardened Runtime` by clicking `+ Capability` under `Signing & Capabilities`.
-
 <p align="center">
   <img src="docs/images/Installation-XcodePreferences.png?raw=true" alt="Select toolchain in Xcode preferences."/>
+</p>
+
+On macOS Catalina, `Verify Code Signature` for Swift for TensorFlow toolchains produces a code signature error. This prevents Xcode projects built using Swift for TensorFlow toolchains from running. To work around this issue, go to `Project Target Settings > Signing & Capabilities > + Capability > Hardened Runtime` and check `Disable Library Validation`.
+
+<p align="center">
+  <img src="docs/images/Usage-macOSCatalinaHardenedRuntime.png?raw=true" alt="Enable \"Hardened Runtime\" in Xcode preferences."/>
 </p>
 
 Swift for TensorFlow does not officially support Xcode Playgrounds, and related bugs are tracked by [TF-500](https://bugs.swift.org/browse/TF-500).
