@@ -163,6 +163,8 @@ To install Swift for TensorFlow, download one of the packages below and follow t
     $ export LD_LIBRARY_PATH=/usr/local/cuda/lib:"${LD_LIBRARY_PATH}"
     ```
 
+**Note:** if after selecting the TensorFlow toolchain in Xcode you still get "No such module 'TensorFlow'" error try setting the legacy build system under `File` -> `Project Settings...` -> `Build System`
+
 ## Linux
 
 Packages for Linux are tar archives including a copy of the Swift compiler, lldb, and related tools. You can install them anywhere as long as the extracted tools are in your PATH.
