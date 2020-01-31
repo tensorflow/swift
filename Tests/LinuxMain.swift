@@ -14,17 +14,6 @@
 
 import XCTest
 
-#if !SKIP_QUOTE_TESTS
-import QuoteTests
-let quoteTests = [
-    testCase(CompilationTests.allTests),
-    testCase(QuoteTests.DescriptionTests.allTests),
-    testCase(StructureTests.allTests),
-]
-#else
-let quoteTests = [XCTestCaseEntry]()
-#endif
-
 #if !SKIP_SIL_TESTS
 import SILTests
 let silTests = [
@@ -43,5 +32,5 @@ let silTests = [
 let silTests = [XCTestCaseEntry]()
 #endif
 
-let tests = quoteTests + silTests
+let tests = silTests
 XCTMain(tests)
