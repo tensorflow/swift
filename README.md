@@ -173,8 +173,8 @@ Additional code repositories that make up the core of the project include:
  - [Swift fork of LLDB](http://github.com/apple/swift-lldb/tree/tensorflow):
    debugger and REPL support.
  - [Deep learning library](https://github.com/tensorflow/swift-apis): high-level
-   API familiar to Keras users.
-
+   API familiar to Keras users.  
+ 
 > Swift for TensorFlow is **not** intended to remain a long-term fork of the official
 > Swift language. Language additions are designed to fit with the direction of
 > Swift and will go through the [Swift
@@ -184,6 +184,18 @@ Additional code repositories that make up the core of the project include:
 
 [Jupyter Notebook](http://jupyter.org/) support for Swift is under development at
 [google/swift-jupyter](https://github.com/google/swift-jupyter).
+
+### Swift Models
+
+[Swift Models](https://github.com/tensorflow/swift-models) are a repository of example machine 
+learning models created with Swift for TensorFlow.  This is intended to provide examples of how 
+to use Swift for TensorFlow, to allow for end-to-end tests of automatic differentiation and the 
+learning APIs, and to host benchmarks of model performance.
+
+### FastAI
+
+[FastAI for Swift](https://github.com/fastai/swiftai) uses the core libraries to provide an
+implementation of the Fast.Ai convenience layer for Swift.
 
 ## Community
 
