@@ -185,17 +185,19 @@ Additional code repositories that make up the core of the project include:
 [Jupyter Notebook](http://jupyter.org/) support for Swift is under development at
 [google/swift-jupyter](https://github.com/google/swift-jupyter).
 
-### Swift Models
+### Model garden
 
-[Swift Models](https://github.com/tensorflow/swift-models) are a repository of example machine 
-learning models created with Swift for TensorFlow.  This is intended to provide examples of how 
-to use Swift for TensorFlow, to allow for end-to-end tests of automatic differentiation and the 
-learning APIs, and to host benchmarks of model performance.
+[tensorflow/swift-models](https://github.com/tensorflow/swift-models) is a
+repository of machine learning models built with Swift for TensorFlow. It
+intended to provide examples of how to use Swift for TensorFlow, to allow for
+end-to-end tests of machine learning APIs, and to host model benchmarking
+infrastructure.
 
-### FastAI
+### SwiftAI
 
-[FastAI for Swift](https://github.com/fastai/swiftai) uses the core libraries to provide an
-implementation of the Fast.Ai convenience layer for Swift.
+[fastai/swiftai](https://github.com/fastai/swiftai) is a high-level API for
+Swift for TensorFlow, modeled after the
+[fastai Python library](https://github.com/fastai/fastai).
 
 ## Community
 
