@@ -173,8 +173,8 @@ Additional code repositories that make up the core of the project include:
  - [Swift fork of LLDB](http://github.com/apple/swift-lldb/tree/tensorflow):
    debugger and REPL support.
  - [Deep learning library](https://github.com/tensorflow/swift-apis): high-level
-   API familiar to Keras users.  
- 
+   API familiar to Keras users.
+
 > Swift for TensorFlow is **not** intended to remain a long-term fork of the official
 > Swift language. Language additions are designed to fit with the direction of
 > Swift and will go through the [Swift
