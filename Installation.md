@@ -158,6 +158,7 @@ To install Swift for TensorFlow, download one of the packages below and follow t
 
     ```console
     $ export PATH=/Library/Developer/Toolchains/swift-latest/usr/bin:"${PATH}"
+    $ export DYLD_LIBRARY_PATH=/Library/Developer/Toolchains/swift-latest//usr/lib/swift/macosx/:"${DYLD_LIBRARY_PATH}"
     ```
 
 7. **CUDA-only**: If you downloaded a CUDA GPU-enabled toolchain, add the library path(s) for CUDA and cuDNN to `$LD_LIBRARY_PATH`:
