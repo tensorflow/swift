@@ -34,7 +34,7 @@ let pickle = Python.import("pickle")
 // Python:
 //    file = gzip.open("mnist.pkl.gz", "rb")
 //    (images, labels) = pickle.load(file)
-//    print(images.shape)  # (50000, 784)
+//    print(images.shape) // (50000, 784)
 let file = gzip.open("mnist.pkl.gz", "rb")
 let (images, labels) = pickle.load(file).tuple2
 print(images.shape) // (50000, 784)

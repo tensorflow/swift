@@ -259,8 +259,8 @@ extension Layer {
     ///   gradients at the layer and at the input, respectively.
     func appliedForBackpropagation(to input: Input)
         -> (output: Output,
-            backpropagator: (_ direction: Output.TangentVector)
-                -> (layerGradient: TangentVector, inputGradient: Input.TangentVector)) {
+            backpropagator: (_ direction: Output.CotangentVector)
+                -> (layerGradient: CotangentVector, inputGradient: Input.CotangentVector)) {
         let (out, pullback) = valueWithPullback(at: input) { layer, input in
             return layer(input)
         }
@@ -347,13 +347,13 @@ Internally, `differentiableFunction(from:)` is defined just using the
 ```swift
 /// Returns a differentiable function given its derivative.
 public func differentiableFunction<T: Differentiable, R: Differentiable>(
-    from vjp: @escaping (T) -> (value: R, pullback: (R.TangentVector) -> T.TangentVector)
+    from vjp: @escaping (T) -> (value: R, pullback: (R.CotangentVector) -> T.CotangentVector)
 ) -> @differentiable (T) -> R {
     func original(_ x: T) -> R {
         return vjp(x).value
     }
     @differentiating(original)
-    func derivative(_ x: T) -> (value: R, pullback: (R.TangentVector) -> T.TangentVector) {
+    func derivative(_ x: T) -> (value: R, pullback: (R.CotangentVector) -> T.CotangentVector) {
         return vjp(x)
     }
     return original
@@ -431,8 +431,8 @@ defined:
 // functions. It simply returns `pullback(1)`.
 func gradient<T, R>(
     at x: T, in f: @differentiable (T) -> R
-) -> T.TangentVector
-    where T: Differentiable, R: FloatingPoint & Differentiable, R.TangentVector == R
+) -> T.CotangentVector
+    where T: Differentiable, R: FloatingPoint & Differentiable, R.CotangentVector == R
 {
     let (value, pullback) = valueWithPullback(at: x, in: f)
     return pullback(R(1))
