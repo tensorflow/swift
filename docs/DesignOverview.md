@@ -147,7 +147,7 @@ matrix[1] = ShapedArraySlice(shape: [2], scalars: [3, 4])
 // The second element in `matrix` has been mutated.
 // `matrix` now represents [[1, 2], [3, 4], [5, 6]].
 
-let zeros = ShapedArray(shape: [3, 2], repeating: 0)
+let zeros = ShapedArray(repeating: 0, shape: [3, 2])
 let subarray = matrix.prefix(2)
 // `subarray` is a `ShapedArraySlice` with shape [2, 2], representing [[1, 2], [3, 4]].
 matrix[0..<2] = zeros.prefix(2)

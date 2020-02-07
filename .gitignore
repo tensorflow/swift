@@ -1,0 +1,12 @@
+### SwiftPM ###
+Packages
+.build/
+xcuserdata
+DerivedData/
+*.xcodeproj
+*~
+*.vscode
+*.idea
+
+### MacOS ###
+.DS_Store
