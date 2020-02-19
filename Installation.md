@@ -6,7 +6,22 @@ To install Swift for TensorFlow, download one of the packages below and follow t
 - If you want to modify the Swift for TensorFlow source code or build with a custom version of TensorFlow, see [here](https://github.com/apple/swift/blob/tensorflow/README.md) for instructions on building from source.
 - Swift for TensorFlow is an early stage project. It has been released to enable open source development and is not yet ready for general use by machine learning developers.
 
+
 ## Releases
+
+[Release notes for v0.7.0](https://drive.google.com/file/d/1QdBFCyS1RstReztwVEGNJsLY8fHAPfxv/view?usp)
+
+| Download | Version | Date |
+|----------|---------|------|
+| [Xcode 11](https://storage.googleapis.com/swift-tensorflow-artifacts/releases/v0.7/rc2/swift-tensorflow-RELEASE-0.7-osx.pkg) | v0.7.0 | Feb 12, 2020 |
+| [Ubuntu 18.04 (CPU Only)](https://storage.googleapis.com/swift-tensorflow-artifacts/releases/v0.7/rc2/swift-tensorflow-RELEASE-0.7-ubuntu18.04.tar.gz) | v0.7.0 | Feb 12, 2020 |
+| [Ubuntu 18.04 (CUDA 10.1)](https://storage.googleapis.com/swift-tensorflow-artifacts/releases/v0.7/rc2/swift-tensorflow-RELEASE-0.7-cuda10.1-cudnn7-ubuntu18.04.tar.gz) | v0.7.0 | Feb 12, 2020 |
+| [Ubuntu 18.04 (CUDA 10.0)](https://storage.googleapis.com/swift-tensorflow-artifacts/releases/v0.7/rc2/swift-tensorflow-RELEASE-0.7-cuda10.0-cudnn7-ubuntu18.04.tar.gz) | v0.7.0 | Feb 12, 2020|
+| [Ubuntu 18.04 (CUDA 9.2)](https://storage.googleapis.com/swift-tensorflow-artifacts/releases/v0.7/rc2/swift-tensorflow-RELEASE-0.7-cuda9.2-cudnn7-ubuntu18.04.tar.gz) | v0.7.0 | Feb 12, 2020 |
+
+
+<details>
+  <summary>Older Packages</summary>
 
 [Release notes for v0.6.0](https://docs.google.com/document/d/1LihPvZRzbncMZtXnhhWzUNWzI_FOFee_RgcyjLjh6Cs/edit)
 
@@ -17,22 +32,6 @@ To install Swift for TensorFlow, download one of the packages below and follow t
 | [Ubuntu 18.04 (CUDA 10.1)](https://storage.googleapis.com/swift-tensorflow-artifacts/releases/v0.6/rc2/deduped/swift-tensorflow-RELEASE-0.6-cuda10.1-cudnn7-ubuntu18.04.tar.gz) | v0.6.0 | Dec 10, 2019 |
 | [Ubuntu 18.04 (CUDA 10.0)](https://storage.googleapis.com/swift-tensorflow-artifacts/releases/v0.6/rc2/deduped/swift-tensorflow-RELEASE-0.6-cuda10.0-cudnn7-ubuntu18.04.tar.gz) | v0.6.0 | Dec 10, 2019 |
 | [Ubuntu 18.04 (CUDA 9.2)](https://storage.googleapis.com/swift-tensorflow-artifacts/releases/v0.6/rc2/swift-tensorflow-RELEASE-0.6-cuda9.2-cudnn7-ubuntu18.04.tar.gz) | v0.6.0 | Dec 10, 2019 |
-
-## Release Candidates
-
-[Release notes for v0.7.0](https://drive.google.com/file/d/1QdBFCyS1RstReztwVEGNJsLY8fHAPfxv/view?usp)
-
-| Download | Version | Date |
-|----------|---------|------|
-| [Xcode 11](https://storage.googleapis.com/swift-tensorflow-artifacts/releases/v0.7/rc2/swift-tensorflow-RELEASE-0.7-osx.pkg) | v0.7-rc2 | Feb 12, 2020 |
-| [Ubuntu 18.04 (CPU Only)](https://storage.googleapis.com/swift-tensorflow-artifacts/releases/v0.7/rc2/swift-tensorflow-RELEASE-0.7-ubuntu18.04.tar.gz) | v0.7-rc2 | Feb 12, 2020 |
-| [Ubuntu 18.04 (CUDA 10.1)](https://storage.googleapis.com/swift-tensorflow-artifacts/releases/v0.7/rc2/swift-tensorflow-RELEASE-0.7-cuda10.1-cudnn7-ubuntu18.04.tar.gz) | v0.7-rc2 | Feb 12, 2020 |
-| [Ubuntu 18.04 (CUDA 10.0)](https://storage.googleapis.com/swift-tensorflow-artifacts/releases/v0.7/rc2/swift-tensorflow-RELEASE-0.7-cuda10.0-cudnn7-ubuntu18.04.tar.gz) | v0.7-rc2 | Feb 12, 2020|
-| [Ubuntu 18.04 (CUDA 9.2)](https://storage.googleapis.com/swift-tensorflow-artifacts/releases/v0.7/rc2/swift-tensorflow-RELEASE-0.7-cuda9.2-cudnn7-ubuntu18.04.tar.gz) | v0.7-rc2 | Feb 12, 2020 |
-
-
-<details>
-  <summary>Older Packages</summary>
 
 [Release notes for v0.5.0](https://docs.google.com/document/d/1p8daaIFswkOwbhmdwLJ7NRWzX0uY9jMZYRfRH0EymV8/edit)
 
