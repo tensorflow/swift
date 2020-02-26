@@ -18,11 +18,13 @@ upper_tabs:
         path: /swift/tutorials/model_training_walkthrough
       - title: "A Swift tour"
         path: /swift/tutorials/a_swift_tour
+      - title: "Protocol-Oriented Programming & Generics"
+        path: /swift/tutorials/protocol_oriented_generics
       - title: "Python interoperability"
         path: /swift/tutorials/python_interoperability
       - title: "Custom differentiation"
         path: /swift/tutorials/custom_differentiation
-      - title: "Using raw tensorFlow operators"
+      - title: "Using raw TensorFlow operators"
         path: /swift/tutorials/raw_tensorflow_operators
     - name: API
       skip_translation: true
