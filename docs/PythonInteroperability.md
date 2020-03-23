@@ -44,7 +44,7 @@ As you can see, the syntax here is immediately understandable to a Python progra
 
 This line is established through a simple requirement: we should not depend on *any Python-specific compiler or language features* to achieve Python interop - it should be completely implemented as a Swift library.  After all, while Python is incredibly important to the machine learning community, there are other dynamic languages (Javascript, Ruby, etc) that have strong footholds in other domains, and we don’t want each of these domains to impose an endless complexity creep onto the Swift language.
 
-You can see the current implementation of our bridging layer in [Python.swift](https://github.com/apple/swift/blob/tensorflow/stdlib/public/Python/Python.swift).  This is pure Swift code that works with unmodified Swift 4.1.
+You can see the current implementation of our bridging layer in [Python.swift](https://github.com/pvieito/PythonKit/blob/master/PythonKit/Python.swift).  This is pure Swift code that works with unmodified Swift 4.1.
 
 ### Limitations of this approach
 Because we choose to embrace the dynamic nature of Python in Swift, we get both the pros and the cons that dynamic languages bring with them. Specifically, many Swift programmers have come to expect and depend on amazing code completion and appreciate the comfort of having the compiler catch typos and other trivial bugs for them at compile time.  In contrast, Python programmers do not have these affordances (instead, bugs are usually caught at runtime), and because we are embracing Python’s dynamic nature, Python APIs in Swift work the same way.
