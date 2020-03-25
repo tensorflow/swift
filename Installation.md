@@ -226,7 +226,7 @@ You can now execute the `swift` command to run the REPL or build Swift projects.
 
 ### Requirements
 
-* Windows 10 RedStone 4 (10.0.17763.0) or later
+* Windows 10 October 2018 Update (RedStone 5 - 10.0.17763.0) or later<sup>[1](#windows-os-vers)</sup>
 * Visual Studio 2017 or later (Visual Studio 2019 is recommended)
 * CMake 3.16 or later
 
@@ -240,29 +240,22 @@ You can now execute the `swift` command to run the REPL or build Swift projects.
 |-----------|----|
 | MSVC v142 - VS 2019 C++ x64/x86 build tools (v14.25) | Microsoft.VisualStudio.Component.VC.Tools.x86.x64 |
 | Windows Univeral C Runtime | Microsoft.VisualStudio.Component.Windows10SDK |
-| Windows 10 SDK (10.0.17763.0)<sup>[1](#windows-sdk-version)</sup> | Microsoft.VisualStudio.Component.Windows10SDK.17763 |
-
-  <sup><a name="windows-sdk-version">1</a></sup> You may install a newer SDK if you desire. 17763 is listed here to match the minimum Windows release supported.
+| Windows 10 SDK (10.0.17763.0)<sup>[2](#windows-sdk-version)</sup> | Microsoft.VisualStudio.Component.Windows10SDK.17763 |
 
   The following table lists the additional **recommended** set of installed components:
 
 | Component | ID |
 |-----------|----|
-| C++ ATL for latest v142 build tools (x86 & x64)<sup>[1](#windows-atl)</sup> | Microsoft.VisualStudio.Component.VC.ATL |
-| C++ CMake tools for Windows<sup>[2](#windows-cmake)</sup> | Microsoft.VisualStudio.Component.VC.CMake.Project |
-| Git for Windows<sup>[3](#windows-git)</sup> | Microsoft.VisualStudio.Component.Git |
-| Python 3 64-bit (3.7.5)<sup>[4](#windows-python)</sup> | Component.CPython.x64 |
-
-  <sup><a name="windows-atl">1</a></sup> Needed for parts of lldb<br/>
-  <sup><a name="windows-cmake">2</a></sup> Provides `ninja` which is needed for building projects. You may download it from [ninja-build](https://github.com/ninja-build/ninja) instead.<br/>
-  <sup><a name="windows-git">3</a></sup> Provides `git` to clone projects from GitHub. You may download it from [git-scm](https://git-scm.com/) instead.<br/>
-  <sup><a name="windows-python">4</a></sup> Provides `python` needed for Python integration. You may download it from [python](https://www.python.org/) instead.<br/>
+| C++ ATL for latest v142 build tools (x86 & x64)<sup>[3](#windows-atl)</sup> | Microsoft.VisualStudio.Component.VC.ATL |
+| C++ CMake tools for Windows<sup>[4](#windows-cmake)</sup> | Microsoft.VisualStudio.Component.VC.CMake.Project |
+| Git for Windows<sup>[5](#windows-git)</sup> | Microsoft.VisualStudio.Component.Git |
+| Python 3 64-bit (3.7.5)<sup>[6](#windows-python)</sup> | Component.CPython.x64 |
 
 2. Install CMake from [cmake](https://www.cmake.org).
 
 3. Download and run the latest release from [Swift for TensorFlow](https://storage.googleapis.com/azure-pipelines-storage/Swift%20for%20TensorFlow/Windows/s4tf-windows-x64-27604-20200306.1.exe). The installer will install a toolchain into `%SystemDrive%\Library\Developer\Toolchains`. The toolchain (`.xctoolchain`) includes a copy of the compiler, lldb, and other related tools needed to provide a cohesive development experience for working in a specific version of Swift.
 
-4. Deploy the Windows SDK modulemaps from an (elevated) "Administrator" `x64 Native Tools for VS2019 Command Prompt` shell:
+4. Deploy the Windows SDK modulemaps from an (elevated) "Administrator" `x64 Native Tools for VS2019 Command Prompt` shell<sup>[7](#windows-sdk-deploy)</sup>:
 
 ```cmd
 set SDKROOT=%SystemDrive%\Library\Developer\Platforms\Windows.platform\Developer\SDKs\Windows.sdk
@@ -272,7 +265,13 @@ copy "%SDKROOT%\usr\share\visualc.apinotes" "%VCToolsInstallDir%\include\visualc
 copy "%SDKROOT%\usr\share\winsdk.modulemap" "%UniversalCRTSdkDir%\Include\%UCRTVersion%\um\module.modulemap"
 ```
 
-**NOTE**: this will be need to be re-run every time Visual Studio is updated.
+  <sup><a name="windows-os-vers">1</a></sup> You can check which version of Windows you are currently running by opening command prompt and entering `winver`.<br/>
+  <sup><a name="windows-sdk-version">2</a></sup> You may install a newer SDK if you desire. 17763 is listed here to match the minimum Windows release supported.<br/>
+  <sup><a name="windows-atl">3</a></sup> Needed for parts of lldb.<br/>
+  <sup><a name="windows-cmake">4</a></sup> Provides `ninja` which is needed for building projects. You may download it from [ninja-build](https://github.com/ninja-build/ninja) instead.<br/>
+  <sup><a name="windows-git">5</a></sup> Provides `git` to clone projects from GitHub. You may download it from [git-scm](https://git-scm.com/) instead.<br/>
+  <sup><a name="windows-python">6</a></sup> Provides `python` needed for Python integration. You may download it from [python](https://www.python.org/) instead.<br/>
+  <sup><a name="windows-sdk-deploy">7</a></sup> This will need to be re-run every time Visual Studio is updated. <br/>
 
 # Verify the Installation
 
