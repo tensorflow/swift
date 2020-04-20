@@ -62,6 +62,7 @@ Tutorial | Last Updated |
 - [Release Notes](RELEASES.md)
 - [Known Issues](KNOWN_ISSUES.md)
 - [Frequently Asked Questions](FAQ.md)
+- [TensorFlow Swift Blog](https://blog.tensorflow.org/search?label=Swift&max-results=20)
 
 ### Forums
 
@@ -203,6 +204,7 @@ Swift for TensorFlow, modeled after the
 
 Swift for TensorFlow discussions happen on the
 [swift@tensorflow.org mailing list](https://groups.google.com/a/tensorflow.org/d/forum/swift).
+
 
 ### Bugs reports and feature requests
 
