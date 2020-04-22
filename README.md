@@ -62,6 +62,7 @@ Tutorial | Last Updated |
 - [Release Notes](RELEASES.md)
 - [Known Issues](KNOWN_ISSUES.md)
 - [Frequently Asked Questions](FAQ.md)
+- [TensorFlow Blog Posts](https://blog.tensorflow.org/search?label=Swift)
 
 ### Forums
 
