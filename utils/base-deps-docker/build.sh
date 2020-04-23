@@ -17,6 +17,5 @@ do_build() {
   docker push "$IMAGE_NAME"
 }
 
-do_build 9.2 7
-do_build 10.0 7
 do_build 10.1 7
+do_build 10.2 7
