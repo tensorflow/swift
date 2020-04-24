@@ -176,7 +176,7 @@ methods return the partial derivative with respect to `self`. For these methods,
 `@differentiable` infers `self` as a varying parameter by default.
 
 ```swift
-struct Vector: Differentiable, VectorNumeric {
+struct Vector: Differentiable {
     var x, y: Float
 
     // Differentiable computed property.
