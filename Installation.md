@@ -299,12 +299,4 @@ If you see this output, you have successfully installed Swift for TensorFlow!
  [6.0, 8.0]]
 ```
 
-N.B. Interpreter mode and direct invocation from VS 2019 are currently not supported of Windows. 
-
-~~Run this command to verify the installation. If you see this output, you have successfully installed Swift for TensorFlow!
-
-~~```console
-$ swift test.swift
-[[2.0, 4.0],
- [6.0, 8.0]]
-```~~
+N.B. Interpreter mode and direct invocation from VS 2019 are currently not supported on Windows.
