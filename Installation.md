@@ -285,10 +285,26 @@ var x = Tensor<Float>([[1, 2], [3, 4]])
 print(x + x)
 ```
 
-Run this command to verify the installation. If you see this output, you have successfully installed Swift for TensorFlow!
+Run these commands to verify the installation. 
 
 ```console
-$ swift test.swift
+$ set SDKROOT=%SystemDrive%/Library/Developer/Platforms/Windows.platform/Developer/SDKs/Windows.sdk
+$ swiftc -sdk %SDKROOT% -I %SDKROOT%/usr/lib/swift -L %SDKROOT%/usr/lib/swift/windows -emit-executable -o test.exe test.swift
+$ test.exe
+```
+
+If you see this output, you have successfully installed Swift for TensorFlow!
+```console
 [[2.0, 4.0],
  [6.0, 8.0]]
 ```
+
+N.B. Interpreter mode and direct invocation from VS 2019 are currently not supported of Windows. 
+
+~~Run this command to verify the installation. If you see this output, you have successfully installed Swift for TensorFlow!
+
+~~```console
+$ swift test.swift
+[[2.0, 4.0],
+ [6.0, 8.0]]
+```~~
