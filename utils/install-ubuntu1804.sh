@@ -40,6 +40,12 @@ do
         shift
 done
 
+# Wait for apt lock to be released
+# Source: https://askubuntu.com/a/373478
+while sudo fuser /var/{lib/{dpkg,apt/lists},cache/apt/archives}/lock >/dev/null 2>&1; do
+   sleep 1
+done
+
 # Install dependencies
 DEBIAN_FRONTEND=noninteractive
 apt-get update
