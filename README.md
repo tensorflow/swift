@@ -54,6 +54,7 @@ Tutorial | Last Updated |
 [Custom Differentiation](https://colab.research.google.com/github/tensorflow/swift/blob/master/docs/site/tutorials/custom_differentiation.ipynb) | March 2019
 [Model Training Walkthrough](https://colab.research.google.com/github/tensorflow/swift/blob/master/docs/site/tutorials/model_training_walkthrough.ipynb) | March 2019
 [Raw TensorFlow Operators](https://colab.research.google.com/github/tensorflow/swift/blob/master/docs/site/tutorials/raw_tensorflow_operators.ipynb) | December 2019
+[Introducing X10](https://colab.research.google.com/github/tensorflow/swift/blob/master/docs/site/tutorials/introducing_x10.ipynb) | May 2020
 
 ### Resources
 
