@@ -26,6 +26,8 @@ upper_tabs:
         path: /swift/tutorials/custom_differentiation
       - title: "Using raw TensorFlow operators"
         path: /swift/tutorials/raw_tensorflow_operators
+      - title: "Introducing X10, an XLA-based backend"
+        path: /swift/tutorials/introducing_x10
     - name: API
       skip_translation: true
       contents:
