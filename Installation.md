@@ -9,6 +9,7 @@ To install Swift for TensorFlow, download one of the packages below and follow t
 ## Releases
 
 [Release notes for v0.9.0](https://docs.google.com/document/d/1Sk3F_owEF0wAo26xO1RTbdSbQV9eb5tMKQX3EgLeD1o/edit?usp=sharing)
+
 [Release notes for v0.8.0](https://docs.google.com/document/d/1zjDwHBvIstW5Fp_08xM1VV24Dvt86ajC/edit#heading=h.2et92p0)
 
 | Download | Version | Date |
