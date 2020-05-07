@@ -144,6 +144,7 @@ Document | Last Updated | Status |
 -------- | ------------ | ------ |
 [Why *Swift* for TensorFlow?](docs/WhySwiftForTensorFlow.md) | April 2018 | Current
 [Swift for TensorFlow Design Overview](docs/DesignOverview.md) | April 2018 | Outdated
+[Supported Backends](docs/SupportedBackends.md) | May 2020 | Current
 
 ### Technology deep dive
 
