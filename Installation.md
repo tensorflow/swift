@@ -25,10 +25,7 @@ To install Swift for TensorFlow, download one of the packages below and follow t
 
 | Download | Version | Date |
 |----------|---------|------|
-| [Xcode 11](https://storage.googleapis.com/swift-tensorflow-artifacts/releases/v0.9/rc1/swift-tensorflow-RELEASE-0.9-osx.pkg) | v0.9-rc1 | May 01, 2020 |
-
-
-
+| [Xcode 11](https://storage.googleapis.com/swift-tensorflow-artifacts/releases/v0.9/rc2/swift-tensorflow-RELEASE-0.9-osx.pkg) | v0.9-rc2 | May 01, 2020 |
 
 <details>
   <summary>Older Packages</summary>
