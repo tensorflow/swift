@@ -59,7 +59,7 @@ Tutorial | Last Updated |
 ### Resources
 
 - [Models and Examples](https://github.com/tensorflow/swift-models)
-- [TensorFlow Swift API Reference](https://www.tensorflow.org/api_docs/swift/Structs/Tensor)
+- [TensorFlow Swift API Reference](https://www.tensorflow.org/swift/api_docs/Structs/Tensor)
 - [Release Notes](RELEASES.md)
 - [Known Issues](KNOWN_ISSUES.md)
 - [Frequently Asked Questions](FAQ.md)
