@@ -8,6 +8,19 @@ To install Swift for TensorFlow, download one of the packages below and follow t
 
 ## Releases
 
+[Release notes for v0.9.0](https://docs.google.com/document/d/1Sk3F_owEF0wAo26xO1RTbdSbQV9eb5tMKQX3EgLeD1o/edit?usp=sharing)
+
+| Download | Version | Date |
+|----------|---------|------|
+| [Xcode 11](https://storage.googleapis.com/swift-tensorflow-artifacts/releases/v0.9/rc2/swift-tensorflow-RELEASE-0.9-osx.pkg) | v0.9 | May 08, 2020 |
+| [Ubuntu 18.04 (CPU, TPU)](https://storage.googleapis.com/swift-tensorflow-artifacts/releases/v0.9/rc1/swift-tensorflow-RELEASE-0.9-ubuntu18.04.tar.gz) | v0.9 | Apr 30, 2020  |
+| [Ubuntu 18.04 (CPU, CUDA 10.2, TPU)](https://storage.googleapis.com/swift-tensorflow-artifacts/releases/v0.9/rc1/swift-tensorflow-RELEASE-0.9-cuda10.2-cudnn7-ubuntu18.04.tar.gz) | v0.9 | Apr 30, 2020  |
+| [Ubuntu 18.04 (CPU, CUDA 10.1, TPU)](https://storage.googleapis.com/swift-tensorflow-artifacts/releases/v0.9/rc1/swift-tensorflow-RELEASE-0.9-cuda10.1-cudnn7-ubuntu18.04.tar.gz) | v0.9 | Apr 30, 2020 |
+
+<details>
+  <summary>Older Packages</summary>
+
+
 [Release notes for v0.8.0](https://docs.google.com/document/d/1zjDwHBvIstW5Fp_08xM1VV24Dvt86ajC/edit#heading=h.2et92p0)
 
 | Download | Version | Date |
@@ -18,9 +31,6 @@ To install Swift for TensorFlow, download one of the packages below and follow t
 | [Ubuntu 18.04 (CUDA 10.0)](https://storage.googleapis.com/swift-tensorflow-artifacts/releases/v0.8/rc1/swift-tensorflow-RELEASE-0.8-cuda10.0-cudnn7-ubuntu18.04.tar.gz) | v0.8 | Mar 17, 2020 |
 | [Ubuntu 18.04 (CUDA 9.2)](https://storage.googleapis.com/swift-tensorflow-artifacts/releases/v0.8/rc1/swift-tensorflow-RELEASE-0.8-cuda9.2-cudnn7-ubuntu18.04.tar.gz) | v0.8 | Mar 17, 2020 |
 
-
-<details>
-  <summary>Older Packages</summary>
 
 [Release notes for v0.7.0](https://drive.google.com/file/d/1QdBFCyS1RstReztwVEGNJsLY8fHAPfxv/view?usp)
 
@@ -85,8 +95,9 @@ To install Swift for TensorFlow, download one of the packages below and follow t
 
 | Download |
 |----------|
-| [Xcode 11 (April 17, 2020)](https://storage.googleapis.com/swift-tensorflow/mac/swift-tensorflow-DEVELOPMENT-2020-04-17-a-osx.pkg) |
+| [Xcode 11 (May 13, 2020)](https://storage.googleapis.com/swift-tensorflow/mac/swift-tensorflow-DEVELOPMENT-2020-05-13-a-osx.pkg) |
 | [Ubuntu 18.04 (CPU, TPU) (Nightly)](https://storage.googleapis.com/swift-tensorflow-artifacts/nightlies/latest/swift-tensorflow-DEVELOPMENT-ubuntu18.04.tar.gz) |
+| [Ubuntu 18.04 (CPU, CUDA 10.2, TPU) (Nightly)](https://storage.googleapis.com/swift-tensorflow-artifacts/nightlies/latest/swift-tensorflow-DEVELOPMENT-cuda10.2-cudnn7-ubuntu18.04.tar.gz) |
 | [Ubuntu 18.04 (CPU, CUDA 10.1, TPU) (Nightly)](https://storage.googleapis.com/swift-tensorflow-artifacts/nightlies/latest/swift-tensorflow-DEVELOPMENT-cuda10.1-cudnn7-ubuntu18.04.tar.gz) |
 | [Windows (April 15, 2020)](https://storage.googleapis.com/azure-pipelines-storage/Swift%20for%20TensorFlow/Windows/s4tf-windows-x64-30098-20200415.1.exe) |
 
@@ -99,6 +110,11 @@ To install Swift for TensorFlow, download one of the packages below and follow t
 
 | Download |
 |----------|
+| [May 9, 2020](https://storage.googleapis.com/swift-tensorflow/mac/swift-tensorflow-DEVELOPMENT-2020-05-09-a-osx.pkg) |
+| [May 8, 2020](https://storage.googleapis.com/swift-tensorflow/mac/swift-tensorflow-DEVELOPMENT-2020-05-08-a-osx.pkg) |
+| [May 7, 2020](https://storage.googleapis.com/swift-tensorflow/mac/swift-tensorflow-DEVELOPMENT-2020-05-07-a-osx.pkg) |
+| [May 3, 2020](https://storage.googleapis.com/swift-tensorflow/mac/swift-tensorflow-DEVELOPMENT-2020-05-03-a-osx.pkg) |
+| [April 17, 2020](https://storage.googleapis.com/swift-tensorflow/mac/swift-tensorflow-DEVELOPMENT-2020-04-17-a-osx.pkg) |
 | [April 15, 2020](https://storage.googleapis.com/swift-tensorflow/mac/swift-tensorflow-DEVELOPMENT-2020-04-15-a-osx.pkg) |
 | [April 7, 2020](https://storage.googleapis.com/swift-tensorflow/mac/swift-tensorflow-DEVELOPMENT-2020-04-07-a-osx.pkg) |
 | [March 25, 2020](https://storage.googleapis.com/swift-tensorflow/mac/swift-tensorflow-DEVELOPMENT-2020-03-25-a-osx.pkg) |
@@ -143,7 +159,7 @@ To install Swift for TensorFlow, download one of the packages below and follow t
 ### Requirements
 
 * macOS 10.13.5 or later
-* Xcode 10.0 beta or later
+* Xcode 11 or later
 
 ### Installation
 

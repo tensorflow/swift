@@ -54,11 +54,12 @@ Tutorial | Last Updated |
 [Custom Differentiation](https://colab.research.google.com/github/tensorflow/swift/blob/master/docs/site/tutorials/custom_differentiation.ipynb) | March 2019
 [Model Training Walkthrough](https://colab.research.google.com/github/tensorflow/swift/blob/master/docs/site/tutorials/model_training_walkthrough.ipynb) | March 2019
 [Raw TensorFlow Operators](https://colab.research.google.com/github/tensorflow/swift/blob/master/docs/site/tutorials/raw_tensorflow_operators.ipynb) | December 2019
+[Introducing X10, an XLA-Based Backend](https://colab.research.google.com/github/tensorflow/swift/blob/master/docs/site/tutorials/introducing_x10.ipynb) | May 2020
 
 ### Resources
 
 - [Models and Examples](https://github.com/tensorflow/swift-models)
-- [TensorFlow Swift API Reference](https://www.tensorflow.org/api_docs/swift/Structs/Tensor)
+- [TensorFlow Swift API Reference](https://www.tensorflow.org/swift/api_docs/Structs/Tensor)
 - [Release Notes](RELEASES.md)
 - [Known Issues](KNOWN_ISSUES.md)
 - [Frequently Asked Questions](FAQ.md)
@@ -143,6 +144,7 @@ Document | Last Updated | Status |
 -------- | ------------ | ------ |
 [Why *Swift* for TensorFlow?](docs/WhySwiftForTensorFlow.md) | April 2018 | Current
 [Swift for TensorFlow Design Overview](docs/DesignOverview.md) | April 2018 | Outdated
+[Supported Backends](docs/SupportedBackends.md) | May 2020 | Current
 
 ### Technology deep dive
 
