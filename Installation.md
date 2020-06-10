@@ -161,7 +161,7 @@ To install Swift for TensorFlow, download one of the packages below and follow t
 
 ### Requirements
 
-* macOS 10.13.5 or later
+* macOS 10.15 or later
 * Xcode 11 or later
 
 ### Installation
@@ -208,8 +208,8 @@ Note that nothing prevents Swift from being ported to other Linux distributions 
 ### Additional Requirements
 
 * For GPU toolchains:
-  * CUDA Toolkit 9.2 or 10.0
-  * CuDNN 7.1 (CUDA 9.2) or 7.3.x onwards (CUDA 10.0)
+  * CUDA Toolkit 10.1 or 10.2
+  * CuDNN 7.5.0 onwards (CUDA 10.1)
   * An NVIDIA GPU with compute compatibility 3.5 or 7.0
 
 ### Installation
@@ -239,7 +239,7 @@ This creates a `usr/` directory in the location of the archive.
 $ export PATH=$(pwd)/usr/bin:"${PATH}"
 ```
 
-You can now execute the `swift` command to run the REPL or build Swift projects.
+You can now execute the `swiftc` command to build Swift projects.
 
 **Note:** If you are using a CUDA build and you have an NVIDIA GPU with a compute capability other than 3.5 or 7.0, then you will experience a ~10 minute delay the first time you execute a TensorFlow operation, while TensorFlow compiles kernels for your GPU's compute capability. The program will not print anything out and it will appear to be frozen.
 
@@ -304,18 +304,29 @@ var x = Tensor<Float>([[1, 2], [3, 4]])
 print(x + x)
 ```
 
-Run these commands to verify the installation. 
 
+## To build on Linux/MacOS
+
+Run these commands to verify the installation.
+```console
+$ swiftc test.swift
+$ test
+```
+
+## To build on Windows
+Run these commands to verify the installation.
 ```console
 $ set SDKROOT=%SystemDrive%/Library/Developer/Platforms/Windows.platform/Developer/SDKs/Windows.sdk
 $ swiftc -sdk %SDKROOT% -I %SDKROOT%/usr/lib/swift -L %SDKROOT%/usr/lib/swift/windows -emit-executable -o test.exe test.swift
 $ test.exe
 ```
+N.B. Interpreter mode and direct invocation from VS 2019 are currently not supported on Windows.
 
+## Verify Output
 If you see this output, you have successfully installed Swift for TensorFlow!
 ```console
 [[2.0, 4.0],
  [6.0, 8.0]]
 ```
 
-N.B. Interpreter mode and direct invocation from VS 2019 are currently not supported on Windows.
+
