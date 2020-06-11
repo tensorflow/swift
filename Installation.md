@@ -212,6 +212,8 @@ Note that nothing prevents Swift from being ported to other Linux distributions 
   * CuDNN 7.6.0 onwards (CUDA 10.1)
   * An NVIDIA GPU with compute compatibility 3.5, 3.7, 6.0, 6.1, 7.0, or 7.5.
 
+For detailed instructons on setting up CUDA and CuDNN, please see the [TensorFlow Docs](https://www.tensorflow.org/install/gpu#install_cuda_with_apt).
+
 ### Installation
 
 1. Install required dependencies:
