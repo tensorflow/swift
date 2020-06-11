@@ -209,8 +209,8 @@ Note that nothing prevents Swift from being ported to other Linux distributions 
 
 * For GPU toolchains:
   * CUDA Toolkit 10.1 or 10.2
-  * CuDNN 7.5.0 onwards (CUDA 10.1)
-  * An NVIDIA GPU with compute compatibility 3.5 or 7.0
+  * CuDNN 7.6.0 onwards (CUDA 10.1)
+  * An NVIDIA GPU with compute compatibility 3.5, 3.7, 6.0, 6.1, 7.0, or 7.5.
 
 ### Installation
 
