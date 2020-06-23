@@ -12,9 +12,9 @@ The [eager backend](https://github.com/tensorflow/swift-apis/blob/master/Sources
 
 ## X10 (XLA Compiler Based)
 
-The [X10 backend](https://github.com/tensorflow/swift-apis/blob/master/Sources/x10/swift_bindings/doc/API_GUIDE.md) is backed by [XLA](https://www.tensorflow.org/xla) and tensor operations are lazily evaluated. Operations are recorded in a graph until the results are needed. This allows for optimizations such as fusion into one graph.  
+The [X10 backend](https://github.com/tensorflow/swift-apis/blob/master/Documentation/X10/API_GUIDE.md) is backed by [XLA](https://www.tensorflow.org/xla) and tensor operations are lazily evaluated. Operations are recorded in a graph until the results are needed. This allows for optimizations such as fusion into one graph.  
 
-This backend provides improved performance over the eager backend in many cases. However, if the model changes shapes at each step, recompilation costs might outweigh the benefits.  See the [X10 Troubleshooting Guide](https://github.com/tensorflow/swift-apis/blob/master/Sources/x10/swift_bindings/doc/TROUBLESHOOTING.md) for more details.
+This backend provides improved performance over the eager backend in many cases. However, if the model changes shapes at each step, recompilation costs might outweigh the benefits.  See the [X10 Troubleshooting Guide](https://github.com/tensorflow/swift-apis/blob/master/Documentation/X10/TROUBLESHOOTING.md) for more details.
 
 X10 supports CPUs, GPUs, and TPUs.
 
