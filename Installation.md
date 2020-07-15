@@ -103,7 +103,7 @@ To install Swift for TensorFlow, download one of the packages below and follow t
 
 | Download |
 |----------|
-| [Xcode 11 (June 25, 2020)](https://storage.googleapis.com/swift-tensorflow/mac/swift-tensorflow-DEVELOPMENT-2020-06-25-a-osx.pkg) |
+| [Xcode 11 (July 11, 2020)](https://storage.googleapis.com/swift-tensorflow-artifacts/macos-toolchains/swift-tensorflow-DEVELOPMENT-2020-07-11-a-osx.pkg) |
 | [Ubuntu 18.04 (CPU, TPU) (Nightly)](https://storage.googleapis.com/swift-tensorflow-artifacts/nightlies/latest/swift-tensorflow-DEVELOPMENT-ubuntu18.04.tar.gz) |
 | [Ubuntu 18.04 (CPU, CUDA 10.2, TPU) (Nightly)](https://storage.googleapis.com/swift-tensorflow-artifacts/nightlies/latest/swift-tensorflow-DEVELOPMENT-cuda10.2-cudnn7-ubuntu18.04.tar.gz) |
 | [Ubuntu 18.04 (CPU, CUDA 10.1, TPU) (Nightly)](https://storage.googleapis.com/swift-tensorflow-artifacts/nightlies/latest/swift-tensorflow-DEVELOPMENT-cuda10.1-cudnn7-ubuntu18.04.tar.gz) |
@@ -118,47 +118,8 @@ To install Swift for TensorFlow, download one of the packages below and follow t
 
 | Download |
 |----------|
-| [June 17, 2020](https://storage.googleapis.com/swift-tensorflow/mac/swift-tensorflow-DEVELOPMENT-2020-06-17-a-osx.pkg) |
-| [June 12, 2020](https://storage.googleapis.com/swift-tensorflow/mac/swift-tensorflow-DEVELOPMENT-2020-06-12-a-osx.pkg) |
-| [June 9, 2020](https://storage.googleapis.com/swift-tensorflow/mac/swift-tensorflow-DEVELOPMENT-2020-06-09-a-osx.pkg) |
-| [June 8, 2020](https://storage.googleapis.com/swift-tensorflow/mac/swift-tensorflow-DEVELOPMENT-2020-06-08-a-osx.pkg) |
-| [June 3, 2020](https://storage.googleapis.com/swift-tensorflow/mac/swift-tensorflow-DEVELOPMENT-2020-06-03-a-osx.pkg) |
-| [May 26, 2020](https://storage.googleapis.com/swift-tensorflow/mac/swift-tensorflow-DEVELOPMENT-2020-05-26-a-osx.pkg) |
-| [May 9, 2020](https://storage.googleapis.com/swift-tensorflow/mac/swift-tensorflow-DEVELOPMENT-2020-05-09-a-osx.pkg) |
-| [May 8, 2020](https://storage.googleapis.com/swift-tensorflow/mac/swift-tensorflow-DEVELOPMENT-2020-05-08-a-osx.pkg) |
-| [May 7, 2020](https://storage.googleapis.com/swift-tensorflow/mac/swift-tensorflow-DEVELOPMENT-2020-05-07-a-osx.pkg) |
-| [May 3, 2020](https://storage.googleapis.com/swift-tensorflow/mac/swift-tensorflow-DEVELOPMENT-2020-05-03-a-osx.pkg) |
-| [April 17, 2020](https://storage.googleapis.com/swift-tensorflow/mac/swift-tensorflow-DEVELOPMENT-2020-04-17-a-osx.pkg) |
-| [April 15, 2020](https://storage.googleapis.com/swift-tensorflow/mac/swift-tensorflow-DEVELOPMENT-2020-04-15-a-osx.pkg) |
-| [April 7, 2020](https://storage.googleapis.com/swift-tensorflow/mac/swift-tensorflow-DEVELOPMENT-2020-04-07-a-osx.pkg) |
-| [March 25, 2020](https://storage.googleapis.com/swift-tensorflow/mac/swift-tensorflow-DEVELOPMENT-2020-03-25-a-osx.pkg) |
-| [March 20, 2020](https://storage.googleapis.com/swift-tensorflow/mac/swift-tensorflow-DEVELOPMENT-2020-03-20-a-osx.pkg) |
-| [March 17, 2020](https://storage.googleapis.com/swift-tensorflow/mac/swift-tensorflow-DEVELOPMENT-2020-03-17-a-osx.pkg) |
-| [March 4, 2020](https://storage.googleapis.com/swift-tensorflow/mac/swift-tensorflow-DEVELOPMENT-2020-03-04-a-osx.pkg) |
-| [March 3, 2020](https://storage.googleapis.com/swift-tensorflow/mac/swift-tensorflow-DEVELOPMENT-2020-03-03-a-osx.pkg) |
-| [February 29, 2020](https://storage.googleapis.com/swift-tensorflow/mac/swift-tensorflow-DEVELOPMENT-2020-02-29-a-osx.pkg) |
-| [February 19, 2020](https://storage.googleapis.com/swift-tensorflow/mac/swift-tensorflow-DEVELOPMENT-2020-02-19-a-osx.pkg) |
-| [February 12, 2020](https://storage.googleapis.com/swift-tensorflow/mac/swift-tensorflow-DEVELOPMENT-2020-02-12-a-osx.pkg) |
-| [February 11, 2020](https://storage.googleapis.com/swift-tensorflow/mac/swift-tensorflow-DEVELOPMENT-2020-02-11-a-osx.pkg) |
-| [February 4, 2020](https://storage.googleapis.com/swift-tensorflow/mac/swift-tensorflow-DEVELOPMENT-2020-02-04-a-osx.pkg) |
-| [February 3, 2020](https://storage.googleapis.com/swift-tensorflow/mac/swift-tensorflow-DEVELOPMENT-2020-02-03-a-osx.pkg) |
-| [January 30, 2020](https://storage.googleapis.com/swift-tensorflow/mac/swift-tensorflow-DEVELOPMENT-2020-01-30-a-osx.pkg) |
-| [January 14, 2020](https://storage.googleapis.com/swift-tensorflow/mac/swift-tensorflow-DEVELOPMENT-2020-01-14-a-osx.pkg) |
-| [December 23, 2019](https://storage.googleapis.com/swift-tensorflow/mac/swift-tensorflow-DEVELOPMENT-2019-12-23-a-osx.pkg) |
-| [December 21, 2019](https://storage.googleapis.com/swift-tensorflow/mac/swift-tensorflow-DEVELOPMENT-2019-12-21-a-osx.pkg) |
-| [December 19, 2019](https://storage.googleapis.com/swift-tensorflow/mac/swift-tensorflow-DEVELOPMENT-2019-12-19-a-osx.pkg) |
-| [December 12, 2019](https://storage.googleapis.com/swift-tensorflow/mac/swift-tensorflow-DEVELOPMENT-2019-12-12-a-osx.pkg) |
-| [December 10, 2019](https://storage.googleapis.com/swift-tensorflow/mac/swift-tensorflow-DEVELOPMENT-2019-12-10-a-osx.pkg) |
-| [December 3, 2019](https://storage.googleapis.com/swift-tensorflow/mac/swift-tensorflow-DEVELOPMENT-2019-12-03-a-osx.pkg) |
-| [November 27, 2019](https://storage.googleapis.com/swift-tensorflow/mac/swift-tensorflow-DEVELOPMENT-2019-11-27-a-osx.pkg) |
-| [November 15, 2019](https://storage.googleapis.com/swift-tensorflow/mac/swift-tensorflow-DEVELOPMENT-2019-11-15-a-osx.pkg) |
-| [November 11, 2019](https://storage.googleapis.com/swift-tensorflow/mac/swift-tensorflow-DEVELOPMENT-2019-11-11-a-osx.pkg) |
-| [November 7, 2019](https://storage.googleapis.com/swift-tensorflow/mac/swift-tensorflow-DEVELOPMENT-2019-11-07-a-osx.pkg) |
-| [November 4, 2019](https://storage.googleapis.com/swift-tensorflow/mac/swift-tensorflow-DEVELOPMENT-2019-11-04-a-osx.pkg) |
-| [August 28, 2019](https://storage.googleapis.com/swift-tensorflow/mac/swift-tensorflow-DEVELOPMENT-2019-08-28-a-osx.pkg) |
-| [August 10, 2019](https://storage.googleapis.com/swift-tensorflow/mac/swift-tensorflow-DEVELOPMENT-2019-08-10-a-osx.pkg) |
-| [August 8, 2019](https://storage.googleapis.com/swift-tensorflow/mac/swift-tensorflow-DEVELOPMENT-2019-08-08-a-osx.pkg) |
-| [July 25, 2019](https://storage.googleapis.com/swift-tensorflow/mac/swift-tensorflow-DEVELOPMENT-2019-07-25-a-osx.pkg) |
+| [July 2, 2020](https://storage.googleapis.com/swift-tensorflow-artifacts/macos-toolchains/swift-tensorflow-DEVELOPMENT-2020-07-02-a-osx.pkg) |
+| [June 25, 2020](https://storage.googleapis.com/swift-tensorflow-artifacts/macos-toolchains/swift-tensorflow-DEVELOPMENT-2020-06-25-a-osx.pkg) |
 
 </details>
 
@@ -341,5 +302,3 @@ If you see this output, you have successfully installed Swift for TensorFlow!
 [[2.0, 4.0],
  [6.0, 8.0]]
 ```
-
-
