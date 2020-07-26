@@ -137,6 +137,7 @@ class BitcodeParser {
             let abbrev = try stream.next(bits: abbrLen)
             switch (abbrev) {
             case endBlock:
+                stream.align(toMultipleOf: 32)
                 return
             case unabbrevRecord:
                 let record = try parseUnabbrevRecord()
