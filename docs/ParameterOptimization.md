@@ -2,7 +2,10 @@
 
 [Richard Wei](https://github.com/rxwei), [Dan Zheng](https://github.com/dan-zheng)
 
-Last updated: March 2019
+Last updated: 2019-03
+
+**NOTE**: As of 2020-08-30, this is badly out of date.
+In particular, CotangentVector was deprecated in <https://github.com/apple/swift/pull/24825>, and AllDifferentialbeVariables was deprecated in <https://github.com/tensorflow/swift-apis/pull/419>.
 
 ## Introduction
 
@@ -100,7 +103,7 @@ for (inout θ, dθ) in zip(parameters, gradients) {
 }
 ```
 
-We don't want to actually lower the for-loop or zip operation to TensorFlow (lowering wouldn't be straightforward or and lowered representation wouldn't be efficient). Instead, we want to fully unroll the loop into individual straight-line statements:
+We don't want to actually lower the for-loop or zip operation to TensorFlow (lowering wouldn't be straightforward and a lowered representation wouldn't be efficient). Instead, we want to fully unroll the loop into individual straight-line statements:
 
 ```swift
 // w1, w2, b1, b2: Tensor<Float>
@@ -135,7 +138,7 @@ optimizer = tf.train.GradientDescentOptimizer(learning_rate=0.01)
 train = optimizer.minimize(loss=loss)
 ```
 
-In the last line above: how does the optimizer determine which tensors are parameters to be minimized? This is done implicitly by examining the graph of `loss`: since the only Variables in the graph are `W` and `B`, they are determined to be the parameters and are minimized.
+In the last line above: how does the optimizer determine which tensors are parameters to be minimized? This is done implicitly by examining the graph of `loss`: since the only Variables in the graph are `W` and `b`, they are determined to be the parameters and are minimized.
 
 In Swift, TensorFlow graphs are an implementation detail and aren't visible to users: there's no way to inspect whether tensors are placeholders/constants/variables, so the TensorFlow style of implicit parameter analysis is not really suitable. With implicit parameters, it's difficult to work with parameters directly (e.g. to implement a custom optimizer for arbitrary parameters). The authors believe that parameter representation and parameter update are language-design problems and should be explicitly clear in Swift.
 
