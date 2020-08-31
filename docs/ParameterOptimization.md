@@ -2,10 +2,11 @@
 
 [Richard Wei](https://github.com/rxwei), [Dan Zheng](https://github.com/dan-zheng)
 
-Last updated: 2019-03
+Last updated: March 2019
 
-**NOTE**: As of 2020-08-30, this is badly out of date.
-In particular, CotangentVector was deprecated in <https://github.com/apple/swift/pull/24825>, and AllDifferentialbeVariables was deprecated in <https://github.com/tensorflow/swift-apis/pull/419>.
+**Note**: This document is outdated due to changes to the `Differentiable` protocol.
+
+In particular, `Differentiable.CotangentVector` was deprecated in <https://github.com/apple/swift/pull/24825> and `Differentiable.AllDifferentiableVariables` was deprecated in <https://github.com/tensorflow/swift-apis/pull/419>.
 
 ## Introduction
 
