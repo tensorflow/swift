@@ -110,6 +110,11 @@ To install Swift for TensorFlow, download one of the packages below and follow t
 
 </details>
 
+**Note:** We cannot build Ubuntu 20.04 until
+[Ubuntu 20.04 Docker images with CUDNN](https://gitlab.com/nvidia/container-images/cuda/-/issues/83) are ready. In
+the meantime, you may be able to run an Ubuntu 18.04 toolchain on Ubuntu 20.04 using the tips in
+[#512](https://github.com/tensorflow/swift/issues/512).
+
 ## Development Snapshots
 
 | Download |
@@ -145,11 +150,6 @@ To install Swift for TensorFlow, download one of the packages below and follow t
 <br/>
 
 **Note:** Currently, the Xcode toolchains above only support macOS development. iOS/tvOS/watchOS are not supported.
-
-**Note:** We cannot build Ubuntu 20.04 until
-[Ubuntu 20.04 Docker images with CUDNN](https://gitlab.com/nvidia/container-images/cuda/-/issues/83) are ready. In
-the meantime, you may be able to run an Ubuntu 18.04 toolchain on Ubuntu 20.04 using the tips in
-[#512](https://github.com/tensorflow/swift/issues/512).
 
 # Using Downloads
 
