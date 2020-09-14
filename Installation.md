@@ -16,6 +16,7 @@ To install Swift for TensorFlow, download one of the packages below and follow t
 | [Ubuntu 18.04 (CPU Only)](https://storage.googleapis.com/swift-tensorflow-artifacts/releases/v0.11/rc2/swift-tensorflow-RELEASE-0.11-ubuntu18.04.tar.gz) | v0.11 | August 11, 2020  |
 | [Ubuntu 18.04 (CUDA 10.2)](https://storage.googleapis.com/swift-tensorflow-artifacts/releases/v0.11/rc2/swift-tensorflow-RELEASE-0.11-cuda10.2-cudnn7-ubuntu18.04.tar.gz) | v0.11 | August 11, 2020  |
 | [Ubuntu 18.04 (CUDA 10.1)](https://storage.googleapis.com/swift-tensorflow-artifacts/releases/v0.11/rc2/swift-tensorflow-RELEASE-0.11-cuda10.1-cudnn7-ubuntu18.04.tar.gz) | v0.11 | August 11, 2020 |
+| [Ubuntu 20.04 (CPU Only)](https://storage.googleapis.com/swift-tensorflow-artifacts/releases/v0.11/rc2/swift-tensorflow-RELEASE-0.11-ubuntu20.04.tar.gz) | v0.11 | August 11, 2020 |
 
 
 <details>
@@ -118,6 +119,7 @@ To install Swift for TensorFlow, download one of the packages below and follow t
 | [Ubuntu 18.04 (CPU) (Nightly)](https://storage.googleapis.com/swift-tensorflow-artifacts/nightlies/latest/swift-tensorflow-DEVELOPMENT-ubuntu18.04.tar.gz) |
 | [Ubuntu 18.04 (CPU, CUDA 10.2) (Nightly)](https://storage.googleapis.com/swift-tensorflow-artifacts/nightlies/latest/swift-tensorflow-DEVELOPMENT-cuda10.2-cudnn7-ubuntu18.04.tar.gz) |
 | [Ubuntu 18.04 (CPU, CUDA 10.1) (Nightly)](https://storage.googleapis.com/swift-tensorflow-artifacts/nightlies/latest/swift-tensorflow-DEVELOPMENT-cuda10.1-cudnn7-ubuntu18.04.tar.gz) |
+| [Ubuntu 20.04 (CPU) (Nightly)](https://storage.googleapis.com/swift-tensorflow-artifacts/nightlies/latest/swift-tensorflow-DEVELOPMENT-20.04.tar.gz) |
 | [Windows (June 23, 2020)](https://storage.googleapis.com/azure-pipelines-storage/Swift%20for%20TensorFlow/Windows/s4tf-windows-x64-34189-20200623.1.exe) |
 
 <details>
@@ -144,6 +146,11 @@ To install Swift for TensorFlow, download one of the packages below and follow t
 <br/>
 
 **Note:** Currently, the Xcode toolchains above only support macOS development. iOS/tvOS/watchOS are not supported.
+
+**Note:** We cannot build Ubuntu 20.04
+[Ubuntu 20.04 Docker images with CUDNN](https://gitlab.com/nvidia/container-images/cuda/-/issues/83) are ready. In
+the meantime, you may be able to run an Ubuntu 18.04 toolchain on Ubuntu 20.04 using the tips in
+[#512](https://github.com/tensorflow/swift/issues/512).
 
 # Using Downloads
 
