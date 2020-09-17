@@ -119,7 +119,7 @@ the meantime, you may be able to run Ubuntu 18.04 toolchains on Ubuntu 20.04 usi
 
 | Download |
 |----------|
-| [Xcode 12 (September 3, 2020)](https://storage.googleapis.com/swift-tensorflow-artifacts/macos-toolchains/swift-tensorflow-DEVELOPMENT-2020-09-03-a-osx.pkg) |
+| [Xcode 12 (September 16, 2020)](https://storage.googleapis.com/swift-tensorflow-artifacts/macos-toolchains/swift-tensorflow-DEVELOPMENT-2020-09-16-a-osx.pkg) |
 | [Ubuntu 20.04 (CPU) (Nightly)](https://storage.googleapis.com/swift-tensorflow-artifacts/nightlies/latest/swift-tensorflow-DEVELOPMENT-ubuntu20.04.tar.gz) |
 | [Ubuntu 18.04 (CPU) (Nightly)](https://storage.googleapis.com/swift-tensorflow-artifacts/nightlies/latest/swift-tensorflow-DEVELOPMENT-ubuntu18.04.tar.gz) |
 | [Ubuntu 18.04 (CPU, CUDA 10.2) (Nightly)](https://storage.googleapis.com/swift-tensorflow-artifacts/nightlies/latest/swift-tensorflow-DEVELOPMENT-cuda10.2-cudnn7-ubuntu18.04.tar.gz) |
@@ -135,6 +135,7 @@ the meantime, you may be able to run Ubuntu 18.04 toolchains on Ubuntu 20.04 usi
 
 | Download |
 |----------|
+| [September 3, 2020](https://storage.googleapis.com/swift-tensorflow-artifacts/macos-toolchains/swift-tensorflow-DEVELOPMENT-2020-09-03-a-osx.pkg) |
 | [August 26, 2020](https://storage.googleapis.com/swift-tensorflow-artifacts/macos-toolchains/swift-tensorflow-DEVELOPMENT-2020-08-26-a-osx.pkg) |
 | [August 19, 2020](https://storage.googleapis.com/swift-tensorflow-artifacts/macos-toolchains/swift-tensorflow-DEVELOPMENT-2020-08-19-a-osx.pkg) |
 | [August 18, 2020](https://storage.googleapis.com/swift-tensorflow-artifacts/macos-toolchains/swift-tensorflow-DEVELOPMENT-2020-08-18-a-osx.pkg) |
