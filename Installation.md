@@ -302,8 +302,8 @@ copy "%SDKROOT%\usr\share\winsdk.modulemap" "%UniversalCRTSdkDir%\Include\%UCRTV
 ***Experimental***
 
 To save on setup time, you can leverage one of the Swift for Tensorflow
-[Deep Learning VM][dlvm] images to quickly spin up a pre-configured instance
-with an installed toolchain. To view the available images (currently
+[Deep Learning VM][dlvm] images to quickly spin up a pre-configured Ubuntu
+instance with an installed toolchain. To view the available images (currently
 experimental):
 
 ```
@@ -326,10 +326,18 @@ gcloud compute instances create s4tf-ubuntu \
   --boot-disk-size=256GB
 ```
 
+This will create a single `n1-standard-2` instance with the Swift
+toolchain installed. Once the instance is up, connect to it:
+
+```
+gcloud compute ssh s4tf-ubuntu \
+  --zone ${ZONE}
+```
+
 ## GPU Instance
 
-The first step is to identify a zone that contains the type of GPU you'd like
-to use, since not all zones have availability:
+To create a GPU instance, the first step is to identify a zone that contains
+the type of GPU you'd like to use, since not all zones have availability:
 
 ```
 export GPU_TYPE="v100"
@@ -356,15 +364,16 @@ gcloud compute instances create s4tf-ubuntu-${GPU_TYPE} \
   --boot-disk-size=256GB
 ```
 
+This will create a single `n1-highmem-2` instance with an attached accelerator
+and the Swift toolchain installed with all CUDA libraries.
+
 ***Note:*** *If this command fails due to lack of quota, you will need to find
 a zone with available quota or request an increase. Using the search feature in
 the [Quotas section of the GCP Console][gcp_quotas], you can view your current
 usage and submit an increase request (e.g. search for "V100" or the value you
 used in `$GPU_TYPE`).*
 
-This will create a single instance with an attached accelerator and the Swift
-toolchain installed with all CUDA libraries. Once the instance is up, connect
-to it:
+Once the instance is up, connect to it:
 
 ```
 gcloud compute ssh s4tf-ubuntu-${GPU_TYPE} \
