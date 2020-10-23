@@ -390,6 +390,13 @@ var x = Tensor<Float>([[1, 2], [3, 4]])
 print(x + x)
 ```
 
+## Run [swift-models](https://github.com/tensorflow/swift-models)
+
+```swift
+git clone https://github.com/tensorflow/swift-models.git
+cd swift-models
+swift run
+```
 
 ## To build on Linux/MacOS
 
