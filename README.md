@@ -35,13 +35,18 @@ The Swift for TensorFlow project is currently focusing on 2 kinds of users:
    or start from a [blank notebook][blank_notebook]!
    Read more in our [usage guide](Usage.md).
 
-- **Install locally**: you can [download a pre-built Swift for TensorFlow
+- **Install locally**: You can [download a pre-built Swift for TensorFlow
    package](Installation.md). After installation, you can follow these
    [step-by-step instructions](Usage.md) to build and execute a Swift script on
    your computer.
 
+- **Run on GCP**: You can spin up a GCE instance using a Swift for TensorFlow
+  [Deep Learning VM][dlvm] image, with all drivers and the toolchain
+  pre-installed. Instructions can be found in the
+  [Installation Guide](Installation.md).
+
 - **Compile from source**: If you'd like to customize Swift for TensorFlow or
-   contribute back, follow our [instructions](https://github.com/apple/swift/tree/tensorflow#building-swift-for-tensorflow)
+   contribute back, follow our [instructions][instructions]
    on building Swift for TensorFlow from source.
 
 ### Tutorials ![](https://www.tensorflow.org/images/colab_logo_32px.png)
@@ -239,3 +244,5 @@ Conduct](CODE_OF_CONDUCT.md), which we encourage everybody to read before
 participating.
 
 [blank_notebook]: https://colab.research.google.com/notebook#create=true&language=swift
+[dlvm]: https://cloud.google.com/ai-platform/deep-learning-vm/docs
+[instructions]: https://github.com/apple/swift/tree/tensorflow#building-swift-for-tensorflow
