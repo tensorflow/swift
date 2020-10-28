@@ -400,6 +400,7 @@ swift run
 
 Swift will print an error with a list of executable names that exercise different models.
 Issue `swift run` *executable-name* to select the model you're interested in.
+
 ## To build on Linux/MacOS
 
 Run these commands to verify the installation.
