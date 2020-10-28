@@ -392,12 +392,13 @@ print(x + x)
 
 ## Run [swift-models](https://github.com/tensorflow/swift-models)
 
-```swift
+```sh
 git clone https://github.com/tensorflow/swift-models.git
 cd swift-models
 swift run
 ```
 
+Swift will print an error with a list of executable names that exercise different models.  Issue `swift run` *executable-name* to select the model you're interested in.
 ## To build on Linux/MacOS
 
 Run these commands to verify the installation.
