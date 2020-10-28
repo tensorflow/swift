@@ -390,6 +390,16 @@ var x = Tensor<Float>([[1, 2], [3, 4]])
 print(x + x)
 ```
 
+## Run [swift-models](https://github.com/tensorflow/swift-models)
+
+```sh
+git clone https://github.com/tensorflow/swift-models.git
+cd swift-models
+swift run
+```
+
+Swift will print an error with a list of executable names that exercise different models.
+Issue `swift run` *executable-name* to select the model you're interested in.
 
 ## To build on Linux/MacOS
 
