@@ -128,7 +128,7 @@ the meantime, you may be able to run Ubuntu 18.04 toolchains on Ubuntu 20.04 usi
 | [Ubuntu 18.04 (CPU, CUDA 11.0) (Nightly)](https://storage.googleapis.com/swift-tensorflow-artifacts/nightlies/latest/swift-tensorflow-DEVELOPMENT-cuda11.0-cudnn8-ubuntu18.04.tar.gz) |
 | [Ubuntu 18.04 (CPU, CUDA 10.2) (Nightly)](https://storage.googleapis.com/swift-tensorflow-artifacts/nightlies/latest/swift-tensorflow-DEVELOPMENT-cuda10.2-cudnn7-ubuntu18.04.tar.gz) |
 | [Ubuntu 18.04 (CPU, CUDA 10.1) (Nightly)](https://storage.googleapis.com/swift-tensorflow-artifacts/nightlies/latest/swift-tensorflow-DEVELOPMENT-cuda10.1-cudnn7-ubuntu18.04.tar.gz) |
-| [Windows (June 23, 2020)](https://storage.googleapis.com/azure-pipelines-storage/Swift%20for%20TensorFlow/Windows/s4tf-windows-x64-34189-20200623.1.exe) |
+| [Windows (October 29, 2020)](https://storage.googleapis.com/azure-pipelines-storage/Swift%20for%20TensorFlow/Windows/s4tf-windows-x64-41368-20201029.1.exe) |
 
 <details>
   <summary>Older Packages</summary>
@@ -282,7 +282,8 @@ You can now execute the `swiftc` command to build Swift projects.
 4. Deploy the Windows SDK modulemaps from an (elevated) "Administrator" `x64 Native Tools for VS2019 Command Prompt` shell<sup>[7](#windows-sdk-deploy)</sup>:
 
 ```cmd
-set SDKROOT=%SystemDrive%\Library\Developer\Platforms\Windows.platform\Developer\SDKs\Windows.sdk
+:: NOTE: the following additional command may be required for older snapshots:
+:: set SDKROOT=%SystemDrive%\Library\Developer\Platforms\Windows.platform\Developer\SDKs\Windows.sdk
 copy "%SDKROOT%\usr\share\ucrt.modulemap" "%UniversalCRTSdkDir%\Include\%UCRTVersion%\ucrt\module.modulemap"
 copy "%SDKROOT%\usr\share\visualc.modulemap" "%VCToolsInstallDir%\include\module.modulemap"
 copy "%SDKROOT%\usr\share\visualc.apinotes" "%VCToolsInstallDir%\include\visualc.apinotes"
