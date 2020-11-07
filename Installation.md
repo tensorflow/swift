@@ -141,6 +141,7 @@ the meantime, you may be able to run Ubuntu 18.04 toolchains on Ubuntu 20.04 usi
 | [Ubuntu 18.04 (CPU, CUDA 10.2) (Nightly)](https://storage.googleapis.com/swift-tensorflow-artifacts/nightlies/latest/swift-tensorflow-DEVELOPMENT-cuda10.2-cudnn7-ubuntu18.04.tar.gz) |
 | [Ubuntu 18.04 (CPU, CUDA 10.1) (Nightly)](https://storage.googleapis.com/swift-tensorflow-artifacts/nightlies/latest/swift-tensorflow-DEVELOPMENT-cuda10.1-cudnn7-ubuntu18.04.tar.gz) |
 | [Windows (October 29, 2020)](https://storage.googleapis.com/azure-pipelines-storage/Swift%20for%20TensorFlow/Windows/s4tf-windows-x64-41368-20201029.1.exe) |
+| [NVIDIA Jetson, JetPack 4.4 (CPU, CUDA 10.2) (v0.12)](https://storage.googleapis.com/swift-tensorflow-artifacts/oneoff-builds/swift-tensorflow-RELEASE-0.12-Jetson4.4.tar.gz) |
 
 <details>
   <summary>Older Packages</summary>
