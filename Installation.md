@@ -129,6 +129,7 @@ the meantime, you may be able to run Ubuntu 18.04 toolchains on Ubuntu 20.04 usi
 | [Ubuntu 18.04 (CUDA 11.0)](https://storage.googleapis.com/swift-tensorflow-artifacts/releases/v0.12/rc1/swift-tensorflow-RELEASE-0.12-cuda11.0-cudnn8-ubuntu18.04.tar.gz) | v0.12-rc1 | November 6, 2020  |
 | [Ubuntu 18.04 (CUDA 10.2)](https://storage.googleapis.com/swift-tensorflow-artifacts/releases/v0.12/rc1/swift-tensorflow-RELEASE-0.12-cuda10.2-cudnn7-ubuntu18.04.tar.gz) | v0.12-rc1 | November 6, 2020  |
 | [Ubuntu 18.04 (CUDA 10.1)](https://storage.googleapis.com/swift-tensorflow-artifacts/releases/v0.12/rc1/swift-tensorflow-RELEASE-0.12-cuda10.1-cudnn7-ubuntu18.04.tar.gz) | v0.12-rc1 | November 6, 2020  |
+| [Windows](https://storage.googleapis.com/swift-tensorflow-artifacts/releases/v0.12/rc1/swift-tensorflow-RELEASE-0.12-windows.exe) | v0.12-rc1 | November 9, 2020  |
 
 
 ## Development Snapshots
