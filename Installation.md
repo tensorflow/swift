@@ -3,6 +3,9 @@
 To install Swift for TensorFlow, download one of the packages below and follow the instructions for your operating system. After installation, you can use the full suite of Swift tools, including `swift` (Swift REPL/interpreter) and `swiftc` (Swift compiler). See [here](Usage.md) for more details about using Swift for TensorFlow.
 
 **Note:**
+- As a shortcut, see the [GCP section](#google-cloud-platform) for instructions
+  on using a [Deep Learning VM image][dlvm] to spin up a pre-configured
+  environment.
 - If you want to modify the Swift for TensorFlow source code or build with a custom version of TensorFlow, see [here](https://github.com/apple/swift/blob/tensorflow/README.md) for instructions on building from source.
 - Swift for TensorFlow is an early stage project. It has been released to enable open source development and is not yet ready for general use by machine learning developers.
 
@@ -115,6 +118,20 @@ To install Swift for TensorFlow, download one of the packages below and follow t
 the meantime, you may be able to run Ubuntu 18.04 toolchains on Ubuntu 20.04 using the tips in
 [#512](https://github.com/tensorflow/swift/issues/512).
 
+## Release Candidates
+
+[Release notes for v0.12.0](https://docs.google.com/document/d/1lP6euYS7k5zZAt1towGFpaopZ_PCzsMpFjBbA1Leakg)
+
+| Download | Version | Date |
+|----------|---------|------|
+| [Ubuntu 20.04 (CPU Only)](https://storage.googleapis.com/swift-tensorflow-artifacts/releases/v0.12/rc2/swift-tensorflow-RELEASE-0.12-ubuntu20.04.tar.gz) | v0.12-rc2 | November 12, 2020 |
+| [Ubuntu 18.04 (CPU Only)](https://storage.googleapis.com/swift-tensorflow-artifacts/releases/v0.12/rc2/swift-tensorflow-RELEASE-0.12-ubuntu18.04.tar.gz) | v0.12-rc2 | November 12, 2020  |
+| [Ubuntu 18.04 (CUDA 11.0)](https://storage.googleapis.com/swift-tensorflow-artifacts/releases/v0.12/rc2/swift-tensorflow-RELEASE-0.12-cuda11.0-cudnn8-ubuntu18.04.tar.gz) | v0.12-rc2 | November 12, 2020  |
+| [Ubuntu 18.04 (CUDA 10.2)](https://storage.googleapis.com/swift-tensorflow-artifacts/releases/v0.12/rc2/swift-tensorflow-RELEASE-0.12-cuda10.2-cudnn7-ubuntu18.04.tar.gz) | v0.12-rc2 | November 12, 2020  |
+| [Ubuntu 18.04 (CUDA 10.1)](https://storage.googleapis.com/swift-tensorflow-artifacts/releases/v0.12/rc2/swift-tensorflow-RELEASE-0.12-cuda10.1-cudnn7-ubuntu18.04.tar.gz) | v0.12-rc2 | November 12, 2020  |
+| [Windows](https://storage.googleapis.com/swift-tensorflow-artifacts/releases/v0.12/rc2/swift-tensorflow-RELEASE-0.12-windows.exe) | v0.12-rc2 | November 12, 2020  |
+
+
 ## Development Snapshots
 
 | Download |
@@ -122,9 +139,11 @@ the meantime, you may be able to run Ubuntu 18.04 toolchains on Ubuntu 20.04 usi
 | [Xcode 12 (September 16, 2020)](https://storage.googleapis.com/swift-tensorflow-artifacts/macos-toolchains/swift-tensorflow-DEVELOPMENT-2020-09-16-a-osx.pkg) |
 | [Ubuntu 20.04 (CPU) (Nightly)](https://storage.googleapis.com/swift-tensorflow-artifacts/nightlies/latest/swift-tensorflow-DEVELOPMENT-ubuntu20.04.tar.gz) |
 | [Ubuntu 18.04 (CPU) (Nightly)](https://storage.googleapis.com/swift-tensorflow-artifacts/nightlies/latest/swift-tensorflow-DEVELOPMENT-ubuntu18.04.tar.gz) |
+| [Ubuntu 18.04 (CPU, CUDA 11.0) (Nightly)](https://storage.googleapis.com/swift-tensorflow-artifacts/nightlies/latest/swift-tensorflow-DEVELOPMENT-cuda11.0-cudnn8-ubuntu18.04.tar.gz) |
 | [Ubuntu 18.04 (CPU, CUDA 10.2) (Nightly)](https://storage.googleapis.com/swift-tensorflow-artifacts/nightlies/latest/swift-tensorflow-DEVELOPMENT-cuda10.2-cudnn7-ubuntu18.04.tar.gz) |
 | [Ubuntu 18.04 (CPU, CUDA 10.1) (Nightly)](https://storage.googleapis.com/swift-tensorflow-artifacts/nightlies/latest/swift-tensorflow-DEVELOPMENT-cuda10.1-cudnn7-ubuntu18.04.tar.gz) |
-| [Windows (June 23, 2020)](https://storage.googleapis.com/azure-pipelines-storage/Swift%20for%20TensorFlow/Windows/s4tf-windows-x64-34189-20200623.1.exe) |
+| [Windows (October 29, 2020)](https://storage.googleapis.com/azure-pipelines-storage/Swift%20for%20TensorFlow/Windows/s4tf-windows-x64-41368-20201029.1.exe) |
+| [NVIDIA Jetson, JetPack 4.4 (CPU, CUDA 10.2) (v0.12-rc1)](https://storage.googleapis.com/swift-tensorflow-artifacts/oneoff-builds/swift-tensorflow-RELEASE-0.12-Jetson4.4.tar.gz) |
 
 <details>
   <summary>Older Packages</summary>
@@ -278,7 +297,8 @@ You can now execute the `swiftc` command to build Swift projects.
 4. Deploy the Windows SDK modulemaps from an (elevated) "Administrator" `x64 Native Tools for VS2019 Command Prompt` shell<sup>[7](#windows-sdk-deploy)</sup>:
 
 ```cmd
-set SDKROOT=%SystemDrive%\Library\Developer\Platforms\Windows.platform\Developer\SDKs\Windows.sdk
+:: NOTE: the following additional command may be required for older snapshots:
+:: set SDKROOT=%SystemDrive%\Library\Developer\Platforms\Windows.platform\Developer\SDKs\Windows.sdk
 copy "%SDKROOT%\usr\share\ucrt.modulemap" "%UniversalCRTSdkDir%\Include\%UCRTVersion%\ucrt\module.modulemap"
 copy "%SDKROOT%\usr\share\visualc.modulemap" "%VCToolsInstallDir%\include\module.modulemap"
 copy "%SDKROOT%\usr\share\visualc.apinotes" "%VCToolsInstallDir%\include\visualc.apinotes"
@@ -293,6 +313,89 @@ copy "%SDKROOT%\usr\share\winsdk.modulemap" "%UniversalCRTSdkDir%\Include\%UCRTV
   <sup><a name="windows-python">6</a></sup> Provides `python` needed for Python integration. You may download it from [python](https://www.python.org/) instead.<br/>
   <sup><a name="windows-sdk-deploy">7</a></sup> This will need to be re-run every time Visual Studio is updated. <br/>
 
+# Google Cloud Platform
+
+***Experimental***
+
+To save on setup time, you can leverage one of the Swift for Tensorflow
+[Deep Learning VM][dlvm] images to quickly spin up a pre-configured Ubuntu
+instance with an installed toolchain. To view the available images (currently
+experimental):
+
+```
+gcloud compute images list \
+  --project deeplearning-platform-release \
+  --no-standard-images | \
+  grep swift
+```
+
+## CPU Instance
+
+To create a small CPU instance:
+
+```
+gcloud compute instances create s4tf-ubuntu \
+  --image-project=deeplearning-platform-release \
+  --image-family=swift-latest-cpu-ubuntu-1804 \
+  --maintenance-policy=TERMINATE \
+  --machine-type=n1-standard-2 \
+  --boot-disk-size=256GB
+```
+
+This will create a single `n1-standard-2` instance with the Swift
+toolchain installed. Once the instance is up, connect to it:
+
+```
+gcloud compute ssh s4tf-ubuntu \
+  --zone ${ZONE}
+```
+
+## GPU Instance
+
+To create a GPU instance, the first step is to identify a zone that contains
+the type of GPU you'd like to use, since not all zones have availability:
+
+```
+export GPU_TYPE="v100"
+gcloud compute accelerator-types list | grep ${GPU_TYPE}
+```
+
+Using these results, set your zone:
+
+```
+export ZONE="us-west1-b"
+```
+
+To create an instance with an attached V100 GPU:
+
+```
+gcloud compute instances create s4tf-ubuntu-${GPU_TYPE} \
+  --zone=${ZONE} \
+  --image-project=deeplearning-platform-release \
+  --image-family=swift-latest-gpu-ubuntu-1804 \
+  --maintenance-policy=TERMINATE \
+  --accelerator="type=nvidia-tesla-${GPU_TYPE},count=1" \
+  --metadata="install-nvidia-driver=True" \
+  --machine-type=n1-highmem-2 \
+  --boot-disk-size=256GB
+```
+
+This will create a single `n1-highmem-2` instance with an attached accelerator
+and the Swift toolchain installed with all CUDA libraries.
+
+***Note:*** *If this command fails due to lack of quota, you will need to find
+a zone with available quota or request an increase. Using the search feature in
+the [Quotas section of the GCP Console][gcp_quotas], you can view your current
+usage and submit an increase request (e.g. search for "V100" or the value you
+used in `$GPU_TYPE`).*
+
+Once the instance is up, connect to it:
+
+```
+gcloud compute ssh s4tf-ubuntu-${GPU_TYPE} \
+  --zone ${ZONE}
+```
+
 # Verify the Installation
 
 Create a text file `test.swift` with the following contents:
@@ -303,6 +406,16 @@ var x = Tensor<Float>([[1, 2], [3, 4]])
 print(x + x)
 ```
 
+## Run [swift-models](https://github.com/tensorflow/swift-models)
+
+```sh
+git clone https://github.com/tensorflow/swift-models.git
+cd swift-models
+swift run
+```
+
+Swift will print an error with a list of executable names that exercise different models.
+Issue `swift run` *executable-name* to select the model you're interested in.
 
 ## To build on Linux/MacOS
 
@@ -327,3 +440,6 @@ If you see this output, you have successfully installed Swift for TensorFlow!
 [[2.0, 4.0],
  [6.0, 8.0]]
 ```
+
+[dlvm]: https://cloud.google.com/ai-platform/deep-learning-vm/docs
+[gcp_quotas]: https://console.cloud.google.com/iam-admin/quotas
