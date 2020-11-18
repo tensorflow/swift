@@ -178,7 +178,7 @@ the meantime, you may be able to run Ubuntu 18.04 toolchains on Ubuntu 20.04 usi
 ### Requirements
 
 * macOS 10.15 or later
-* Xcode 12 beta 2 or later
+* Xcode 12.2 Beta 3 or later
 
 ### Installation
 
@@ -224,7 +224,7 @@ Note that nothing prevents Swift from being ported to other Linux distributions 
 ### Additional Requirements
 
 * For GPU toolchains:
-  * CUDA Toolkit 10.1 or 10.2
+  * CUDA Toolkit 10.1, 10.2, or 11.0
   * CuDNN 7.6.0 onwards (CUDA 10.1)
   * An NVIDIA GPU with compute compatibility 3.5, 3.7, 6.0, 6.1, 7.0, or 7.5.
 
