@@ -11,6 +11,21 @@ To install Swift for TensorFlow, download one of the packages below and follow t
 
 ## Releases
 
+[Release notes for v0.12.0](https://docs.google.com/document/d/1lP6euYS7k5zZAt1towGFpaopZ_PCzsMpFjBbA1Leakg)
+
+| Download | Version | Date |
+|----------|---------|------|
+| [Xcode 12.2 Beta 3](https://storage.googleapis.com/swift-tensorflow-artifacts/releases/v0.12/rc2/swift-tensorflow-RELEASE-0.12-osx.pkg) | v0.12 | November 17, 2020 |
+| [Ubuntu 20.04 (CPU Only)](https://storage.googleapis.com/swift-tensorflow-artifacts/releases/v0.12/rc2/swift-tensorflow-RELEASE-0.12-ubuntu20.04.tar.gz) | v0.12 | November 12, 2020 |
+| [Ubuntu 18.04 (CPU Only)](https://storage.googleapis.com/swift-tensorflow-artifacts/releases/v0.12/rc2/swift-tensorflow-RELEASE-0.12-ubuntu18.04.tar.gz) | v0.12 | November 12, 2020  |
+| [Ubuntu 18.04 (CUDA 11.0)](https://storage.googleapis.com/swift-tensorflow-artifacts/releases/v0.12/rc2/swift-tensorflow-RELEASE-0.12-cuda11.0-cudnn8-ubuntu18.04.tar.gz) | v0.12 | November 12, 2020  |
+| [Ubuntu 18.04 (CUDA 10.2)](https://storage.googleapis.com/swift-tensorflow-artifacts/releases/v0.12/rc2/swift-tensorflow-RELEASE-0.12-cuda10.2-cudnn7-ubuntu18.04.tar.gz) | v0.12 | November 12, 2020  |
+| [Ubuntu 18.04 (CUDA 10.1)](https://storage.googleapis.com/swift-tensorflow-artifacts/releases/v0.12/rc2/swift-tensorflow-RELEASE-0.12-cuda10.1-cudnn7-ubuntu18.04.tar.gz) | v0.12 | November 12, 2020  |
+| [Windows](https://storage.googleapis.com/swift-tensorflow-artifacts/releases/v0.12/rc2/swift-tensorflow-RELEASE-0.12-windows.exe) | v0.12 | November 12, 2020  |
+
+<details>
+  <summary>Older Packages</summary>
+
 [Release notes for v0.11.0](https://docs.google.com/document/d/1aTP88ANmJoxpxHeMIdz7CskqSuDHIg3mVELjm0iBXXQ/edit?usp=sharing)
 
 | Download | Version | Date |
@@ -20,9 +35,6 @@ To install Swift for TensorFlow, download one of the packages below and follow t
 | [Ubuntu 18.04 (CPU Only)](https://storage.googleapis.com/swift-tensorflow-artifacts/releases/v0.11/rc2/swift-tensorflow-RELEASE-0.11-ubuntu18.04.tar.gz) | v0.11 | August 11, 2020  |
 | [Ubuntu 18.04 (CUDA 10.2)](https://storage.googleapis.com/swift-tensorflow-artifacts/releases/v0.11/rc2/swift-tensorflow-RELEASE-0.11-cuda10.2-cudnn7-ubuntu18.04.tar.gz) | v0.11 | August 11, 2020  |
 | [Ubuntu 18.04 (CUDA 10.1)](https://storage.googleapis.com/swift-tensorflow-artifacts/releases/v0.11/rc2/swift-tensorflow-RELEASE-0.11-cuda10.1-cudnn7-ubuntu18.04.tar.gz) | v0.11 | August 11, 2020 |
-
-<details>
-  <summary>Older Packages</summary>
 
 [Release notes for v0.10.0](https://docs.google.com/document/d/1_EeREdz8jZ44zGXY-5m2-1xcR9pOvMZf4kkHfUgNjD0/edit?usp=sharing)
 
@@ -118,20 +130,6 @@ To install Swift for TensorFlow, download one of the packages below and follow t
 the meantime, you may be able to run Ubuntu 18.04 toolchains on Ubuntu 20.04 using the tips in
 [#512](https://github.com/tensorflow/swift/issues/512).
 
-## Release Candidates
-
-[Release notes for v0.12.0](https://docs.google.com/document/d/1lP6euYS7k5zZAt1towGFpaopZ_PCzsMpFjBbA1Leakg)
-
-| Download | Version | Date |
-|----------|---------|------|
-| [Xcode 12](https://storage.googleapis.com/swift-tensorflow-artifacts/releases/v0.12/rc2/swift-tensorflow-RELEASE-0.12-osx.pkg) | v0.12-rc2 | November 17, 2020 |
-| [Ubuntu 20.04 (CPU Only)](https://storage.googleapis.com/swift-tensorflow-artifacts/releases/v0.12/rc2/swift-tensorflow-RELEASE-0.12-ubuntu20.04.tar.gz) | v0.12-rc2 | November 12, 2020 |
-| [Ubuntu 18.04 (CPU Only)](https://storage.googleapis.com/swift-tensorflow-artifacts/releases/v0.12/rc2/swift-tensorflow-RELEASE-0.12-ubuntu18.04.tar.gz) | v0.12-rc2 | November 12, 2020  |
-| [Ubuntu 18.04 (CUDA 11.0)](https://storage.googleapis.com/swift-tensorflow-artifacts/releases/v0.12/rc2/swift-tensorflow-RELEASE-0.12-cuda11.0-cudnn8-ubuntu18.04.tar.gz) | v0.12-rc2 | November 12, 2020  |
-| [Ubuntu 18.04 (CUDA 10.2)](https://storage.googleapis.com/swift-tensorflow-artifacts/releases/v0.12/rc2/swift-tensorflow-RELEASE-0.12-cuda10.2-cudnn7-ubuntu18.04.tar.gz) | v0.12-rc2 | November 12, 2020  |
-| [Ubuntu 18.04 (CUDA 10.1)](https://storage.googleapis.com/swift-tensorflow-artifacts/releases/v0.12/rc2/swift-tensorflow-RELEASE-0.12-cuda10.1-cudnn7-ubuntu18.04.tar.gz) | v0.12-rc2 | November 12, 2020  |
-| [Windows](https://storage.googleapis.com/swift-tensorflow-artifacts/releases/v0.12/rc2/swift-tensorflow-RELEASE-0.12-windows.exe) | v0.12-rc2 | November 12, 2020  |
-
 
 ## Development Snapshots
 
@@ -180,7 +178,7 @@ the meantime, you may be able to run Ubuntu 18.04 toolchains on Ubuntu 20.04 usi
 ### Requirements
 
 * macOS 10.15 or later
-* Xcode 12 beta 2 or later
+* Xcode 12.2 Beta 3 or later
 
 ### Installation
 
@@ -226,7 +224,7 @@ Note that nothing prevents Swift from being ported to other Linux distributions 
 ### Additional Requirements
 
 * For GPU toolchains:
-  * CUDA Toolkit 10.1 or 10.2
+  * CUDA Toolkit 10.1, 10.2, or 11.0
   * CuDNN 7.6.0 onwards (CUDA 10.1)
   * An NVIDIA GPU with compute compatibility 3.5, 3.7, 6.0, 6.1, 7.0, or 7.5.
 
