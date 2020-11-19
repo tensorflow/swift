@@ -118,17 +118,33 @@ To install Swift for TensorFlow, download one of the packages below and follow t
 the meantime, you may be able to run Ubuntu 18.04 toolchains on Ubuntu 20.04 using the tips in
 [#512](https://github.com/tensorflow/swift/issues/512).
 
+## Release Candidates
+
+[Release notes for v0.12.0](https://docs.google.com/document/d/1lP6euYS7k5zZAt1towGFpaopZ_PCzsMpFjBbA1Leakg)
+
+| Download | Version | Date |
+|----------|---------|------|
+| [Xcode 12](https://storage.googleapis.com/swift-tensorflow-artifacts/releases/v0.12/rc2/swift-tensorflow-RELEASE-0.12-osx.pkg) | v0.12-rc2 | November 17, 2020 |
+| [Ubuntu 20.04 (CPU Only)](https://storage.googleapis.com/swift-tensorflow-artifacts/releases/v0.12/rc2/swift-tensorflow-RELEASE-0.12-ubuntu20.04.tar.gz) | v0.12-rc2 | November 12, 2020 |
+| [Ubuntu 18.04 (CPU Only)](https://storage.googleapis.com/swift-tensorflow-artifacts/releases/v0.12/rc2/swift-tensorflow-RELEASE-0.12-ubuntu18.04.tar.gz) | v0.12-rc2 | November 12, 2020  |
+| [Ubuntu 18.04 (CUDA 11.0)](https://storage.googleapis.com/swift-tensorflow-artifacts/releases/v0.12/rc2/swift-tensorflow-RELEASE-0.12-cuda11.0-cudnn8-ubuntu18.04.tar.gz) | v0.12-rc2 | November 12, 2020  |
+| [Ubuntu 18.04 (CUDA 10.2)](https://storage.googleapis.com/swift-tensorflow-artifacts/releases/v0.12/rc2/swift-tensorflow-RELEASE-0.12-cuda10.2-cudnn7-ubuntu18.04.tar.gz) | v0.12-rc2 | November 12, 2020  |
+| [Ubuntu 18.04 (CUDA 10.1)](https://storage.googleapis.com/swift-tensorflow-artifacts/releases/v0.12/rc2/swift-tensorflow-RELEASE-0.12-cuda10.1-cudnn7-ubuntu18.04.tar.gz) | v0.12-rc2 | November 12, 2020  |
+| [Windows](https://storage.googleapis.com/swift-tensorflow-artifacts/releases/v0.12/rc2/swift-tensorflow-RELEASE-0.12-windows.exe) | v0.12-rc2 | November 12, 2020  |
+
+
 ## Development Snapshots
 
 | Download |
 |----------|
-| [Xcode 12 (September 16, 2020)](https://storage.googleapis.com/swift-tensorflow-artifacts/macos-toolchains/swift-tensorflow-DEVELOPMENT-2020-09-16-a-osx.pkg) |
+| [Xcode 12 (November 17, 2020)](https://storage.googleapis.com/swift-tensorflow-artifacts/macos-toolchains/swift-tensorflow-DEVELOPMENT-2020-11-17-a-osx.pkg) |
 | [Ubuntu 20.04 (CPU) (Nightly)](https://storage.googleapis.com/swift-tensorflow-artifacts/nightlies/latest/swift-tensorflow-DEVELOPMENT-ubuntu20.04.tar.gz) |
 | [Ubuntu 18.04 (CPU) (Nightly)](https://storage.googleapis.com/swift-tensorflow-artifacts/nightlies/latest/swift-tensorflow-DEVELOPMENT-ubuntu18.04.tar.gz) |
 | [Ubuntu 18.04 (CPU, CUDA 11.0) (Nightly)](https://storage.googleapis.com/swift-tensorflow-artifacts/nightlies/latest/swift-tensorflow-DEVELOPMENT-cuda11.0-cudnn8-ubuntu18.04.tar.gz) |
 | [Ubuntu 18.04 (CPU, CUDA 10.2) (Nightly)](https://storage.googleapis.com/swift-tensorflow-artifacts/nightlies/latest/swift-tensorflow-DEVELOPMENT-cuda10.2-cudnn7-ubuntu18.04.tar.gz) |
 | [Ubuntu 18.04 (CPU, CUDA 10.1) (Nightly)](https://storage.googleapis.com/swift-tensorflow-artifacts/nightlies/latest/swift-tensorflow-DEVELOPMENT-cuda10.1-cudnn7-ubuntu18.04.tar.gz) |
 | [Windows (October 29, 2020)](https://storage.googleapis.com/azure-pipelines-storage/Swift%20for%20TensorFlow/Windows/s4tf-windows-x64-41368-20201029.1.exe) |
+| [NVIDIA Jetson, JetPack 4.4 (CPU, CUDA 10.2) (v0.12-rc1)](https://storage.googleapis.com/swift-tensorflow-artifacts/oneoff-builds/swift-tensorflow-RELEASE-0.12-Jetson4.4.tar.gz) |
 
 <details>
   <summary>Older Packages</summary>
@@ -139,6 +155,7 @@ the meantime, you may be able to run Ubuntu 18.04 toolchains on Ubuntu 20.04 usi
 
 | Download |
 |----------|
+| [September 16, 2020](https://storage.googleapis.com/swift-tensorflow-artifacts/macos-toolchains/swift-tensorflow-DEVELOPMENT-2020-09-16-a-osx.pkg) |
 | [September 3, 2020](https://storage.googleapis.com/swift-tensorflow-artifacts/macos-toolchains/swift-tensorflow-DEVELOPMENT-2020-09-03-a-osx.pkg) |
 | [August 26, 2020](https://storage.googleapis.com/swift-tensorflow-artifacts/macos-toolchains/swift-tensorflow-DEVELOPMENT-2020-08-26-a-osx.pkg) |
 | [August 19, 2020](https://storage.googleapis.com/swift-tensorflow-artifacts/macos-toolchains/swift-tensorflow-DEVELOPMENT-2020-08-19-a-osx.pkg) |
