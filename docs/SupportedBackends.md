@@ -20,5 +20,5 @@ X10 supports CPUs, GPUs, and TPUs.
 
 ## Usage
 
-Check out this [Colab notebook](https://github.com/tensorflow/swift/blob/master/docs/site/tutorials/introducing_x10.ipynb) to learn how to switch between the eager and X10 backends.
+Check out this [Colab notebook](https://github.com/tensorflow/swift/blob/main/docs/site/tutorials/introducing_x10.ipynb) to learn how to switch between the eager and X10 backends.
 

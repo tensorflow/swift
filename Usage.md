@@ -17,7 +17,7 @@ To see example models written using Swift for TensorFlow, go to [tensorflow/swif
 
 Put Swift code in the cell, and click the play button on the left of the cell (or hit Ctrl + Enter) to execute it.
 
-For examples of what you can do, visit [this tutorial](https://colab.research.google.com/github/tensorflow/swift/blob/master/docs/site/tutorials/model_training_walkthrough.ipynb) in Colab.
+For examples of what you can do, visit [this tutorial](https://colab.research.google.com/github/tensorflow/swift/blob/main/docs/site/tutorials/model_training_walkthrough.ipynb) in Colab.
 
 ## Interpreter
 
@@ -52,7 +52,7 @@ $ swift -O inference.swift
 [[0.680704]]
 ```
 
-**Note:** the `-O` flag enables Swift to run with optimizations. This is currently required for some programs that use the `TensorFlow` module to run properly.  This will become unnecessary when the compiler implementation is completed. Check out the [FAQ](https://github.com/tensorflow/swift/blob/master/FAQ.md#why-do-i-get-error-array-input-is-not-a-constant-array-of-tensors) for more details.
+**Note:** the `-O` flag enables Swift to run with optimizations. This is currently required for some programs that use the `TensorFlow` module to run properly.  This will become unnecessary when the compiler implementation is completed. Check out the [FAQ](https://github.com/tensorflow/swift/blob/main/FAQ.md#why-do-i-get-error-array-input-is-not-a-constant-array-of-tensors) for more details.
 
 The Swift interpreter ran your program and printed the classifier's prediction, as expected.
 

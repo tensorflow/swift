@@ -81,7 +81,7 @@ differentiation" and "model as code", as shown in the following diagram (cite:
 boundaries of Python, other research projects like
 [DLVM](https://dlvm-team.github.io) experimented with SCT AD directly on a
 compiler IR that's analogous to the
-[Swift Intermediate Language](https://github.com/apple/swift/blob/master/docs/SIL.rst)
+[Swift Intermediate Language](https://github.com/apple/swift/blob/main/docs/SIL.rst)
 (SIL).
 
 <p align="center">
@@ -93,7 +93,7 @@ The horizontal axis of this diagram may remind people of the trade-offs between
 eager execution and graph building: In eager execution, the model is a subset of
 user code. In graph mode, the model is a data structure representing some code
 in a mini-language. The [Graph Program
-Extraction](https://github.com/tensorflow/swift/blob/master/docs/GraphProgramExtraction.md)
+Extraction](https://github.com/tensorflow/swift/blob/main/docs/GraphProgramExtraction.md)
 technique combines the best of both worlds by reducing graphs to an
 implementation detail managed by the compiler. The vertical axis in the diagram
 adds a second dimension, Automatic Differentiation, where Swift achieves exactly

@@ -452,7 +452,7 @@ Differentiable functions are represented in Swift's type system as
 implement custom differentiation APIs like custom derivatives, derivative
 surgery, and checkpointing in just a few lines of Swift. Check out the [custom
 differentiation
-tutorial](https://github.com/tensorflow/swift/blob/master/docs/site/tutorials/custom_differentiation.ipynb)
+tutorial](https://github.com/tensorflow/swift/blob/main/docs/site/tutorials/custom_differentiation.ipynb)
 for examples!
 
 ## Acknowledgements
