@@ -13,7 +13,7 @@
 // limitations under the License.
 
 class SILParser: Parser {
-    // https://github.com/apple/swift/blob/master/docs/SIL.rst#syntax
+    // https://github.com/apple/swift/blob/main/docs/SIL.rst#syntax
     func parseModule() throws -> Module {
         var functions = [Function]()
         while true {
@@ -31,7 +31,7 @@ class SILParser: Parser {
         }
     }
 
-    // https://github.com/apple/swift/blob/master/docs/SIL.rst#functions
+    // https://github.com/apple/swift/blob/main/docs/SIL.rst#functions
     func parseFunction() throws -> Function {
         try take("sil")
         let linkage = try parseLinkage()
@@ -43,7 +43,7 @@ class SILParser: Parser {
         return Function(linkage, attributes, name, type, blocks)
     }
 
-    // https://github.com/apple/swift/blob/master/docs/SIL.rst#basic-blocks
+    // https://github.com/apple/swift/blob/main/docs/SIL.rst#basic-blocks
     func parseBlock() throws -> Block {
         let identifier = try parseIdentifier()
         let arguments = try parseNilOrMany("(", ",", ")") { try parseArgument() } ?? []
@@ -52,7 +52,7 @@ class SILParser: Parser {
         return Block(identifier, arguments, operatorDefs, terminatorDef)
     }
 
-    // https://github.com/apple/swift/blob/master/docs/SIL.rst#basic-blocks
+    // https://github.com/apple/swift/blob/main/docs/SIL.rst#basic-blocks
     func parseInstructionDefs() throws -> ([OperatorDef], TerminatorDef) {
         var operatorDefs = [OperatorDef]()
         while true {
@@ -71,7 +71,7 @@ class SILParser: Parser {
         }
     }
 
-    // https://github.com/apple/swift/blob/master/docs/SIL.rst#basic-blocks
+    // https://github.com/apple/swift/blob/main/docs/SIL.rst#basic-blocks
     func parseInstructionDef() throws -> InstructionDef {
         let result = try parseResult()
         let body = parseInstruction()
@@ -87,7 +87,7 @@ class SILParser: Parser {
         }
     }
 
-    // https://github.com/apple/swift/blob/master/docs/SIL.rst#instruction-set
+    // https://github.com/apple/swift/blob/main/docs/SIL.rst#instruction-set
     func parseInstruction() -> Instruction {
         let instructionName = take(while: { $0.isLetter || $0 == "_" })
         do {
@@ -364,7 +364,7 @@ class SILParser: Parser {
 
     // MARK: Auxiliary data structures
 
-    // https://github.com/apple/swift/blob/master/docs/SIL.rst#begin-access
+    // https://github.com/apple/swift/blob/main/docs/SIL.rst#begin-access
     func parseAccess() throws -> Access {
         guard !skip("deinit") else { return .deinit }
         guard !skip("init") else { return .`init` }
@@ -373,7 +373,7 @@ class SILParser: Parser {
         throw parseError("unknown access")
     }
 
-    // https://github.com/apple/swift/blob/master/docs/SIL.rst#basic-blocks
+    // https://github.com/apple/swift/blob/main/docs/SIL.rst#basic-blocks
     func parseArgument() throws -> Argument {
         let valueName = try parseValueName()
         try take(":")
@@ -381,7 +381,7 @@ class SILParser: Parser {
         return Argument(valueName, type)
     }
 
-    // https://github.com/apple/swift/blob/master/docs/SIL.rst#switch-enum
+    // https://github.com/apple/swift/blob/main/docs/SIL.rst#switch-enum
     func parseCase(_ parseElement: () throws -> String) throws -> Case? {
         return try maybeParse {
             guard skip(",") else { return nil }
@@ -419,7 +419,7 @@ class SILParser: Parser {
         return result
     }
 
-    // https://github.com/apple/swift/blob/master/docs/SIL.rst#debug-value
+    // https://github.com/apple/swift/blob/main/docs/SIL.rst#debug-value
     func parseDebugAttribute() throws -> DebugAttribute? {
         return try maybeParse {
             guard skip(",") else { return nil }
@@ -460,7 +460,7 @@ class SILParser: Parser {
         return DeclRef(name, kind, level)
     }
 
-    // https://github.com/apple/swift/blob/master/docs/SIL.rst#string-literal
+    // https://github.com/apple/swift/blob/main/docs/SIL.rst#string-literal
     func parseEncoding() throws -> Encoding {
         guard !skip("objc_selector") else { return .objcSelector }
         guard !skip("utf8") else { return .utf8 }
@@ -468,7 +468,7 @@ class SILParser: Parser {
         throw parseError("unknown encoding")
     }
 
-    // https://github.com/apple/swift/blob/master/docs/SIL.rst#begin-access
+    // https://github.com/apple/swift/blob/main/docs/SIL.rst#begin-access
     func parseEnforcement() throws -> Enforcement {
         guard !skip("dynamic") else { return .dynamic }
         guard !skip("static") else { return .static }
@@ -504,7 +504,7 @@ class SILParser: Parser {
         throw parseError("unknown function attribute")
     }
 
-    // https://github.com/apple/swift/blob/master/docs/SIL.rst#functions
+    // https://github.com/apple/swift/blob/main/docs/SIL.rst#functions
     func parseGlobalName() throws -> String {
         let start = position
         if skip("@") {
@@ -517,7 +517,7 @@ class SILParser: Parser {
         throw parseError("function name expected", at: start)
     }
 
-    // https://github.com/apple/swift/blob/master/docs/SIL.rst#values-and-operands
+    // https://github.com/apple/swift/blob/main/docs/SIL.rst#values-and-operands
     func parseIdentifier() throws -> String {
         if peek("\"") {
             return "\"\(try parseString())\""
@@ -543,7 +543,7 @@ class SILParser: Parser {
         return value
     }
 
-    // https://github.com/apple/swift/blob/master/docs/SIL.rst#linkage
+    // https://github.com/apple/swift/blob/main/docs/SIL.rst#linkage
     func parseLinkage() throws -> Linkage {
         // The order in here is a bit relaxed because longer words need to come
         // before the shorter ones to parse correctly.
@@ -559,7 +559,7 @@ class SILParser: Parser {
         return .public
     }
 
-    // https://github.com/apple/swift/blob/master/docs/SIL.rst#debug-information
+    // https://github.com/apple/swift/blob/main/docs/SIL.rst#debug-information
     func parseLoc() throws -> Loc? {
         guard skip("loc") else { return nil }
         let path = try parseString()
@@ -633,7 +633,7 @@ class SILParser: Parser {
         }
     }
 
-    // https://github.com/apple/swift/blob/master/docs/SIL.rst#values-and-operands
+    // https://github.com/apple/swift/blob/main/docs/SIL.rst#values-and-operands
     func parseOperand() throws -> Operand {
         let valueName = try parseValueName()
         try take(":")
@@ -641,7 +641,7 @@ class SILParser: Parser {
         return Operand(valueName, type)
     }
 
-    // https://github.com/apple/swift/blob/master/docs/SIL.rst#basic-blocks
+    // https://github.com/apple/swift/blob/main/docs/SIL.rst#basic-blocks
     func parseResult() throws -> Result? {
         if peek("%") {
             let valueName = try parseValueName()
@@ -656,13 +656,13 @@ class SILParser: Parser {
         }
     }
 
-    // https://github.com/apple/swift/blob/master/docs/SIL.rst#debug-information
+    // https://github.com/apple/swift/blob/main/docs/SIL.rst#debug-information
     func parseScopeRef() throws -> Int? {
         guard skip("scope") else { return nil }
         return try parseInt()
     }
 
-    // https://github.com/apple/swift/blob/master/docs/SIL.rst#basic-blocks
+    // https://github.com/apple/swift/blob/main/docs/SIL.rst#basic-blocks
     func parseSourceInfo() throws -> SourceInfo? {
         // NB: The SIL docs say that scope refs precede locations, but this is
         //     not true once you look at the compiler outputs or its source code.
@@ -686,7 +686,7 @@ class SILParser: Parser {
         return s
     }
 
-    // https://github.com/apple/swift/blob/master/docs/SIL.rst#tuple
+    // https://github.com/apple/swift/blob/main/docs/SIL.rst#tuple
     func parseTupleElements() throws -> TupleElements {
         if peek("$") {
             let type = try parseType()
@@ -698,7 +698,7 @@ class SILParser: Parser {
         }
     }
 
-    // https://github.com/apple/swift/blob/master/docs/SIL.rst#sil-types
+    // https://github.com/apple/swift/blob/main/docs/SIL.rst#sil-types
     func parseType() throws -> Type {
         // NB: Ownership SSA has a surprising convention of printing the
         //     ownership type before the actual type, so we first try to
@@ -756,7 +756,7 @@ class SILParser: Parser {
         }
     }
 
-    // https://github.com/apple/swift/blob/master/docs/SIL.rst#values-and-operands
+    // https://github.com/apple/swift/blob/main/docs/SIL.rst#values-and-operands
     func parseValue() throws -> String {
         if peek("%") {
             return try parseValueName()
@@ -767,7 +767,7 @@ class SILParser: Parser {
         }
     }
 
-    // https://github.com/apple/swift/blob/master/docs/SIL.rst#values-and-operands
+    // https://github.com/apple/swift/blob/main/docs/SIL.rst#values-and-operands
     func parseValueName() throws -> String {
         let start = position
         guard skip("%") else { throw parseError("value expected", at: start) }

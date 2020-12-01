@@ -2,7 +2,7 @@
 
 Everyone is welcome to contribute to Swift for TensorFlow. Contributing doesn't just mean submitting code - there are many different ways to get involved, including reporting bugs, improving documentation, writing models or tutorials, submitting deep learning building blocks, or participating in API and infrastructure design discussions.
 
-The Swift for TensorFlow community is guided by our [Code of Conduct](https://github.com/tensorflow/swift/blob/master/CODE_OF_CONDUCT.md), which we encourage everybody to read before participating.
+The Swift for TensorFlow community is guided by our [Code of Conduct](https://github.com/tensorflow/swift/blob/main/CODE_OF_CONDUCT.md), which we encourage everybody to read before participating.
 
 ## Report bugs
 
@@ -35,7 +35,7 @@ Follow the [code contribution workflow](#code-contribution-workflow) when contri
 
 We discuss preliminary feature requests and ideas on the [mailing list](https://groups.google.com/a/tensorflow.org/forum/#!forum/swift). You can participate by sending your own feature requests and ideas to the mailing list, or by commenting on others' feature requests and ideas.
 
-Once an idea has been fleshed out, the person or people driving it write a proposal and send it as a PR to the [proposals directory](https://github.com/tensorflow/swift/tree/master/proposals). Further discussion happens on that PR, and the PR gets merged if the design gets accepted. You can participate by proposing your own proposals, or by commenting on others' proposals.
+Once an idea has been fleshed out, the person or people driving it write a proposal and send it as a PR to the [proposals directory](https://github.com/tensorflow/swift/tree/main/proposals). Further discussion happens on that PR, and the PR gets merged if the design gets accepted. You can participate by proposing your own proposals, or by commenting on others' proposals.
 
 
 ## Code contribution workflow

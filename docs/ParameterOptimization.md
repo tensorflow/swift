@@ -528,5 +528,5 @@ By comparison, the new design with `KeyPathIterable` and `Differentiable` is mor
 [swift-apis]: https://github.com/tensorflow/swift-apis
 [swift-apis-Layer]: https://github.com/tensorflow/swift-apis/blob/master/Sources/DeepLearning/Layer.swift
 [swift-models]: https://github.com/tensorflow/swift-models
-[KeyPathIterable]: https://github.com/tensorflow/swift/blob/master/docs/DynamicPropertyIteration.md
-[Differentiable]: https://github.com/tensorflow/swift/blob/master/docs/DifferentiableTypes.md
+[KeyPathIterable]: https://github.com/tensorflow/swift/blob/main/docs/DynamicPropertyIteration.md
+[Differentiable]: https://github.com/tensorflow/swift/blob/main/docs/DifferentiableTypes.md

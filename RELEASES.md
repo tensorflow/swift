@@ -52,7 +52,7 @@ and refining APIs.
   `Layer`s are now "callable" like functions, e.g. `layer(input)`.
   * **Note: this is experimental functionality that is currently [being proposed
     through Swift
-    Evolution](https://github.com/apple/swift-evolution/blob/master/proposals/0253-callable.md).**
+    Evolution](https://github.com/apple/swift-evolution/blob/main/proposals/0253-callable.md).**
     Expect potential changes.
 * The `context` argument has been removed from `Layer`'s `applied(to:)` method.
   Instead, contexts are now thread-local. ([swift-apis#87](https://github.com/tensorflow/swift-apis/pull/87))
@@ -125,7 +125,7 @@ natural Python interoperability.
 
 * Hit "Tab" to trigger basic semantic autocomplete.
 * [Use matplotlib to produce inline
-  graphs.](https://github.com/google/swift-jupyter/blob/master/README.md#rich-output)
+  graphs.](https://github.com/google/swift-jupyter/blob/main/README.md#rich-output)
 * Interrupt cell execution by clicking the "stop" button next to the cell.
 
 ### Swift Standard Library Enhancements
@@ -134,7 +134,7 @@ natural Python interoperability.
   [`KeyPathIterable`](https://www.tensorflow.org/swift/api_docs/Protocols/KeyPathIterable)
   protocol conformance to make your custom type provide a collection of key
   paths to stored properties. Read [Dynamic Property Iteration using Key
-  Paths](https://github.com/tensorflow/swift/blob/master/docs/DynamicPropertyIteration.md)
+  Paths](https://github.com/tensorflow/swift/blob/main/docs/DynamicPropertyIteration.md)
   for a deep dive into the design.
 * Declare an
   [`AdditiveArithmetic`](https://www.tensorflow.org/swift/api_docs/Protocols/KeyPathIterable)
@@ -176,13 +176,13 @@ natural Python interoperability.
   [`Differentiable`](https://www.tensorflow.org/swift/api_docs/Protocols/Differentiable)
   protocol to make a custom type work with automatic differentiation. For a
   technical deep dive, read [Differentiable
-  Types](https://github.com/tensorflow/swift/blob/master/docs/DifferentiableTypes.md).
+  Types](https://github.com/tensorflow/swift/blob/main/docs/DifferentiableTypes.md).
 * Use
   [`differentiableFunction(from:)`](https://www.tensorflow.org/swift/api_docs/Functions#/s:10TensorFlow22differentiableFunction4fromq0_x_q_tcq0_5value_15CotangentVectorQz_AEQy_tAEQy0_c8pullbacktx_q_tc_tAA14DifferentiableRzAaJR_AaJR0_r1_lF)
   to form a `@differentiable` function from a custom derivative function.
 * Custom differentiation APIs are available in the standard library. Follow the
   [custom differentiation
-  tutorial](https://colab.research.google.com/github/tensorflow/swift/blob/master/docs/site/tutorials/custom_differentiation.ipynb)
+  tutorial](https://colab.research.google.com/github/tensorflow/swift/blob/main/docs/site/tutorials/custom_differentiation.ipynb)
   to learn how to use them.
   * Gradient checkpointing API:
     [`withRecomputationInPullbacks(_:)`](https://www.tensorflow.org/swift/api_docs/Protocols/Differentiable#/s:10TensorFlow14DifferentiablePAAE28withRecomputationInPullbacksyqd__qd__xcAaBRd__lF).
