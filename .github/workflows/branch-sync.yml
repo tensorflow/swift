@@ -1,0 +1,19 @@
+name: main branch sync
+
+on:
+  push:
+    branches:
+      - 'main'
+
+jobs:
+  branch_sync:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+
+      - name: Update branch
+        run: |
+          git push https://${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }} HEAD:master
