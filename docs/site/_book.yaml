@@ -12,10 +12,10 @@ upper_tabs:
   lower_tabs:
     # Subsite tabs
     other:
-	- name: Guide
-	  contents:
-	  - title: Overview
-	    path: /swift/guide/overview
+    - name: Guide
+      contents:
+      - title: Overview
+        path: /swift/guide/overview
       - title: Swift differentiable programming manifesto
         path: https://github.com/apple/swift/blob/main/docs/DifferentiableProgramming.md
         status: external
