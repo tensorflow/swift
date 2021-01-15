@@ -12,6 +12,17 @@ upper_tabs:
   lower_tabs:
     # Subsite tabs
     other:
+	- name: Guide
+	  contents:
+	  - title: Overview
+	    path: /swift/guide/overview
+      - title: Swift differentiable programming manifesto
+        path: https://github.com/apple/swift/blob/main/docs/DifferentiableProgramming.md
+        status: external
+      - heading: "Machine learning models"
+      - title: Swift for TensorFlow model garden
+        path: https://github.com/tensorflow/swift-models
+        status: external
     - name: Tutorials
       contents:
       - title: "Model training walkthrough"
@@ -34,7 +45,7 @@ upper_tabs:
       - title: Overview
         path: /swift/api_docs/
       - title: View on GitHub
-        path: https://github.com/tensorflow/swift
+        path: https://github.com/tensorflow/swift-apis
         status: external
       - include: /swift/api_docs/_toc.yaml
 
