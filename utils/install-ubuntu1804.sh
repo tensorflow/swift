@@ -54,9 +54,6 @@ apt-get install -y --no-install-recommends \
   ca-certificates \
   curl \
   git \
-  python3 \
-  python3-pip \
-  python3-setuptools \
   python3-dev \
   python3-tk \
   clang \
