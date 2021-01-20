@@ -54,14 +54,11 @@ apt-get install -y --no-install-recommends \
   ca-certificates \
   curl \
   git \
-  python \
-  python-dev \
-  python-pip \
-  python-setuptools \
-  python-tk \
   python3 \
   python3-pip \
   python3-setuptools \
+  python3-dev \
+  python3-tk \
   clang \
   libcurl4-openssl-dev \
   libicu-dev \
