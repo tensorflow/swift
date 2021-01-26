@@ -16,6 +16,8 @@ upper_tabs:
       contents:
       - title: Overview
         path: /swift/guide/overview
+      - title: Python interoperability
+        path: /swift/guide/python_interoperability
       - title: Swift differentiable programming manifesto
         path: https://github.com/apple/swift/blob/main/docs/DifferentiableProgramming.md
         status: external
