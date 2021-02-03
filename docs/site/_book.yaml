@@ -22,6 +22,8 @@ upper_tabs:
         path: https://github.com/apple/swift/blob/main/docs/DifferentiableProgramming.md
         status: external
       - heading: "Machine learning models"
+      - title: Tensors
+        path: /swift/guide/tensors
       - title: Swift for TensorFlow model garden
         path: https://github.com/tensorflow/swift-models
         status: external
