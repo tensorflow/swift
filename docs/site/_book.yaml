@@ -24,6 +24,12 @@ upper_tabs:
       - heading: "Machine learning models"
       - title: Tensors
         path: /swift/guide/tensors
+      - title: Accelerator backends
+        path: /swift/guide/backends
+      - title: Debugging X10 issues
+        path: /swift/guide/debugging_x10
+      - title: Model summaries
+        path: /swift/guide/model_summary
       - title: Swift for TensorFlow model garden
         path: https://github.com/tensorflow/swift-models
         status: external
