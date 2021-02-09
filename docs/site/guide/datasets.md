@@ -89,8 +89,8 @@ training = TrainingEpochs(samples: trainingSamples, batchSize: batchSize, entrop
   .lazy.map { (batches: Batches) -> LazyMapSequence<Batches, LabeledImage> in
     return batches.lazy.map{
       makeBatch(samples: $0, mean: mean, standardDeviation: standardDeviation, device: device)
-    }
   }
+}
 ```
 
 The result from the `loadCIFARTrainingFiles()` function is an array of
@@ -124,10 +124,12 @@ fileprivate func makeBatch<BatchSamples: Collection>(
 The two lines of this function concatenate all `data` bytes from the incoming `BatchSamples` into
 a `Tensor<UInt8>` that matches the byte layout of the images within the raw CIFAR-10 dataset. Next, 
 the image channels are reordered to match those expected in our standard image classification models
-and the images data re-cast into a `Tensor<Float>` for model consumption.
+and the image data re-cast into a `Tensor<Float>` for model consumption.
 	
-Optional normalization parameters can be provided to further adjust images, which is common in 
-training many image classification models.
+Optional normalization parameters can be provided to further adjust image channel values, a process 
+that is common when training many image classification models. The normalization parameter `Tensor`s
+are created once at dataset initialization and then passed into `makeBatch()` as an optimization
+to prevent the repeated creation of small temporary tensors with the same values.
 
 Finally, the integer labels are placed in a `Tensor<Int32>` and the image / label tensor pair 
 returned in a `LabeledImage`. A `LabeledImage` is a specific case of
