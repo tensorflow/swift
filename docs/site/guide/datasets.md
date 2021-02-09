@@ -47,12 +47,12 @@ To set up a manual training loop involving this dataset, you'd use something lik
 
 ```swift
 for (epoch, epochBatches) in dataset.training.prefix(100).enumerated() {
-    Context.local.learningPhase = .training
-	...
-    for batch in epochBatches {
-        let (images, labels) = (batch.data, batch.label)
-		...
-	}
+  Context.local.learningPhase = .training
+  ...
+  for batch in epochBatches {
+    let (images, labels) = (batch.data, batch.label)
+    ...
+  }
 }
 ```
 
@@ -77,5 +77,64 @@ images and more.
 
 If you wish to create your own Swift dataset wrapper, you'll most likely want to use the Epochs API
 to do so. However, for common cases, such as image classification datasets, we highly recommend 
-starting from a template based on one of the existing dataset wrappers and modifying those to meet
+starting from a template based on one of the existing dataset wrappers and modifying that to meet
 your specific needs.
+
+As an example, let's examine the CIFAR-10 dataset wrapper and how it works. The core of the training
+dataset is defined here:
+
+```swift
+let trainingSamples = loadCIFARTrainingFiles(in: localStorageDirectory)
+training = TrainingEpochs(samples: trainingSamples, batchSize: batchSize, entropy: entropy)
+  .lazy.map { (batches: Batches) -> LazyMapSequence<Batches, LabeledImage> in
+    return batches.lazy.map{
+      makeBatch(samples: $0, mean: mean, standardDeviation: standardDeviation, device: device)
+    }
+  }
+```
+
+The result from the `loadCIFARTrainingFiles()` function is an array of
+`(data: [UInt8], label: Int32)` tuples for each image in the training dataset. This is then provided
+to `TrainingEpochs(samples:batchSize:entropy:)` to create an infinite sequence of epochs with 
+batches of `batchSize`. You can provide your own random number generator in cases where you may want
+deterministic batching behavior, but by default the `SystemRandomNumberGenerator` is used.
+
+From there, lazy maps over the batches culminate in the 
+`makeBatch(samples:mean:standardDeviation:device:)` function. This is a custom function where the 
+actual image processing pipeline for the CIFAR-10 dataset is located, so let's take a look at that:
+
+```swift
+fileprivate func makeBatch<BatchSamples: Collection>(
+  samples: BatchSamples, mean: Tensor<Float>?, standardDeviation: Tensor<Float>?, device: Device
+) -> LabeledImage where BatchSamples.Element == (data: [UInt8], label: Int32) {
+  let bytes = samples.lazy.map(\.data).reduce(into: [], +=)
+  let images = Tensor<UInt8>(shape: [samples.count, 3, 32, 32], scalars: bytes, on: device)
+  
+  var imageTensor = Tensor<Float>(images.transposed(permutation: [0, 2, 3, 1]))
+  imageTensor /= 255.0
+  if let mean = mean, let standardDeviation = standardDeviation {
+    imageTensor = (imageTensor - mean) / standardDeviation
+  }
+  
+  let labels = Tensor<Int32>(samples.map(\.label), on: device)
+  return LabeledImage(data: imageTensor, label: labels)
+}
+```
+
+The two lines of this function concatenate all `data` bytes from the incoming `BatchSamples` into
+a `Tensor<UInt8>` that matches the byte layout of the images within the raw CIFAR-10 dataset. Next, 
+the image channels are reordered to match those expected in our standard image classification models
+and the images data re-cast into a `Tensor<Float>` for model consumption.
+	
+Optional normalization parameters can be provided to further adjust images, which is common in 
+training many image classification models.
+
+Finally, the integer labels are placed in a `Tensor<Int32>` and the image / label tensor pair 
+returned in a `LabeledImage`. A `LabeledImage` is a specific case of
+[`LabeledData`](https://github.com/tensorflow/swift-models/blob/main/Support/LabeledData.swift), a
+struct with data and labels that conform to the Eppch API's 
+[`Collatable`](https://github.com/tensorflow/swift-apis/blob/main/Sources/TensorFlow/Epochs/Collatable.swift) protocol.
+
+For more examples of the Epochs API in different dataset types, you can examine 
+[the other dataset wrappers](https://github.com/tensorflow/swift-models/tree/main/Datasets)
+within the models repository.
