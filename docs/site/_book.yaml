@@ -28,6 +28,8 @@ upper_tabs:
       - title: Debugging X10 issues
         path: /swift/guide/debugging_x10
       - heading: "Machine learning models"
+      - title: Datasets
+        path: /swift/guide/datasets
       - title: Model summaries
         path: /swift/guide/model_summary
       - title: Swift for TensorFlow model garden
