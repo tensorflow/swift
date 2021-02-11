@@ -30,8 +30,13 @@ upper_tabs:
       - heading: "Machine learning models"
       - title: Datasets
         path: /swift/guide/datasets
+      - title: Model checkpoints
+        path: /swift/guide/checkpoints
       - title: Model summaries
         path: /swift/guide/model_summary
+      - title: "Behind the scenes: WordSeg"
+        path: https://docs.google.com/document/d/1NlFH0_89gB_qggtgzJIKYHL2xPI3IQjWjv18pnT1M0E
+        status: external
       - title: Swift for TensorFlow model garden
         path: https://github.com/tensorflow/swift-models
         status: external
