@@ -2,29 +2,30 @@
   <img src="images/logo.png">
 </p>
 
-# Swift for TensorFlow
+# Swift for TensorFlow (In Archive Mode)
 
-> Swift for TensorFlow: No boundaries.
+Swift for TensorFlow was an experiment in the next-generation platform for machine learning, incorporating the latest research across machine learning, compilers, differentiable programming, systems design, and beyond.  It was archived in February 2021.  Some significant achievements from this project include:
 
-Swift for TensorFlow is a next-generation platform for machine learning,
-incorporating the latest research across machine learning, compilers,
-differentiable programming, systems design, and beyond. This is an early-stage
-project: it is not feature-complete nor production-ready, but it is ready for
-_pioneers_ to try in projects, give feedback, and help shape the future!
+* Added [language-integrated differentiable programming](https://forums.swift.org/t/differentiable-programming-for-gradient-based-machine-learning/42147) into the Swift language.  This work continues in the official Swift compiler. 
+* Developed a mutable-value-semantics-oriented [deep learning API](https://github.com/tensorflow/swift-apis)
+* Fostered the development of [a model garden](https://github.com/tensorflow/swift-models) with more than [30 models from a variety of deep learning disciplines](https://github.com/tensorflow/swift-models#examples).
+* Enabled novel research that [combines deep learning with probabilistic graphical models](https://github.com/borglab/SwiftFusion) for 3D motion tracking and beyond.
+* Powered a(n almost) pure-Swift prototype of a [GPU+CPU runtime supporting pmap](https://github.com/ewconnell/swiftrt).
+* Spun off multiple open source side efforts which continue to be under active development:
+  * [PythonKit](https://github.com/pvieito/PythonKit): Python interoperability with Swift.
+  * [swift-jupyter](https://github.com/google/swift-jupyter): Enables use of Swift within Jupyter notebooks.
+  * [swift-benchmark](https://github.com/google/swift-benchmark): Provides a robust benchmarking suite for Swift code.
+* Spun off several other open source efforts:
+  * [penguin](https://github.com/saeta/penguin): Parallel programming, data structures, graph algorithms, and more.
+  * [Tensors Fitting Perfectly](https://github.com/google-research/swift-tfp): Static analysis of tensor shape mismatches.
+* Swift-evolution proposals proposed and implemented:
+  * [SE-0195](https://github.com/apple/swift-evolution/blob/main/proposals/0195-dynamic-member-lookup.md): User-defined "Dynamic Member Lookup" Types
+  * [SE-0216](https://github.com/apple/swift-evolution/blob/main/proposals/0216-dynamic-callable.md): Introduce user-defined dynamically "callable" types
+  * [SE-0233](https://github.com/apple/swift-evolution/blob/main/proposals/0233-additive-arithmetic-protocol.md): Make Numeric Refine a new AdditiveArithmetic Protocol
+  * [SE-0253](https://github.com/apple/swift-evolution/blob/main/proposals/0253-callable.md): Callable values of user-defined nominal types
 
-The Swift for TensorFlow project is currently focusing on 2 kinds of users:
+This site will not receive further updates.  The API documentation and binary downloads will continue to be accessible as well as the [Open Design Review meeting recordings](https://docs.google.com/document/d/1Fm56p5rV1t2Euh6WLtBFKGqI43ozC3EIjReyLk-LCLU/edit).
 
-1.  **Advanced ML researchers** who are limited by current ML frameworks. Swift
-    for TensorFlow's advantages include seamless integration with a modern
-    general-purpose language, allowing for more dynamic and sophisticated
-    models. Fast abstractions can be developed in "user-space" (as opposed to in
-    C/C++, aka "framework-space"), resulting in modular APIs that can be easily
-    customized.
-
-2.  **ML learners** who are just getting started with machine learning. Thanks
-    to Swift's support for quality tooling (e.g. context-aware autocompletion),
-    Swift for TensorFlow can be one of the most productive ways to start
-    learning the fundamentals of machine learning.
 
 ## Getting started
 
@@ -73,9 +74,8 @@ Tutorial | Last Updated |
 
 ### Forums
 
-Please join the
-[swift@tensorflow.org mailing list](https://groups.google.com/a/tensorflow.org/d/forum/swift)
-to hear the latest announcements, get help, and share your thoughts!
+The discussions happened on the
+[swift@tensorflow.org mailing list](https://groups.google.com/a/tensorflow.org/d/forum/swift).
 
 ## Why Swift for TensorFlow?
 
