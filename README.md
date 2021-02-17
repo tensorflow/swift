@@ -2,15 +2,15 @@
   <img src="images/logo.png">
 </p>
 
-# Swift for TensorFlow (In Archive Mode)
+# Swift for TensorFlow (Archived)
 
 Swift for TensorFlow was an experiment in the next-generation platform for machine learning, incorporating the latest research across machine learning, compilers, differentiable programming, systems design, and beyond.  It was archived in February 2021.  Some significant achievements from this project include:
 
 * Added [language-integrated differentiable programming](https://forums.swift.org/t/differentiable-programming-for-gradient-based-machine-learning/42147) into the Swift language.  This work continues in the official Swift compiler. 
-* Developed a mutable-value-semantics-oriented [deep learning API](https://github.com/tensorflow/swift-apis)
+* Developed a mutable-value-semantics-oriented [deep learning API](https://github.com/tensorflow/swift-apis).
 * Fostered the development of [a model garden](https://github.com/tensorflow/swift-models) with more than [30 models from a variety of deep learning disciplines](https://github.com/tensorflow/swift-models#examples).
 * Enabled novel research that [combines deep learning with probabilistic graphical models](https://github.com/borglab/SwiftFusion) for 3D motion tracking and beyond.
-* Powered a(n almost) pure-Swift prototype of a [GPU+CPU runtime supporting pmap](https://github.com/ewconnell/swiftrt).
+* Powered a(n almost) pure-Swift prototype of a [GPU+CPU runtime supporting parallel map](https://github.com/ewconnell/swiftrt).
 * Spun off multiple open source side efforts which continue to be under active development:
   * [PythonKit](https://github.com/pvieito/PythonKit): Python interoperability with Swift.
   * [swift-jupyter](https://github.com/google/swift-jupyter): Enables use of Swift within Jupyter notebooks.
@@ -18,11 +18,11 @@ Swift for TensorFlow was an experiment in the next-generation platform for machi
 * Spun off several other open source efforts:
   * [penguin](https://github.com/saeta/penguin): Parallel programming, data structures, graph algorithms, and more.
   * [Tensors Fitting Perfectly](https://github.com/google-research/swift-tfp): Static analysis of tensor shape mismatches.
-* Swift-evolution proposals proposed and implemented:
-  * [SE-0195](https://github.com/apple/swift-evolution/blob/main/proposals/0195-dynamic-member-lookup.md): User-defined "Dynamic Member Lookup" Types
-  * [SE-0216](https://github.com/apple/swift-evolution/blob/main/proposals/0216-dynamic-callable.md): Introduce user-defined dynamically "callable" types
-  * [SE-0233](https://github.com/apple/swift-evolution/blob/main/proposals/0233-additive-arithmetic-protocol.md): Make Numeric Refine a new AdditiveArithmetic Protocol
-  * [SE-0253](https://github.com/apple/swift-evolution/blob/main/proposals/0253-callable.md): Callable values of user-defined nominal types
+* Swift Evolution proposals pitched, implemented, and accepted:
+  * [SE-0195](https://github.com/apple/swift-evolution/blob/main/proposals/0195-dynamic-member-lookup.md): User-defined "Dynamic Member Lookup" Types (`@dynamicMemberLookup`)
+  * [SE-0216](https://github.com/apple/swift-evolution/blob/main/proposals/0216-dynamic-callable.md): Introduce user-defined dynamically "callable" types (`@dynamicCallable`)
+  * [SE-0233](https://github.com/apple/swift-evolution/blob/main/proposals/0233-additive-arithmetic-protocol.md): Make `Numeric` refine a new `AdditiveArithmetic` protocol
+  * [SE-0253](https://github.com/apple/swift-evolution/blob/main/proposals/0253-callable.md): Callable values of user-defined nominal types (`func callAsFunction`)
 
 This site will not receive further updates.  The API documentation and binary downloads will continue to be accessible as well as the [Open Design Review meeting recordings](https://docs.google.com/document/d/1Fm56p5rV1t2Euh6WLtBFKGqI43ozC3EIjReyLk-LCLU/edit).
 
