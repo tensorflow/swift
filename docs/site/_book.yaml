@@ -30,6 +30,8 @@ upper_tabs:
       - heading: "Machine learning models"
       - title: Datasets
         path: /swift/guide/datasets
+      - title: Training loop
+        path: /swift/guide/training_loop
       - title: Model checkpoints
         path: /swift/guide/checkpoints
       - title: Model summaries
