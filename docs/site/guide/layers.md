@@ -35,11 +35,11 @@ public struct MyModel: Layer {
 }
 ```
 
-The properties of the `Layer` can host trainable components, such as weights and biases, or other
-`Layer`s. A custom initializer is a good place to expose customizable parameters for a model, such
-as a variable numbers of layers or the output size of a classification model. Finally, the core of
-the `Layer` is `callAsFunction()`, where you will define the types for the input and output as well
-as the transformation that takes in one and returns the other.
+Trainable components of `Layers`, such as weights and biases, as well as other `Layer`s, can be 
+declared as properties. A custom initializer is a good place to expose customizable parameters for 
+a model, such as a variable numbers of layers or the output size of a classification model. 
+Finally, the core of the `Layer` is `callAsFunction()`, where you will define the types for the 
+input and output as well as the transformation that takes in one and returns the other.
 
 ## Built-in layers
 
