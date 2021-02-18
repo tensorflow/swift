@@ -10,6 +10,9 @@ produce a differentiable output. A `Layer` can contain state, such as trainable 
 the input to the type is not necessarily differentiable. Most components in a model will deal with
 differentiable inputs, but there are cases where types may need to conform to `Module` instead.
 
+If you create an operation has no trainable parameters within it, you'll want to define it in terms
+of `ParameterlessLayer` instead of `Layer`. 
+
 Models themselves are often defined as `Layer`s, and are regularly composed of other `Layer`s. A 
 model or subunit that has been defined as a `Layer` can be treated just like any other `Layer`, 
 allowing for the construction of arbitarily complex models from other models or subunits.
@@ -19,16 +22,16 @@ template similar to this:
 
 ```swift
 public struct MyModel: Layer {
-	// Define your layers or other properties here.
+  // Define your layers or other properties here.
 
-	// A custom initializer may be desired to configure the model.
-    public init() {}
+  // A custom initializer may be desired to configure the model.
+  public init() {}
 
-    @differentiable
-    public func callAsFunction(_ input: Tensor<Float>) -> Tensor<Float> {
-		// Define the sequence of operations performed on model input to arrive at the output.
-		return ...
-    }
+  @differentiable
+  public func callAsFunction(_ input: Tensor<Float>) -> Tensor<Float> {
+    // Define the sequence of operations performed on model input to arrive at the output.
+    return ...
+  }
 }
 ```
 
