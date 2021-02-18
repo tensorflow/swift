@@ -16,11 +16,13 @@ upper_tabs:
       contents:
       - title: Overview
         path: /swift/guide/overview
+      - heading: "Language additions"
       - title: Python interoperability
         path: /swift/guide/python_interoperability
       - title: Swift differentiable programming manifesto
         path: https://github.com/apple/swift/blob/main/docs/DifferentiableProgramming.md
         status: external
+      - heading: "Accelerated computation"
       - title: Tensors
         path: /swift/guide/tensors
       - title: Accelerator backends
@@ -28,6 +30,8 @@ upper_tabs:
       - title: Debugging X10 issues
         path: /swift/guide/debugging_x10
       - heading: "Machine learning models"
+      - title: Layers and optimizers
+        path: /swift/guide/layers
       - title: Datasets
         path: /swift/guide/datasets
       - title: Training loop
