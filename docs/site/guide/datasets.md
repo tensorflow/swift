@@ -134,7 +134,7 @@ to prevent the repeated creation of small temporary tensors with the same values
 Finally, the integer labels are placed in a `Tensor<Int32>` and the image / label tensor pair 
 returned in a `LabeledImage`. A `LabeledImage` is a specific case of
 [`LabeledData`](https://github.com/tensorflow/swift-models/blob/main/Support/LabeledData.swift), a
-struct with data and labels that conform to the Eppch API's 
+struct with data and labels that conform to the Epoch API's 
 [`Collatable`](https://github.com/tensorflow/swift-apis/blob/main/Sources/TensorFlow/Epochs/Collatable.swift) protocol.
 
 For more examples of the Epochs API in different dataset types, you can examine 
